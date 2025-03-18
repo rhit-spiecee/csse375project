@@ -29,3 +29,5 @@ replay_pid*
 .settings/
 
 # IntelliJ specific files are gitgnored by default by the IDE
+.idea
+*.iml
