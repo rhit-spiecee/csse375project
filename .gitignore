@@ -28,4 +28,4 @@ replay_pid*
 .project
 .settings/
 
-# IntelliJ specific files are gitgnored inside the .idea folder
+# IntelliJ specific files are gitgnored by default by the IDE
