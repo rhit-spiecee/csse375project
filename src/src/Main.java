@@ -11,5 +11,6 @@ public class Main {
         System.out.println("Jay's commit");
         System.out.println("Caleb's commit");
         System.out.println("Ethan's Commit");
-        }
+        System.out.println("Alex's 2nd Commit");
     }
+}
