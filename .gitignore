@@ -23,11 +23,6 @@
 hs_err_pid*
 replay_pid*
 
-# Eclipse specific files
-.classpath
-.project
-.settings/
-
 # IntelliJ specific files are gitgnored by default by the IDE
 .idea
 *.iml
