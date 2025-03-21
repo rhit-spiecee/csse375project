@@ -13,4 +13,10 @@ public class BoardSetupTests {
         Board board = new Board();
         assertTrue(board.startGame(2));
     }
+
+    @Test
+    public void testFourPlayers(){
+        Board board = new Board();
+        assertTrue(board.startGame(4));
+    }
 }
