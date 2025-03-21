@@ -8,4 +8,9 @@ public class BoardSetupTests {
         Board board = new Board();
         assertFalse(board.startGame(1));
     }
+    @Test
+    public void testTwoPlayers(){
+        Board board = new Board();
+        assertTrue(board.startGame(2));
+    }
 }
