@@ -19,4 +19,10 @@ public class BoardSetupTests {
         Board board = new Board();
         assertTrue(board.startGame(4));
     }
+
+    @Test
+    public void testFivePlayers(){
+        Board board = new Board();
+        assertFalse(board.startGame(5));
+    }
 }
