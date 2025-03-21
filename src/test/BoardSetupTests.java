@@ -34,4 +34,11 @@ public class BoardSetupTests {
         assertTrue(board.startGame(2));
         assertEquals(10, board.getCursedDeck().size());
     }
+
+    @Test
+    public void testThreePlayerCursedCard() {
+        Board board = new Board();
+        assertTrue(board.startGame(3));
+        assertEquals(20, board.getCursedDeck().size());
+    }
 }
