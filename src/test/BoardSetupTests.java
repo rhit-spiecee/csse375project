@@ -29,8 +29,9 @@ public class BoardSetupTests {
     }
 
     @Test
-    public void testOneCursedCard() {
+    public void testTwoPlayerCursedCard() {
         Board board = new Board();
-        assertFalse(board.getCursedDeck());
+        assertTrue(board.startGame(2));
+        assertEquals(10, board.getCursedDeck().size());
     }
 }

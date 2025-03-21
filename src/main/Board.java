@@ -1,3 +1,4 @@
+import java.sql.Array;
 import java.util.ArrayList;
 
 public class Board {
@@ -5,7 +6,14 @@ public class Board {
         return numPlayers > 1 && numPlayers < 5;
     }
 
-    public boolean getCursedDeck() {
-        return false;
+    public ArrayList<String> getCursedDeck() {
+
+        ArrayList<String> list = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            list.add("cursed");
+        }
+
+        return list;
     }
 }
