@@ -2,19 +2,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
+    ArrayList<String> deck = new ArrayList<>();
     public int deckSize() {
-        return 10;
+        return deck.size();
     }
 
-    public List<String> getDeck() {
-        ArrayList<String> deck = new ArrayList<String>();
+    public List<String> createStartingDeck() {
         for (int i = 0; i < 3; i++) {
             deck.add("Estate");
         }
         for (int i = 0; i < 7; i++) {
             deck.add("Copper");
         }
-
         return deck;
     }
 }
