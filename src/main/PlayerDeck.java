@@ -1,15 +1,24 @@
+import java.util.Stack;
+
 public class PlayerDeck {
-    private int i;
+    private Stack<Card> deck;
+
+    public PlayerDeck() {
+        deck = new Stack<>();
+
+        for (int i = 0; i < 3; i++) {
+            deck.add(new Card("estate", 2, Card.CardType.VICTORY, 1));
+        }
+        for (int i = 0; i < 7; i++) {
+            deck.add(new Card("copper", 0, Card.CardType.TREASURE, 1));
+        }
+    }
 
     public int size() {
-        return 10;
+        return deck.size();
     }
 
     public Card draw() {
-        i++;
-        if (i >= 1 && i <= 7) {
-            return new Card("copper", 0, Card.CardType.TREASURE, 1);
-        }
-        return new Card("estate", 2, Card.CardType.VICTORY, 1);
+        return deck.pop();
     }
 }
