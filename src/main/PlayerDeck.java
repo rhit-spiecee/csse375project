@@ -25,4 +25,8 @@ public class PlayerDeck {
         }
         return deck.pop();
     }
+
+    public void add(Card card) {
+        deck.add(card);
+    }
 }

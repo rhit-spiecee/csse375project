@@ -46,6 +46,22 @@ public class PlayerDeckTests {
         assertThrows(NoSuchElementException.class, () -> deck.draw());
     }
     
+    @Test
+    public void testDrawWhenOneCardLeft() {
+        PlayerDeck deck = new PlayerDeck();
+        
+        assertEquals(10, deck.size());
+        
+        emptyDeck(deck);
+        
+        deck.add(new Card("copper", 0, Card.CardType.TREASURE, 1));
+        
+        Card card = deck.draw();
+        
+        assertEquals("copper", card.getName());
+        
+    }
+    
     private void emptyDeck(PlayerDeck deck) {
         while (deck.size() > 0) {
             deck.draw();
