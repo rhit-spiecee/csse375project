@@ -1,8 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Player {
-    Deck deck = new Deck();
+    PlayerDeck deck = new PlayerDeck();
 //    public int deckSize() {
 //        return deck.size();
 //    }
