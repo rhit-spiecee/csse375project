@@ -34,7 +34,7 @@ public class PlayerDeckTests {
         assertEquals(3, numEstate);
 
     }
-    
+
     @Test
     public void testDrawWhenEmpty() {
         PlayerDeck deck = new PlayerDeck();
@@ -42,42 +42,56 @@ public class PlayerDeckTests {
         assertEquals(10, deck.size());
 
         emptyDeck(deck);
-        
+
         assertThrows(NoSuchElementException.class, () -> deck.draw());
     }
-    
+
     @Test
     public void testDrawWhenOneCardLeft() {
         PlayerDeck deck = new PlayerDeck();
-        
+
         assertEquals(10, deck.size());
-        
+
         emptyDeck(deck);
-        
+
         deck.add(new Card("copper", 0, Card.CardType.TREASURE, 1));
-        
+
         assertEquals(1, deck.size());
-        
+
         Card card = deck.draw();
-        
+
         assertEquals(0, deck.size());
         assertEquals("copper", card.getName());
-        
+
     }
-    
+
     @Test
     public void testAddWhenEmpty() {
+        PlayerDeck deck = new PlayerDeck();
+
+        assertEquals(10, deck.size());
+
+        emptyDeck(deck);
+
+        deck.add(new Card("copper", 0, Card.CardType.TREASURE, 1));
+
+        assertEquals(1, deck.size());
+    }
+
+    @Test
+    public void testAddWhenFull() {
         PlayerDeck deck = new PlayerDeck();
         
         assertEquals(10, deck.size());
         
-        emptyDeck(deck);
+        while (deck.size() < PlayerDeck.MAX_DECK_SIZE) {
+            deck.add(new Card("copper", 0, Card.CardType.TREASURE, 1));
+        }
         
-        deck.add(new Card("copper", 0, Card.CardType.TREASURE, 1));
-        
-        assertEquals(1, deck.size());
+        assertEquals(308, deck.size());
+        assertThrows(IndexOutOfBoundsException.class, () -> deck.add(new Card("copper", 0, Card.CardType.TREASURE, 1)));
     }
-    
+
     private void emptyDeck(PlayerDeck deck) {
         while (deck.size() > 0) {
             deck.draw();

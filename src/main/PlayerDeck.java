@@ -1,7 +1,9 @@
+import javax.naming.SizeLimitExceededException;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
 public class PlayerDeck {
+    public static final int MAX_DECK_SIZE = 308;
     private Stack<Card> deck;
 
     public PlayerDeck() {
@@ -27,6 +29,9 @@ public class PlayerDeck {
     }
 
     public void add(Card card) {
+        if (this.size() == MAX_DECK_SIZE) {
+            throw new IndexOutOfBoundsException();
+        }
         deck.add(card);
     }
 }
