@@ -1,4 +1,7 @@
 import org.junit.Test;
+
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.*;
 
 public class PlayerDeckTests {
@@ -30,6 +33,23 @@ public class PlayerDeckTests {
         assertEquals(7, numCopper);
         assertEquals(3, numEstate);
 
+    }
+    
+    @Test
+    public void testDrawWhenEmpty() {
+        PlayerDeck deck = new PlayerDeck();
+
+        assertEquals(10, deck.size());
+
+        emptyDeck(deck);
+        
+        assertThrows(NoSuchElementException.class, () -> deck.draw());
+    }
+    
+    private void emptyDeck(PlayerDeck deck) {
+        while (deck.size() > 0) {
+            deck.draw();
+        }
     }
 
 }

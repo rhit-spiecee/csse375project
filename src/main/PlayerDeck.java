@@ -1,3 +1,4 @@
+import java.util.NoSuchElementException;
 import java.util.Stack;
 
 public class PlayerDeck {
@@ -19,6 +20,9 @@ public class PlayerDeck {
     }
 
     public Card draw() {
+        if (this.size() == 0) {
+            throw new NoSuchElementException();
+        }
         return deck.pop();
     }
 }
