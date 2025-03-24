@@ -6,8 +6,11 @@ public class Player {
 
     public void drawHand() {
         for (int i = 0; i < 5; i++) {
-            hand.add(deck.draw());
+            drawOneCard();
         }
     }
 
+    public void drawOneCard() {
+        hand.add(deck.draw());
+    }
 }
