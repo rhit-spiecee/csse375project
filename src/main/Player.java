@@ -1,16 +1,13 @@
+import java.util.ArrayList;
+
 public class Player {
+    ArrayList<Card> hand = new ArrayList<Card>();
     PlayerDeck deck = new PlayerDeck();
-//    public int deckSize() {
-//        return deck.size();
-//    }
-//
-//    public List<String> createStartingDeck() {
-//        for (int i = 0; i < 3; i++) {
-//            deck.add("Estate");
-//        }
-//        for (int i = 0; i < 7; i++) {
-//            deck.add("Copper");
-//        }
-//        return deck;
-//    }
+
+    public void drawHand() {
+        for (int i = 0; i < 5; i++) {
+            hand.add(deck.draw());
+        }
+    }
+
 }
