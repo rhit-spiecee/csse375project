@@ -143,5 +143,11 @@ public class BoardSetupTests {
         
         
     }
+    
+    @Test
+    public void testInitialPlayerNumber() {
+        Board board = new Board(2);
+        assertEquals(1, board.getCurrentPlayer());
+    }
 
 }
