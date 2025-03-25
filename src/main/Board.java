@@ -1,15 +1,13 @@
-import java.sql.Array;
-import java.util.ArrayList;
 
 public class Board {
-
-    int numberOfPlayers = 0;
-    public boolean startGame(int numPlayers) {
-        if (numPlayers > 1 && numPlayers < 5) {
-            numberOfPlayers = numPlayers;
-            return true;
+    BoardDeck cellarDeck;
+    int numPlayers;
+    public Board(int numPlayers) {
+        if (numPlayers < 2 || numPlayers > 4) {
+            throw new RuntimeException("Number of players must be between 2 and 4");
         }
-        return false;
+        this.numPlayers = numPlayers;
+        this.cellarDeck = new BoardDeck(new Card("cellar", 2, Card.CardType.KINGDOM, 0), 10);
     }
 
 }

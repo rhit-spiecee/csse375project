@@ -6,25 +6,24 @@ public class BoardSetupTests {
 
     @Test
     public void testOnePlayer() {
-        Board board = new Board();
-        assertFalse(board.startGame(1));
+        assertThrows(RuntimeException.class, () -> new Board(1));
     }
 
     @Test
     public void testTwoPlayers() {
-        Board board = new Board();
-        assertTrue(board.startGame(2));
+        Board board = new Board(2);
+        assertEquals(2, board.numPlayers);
     }
 
     @Test
     public void testFourPlayers() {
-        Board board = new Board();
-        assertTrue(board.startGame(4));
+        Board board = new Board(4);
+        assertEquals(4, board.numPlayers);
     }
 
     @Test
     public void testFivePlayers() {
-        Board board = new Board();
-        assertFalse(board.startGame(5));
+        assertThrows(RuntimeException.class, () -> new Board(5));
     }
+
 }
