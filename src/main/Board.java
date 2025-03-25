@@ -62,7 +62,10 @@ public class Board {
         
         this.players = new ArrayList<>();
         for (int i = 0; i < numPlayers; i++) {
-            players.add(new Player());
+            Player player = new Player();
+            player.drawHand();
+            players.add(player);
+            
         }
     }
 
@@ -78,7 +81,11 @@ public class Board {
         gui.getPlayerMove(this);
     }
 
-    public int getCurrentPlayer() {
-        return currentPlayer + 1;
+    public int getCurrentPlayerNumber() {
+        return currentPlayer;
+    }
+
+    public ArrayList<Card> getCurrentPlayerHand() {
+        return players.get(currentPlayer).hand;
     }
 }

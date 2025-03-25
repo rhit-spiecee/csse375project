@@ -147,13 +147,21 @@ public class BoardSetupTests {
     @Test
     public void testInitialPlayerNumber() {
         Board board = new Board(2);
-        assertEquals(1, board.getCurrentPlayer());
+        assertEquals(0, board.getCurrentPlayerNumber());
     }
     
     @Test
     public void testInitialPlayerList() {
         Board board = new Board(2);
         assertEquals(2, board.players.size());
+    }
+    
+    @Test
+    public void testPlayersHaveInitialHand() {
+        Board board = new Board(2);
+        for (int i = 0; i < 2; i++) {
+            assertEquals(5, board.players.get(i).hand.size());
+        }
     }
 
 }
