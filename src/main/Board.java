@@ -12,13 +12,4 @@ public class Board {
         return false;
     }
 
-    public ArrayList<String> getCursedDeck() {
-        ArrayList<String> list = new ArrayList<>();
-
-        for (int i = 0; i < (numberOfPlayers - 1) * 10; i++) {
-            list.add("cursed");
-        }
-
-        return list;
-    }
 }
