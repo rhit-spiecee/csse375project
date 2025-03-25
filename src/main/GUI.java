@@ -13,4 +13,8 @@ public class GUI {
         }
         return numPlayers;
     }
+
+    public String getPlayerMove(Board board) {
+        return "Buy";
+    }
 }

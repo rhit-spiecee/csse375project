@@ -122,5 +122,26 @@ public class BoardSetupTests {
         // Verify
         EasyMock.verify(gui);
     }
+    
+    @Test
+    public void testGetFirstPlayerMove() {
+        // Setup
+        GUI gui = EasyMock.mock(GUI.class);
+        
+        
+        // Record
+        EasyMock.expect(gui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(gui.getPlayerMove(EasyMock.isA(Board.class))).andReturn("Buy");
+
+        // Replay
+        EasyMock.replay(gui);
+        Board board = Board.fromGUI(gui);
+        board.startGame();
+
+        // Verify
+        EasyMock.verify(gui);
+        
+        
+    }
 
 }

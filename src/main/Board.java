@@ -62,4 +62,8 @@ public class Board {
 
         return board;
     }
+
+    public void startGame() {
+        gui.getPlayerMove(this);
+    }
 }
