@@ -53,4 +53,31 @@ public class BoardSetupTests {
         assertEquals(10, board.cursedDeck.size());
     }
 
+    @Test
+    public void testDeckSizeThreePlayersOnSetup() {
+        Board board = new Board(3);
+        //SETUP of kingdom card decks
+        assertEquals(10, board.cellarDeck.size());
+        assertEquals(10, board.marketDeck.size());
+        assertEquals(10, board.militiaDeck.size());
+        assertEquals(10, board.mineDeck.size());
+        assertEquals(10, board.moatDeck.size());
+        assertEquals(10, board.remodelDeck.size());
+        assertEquals(10, board.smithyDeck.size());
+        assertEquals(10, board.villageDeck.size());
+        assertEquals(10, board.woodcutterDeck.size());
+        assertEquals(10, board.workshopDeck.size());
+
+        //SETUP of treasure cards
+        assertEquals(39, board.copperDeck.size());
+        assertEquals(40, board.silverDeck.size());
+        assertEquals(30, board.goldDeck.size());
+
+        //SETUP of Victory cards
+        assertEquals(12, board.estateDeck.size());
+        assertEquals(12, board.duchyDeck.size());
+        assertEquals(12, board.provinceDeck.size());
+        assertEquals(20, board.cursedDeck.size());
+    }
+
 }
