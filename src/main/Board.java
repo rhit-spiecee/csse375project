@@ -56,12 +56,9 @@ public class Board {
         
         this.gui = new GUI();
     }
-    
-    public void startGame() {
-        this.gui.drawBoard(this);
-    }
 
-    public static Board FromGUI(GUI gui, int numPlayers) {
+    public static Board FromGUI(GUI gui) {
+        int numPlayers = gui.getNumPlayers();
         Board board = new Board(numPlayers);
         board.gui = gui;
 

@@ -111,14 +111,13 @@ public class BoardSetupTests {
     @Test
     public void testDrawInitialBoard() {
         GUI gui = EasyMock.mock(GUI.class);
-        Board board = Board.FromGUI(gui, 2);
         
         // Record
-        gui.drawBoard(board);
+        EasyMock.expect(gui.getNumPlayers()).andReturn(2);
         
         // Replay
         EasyMock.replay(gui);
-        board.startGame();
+        Board board = Board.FromGUI(gui);
         
         // Verify
         EasyMock.verify(gui);
