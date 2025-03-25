@@ -24,5 +24,13 @@ public class PlayerTests {
         assertEquals(1, player.hand.size());
         EasyMock.verify(deck);
     }
+    
+    @Test
+    public void testGetInitialCoins() {
+        Player player = new Player();
+        player.drawHand();
+        assertEquals(5, player.getCoins());
+        
+    }
 
 }
