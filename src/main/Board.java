@@ -88,4 +88,8 @@ public class Board {
     public ArrayList<Card> getCurrentPlayerHand() {
         return players.get(currentPlayer).hand;
     }
+
+    public int getCurrentPlayerCoins() {
+        return players.get(currentPlayer).getCoins();
+    }
 }

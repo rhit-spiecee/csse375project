@@ -53,6 +53,8 @@ public class GUI {
                         .map(Card::getName)
                         .collect(Collectors.toList()))
                 .append("\n");
+        
+        sb.append("Coins: ").append(board.getCurrentPlayerCoins()).append("\n");
 
         return sb.toString();
     }

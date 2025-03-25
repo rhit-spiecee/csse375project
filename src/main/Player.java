@@ -27,7 +27,7 @@ public class Player {
     }
 
     public int getCoins() {
-        int coins = 0;
+        int coins = this.coins;
         for (Card card : hand) {
             if (card.getCardType() == Card.CardType.TREASURE) {
                 coins += card.getValue();
