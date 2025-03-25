@@ -117,7 +117,7 @@ public class BoardSetupTests {
         
         // Replay
         EasyMock.replay(gui);
-        Board board = Board.FromGUI(gui);
+        Board board = Board.fromGUI(gui);
         
         // Verify
         EasyMock.verify(gui);

@@ -5,7 +5,11 @@ public class GUI {
         int numPlayers = -1;
         while (numPlayers == -1) {
             String input = JOptionPane.showInputDialog("Enter the number of players:");
-            numPlayers = Integer.parseInt(input);
+            try {
+                numPlayers = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null,"Enter a valid number of players.");
+            }
         }
         return numPlayers;
     }
