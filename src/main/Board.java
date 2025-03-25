@@ -19,6 +19,8 @@ public class Board {
     BoardDeck cellarDeck;
     int kingdomDeckSize = 10;
     int numPlayers;
+    
+    GUI gui;
 
     public Board(int numPlayers) {
         if (numPlayers < 2 || numPlayers > 4) {
@@ -51,7 +53,18 @@ public class Board {
         this.duchyDeck = new BoardDeck(new Card("duchy", 5, Card.CardType.TREASURE, 3), victoryCardDeckSize);
         this.provinceDeck = new BoardDeck(new Card("province", 8, Card.CardType.TREASURE, 6), victoryCardDeckSize);
         this.cursedDeck = new BoardDeck(new Card("cursed", 0, Card.CardType.TREASURE, -1), cursedDeckSize);
-
+        
+        this.gui = new GUI();
+    }
+    
+    public void startGame() {
+        this.gui.drawBoard(this);
     }
 
+    public static Board FromGUI(GUI gui, int numPlayers) {
+        Board board = new Board(numPlayers);
+        board.gui = gui;
+
+        return board;
+    }
 }

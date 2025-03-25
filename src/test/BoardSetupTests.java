@@ -1,3 +1,4 @@
+import org.easymock.EasyMock;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -105,6 +106,22 @@ public class BoardSetupTests {
         assertEquals(12, board.duchyDeck.size());
         assertEquals(12, board.provinceDeck.size());
         assertEquals(30, board.cursedDeck.size());
+    }
+    
+    @Test
+    public void testDrawInitialBoard() {
+        GUI gui = EasyMock.mock(GUI.class);
+        Board board = Board.FromGUI(gui, 2);
+        
+        // Record
+        gui.drawBoard(board);
+        
+        // Replay
+        EasyMock.replay(gui);
+        board.startGame();
+        
+        // Verify
+        EasyMock.verify(gui);
     }
 
 }
