@@ -149,5 +149,11 @@ public class BoardSetupTests {
         Board board = new Board(2);
         assertEquals(1, board.getCurrentPlayer());
     }
+    
+    @Test
+    public void testInitialPlayerList() {
+        Board board = new Board(2);
+        assertEquals(2, board.players.size());
+    }
 
 }

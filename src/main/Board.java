@@ -1,5 +1,8 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
+    List<Player> players;
     BoardDeck cursedDeck;
     BoardDeck provinceDeck;
     BoardDeck duchyDeck;
@@ -56,6 +59,11 @@ public class Board {
         this.cursedDeck = new BoardDeck(new Card("cursed", 0, Card.CardType.TREASURE, -1), cursedDeckSize);
         
         this.currentPlayer = 0;
+        
+        this.players = new ArrayList<>();
+        for (int i = 0; i < numPlayers; i++) {
+            players.add(new Player());
+        }
     }
 
     public static Board fromGUI(GUI gui) {
