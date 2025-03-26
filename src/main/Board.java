@@ -104,4 +104,12 @@ public class Board {
         if (victoryDecks.containsKey(name)) return victoryDecks.get(name);
         return null;
     }
+
+    public int getCurrentPlayerBuys() {
+        return players.get(currentPlayer).getBuys();
+    }
+
+    public int getCurrentPlayerActions() {
+        return players.get(currentPlayer).getActions();
+    }
 }

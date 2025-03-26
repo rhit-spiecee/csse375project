@@ -40,6 +40,8 @@ public class GUI {
                         .collect(Collectors.joining(", ")))
                 .append("\n");
         sb.append("Coins: ").append(board.getCurrentPlayerCoins()).append("\n");
+        sb.append("Action Abilities: ").append(board.getCurrentPlayerActions()).append("\n");
+        sb.append("Buy Abilities: ").append(board.getCurrentPlayerBuys()).append("\n");
 
         return sb.toString();
     }
