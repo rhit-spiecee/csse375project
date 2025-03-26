@@ -5,8 +5,8 @@ public class Player {
     PlayerDeck deck;
     
     int coins;
-    int buy;
-    int action;
+    int buy = 1;
+    int action = 1;
 
     public Player(PlayerDeck deck) {
         this.deck = deck;
