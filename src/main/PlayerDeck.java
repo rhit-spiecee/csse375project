@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
@@ -14,6 +15,7 @@ public class PlayerDeck {
         for (int i = 0; i < 7; i++) {
             deck.add(new Card("copper", 0, Card.CardType.TREASURE, 1));
         }
+        Collections.shuffle(deck);
     }
 
     public int size() {
