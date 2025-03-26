@@ -1,22 +1,14 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Board {
     List<Player> players;
-    Map<String, BoardDeck> kingdomDecks = new HashMap<>();
-    Map<String, BoardDeck> treasureDecks = new HashMap<>();
-    Map<String, BoardDeck> victoryDecks = new HashMap<>();
+    Map<String, BoardDeck> kingdomDecks = new LinkedHashMap<>();
+    Map<String, BoardDeck> treasureDecks = new LinkedHashMap<>();
+    Map<String, BoardDeck> victoryDecks = new LinkedHashMap<>();
 
     int numPlayers;
     int currentPlayer;
     GUI gui;
-
-    int kingdomDeckSize = 10;
-    int silverDeckSize = 40;
-    int goldDeckSize = 30;
-
 
     public Board(int numPlayers) {
         if (numPlayers < 2 || numPlayers > 4) {
@@ -42,6 +34,9 @@ public class Board {
         int copperDeckSize = 60 - (numPlayers * 7);
         int cursedDeckSize = (numPlayers - 1) * 10;
         int victoryCardDeckSize = (numPlayers == 2) ? 8 : 12;
+        int kingdomDeckSize = 10;
+        int silverDeckSize = 40;
+        int goldDeckSize = 30;
 
         // Kingdom Cards
         String[] kingdomCards = { "cellar", "market", "militia", "mine", "moat", "remodel",
