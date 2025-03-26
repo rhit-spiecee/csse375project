@@ -56,4 +56,10 @@ public class PlayerTests {
         Player player = new Player();
         assertEquals(1, player.getBuys());
     }
+
+    @Test
+    public void testGetInitialActions(){
+        Player player = new Player();
+        assertEquals(1, player.getActions());
+    }
 }
