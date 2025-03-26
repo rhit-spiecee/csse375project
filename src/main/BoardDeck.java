@@ -2,6 +2,7 @@ import java.util.Stack;
 
 public class BoardDeck {
     private final Stack<Card> deck = new Stack<>();
+    private final Card card;
 
     public BoardDeck(Card card, int size) {
         if(size < 8 || size > 60){
@@ -10,9 +11,15 @@ public class BoardDeck {
         for(int i = 0; i < size; i++) {
             deck.add(card);
         }
+        this.card = card;
     }
 
     public int size() {
         return deck.size();
     }
+
+    public Card getCard() {
+        return card;
+    }
+
 }

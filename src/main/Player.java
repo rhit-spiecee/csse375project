@@ -5,6 +5,8 @@ public class Player {
     PlayerDeck deck;
     
     int coins;
+    int buy;
+    int action;
 
     public Player(PlayerDeck deck) {
         this.deck = deck;
@@ -20,6 +22,8 @@ public class Player {
         for (int i = 0; i < 5; i++) {
             drawOneCard();
         }
+        this.buy = 1;
+        this.action = 1;
     }
 
     public void drawOneCard() {
@@ -34,5 +38,13 @@ public class Player {
             }
         }
         return coins;
+    }
+
+    public int getBuys() {
+        return this.buy;
+    }
+
+    public int getActions() {
+        return this.action;
     }
 }
