@@ -16,8 +16,9 @@ public class GUI {
         return numPlayers;
     }
 
-    public String getPlayerMove(Board board) {
-        return JOptionPane.showInputDialog(getBoardDisplay(board));
+    public int getPlayerMove(Board board) {
+        String[] options = {"Buy", "Action", "End Turn"};
+        return JOptionPane.showOptionDialog(null, getBoardDisplay(board), "", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
     }
     
     private String getBoardDisplay(Board board) {
