@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class GUI {
@@ -21,41 +22,43 @@ public class GUI {
     
     private String getBoardDisplay(Board board) {
         StringBuilder sb = new StringBuilder();
+
         sb.append("Treasure Decks:\n");
-        sb.append("Copper (Cost: 0, Value: 1): ").append(board.copperDeck.size()).append("\n");
-        sb.append("Silver (Cost: 3, Value: 2): ").append(board.silverDeck.size()).append("\n");
-        sb.append("Gold (Cost: 6, Value: 3): ").append(board.goldDeck.size()).append("\n\n");
+        appendDeckDisplay(sb, board.treasureDecks, true);
 
-        sb.append("Victory Decks:\n");
-        sb.append("Estate (Cost: 2, Value: 1): ").append(board.estateDeck.size()).append("\n");
-        sb.append("Duchy (Cost: 5, Value: 3): ").append(board.duchyDeck.size()).append("\n");
-        sb.append("Province (Cost: 8, Value: 6): ").append(board.provinceDeck.size()).append("\n");
-        sb.append("Curse (Cost: 0, Value: -1): ").append(board.cursedDeck.size()).append("\n\n");
+        sb.append("\nVictory Decks:\n");
+        appendDeckDisplay(sb, board.victoryDecks, true);
 
-        sb.append("Kingdom Decks:\n");
-        sb.append("Cellar (Cost: 2): ").append(board.cellarDeck.size()).append("\n");
-        sb.append("Market (Cost: 5): ").append(board.marketDeck.size()).append("\n");
-        sb.append("Militia (Cost: 4): ").append(board.militiaDeck.size()).append("\n");
-        sb.append("Mine (Cost: 5): ").append(board.mineDeck.size()).append("\n");
-        sb.append("Moat (Cost: 2): ").append(board.moatDeck.size()).append("\n");
-        sb.append("Remodel (Cost: 4): ").append(board.remodelDeck.size()).append("\n");
-        sb.append("Smithy (Cost: 4): ").append(board.smithyDeck.size()).append("\n");
-        sb.append("Village (Cost: 3): ").append(board.villageDeck.size()).append("\n");
-        sb.append("Workshop (Cost: 3): ").append(board.workshopDeck.size()).append("\n");
-        sb.append("Woodcutter (Cost: 3): ").append(board.woodcutterDeck.size()).append("\n\n");
+        sb.append("\nKingdom Decks:\n");
+        appendDeckDisplay(sb, board.kingdomDecks, false);
 
-        sb.append("Current player: ").append(board.getCurrentPlayerNumber() + 1).append("\n");
-        
+        sb.append("\nCurrent player: ").append(board.getCurrentPlayerNumber() + 1).append("\n");
         sb.append("Hand: ")
-                .append(board
-                        .getCurrentPlayerHand()
+                .append(board.getCurrentPlayerHand()
                         .stream()
                         .map(Card::getName)
-                        .collect(Collectors.toList()))
+                        .collect(Collectors.joining(", ")))
                 .append("\n");
-        
         sb.append("Coins: ").append(board.getCurrentPlayerCoins()).append("\n");
 
         return sb.toString();
     }
+
+    private void appendDeckDisplay(StringBuilder sb, Map<String, BoardDeck> deckMap, boolean includeValue) {
+        for (Map.Entry<String, BoardDeck> entry : deckMap.entrySet()) {
+            Card card = entry.getValue().getCard();
+            if (includeValue) {
+                sb.append(String.format("%s (Cost: %d, Value: %d): %d\n",
+                        capitalize(entry.getKey()), card.getCost(), card.getValue(), entry.getValue().size()));
+            } else {
+                sb.append(String.format("%s (Cost: %d): %d\n",
+                        capitalize(entry.getKey()), card.getCost(), entry.getValue().size()));
+            }
+        }
+    }
+
+    private String capitalize(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
 }
