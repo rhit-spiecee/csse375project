@@ -47,4 +47,8 @@ public class Player {
     public int getActions() {
         return this.action;
     }
+
+    public boolean hasActionCard() {
+        return false;
+    }
 }
