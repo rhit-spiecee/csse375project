@@ -1,5 +1,8 @@
 import org.easymock.EasyMock;
 import org.junit.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class PlayerTests {
@@ -98,6 +101,15 @@ public class PlayerTests {
         //Verify
         assertTrue(player.hasActionCard());
         EasyMock.verify(deck);
+    }
+
+    @Test
+    public void testPlayerCleanupWithZeroCards() {
+        Player player = new Player();
+        player.hand = new ArrayList<>();   // TODO: Ask if okay
+        player.cleanup();
+        assertEquals(0, player.hand.size());
+        assertEquals(0, player.discardPile.size());
     }
 
 }

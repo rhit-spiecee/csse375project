@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class Player {
     ArrayList<Card> hand = new ArrayList<Card>();
+    ArrayList<Card> discardPile = new ArrayList<>();
     PlayerDeck deck;
     
     int coins;
@@ -55,5 +56,9 @@ public class Player {
             }
         }
         return false;
+    }
+
+    public void cleanup() {
+
     }
 }
