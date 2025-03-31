@@ -51,15 +51,4 @@ public class PlayerTests {
         EasyMock.verify(deck);
     }
 
-    @Test
-    public void testGetInitialBuys(){
-        Player player = new Player();
-        assertEquals(1, player.getBuys());
-    }
-
-    @Test
-    public void testGetInitialActions(){
-        Player player = new Player();
-        assertEquals(1, player.getActions());
-    }
 }

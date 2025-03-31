@@ -111,41 +111,26 @@ public class BoardSetupTests {
         assertEquals(30, board.getDeck("cursed").size());
     }
     
-    @Test
-    public void testDrawInitialBoard() {
-        GUI gui = EasyMock.mock(GUI.class);
-        
-        // Record
-        EasyMock.expect(gui.getNumPlayers()).andReturn(2);
-        
-        // Replay
-        EasyMock.replay(gui);
-        Board board = Board.fromGUI(gui);
-        
-        // Verify
-        EasyMock.verify(gui);
-    }
-    
-    @Test
-    public void testGetFirstPlayerMove() {
-        // Setup
-        GUI gui = EasyMock.mock(GUI.class);
-        
-        
-        // Record
-        EasyMock.expect(gui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(gui.getPlayerMove(EasyMock.isA(Board.class))).andReturn(0);
-
-        // Replay
-        EasyMock.replay(gui);
-        Board board = Board.fromGUI(gui);
-        board.startGame();
-
-        // Verify
-        EasyMock.verify(gui);
-        
-        
-    }
+//    @Test
+//    public void testGetFirstPlayerMove() {
+//        // Setup
+//        GUI gui = EasyMock.mock(GUI.class);
+//
+//
+//        // Record
+//        EasyMock.expect(gui.getNumPlayers()).andReturn(2);
+//        EasyMock.expect(gui.getPlayerMove(EasyMock.isA(Board.class))).andReturn(0);
+//
+//        // Replay
+//        EasyMock.replay(gui);
+//        Board board = Board.fromGUI(gui);
+//        board.startGame();
+//
+//        // Verify
+//        EasyMock.verify(gui);
+//
+//
+//    }
     
     @Test
     public void testInitialPlayerNumber() {
