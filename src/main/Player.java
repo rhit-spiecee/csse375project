@@ -49,6 +49,11 @@ public class Player {
     }
 
     public boolean hasActionCard() {
+        for (Card card : hand) {
+            if (card.type == Card.CardType.KINGDOM) {
+                return true;
+            }
+        }
         return false;
     }
 }
