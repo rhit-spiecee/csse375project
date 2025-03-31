@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Board {
     List<Player> players;
@@ -68,7 +69,7 @@ public class Board {
     }
 
     public void startGame() {
-        gui.getPlayerMove(this);
+        int move = gui.getPlayerMove(getBoardDisplay());
     }
 
     public int getCurrentPlayerNumber() {
@@ -106,5 +107,54 @@ public class Board {
 
     public int getCurrentPlayerActions() {
         return players.get(currentPlayer).getActions();
+    }
+
+    String getBoardDisplay() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Treasure Decks:\n");
+        appendDeckDisplayWithValue(sb, treasureDecks);
+
+        sb.append("\nVictory Decks:\n");
+        appendDeckDisplayWithValue(sb, victoryDecks);
+
+        sb.append("\nKingdom Decks:\n");
+        appendDeckDisplayWithoutValue(sb, kingdomDecks);
+
+        sb.append("\nCurrent Player: ").append(getCurrentPlayerNumber() + 1).append("\n");
+        sb.append("Hand: ")
+                .append(getCurrentPlayerHand()
+                        .stream()
+                        .map((card)-> capitalize(card.name))
+                        .collect(Collectors.joining(", ")))
+                .append("\n");
+        sb.append("Coins: ").append(getCurrentPlayerCoins()).append("\n");
+        sb.append("Action Abilities: ").append(getCurrentPlayerActions()).append("\n");
+        sb.append("Buy Abilities: ").append(getCurrentPlayerBuys()).append("\n");
+
+        return sb.toString();
+    }
+
+    private void appendDeckDisplayWithValue(StringBuilder sb, Map<String, BoardDeck> deckMap) {
+        for (Map.Entry<String, BoardDeck> entry : deckMap.entrySet()) {
+            Card card = entry.getValue().getCard();
+
+            sb.append(String.format("%s (Cost: %d, Value: %d): %d\n",
+                    capitalize(entry.getKey()), card.cost, card.value, entry.getValue().size()));
+        }
+    }
+
+    private void appendDeckDisplayWithoutValue(StringBuilder sb, Map<String, BoardDeck> deckMap) {
+        for (Map.Entry<String, BoardDeck> entry : deckMap.entrySet()) {
+            Card card = entry.getValue().getCard();
+
+            sb.append(String.format("%s (Cost: %d): %d\n",
+                    capitalize(entry.getKey()), card.cost, entry.getValue().size()));
+
+        }
+    }
+
+    private String capitalize(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 }
