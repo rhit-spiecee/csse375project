@@ -112,4 +112,13 @@ public class PlayerTests {
         assertEquals(0, player.discardPile.size());
     }
 
+    @Test
+    public void testPlayerCleanupWithOneCard() {
+        Player player = new Player();
+        player.drawOneCard();
+        player.cleanup();
+        assertEquals(0, player.hand.size());
+        assertEquals(1, player.discardPile.size());
+    }
+
 }
