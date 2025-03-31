@@ -84,4 +84,20 @@ public class PlayerTests {
         EasyMock.verify(deck);
     }
 
+    @Test
+    public void testPlayerHasActionCardsWithFullHandActionCard() {
+        //Record
+        PlayerDeck deck = EasyMock.mock(PlayerDeck.class);
+        Player player = new Player(deck);
+
+        //Replay
+        EasyMock.expect(deck.draw()).andReturn(new Card("moat", 2, Card.CardType.KINGDOM, 0)).times(5);
+        EasyMock.replay(deck);
+        player.drawHand();
+
+        //Verify
+        assertTrue(player.hasActionCard());
+        EasyMock.verify(deck);
+    }
+
 }
