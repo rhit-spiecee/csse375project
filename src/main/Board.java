@@ -69,8 +69,17 @@ public class Board {
     }
 
     public void startGame() {
+        actionPhase();
+    }
+
+    private void actionPhase() {
         int actionSelection = gui.getActionSelection(getBoardDisplay());
-        processActionPhaseSelection(actionSelection);
+        try {
+            processActionPhaseSelection(actionSelection);
+        } catch (RuntimeException e) {
+            gui.showErrorPopup(e.getMessage());
+            actionPhase();
+        }
     }
 
     private void processActionPhaseSelection(int actionSelection) {

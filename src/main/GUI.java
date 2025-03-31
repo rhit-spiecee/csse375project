@@ -27,4 +27,8 @@ public class GUI {
                 options[0]
         );
     }
+
+    public void showErrorPopup(String message) {
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
 }
