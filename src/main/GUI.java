@@ -37,7 +37,7 @@ public class GUI {
         sb.append("Hand: ")
                 .append(board.getCurrentPlayerHand()
                         .stream()
-                        .map((card)->capitalize(card.getName()))
+                        .map((card)->capitalize(card.name))
                         .collect(Collectors.joining(", ")))
                 .append("\n");
         sb.append("Coins: ").append(board.getCurrentPlayerCoins()).append("\n");
@@ -52,7 +52,7 @@ public class GUI {
             Card card = entry.getValue().getCard();
 
             sb.append(String.format("%s (Cost: %d, Value: %d): %d\n",
-                        capitalize(entry.getKey()), card.getCost(), card.getValue(), entry.getValue().size()));
+                        capitalize(entry.getKey()), card.cost, card.value, entry.getValue().size()));
         }
     }
 
@@ -61,7 +61,7 @@ public class GUI {
             Card card = entry.getValue().getCard();
 
                 sb.append(String.format("%s (Cost: %d): %d\n",
-                        capitalize(entry.getKey()), card.getCost(), entry.getValue().size()));
+                        capitalize(entry.getKey()), card.cost, entry.getValue().size()));
 
         }
     }

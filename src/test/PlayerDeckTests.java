@@ -23,9 +23,9 @@ public class PlayerDeckTests {
 
         for (int i = 0; i < 10; i++) {
             Card card = deck.draw();
-            if (card.getName().equals("copper")) {
+            if (card.name.equals("copper")) {
                 numCopper++;
-            } else if (card.getName().equals("estate")) {
+            } else if (card.name.equals("estate")) {
                 numEstate++;
             }
         }
@@ -61,7 +61,7 @@ public class PlayerDeckTests {
         Card card = deck.draw();
 
         assertEquals(0, deck.size());
-        assertEquals("copper", card.getName());
+        assertEquals("copper", card.name);
 
     }
 

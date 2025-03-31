@@ -33,8 +33,8 @@ public class Player {
     public int getCoins() {
         int coins = this.coins;
         for (Card card : hand) {
-            if (card.getCardType() == Card.CardType.TREASURE) {
-                coins += card.getValue();
+            if (card.type == Card.CardType.TREASURE) {
+                coins += card.value;
             }
         }
         return coins;
