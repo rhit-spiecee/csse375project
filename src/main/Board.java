@@ -69,7 +69,7 @@ public class Board {
     }
 
     public void startGame() {
-        int move = gui.getPlayerMove(getBoardDisplay());
+        int move = gui.getActionMove(getBoardDisplay());
     }
 
     public int getCurrentPlayerNumber() {

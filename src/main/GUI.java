@@ -15,17 +15,17 @@ public class GUI {
         return numPlayers;
     }
 
-    public int getPlayerMove(String message) {
-        String[] options = {"Buy", "Action", "End Turn"};
+    public int getActionMove(String message) {
+        String[] options = {"Action", "Next Phase"};
         return JOptionPane.showOptionDialog(
                 null,
                 message,
-                "",
+                "Action Phase",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 options,
-                options[1]);
+                options[0]
+        );
     }
-
 }
