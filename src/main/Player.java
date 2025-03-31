@@ -59,7 +59,7 @@ public class Player {
     }
 
     public void cleanup() {
-        if (hand.isEmpty()) { return; }
-        discardPile.add(hand.removeFirst());
+        discardPile.addAll(hand);
+        hand.clear();
     }
 }

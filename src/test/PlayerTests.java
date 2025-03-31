@@ -121,4 +121,13 @@ public class PlayerTests {
         assertEquals(1, player.discardPile.size());
     }
 
+    @Test
+    public void testPlayerCleanupWithFullHand() {
+        Player player = new Player();
+        player.drawHand();
+        player.cleanup();
+        assertEquals(0, player.hand.size());
+        assertEquals(5, player.discardPile.size());
+    }
+
 }
