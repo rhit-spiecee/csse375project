@@ -28,6 +28,21 @@ public class GUI {
         );
     }
 
+    public int getBuySelection(String message) {
+        String[] options = {"Buy", "End Turn"};
+        return JOptionPane.showOptionDialog(
+                null,
+                message,
+                "Buy Phase",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+    }
+
+
     public void showErrorPopup(String message) {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }

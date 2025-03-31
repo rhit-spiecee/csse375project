@@ -7,6 +7,7 @@ public class Board {
     Map<String, BoardDeck> treasureDecks = new LinkedHashMap<>();
     Map<String, BoardDeck> victoryDecks = new LinkedHashMap<>();
 
+    boolean gameOver = false;
     int numPlayers;
     int currentPlayer;
     GUI gui;
@@ -69,7 +70,10 @@ public class Board {
     }
 
     public void startGame() {
-        actionPhase();
+        while (!gameOver) {
+            actionPhase();
+            buyPhase();
+        }
     }
 
     private void actionPhase() {
@@ -93,6 +97,22 @@ public class Board {
             throw new RuntimeException("Player " + (currentPlayer + 1) + " has no action cards");
         }
     }
+
+    private void buyPhase() {
+        int buySelection = gui.getBuySelection(getBoardDisplay());
+        processBuyPhaseSelection(buySelection);
+    }
+
+
+    private void processBuyPhaseSelection(int buySelection) {
+        if (buySelection == 0) {
+            // TODO: Actual buy logic
+        } else {
+            players.get(currentPlayer).cleanup();
+            currentPlayer = (currentPlayer + 1) % numPlayers;
+        }
+    }
+
 
     public int getCurrentPlayerNumber() {
         return currentPlayer;
