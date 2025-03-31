@@ -1,4 +1,3 @@
-import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -70,11 +69,19 @@ public class Board {
     }
 
     public void startGame() {
-        int move = gui.getActionMove(getBoardDisplay());
-        if (move == 0) {
-            if (!players.get(currentPlayer).hasActionCard()) {
-                throw new RuntimeException("Player " + (currentPlayer + 1) + " has no action cards");
-            }
+        int actionSelection = gui.getActionSelection(getBoardDisplay());
+        processActionPhaseSelection(actionSelection);
+    }
+
+    private void processActionPhaseSelection(int actionSelection) {
+        if (actionSelection == 0) {
+            processActionMove();
+        }
+    }
+
+    private void processActionMove() {
+        if (!players.get(currentPlayer).hasActionCard()) {
+            throw new RuntimeException("Player " + (currentPlayer + 1) + " has no action cards");
         }
     }
 

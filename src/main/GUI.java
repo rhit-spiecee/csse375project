@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.util.Map;
 
 public class GUI {
     public int getNumPlayers() {
@@ -15,7 +14,7 @@ public class GUI {
         return numPlayers;
     }
 
-    public int getActionMove(String message) {
+    public int getActionSelection(String message) {
         String[] options = {"Action", "Next Phase"};
         return JOptionPane.showOptionDialog(
                 null,

@@ -118,7 +118,7 @@ public class BoardSetupTests {
 
         // Record
         EasyMock.expect(gui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(gui.getActionMove(EasyMock.isA(String.class))).andReturn(0);
+        EasyMock.expect(gui.getActionSelection(EasyMock.isA(String.class))).andReturn(0);
 
         // Replay
         EasyMock.replay(gui);
