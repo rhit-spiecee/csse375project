@@ -8,7 +8,7 @@ For starting a game for number of players test the following inputs for number o
 
 
 
-* 1 player -> Don’t allow
+* 1 player -> Don’t allow start
 * 2 player-> Allow game start
 * 4 player -> Allow game start
 * 5 player -> Don’t Allow
