@@ -31,7 +31,7 @@ Logistics:
   - Magic Numbers 
 
   5. Will everyone apply all criteria from every chapter from Clean Code? Or will each person specialize in a few criteria?
-  We will have each person specialize in a few criteria. Out split up will be the following:
+  We will have each person specialize in a few criteria. Our split up will be the following:
   Jay:
    - Bad/Inconsistent formatting
    - Magic Numbers
@@ -60,7 +60,7 @@ Logistics:
   Depending on the timing since the last code inspection, the files our team inspects will differ. Only the files that have been changed since the last review will be inspected.
 
   7. Of those files, will each person look at every file in consideration? Or will your team assign different files to different people?
-  This goes with the answer to number 5, everyone will need to inspect all changed files to ensure that all criteria is met.
+  Everyone will need to inspect all changed files to ensure that all criteria is met since each person specializes in a few criteria.
 
 
   Tools:
