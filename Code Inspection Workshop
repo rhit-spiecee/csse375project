@@ -1,0 +1,51 @@
+Logistics:
+  1. When will a formal code inspection be warranted?
+  Formal code inspection is warranted when an issue of functionality is completed, but before merging the branch into main.
+
+  2. Who will take the lead on moderating inspections?
+  Any group members that didn't participate in authoring the code being inspected will take the lead when moderating inspection to allow for no bias.
+
+  3. How will you share the results of inspections?
+  The results of the inspections will be shared through GitHub pull requests.
+
+
+  Criteria:
+  4. What are the key "code smells" from each chapter of Clean Code? This is the big question. Chapter 17 of Clean Code might help you recall them.
+  - Commented out code
+  - Too many arguments
+  - Insufficient tests (BVA no completed)
+  - Dead functions/code
+  - Multiple languages in one file
+  - Nondescriptive variable/class names
+  - Incorrect or unimplemented behavior
+  - Code duplication
+  - Code at the wrong level of abstraction
+  - Obsolete and redundant comments
+  - Trainwrecks
+  - Classes with multiple responsibility
+  - Functions doing more than one thing
+  - Switch cases where polymorphism is possible
+  - Bad formatting/Inconsistent formatting
+  - Selector arguments
+  - Misplaced responsibility
+  - Magic Numbers
+
+  5. Will everyone apply all criteria from every chapter from Clean Code? Or will each person specialize in a few criteria?
+  Everyone will apply all criteria from every chapter from Clean Code. This is to ensure there are multiple eyes on every criteria we are checking for.
+
+
+  Scope:
+  6. Will your team inspect every file in your codebase? Every file you touch in your feature branch? Or something else entirely?
+  Depending on the timing since the last code inspection, the files our team inspects will differ. Only the files that have been changed since the last review will be inspected.
+
+  7. Of those files, will each person look at every file in consideration? Or will your team assign different files to different people?
+  This goes with the answer to number 5, everyone will need to inspect all changed files to ensure that all criteria is met.
+
+
+  Tools:
+  8. To what extent can your inspection criteria be automated? Automation will increase your inspection's speed and reliability.
+  A lot of the simple criteria can be spotted with spotbugs and the Google configuration for checkstyle linter.
+
+  9. Which aspects of your inspection criteria will need human intervention?
+  The more complex criteria such as coupling and cohesion. Also descriptive variable names, for example, because they are subjective.
+
