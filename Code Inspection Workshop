@@ -11,27 +11,48 @@ Logistics:
 
   Criteria:
   4. What are the key "code smells" from each chapter of Clean Code? This is the big question. Chapter 17 of Clean Code might help you recall them.
-  - Commented out code
-  - Too many arguments
-  - Insufficient tests (BVA no completed)
-  - Dead functions/code
+  - Commented out code 
+  - Too many arguments 
+  - Insufficient tests (BVA no completed) 
+  - Dead functions/code 
   - Multiple languages in one file
-  - Nondescriptive variable/class names
+  - Nondescriptive variable/class names 
   - Incorrect or unimplemented behavior
-  - Code duplication
+  - Code duplication 
   - Code at the wrong level of abstraction
-  - Obsolete and redundant comments
-  - Trainwrecks
-  - Classes with multiple responsibility
-  - Functions doing more than one thing
-  - Switch cases where polymorphism is possible
-  - Bad formatting/Inconsistent formatting
-  - Selector arguments
-  - Misplaced responsibility
-  - Magic Numbers
+  - Obsolete and redundant comments 
+  - Trainwrecks 
+  - Classes with multiple responsibility 
+  - Functions doing more than one thing 
+  - Switch cases where polymorphism is possible 
+  - Bad formatting/Inconsistent formatting 
+  - Selector arguments 
+  - Misplaced responsibility 
+  - Magic Numbers 
 
   5. Will everyone apply all criteria from every chapter from Clean Code? Or will each person specialize in a few criteria?
-  Everyone will apply all criteria from every chapter from Clean Code. This is to ensure there are multiple eyes on every criteria we are checking for.
+  We will have each person specialize in a few criteria. Out split up will be the following:
+  Jay:
+   - Bad/Inconsistent formatting
+   - Magic Numbers
+   - Classes with multiple responsbility
+   - Dead functions/code
+   - Nondescriptive variable/class names
+  Caleb:
+   - Code duplication
+   - Commented out code
+   - Switch cases where polymorphism is possible
+   - Misplaced responsibility
+  Alex:
+   - Functions doing more than one thing
+   - Selector arguments
+   - Obsolete and redundant comments
+   - Insufficient tests
+  Ethan:
+   - Too many arguments
+   - Trainwrecks
+   - Multiple languages in one file
+   - Code at the wrong level of abstraction
 
 
   Scope:
