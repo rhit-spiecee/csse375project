@@ -54,6 +54,21 @@ Logistics:
    - Multiple languages in one file
    - Code at the wrong level of abstraction
 
+  For Practice Code Inspection:
+  Jay:
+   - Ch 2 Names
+   - Ch 5 Formatting
+   - Ch 10 Classes
+  Caleb:
+   - Ch 4 Comments
+   - Ch 12 TDD
+  Alex:
+   - Ch 3 Functions
+   - Ch 6 Demeter
+  Ethan:
+   - Ch 7 Error Handling
+   - Ch 9 Unit Testing
+
 
   Scope:
   6. Will your team inspect every file in your codebase? Every file you touch in your feature branch? Or something else entirely?
