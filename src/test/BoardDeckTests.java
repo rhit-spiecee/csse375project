@@ -28,4 +28,21 @@ public class BoardDeckTests {
             new BoardDeck(new Card("cellar", 2, Card.CardType.KINGDOM, 0), 61);
         });
     }
+    
+    @Test
+    public void testBuyCardInvalidSize() {
+        BoardDeck deck = new BoardDeck(new Card("cellar", 2, Card.CardType.KINGDOM, 0), 8);
+        assertEquals(8, deck.size());
+        
+        for (int i = 0; i < 8; i++) {
+            deck.deck.pop();
+        }
+        
+        assertEquals(0, deck.size());
+        
+        assertThrows(RuntimeException.class, () -> {
+            Card card = deck.buyCard();
+        });
+    }
+        
 }

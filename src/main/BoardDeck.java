@@ -1,8 +1,8 @@
 import java.util.Stack;
 
-public class BoardDeck {
-    private final Stack<Card> deck = new Stack<>();
-    private final Card card;
+public class BoardDeck { 
+    final Stack<Card> deck = new Stack<>();
+    final Card card;
 
     public BoardDeck(Card card, int size) {
         if(size < 8 || size > 60){
@@ -22,4 +22,10 @@ public class BoardDeck {
         return card;
     }
 
+    public Card buyCard() {
+        if (deck.isEmpty()) {
+            throw new RuntimeException("Deck is empty");
+        }
+        return deck.pop();
+    }
 }
