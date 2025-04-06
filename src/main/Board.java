@@ -133,8 +133,25 @@ public class Board {
         if (buySelection == availableDecks.size()) {
             endTurn();
         } else {
-            
+            String nameOfDeck = availableDecks.get(buySelection);
+            BoardDeck deckToBuyFrom = getBoardDeckFromName(nameOfDeck);
+            Card boughtCard = deckToBuyFrom.buyCard();
+            players.get(currentPlayer).addBoughtCard(boughtCard);
+            endTurn();
         }
+    }
+
+    private BoardDeck getBoardDeckFromName(String nameOfDeck) {
+        if (kingdomDecks.containsKey(nameOfDeck)) {
+            return kingdomDecks.get(nameOfDeck);
+        }
+        if (treasureDecks.containsKey(nameOfDeck)) {
+            return treasureDecks.get(nameOfDeck);
+        }
+        if (victoryDecks.containsKey(nameOfDeck)) {
+            return victoryDecks.get(nameOfDeck);
+        }
+        throw new RuntimeException("Unknown kingdom deck: " + nameOfDeck);
     }
 
     private void endTurn() {
@@ -147,7 +164,8 @@ public class Board {
     }
 
     public ArrayList<Card> getCurrentPlayerHand() {
-        return players.get(currentPlayer).hand;
+        Player player = players.get(currentPlayer);
+        return player.getHand();
     }
 
     public int getCurrentPlayerCoins() {

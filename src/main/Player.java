@@ -18,6 +18,10 @@ public class Player {
         this.deck = new PlayerDeck();
         this.coins = 0;
     }
+    
+    public void addBoughtCard(Card card) {
+        discardPile.add(card);
+    }
 
     public void drawHand() {
         for (int i = 0; i < 5; i++) {
@@ -61,5 +65,9 @@ public class Player {
     public void cleanup() {
         discardPile.addAll(hand);
         hand.clear();
+    }
+
+    public ArrayList<Card> getHand() {
+        return hand;
     }
 }
