@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GUI {
     public int getNumPlayers() {
@@ -30,7 +31,7 @@ public class GUI {
     }
 
     public int getBuySelection(String boardDisplayMessage, List<String> availableDecks) {
-        availableDecks.add("End Turn");
+        List<String> formattedAvailableDecks = formatAvailableDecks(availableDecks);
         return JOptionPane.showOptionDialog(
                 null,
                 boardDisplayMessage,
@@ -38,9 +39,15 @@ public class GUI {
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
-                availableDecks.toArray(),
-                availableDecks.getLast()
+                formattedAvailableDecks.toArray(),
+                formattedAvailableDecks.getLast()
         );
+    }
+
+    private List<String> formatAvailableDecks(List<String> availableDecks) {
+        List<String> formattedDecks = availableDecks.stream().map(deck -> "Buy " + Utilities.capitalize(deck) + "\n").collect(Collectors.toList());
+        formattedDecks.add("End Turn");
+        return formattedDecks;
     }
 
 

@@ -183,7 +183,7 @@ public class Board {
         sb.append("Hand: ")
                 .append(getCurrentPlayerHand()
                         .stream()
-                        .map((card)-> capitalize(card.name))
+                        .map((card)-> Utilities.capitalize(card.name))
                         .collect(Collectors.joining(", ")))
                 .append("\n");
         sb.append("Coins: ").append(getCurrentPlayerCoins()).append("\n");
@@ -198,7 +198,7 @@ public class Board {
             Card card = entry.getValue().getCard();
 
             sb.append(String.format("%s (Cost: %d, Value: %d): %d\n",
-                    capitalize(entry.getKey()), card.cost, card.value, entry.getValue().size()));
+                    Utilities.capitalize(entry.getKey()), card.cost, card.value, entry.getValue().size()));
         }
     }
 
@@ -207,12 +207,8 @@ public class Board {
             Card card = entry.getValue().getCard();
 
             sb.append(String.format("%s (Cost: %d): %d\n",
-                    capitalize(entry.getKey()), card.cost, entry.getValue().size()));
+                    Utilities.capitalize(entry.getKey()), card.cost, entry.getValue().size()));
 
         }
-    }
-
-    private String capitalize(String str) {
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 }
