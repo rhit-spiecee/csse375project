@@ -28,4 +28,8 @@ public class BoardDeck {
         }
         return deck.pop();
     }
+
+    public boolean isEmpty() {
+        return deck.isEmpty();
+    }
 }

@@ -111,12 +111,24 @@ public class Board {
 
     public List<String> getAvailableDecks() {
         ArrayList<String> availableDecks = new ArrayList<>();
-        availableDecks.addAll(kingdomDecks.keySet());
-        availableDecks.addAll(treasureDecks.keySet());
-        availableDecks.addAll(victoryDecks.keySet());
+        availableDecks.addAll(getAvailableDecks(kingdomDecks));
+        availableDecks.addAll(getAvailableDecks(treasureDecks));
+        availableDecks.addAll(getAvailableDecks(victoryDecks));
         return availableDecks;
     }
-    
+
+    private List<String> getAvailableDecks(Map<String, BoardDeck> decks) {
+        List<String> availableDecks = new ArrayList<>();
+        for (Map.Entry<String, BoardDeck> entry : decks.entrySet()) {
+            BoardDeck deck = entry.getValue();
+            if (!deck.isEmpty()) {
+                availableDecks.add(entry.getKey());
+            }
+        }
+        
+        return availableDecks;
+    }
+
     private void processBuyPhaseSelection(int buySelection, List<String> availableDecks) {
         if (buySelection == availableDecks.size()) {
             endTurn();

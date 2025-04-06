@@ -53,4 +53,21 @@ public class BoardTests {
         assertEquals(expectedDecks.size(), availableDecks.size());
         assertEquals(expectedDecks, availableDecks);
     }
+    
+    @Test
+    public void testGetAvailableDecksOneEmpty() {
+        Board board = new Board(2);
+        for (int i = 0; i < 10; i++) {
+            board.kingdomDecks.get("cellar").buyCard();
+        }
+        
+        List<String> availableDecks = board.getAvailableDecks();
+
+        List<String> expectedDecks = new ArrayList<>(Arrays.asList(
+                "market", "militia", "mine", "moat", "remodel",
+                "smithy", "village", "workshop", "woodcutter", "copper", "silver",
+                "gold", "estate", "duchy", "province", "cursed"));
+        assertEquals(expectedDecks.size(), availableDecks.size());
+        assertEquals(expectedDecks, availableDecks);
+    }
 }
