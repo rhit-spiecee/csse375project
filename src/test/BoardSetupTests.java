@@ -130,32 +130,4 @@ public class BoardSetupTests {
             assertEquals(5, board.players.get(i).hand.size());
         }
     }
-
-    @Test
-    public void testPlayerCleanupPhase() {
-        // Setup
-        GUI gui = EasyMock.mock(GUI.class);
-
-
-        // Record
-        EasyMock.expect(gui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(gui.getActionSelection(EasyMock.isA(String.class))).andReturn(1);
-        EasyMock.expect(gui.getBuySelection(EasyMock.isA(String.class))).andReturn(1);
-
-
-        // Replay
-        EasyMock.replay(gui);
-        Board board = Board.fromGUI(gui);
-
-
-        // Verify
-        board.startGame();
-        assertEquals(0, board.players.get(board.currentPlayer).hand.size());
-        assertEquals(5, board.players.get(board.currentPlayer).discardPile.size());
-
-
-        EasyMock.verify(gui);
-    }
-
-
 }

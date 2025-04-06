@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.List;
 
 public class GUI {
     public int getNumPlayers() {
@@ -14,11 +15,11 @@ public class GUI {
         return numPlayers;
     }
 
-    public int getActionSelection(String message) {
+    public int getActionSelection(String boardDisplayMessage) {
         String[] options = {"Action", "Next Phase"};
         return JOptionPane.showOptionDialog(
                 null,
-                message,
+                boardDisplayMessage,
                 "Action Phase",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -28,17 +29,17 @@ public class GUI {
         );
     }
 
-    public int getBuySelection(String message) {
-        String[] options = {"Buy", "End Turn"};
+    public int getBuySelection(String boardDisplayMessage, List<String> availableDecks) {
+        availableDecks.add("End Turn");
         return JOptionPane.showOptionDialog(
                 null,
-                message,
+                boardDisplayMessage,
                 "Buy Phase",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
-                options,
-                options[0]
+                availableDecks.toArray(),
+                availableDecks.getLast()
         );
     }
 

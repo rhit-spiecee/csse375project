@@ -71,9 +71,13 @@ public class Board {
 
     public void startGame() {
         while (!gameOver) {
-            actionPhase();
-            buyPhase();
+            processTurn();
         }
+    }
+
+    void processTurn() {
+        actionPhase();
+        buyPhase();
     }
 
     private void actionPhase() {
@@ -99,20 +103,32 @@ public class Board {
     }
 
     private void buyPhase() {
-        int buySelection = gui.getBuySelection(getBoardDisplay());
-        processBuyPhaseSelection(buySelection);
+        List<String> availableDecks = getAvailableDecks();
+        
+        int buySelection = gui.getBuySelection(getBoardDisplay(), availableDecks);
+        processBuyPhaseSelection(buySelection, availableDecks);
     }
 
-
-    private void processBuyPhaseSelection(int buySelection) {
-        if (buySelection == 0) {
-            // TODO: Actual buy logic
+    public List<String> getAvailableDecks() {
+        ArrayList<String> availableDecks = new ArrayList<>();
+        availableDecks.addAll(kingdomDecks.keySet());
+        availableDecks.addAll(treasureDecks.keySet());
+        availableDecks.addAll(victoryDecks.keySet());
+        return availableDecks;
+    }
+    
+    private void processBuyPhaseSelection(int buySelection, List<String> availableDecks) {
+        if (buySelection == availableDecks.size()) {
+            endTurn();
         } else {
-            players.get(currentPlayer).cleanup();
-            currentPlayer = (currentPlayer + 1) % numPlayers;
+            
         }
     }
 
+    private void endTurn() {
+        players.get(currentPlayer).cleanup();
+        currentPlayer = (currentPlayer + 1) % numPlayers;
+    }
 
     public int getCurrentPlayerNumber() {
         return currentPlayer;
