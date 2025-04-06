@@ -1,8 +1,6 @@
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -13,23 +11,19 @@ public class BoardTests {
         // Setup
         GUI gui = EasyMock.mock(GUI.class);
 
-
         // Record
         EasyMock.expect(gui.getNumPlayers()).andReturn(2);
         EasyMock.expect(gui.getActionSelection(EasyMock.isA(String.class))).andReturn(1);
         EasyMock.expect(gui.getBuySelection(EasyMock.isA(String.class), EasyMock.anyObject())).andReturn(17);
 
-
         // Replay
         EasyMock.replay(gui);
         Board board = Board.fromGUI(gui);
-
 
         // Verify
         board.processTurn();
         assertEquals(0, board.players.getFirst().hand.size());
         assertEquals(5, board.players.getFirst().discardPile.size());
-
 
         EasyMock.verify(gui);
     }
