@@ -16,7 +16,7 @@ public class BoardTests {
         // Record
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(String.class))).andReturn(1);
-        EasyMock.expect(mockGui.getBuySelection(EasyMock.isA(String.class), EasyMock.anyObject())).andReturn(17);
+        EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(String.class))).andReturn(1);
 
         // Replay
         EasyMock.replay(mockGui);
@@ -80,7 +80,8 @@ public class BoardTests {
         // Record
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(String.class))).andReturn(1);
-        EasyMock.expect(mockGui.getBuySelection(EasyMock.isA(String.class), EasyMock.anyObject())).andReturn(0);
+        EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(String.class))).andReturn(0);
+        EasyMock.expect(mockGui.getBuySelection()).andReturn("cellar");
         
         EasyMock.expect(mockPlayer.getCoins()).andReturn(2).times(2);
         EasyMock.expect(mockPlayer.getHand()).andReturn(new ArrayList<>(Arrays.asList(card, card))).times(2);

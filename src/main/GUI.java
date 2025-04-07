@@ -30,8 +30,8 @@ public class GUI {
         );
     }
 
-    public int getBuySelection(String boardDisplayMessage, List<String> availableDecks) {
-        List<String> formattedAvailableDecks = formatAvailableDecks(availableDecks);
+    public int showBuyOption(String boardDisplayMessage) {
+        String[] options = {"Buy", "End Turn"};
         return JOptionPane.showOptionDialog(
                 null,
                 boardDisplayMessage,
@@ -39,9 +39,13 @@ public class GUI {
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
-                formattedAvailableDecks.toArray(),
-                formattedAvailableDecks.getLast()
+                options,
+                options[0]
         );
+    }
+
+    public String getBuySelection() {
+        return JOptionPane.showInputDialog("Enter name of card to buy:").toLowerCase();
     }
 
     private List<String> formatAvailableDecks(List<String> availableDecks) {

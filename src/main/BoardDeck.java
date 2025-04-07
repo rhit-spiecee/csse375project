@@ -32,4 +32,6 @@ public class BoardDeck {
     public boolean isEmpty() {
         return deck.isEmpty();
     }
+
+    public int getCost() { return card.cost; }
 }

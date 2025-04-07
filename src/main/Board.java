@@ -104,9 +104,25 @@ public class Board {
 
     private void buyPhase() {
         List<String> availableDecks = getAvailableDecks();
-        
-        int buySelection = gui.getBuySelection(getBoardDisplay(), availableDecks);
-        processBuyPhaseSelection(buySelection, availableDecks);
+        boolean noBuyDecisionMade = true;
+
+        while (noBuyDecisionMade) {
+            int buySelection = gui.showBuyOption(getBoardDisplay());
+
+            if (buySelection == 0) {
+                String cardToBuy = gui.getBuySelection();
+                try {
+                    processBuyPhaseSelection(cardToBuy, availableDecks);
+                    noBuyDecisionMade = false;
+                } catch (RuntimeException e) {
+                    gui.showErrorPopup(e.getMessage());
+                }
+
+            } else {
+                noBuyDecisionMade = false;
+            }
+        }
+        endTurn();
     }
 
     public List<String> getAvailableDecks() {
@@ -129,15 +145,17 @@ public class Board {
         return availableDecks;
     }
 
-    private void processBuyPhaseSelection(int buySelection, List<String> availableDecks) {
-        if (buySelection == availableDecks.size()) {
-            endTurn();
+    private void processBuyPhaseSelection(String buySelection, List<String> availableDecks) {
+        if (availableDecks.contains(buySelection)) {
+            BoardDeck deckToBuyFrom = getBoardDeckFromName(buySelection);
+            if (deckToBuyFrom.getCost() < players.get(currentPlayer).coins) {
+                Card boughtCard = deckToBuyFrom.buyCard();
+                players.get(currentPlayer).addBoughtCard(boughtCard);
+            } else {
+                throw new RuntimeException("Player " + (currentPlayer + 1) + " does not have enough coins for " + buySelection + " card.");
+            }
         } else {
-            String nameOfDeck = availableDecks.get(buySelection);
-            BoardDeck deckToBuyFrom = getBoardDeckFromName(nameOfDeck);
-            Card boughtCard = deckToBuyFrom.buyCard();
-            players.get(currentPlayer).addBoughtCard(boughtCard);
-            endTurn();
+            throw new RuntimeException("Card: " + buySelection + " is not available.");
         }
     }
 
