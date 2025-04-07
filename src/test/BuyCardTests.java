@@ -47,6 +47,7 @@ public class BuyCardTests {
         GUI mockGui = EasyMock.mock(GUI.class);
         Player mockPlayer = EasyMock.mock(Player.class);
         Card card = new Card("copper", 0, Card.CardType.TREASURE, 1);
+
         // Record
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(String.class))).andReturn(1);

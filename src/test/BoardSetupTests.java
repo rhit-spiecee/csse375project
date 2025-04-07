@@ -1,4 +1,3 @@
-import org.easymock.EasyMock;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

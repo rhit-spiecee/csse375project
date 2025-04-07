@@ -9,98 +9,98 @@ public class PlayerTests {
     @Test
     public void testDrawInitialHandMock(){
         //Record
-        PlayerDeck deck = EasyMock.mock(PlayerDeck.class);
-        Player player = new Player(deck);
-        EasyMock.expect(deck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
+        PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
+        Player player = new Player(mockDeck);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
 
         //Replay
-        EasyMock.replay(deck);
+        EasyMock.replay(mockDeck);
         player.drawHand();
 
         //Verify
         assertEquals(5, player.hand.size());
-        EasyMock.verify(deck);
+        EasyMock.verify(mockDeck);
     }
 
     @Test
     public void testDrawOneCardMock() {
         //Record
-        PlayerDeck deck = EasyMock.mock(PlayerDeck.class);
-        Player player = new Player(deck);
-        EasyMock.expect(deck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1));
+        PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
+        Player player = new Player(mockDeck);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1));
 
         //Replay
-        EasyMock.replay(deck);
+        EasyMock.replay(mockDeck);
         player.drawOneCard();
 
         //Verify
         assertEquals(1, player.hand.size());
-        EasyMock.verify(deck);
+        EasyMock.verify(mockDeck);
     }
     
     @Test
     public void testGetInitialCoins() {
         //Record
-        PlayerDeck deck = EasyMock.mock(PlayerDeck.class);
-        Player player = new Player(deck);
+        PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
+        Player player = new Player(mockDeck);
 
         //Replay
-        EasyMock.expect(deck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
-        EasyMock.replay(deck);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
+        EasyMock.replay(mockDeck);
         player.drawHand();
 
         //Verify
         assertEquals(5, player.getCoins());
-        EasyMock.verify(deck);
+        EasyMock.verify(mockDeck);
     }
 
     @Test
     public void testPlayerHasActionCardsWithNoActionCards() {
         //Record
-        PlayerDeck deck = EasyMock.mock(PlayerDeck.class);
-        Player player = new Player(deck);
+        PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
+        Player player = new Player(mockDeck);
 
         //Replay
-        EasyMock.expect(deck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
-        EasyMock.replay(deck);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
+        EasyMock.replay(mockDeck);
         player.drawHand();
 
         //Verify
         assertFalse(player.hasActionCard());
-        EasyMock.verify(deck);
+        EasyMock.verify(mockDeck);
     }
 
     @Test
     public void testPlayerHasActionCardsWithOneActionCard() {
         //Record
-        PlayerDeck deck = EasyMock.mock(PlayerDeck.class);
-        Player player = new Player(deck);
+        PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
+        Player player = new Player(mockDeck);
 
         //Replay
-        EasyMock.expect(deck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(4);
-        EasyMock.expect(deck.draw()).andReturn(new Card("cellar", 2, Card.CardType.KINGDOM, 0));
-        EasyMock.replay(deck);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(4);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Card("cellar", 2, Card.CardType.KINGDOM, 0));
+        EasyMock.replay(mockDeck);
         player.drawHand();
 
         //Verify
         assertTrue(player.hasActionCard());
-        EasyMock.verify(deck);
+        EasyMock.verify(mockDeck);
     }
 
     @Test
     public void testPlayerHasActionCardsWithFullHandActionCard() {
         //Record
-        PlayerDeck deck = EasyMock.mock(PlayerDeck.class);
-        Player player = new Player(deck);
+        PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
+        Player player = new Player(mockDeck);
 
         //Replay
-        EasyMock.expect(deck.draw()).andReturn(new Card("moat", 2, Card.CardType.KINGDOM, 0)).times(5);
-        EasyMock.replay(deck);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Card("moat", 2, Card.CardType.KINGDOM, 0)).times(5);
+        EasyMock.replay(mockDeck);
         player.drawHand();
 
         //Verify
         assertTrue(player.hasActionCard());
-        EasyMock.verify(deck);
+        EasyMock.verify(mockDeck);
     }
 
     @Test
