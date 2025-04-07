@@ -148,7 +148,7 @@ public class Board {
     private void processBuyPhaseSelection(String buySelection, List<String> availableDecks) {
         if (availableDecks.contains(buySelection)) {
             BoardDeck deckToBuyFrom = getBoardDeckFromName(buySelection);
-            if (deckToBuyFrom.getCost() < players.get(currentPlayer).coins) {
+            if (deckToBuyFrom.getCost() <= players.get(currentPlayer).getCoins()) {
                 Card boughtCard = deckToBuyFrom.buyCard();
                 players.get(currentPlayer).addBoughtCard(boughtCard);
             } else {
