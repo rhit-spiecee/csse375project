@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -111,8 +112,12 @@ public class Board {
 
             if (buySelection == 0) {
                 String cardToBuy = gui.getBuySelection();
+                if (cardToBuy == null) {
+                    continue;
+                }
+
                 try {
-                    processBuyPhaseSelection(cardToBuy, availableDecks);
+                    processBuyPhaseSelection(cardToBuy.toLowerCase(), availableDecks);
                     noBuyDecisionMade = false;
                 } catch (RuntimeException e) {
                     gui.showErrorPopup(e.getMessage());
