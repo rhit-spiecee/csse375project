@@ -35,4 +35,8 @@ public class PlayerDeck {
         }
         deck.add(card);
     }
+
+    public void shuffle() {
+
+    }
 }

@@ -24,11 +24,28 @@ public class Player {
     }
 
     public void drawHand() {
-        for (int i = 0; i < 5; i++) {
-            drawOneCard();
+        if(deck.size() >= 5) {
+            for (int i = 0; i < 5; i++) {
+                drawOneCard();
+            }
+        }else{
+            drawWhenNotEnoughCards();
         }
         this.buy = 1;
         this.action = 1;
+    }
+
+    private void drawWhenNotEnoughCards() {
+        for(int i = 0; i < deck.size(); i++) {
+            drawOneCard();
+        }
+        for(Card card: discardPile) {
+            deck.add(card);
+        }
+        deck.shuffle();
+        while(hand.size() < 5) {
+            drawOneCard();
+        }
     }
 
     public void drawOneCard() {

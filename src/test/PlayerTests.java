@@ -12,6 +12,7 @@ public class PlayerTests {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck);
         EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
+        EasyMock.expect(mockDeck.size()).andReturn(5);
 
         //Replay
         EasyMock.replay(mockDeck);
@@ -46,6 +47,7 @@ public class PlayerTests {
 
         //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
+        EasyMock.expect(mockDeck.size()).andReturn(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
 
@@ -62,6 +64,7 @@ public class PlayerTests {
 
         //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
+        EasyMock.expect(mockDeck.size()).andReturn(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
 
@@ -79,6 +82,7 @@ public class PlayerTests {
         //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(4);
         EasyMock.expect(mockDeck.draw()).andReturn(new Card("cellar", 2, Card.CardType.KINGDOM, 0));
+        EasyMock.expect(mockDeck.size()).andReturn(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
 
@@ -95,6 +99,7 @@ public class PlayerTests {
 
         //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new Card("moat", 2, Card.CardType.KINGDOM, 0)).times(5);
+        EasyMock.expect(mockDeck.size()).andReturn(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
 
