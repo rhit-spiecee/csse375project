@@ -111,7 +111,7 @@ public class PlayerTests {
     @Test
     public void testPlayerCleanupWithZeroCards() {
         Player player = new Player();
-        player.hand = new ArrayList<>();   // TODO: Ask if okay
+        player.hand = new ArrayList<>();
         player.cleanup();
         assertEquals(0, player.hand.size());
         assertEquals(0, player.discardPile.size());
@@ -145,6 +145,22 @@ public class PlayerTests {
 
         assertEquals(1, player.discardPile.size());
         EasyMock.verify(mockCard);
+    }
+
+    @Test
+    public void testDrawHandWhenDeckIsEmpty() {
+        PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
+        Player player = new Player(mockDeck);
+        EasyMock.expect(mockDeck.size()).andReturn(0).times(2);
+        mockDeck.shuffle();
+        EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
+
+
+        EasyMock.replay(mockDeck);
+        player.drawHand();
+
+        assertEquals(5, player.hand.size());
+        EasyMock.verify(mockDeck);
     }
 
 }
