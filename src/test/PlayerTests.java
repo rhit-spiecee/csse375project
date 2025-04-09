@@ -151,7 +151,9 @@ public class PlayerTests {
     public void testDrawHandWhenDeckIsEmpty() {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck);
+        player.discardPile.add(new Card("copper", 0, Card.CardType.TREASURE, 1));
         EasyMock.expect(mockDeck.size()).andReturn(0).times(2);
+        mockDeck.add(new Card("copper", 0, Card.CardType.TREASURE, 1));
         mockDeck.shuffle();
         EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
 
@@ -162,5 +164,23 @@ public class PlayerTests {
         assertEquals(5, player.hand.size());
         EasyMock.verify(mockDeck);
     }
+
+    @Test
+    public void testDrawHandWhenDeckHasOneCard() {
+        PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
+        Player player = new Player(mockDeck);
+        EasyMock.expect(mockDeck.size()).andReturn(1).times(3);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
+        mockDeck.shuffle();
+
+
+        EasyMock.replay(mockDeck);
+        player.drawHand();
+
+        assertEquals(5, player.hand.size());
+        EasyMock.verify(mockDeck);
+    }
+
+
 
 }

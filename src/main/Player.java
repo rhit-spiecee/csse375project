@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class Player {
     ArrayList<Card> hand = new ArrayList<Card>();
@@ -38,7 +36,7 @@ public class Player {
     }
 
     private void drawWhenNotEnoughCards() {
-        emptyDeck();
+        emptyRemainingDeck();
 
         for (Card card : discardPile) {
             deck.add(card);
@@ -52,7 +50,7 @@ public class Player {
         }
     }
 
-    private void emptyDeck() {
+    private void emptyRemainingDeck() {
         for (int i = 0; i < deck.size(); i++) {
             drawOneCard();
         }
