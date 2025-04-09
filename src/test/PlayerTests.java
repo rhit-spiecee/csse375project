@@ -135,4 +135,16 @@ public class PlayerTests {
         assertEquals(5, player.discardPile.size());
     }
 
+    @Test
+    public void testAddBoughtCard() {
+        Player player = new Player();
+        Card mockCard = EasyMock.mock(Card.class);
+        player.addBoughtCard(mockCard);
+
+        EasyMock.replay(mockCard);
+
+        assertEquals(1, player.discardPile.size());
+        EasyMock.verify(mockCard);
+    }
+
 }
