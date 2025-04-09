@@ -179,7 +179,9 @@ public class Board {
 
     private void endTurn() {
         players.get(currentPlayer).cleanup();
+        players.get(currentPlayer).drawHand();
         currentPlayer = (currentPlayer + 1) % numPlayers;
+
     }
 
     public int getCurrentPlayerNumber() {

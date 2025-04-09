@@ -24,8 +24,10 @@ public class BuyCardTests {
         EasyMock.expect(mockPlayer.getHand()).andReturn(new ArrayList<>(Arrays.asList(card, card))).times(2);
         EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(2);
         EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(2);
+        mockPlayer.drawHand();
         mockPlayer.addBoughtCard(new Card("cellar", 2, Card.CardType.KINGDOM, 0));
         mockPlayer.cleanup();
+
 
         // Replay
         EasyMock.replay(mockGui, mockPlayer);
@@ -60,6 +62,7 @@ public class BuyCardTests {
         EasyMock.expect(mockPlayer.getHand()).andReturn(new ArrayList<>(Arrays.asList(card, card))).times(3);
         EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(3);
         EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(3);
+        mockPlayer.drawHand();
         mockPlayer.addBoughtCard(new Card("cellar", 2, Card.CardType.KINGDOM, 0));
         mockPlayer.cleanup();
 
