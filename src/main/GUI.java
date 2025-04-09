@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class GUI {
@@ -25,7 +26,8 @@ public class GUI {
         return numPlayers;
     }
 
-    public int getActionSelection(String boardDisplayMessage) {
+    public int getActionSelection(BoardDTO boardDTO) {
+        String boardDisplayMessage = getBoardDisplay(boardDTO);
         String[] options = {"Action", "Next Phase"};
         int chooseToAction = JOptionPane.showOptionDialog(
                 null,
@@ -44,7 +46,8 @@ public class GUI {
         return chooseToAction;
     }
 
-    public int showBuyOption(String boardDisplayMessage) {
+    public int showBuyOption(BoardDTO boardDTO) {
+        String boardDisplayMessage = getBoardDisplay(boardDTO);
         String[] options = {"Buy", "End Turn"};
         int chooseToBuy = JOptionPane.showOptionDialog(
                 null,
@@ -67,14 +70,52 @@ public class GUI {
         return JOptionPane.showInputDialog("Enter name of card to buy:");
     }
 
-    private List<String> formatAvailableDecks(List<String> availableDecks) {
-        List<String> formattedDecks = availableDecks.stream().map(deck -> "Buy " + Utilities.capitalize(deck) + "\n").collect(Collectors.toList());
-        formattedDecks.add("End Turn");
-        return formattedDecks;
-    }
-
-
     public void showErrorPopup(String message) {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    void appendDeckDisplayWithoutValue(StringBuilder sb, Map<String, BoardDeck> deckMap) {
+        for (Map.Entry<String, BoardDeck> entry : deckMap.entrySet()) {
+            Card card = entry.getValue().getCard();
+
+            sb.append(String.format("%s (Cost: %d): %d\n",
+                    Utilities.capitalize(entry.getKey()), card.cost, entry.getValue().size()));
+
+        }
+    }
+
+    void appendDeckDisplayWithValue(StringBuilder sb, Map<String, BoardDeck> deckMap) {
+        for (Map.Entry<String, BoardDeck> entry : deckMap.entrySet()) {
+            Card card = entry.getValue().getCard();
+
+            sb.append(String.format("%s (Cost: %d, Value: %d): %d\n",
+                    Utilities.capitalize(entry.getKey()), card.cost, card.value, entry.getValue().size()));
+        }
+    }
+
+    String getBoardDisplay(BoardDTO boardDTO) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Treasure Decks:\n");
+        appendDeckDisplayWithValue(sb, boardDTO.treasureDecks);
+
+        sb.append("\nVictory Decks:\n");
+        appendDeckDisplayWithValue(sb, boardDTO.victoryDecks);
+
+        sb.append("\nKingdom Decks:\n");
+        appendDeckDisplayWithoutValue(sb, boardDTO.kingdomDecks);
+
+        sb.append("\nCurrent Player: ").append(boardDTO.currentPlayerNumber + 1).append("\n");
+        sb.append("Hand: ")
+                .append(boardDTO.currentPlayerHand
+                        .stream()
+                        .map((card)-> Utilities.capitalize(card.name))
+                        .collect(Collectors.joining(", ")))
+                .append("\n");
+        sb.append("Coins: ").append(boardDTO.currentPlayerCoins).append("\n");
+        sb.append("Action Abilities: ").append(boardDTO.currentPlayerActions).append("\n");
+        sb.append("Buy Abilities: ").append(boardDTO.currentPlayerBuys).append("\n");
+
+        return sb.toString();
     }
 }

@@ -16,8 +16,8 @@ public class BuyCardTests {
         Card card = new Card("copper", 0, Card.CardType.TREASURE, 1);
         // Record
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(String.class))).andReturn(1);
-        EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(String.class))).andReturn(0);
+        EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(BoardDTO.class))).andReturn(1);
+        EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(BoardDTO.class))).andReturn(0);
         EasyMock.expect(mockGui.getBuySelection()).andReturn("cellar");
 
         EasyMock.expect(mockPlayer.getCoins()).andReturn(2).times(3);
@@ -52,8 +52,8 @@ public class BuyCardTests {
 
         // Record
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(String.class))).andReturn(1);
-        EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(String.class))).andReturn(0).times(2);
+        EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(BoardDTO.class))).andReturn(1);
+        EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(BoardDTO.class))).andReturn(0).times(2);
         EasyMock.expect(mockGui.getBuySelection()).andReturn("market");
         mockGui.showErrorPopup("Player 1 does not have enough coins for market card.");
         EasyMock.expect(mockGui.getBuySelection()).andReturn("cellar");

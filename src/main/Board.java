@@ -1,6 +1,4 @@
-import javax.swing.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Board {
     List<Player> players;
@@ -82,13 +80,19 @@ public class Board {
     }
 
     private void actionPhase() {
-        int actionSelection = gui.getActionSelection(getBoardDisplay());
+        int actionSelection = gui.getActionSelection(getDTO());
         try {
             processActionPhaseSelection(actionSelection);
         } catch (RuntimeException e) {
             gui.showErrorPopup(e.getMessage());
             actionPhase();
         }
+    }
+
+    private BoardDTO getDTO() {
+        BoardDTO boardDTO = new BoardDTO();
+        boardDTO.populate(kingdomDecks, treasureDecks, victoryDecks, getCurrentPlayerNumber(), getCurrentPlayerHand(), getCurrentPlayerCoins(), getCurrentPlayerActions(), getCurrentPlayerBuys());
+        return boardDTO;
     }
 
     private void processActionPhaseSelection(int actionSelection) {
@@ -108,7 +112,7 @@ public class Board {
         boolean noBuyDecisionMade = true;
 
         while (noBuyDecisionMade) {
-            int buySelection = gui.showBuyOption(getBoardDisplay());
+            int buySelection = gui.showBuyOption(getDTO());
 
             if (buySelection == 0) {
                 String cardToBuy = gui.getBuySelection();
@@ -222,48 +226,4 @@ public class Board {
         return players.get(currentPlayer).getActions();
     }
 
-    String getBoardDisplay() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("Treasure Decks:\n");
-        appendDeckDisplayWithValue(sb, treasureDecks);
-
-        sb.append("\nVictory Decks:\n");
-        appendDeckDisplayWithValue(sb, victoryDecks);
-
-        sb.append("\nKingdom Decks:\n");
-        appendDeckDisplayWithoutValue(sb, kingdomDecks);
-
-        sb.append("\nCurrent Player: ").append(getCurrentPlayerNumber() + 1).append("\n");
-        sb.append("Hand: ")
-                .append(getCurrentPlayerHand()
-                        .stream()
-                        .map((card)-> Utilities.capitalize(card.name))
-                        .collect(Collectors.joining(", ")))
-                .append("\n");
-        sb.append("Coins: ").append(getCurrentPlayerCoins()).append("\n");
-        sb.append("Action Abilities: ").append(getCurrentPlayerActions()).append("\n");
-        sb.append("Buy Abilities: ").append(getCurrentPlayerBuys()).append("\n");
-
-        return sb.toString();
-    }
-
-    private void appendDeckDisplayWithValue(StringBuilder sb, Map<String, BoardDeck> deckMap) {
-        for (Map.Entry<String, BoardDeck> entry : deckMap.entrySet()) {
-            Card card = entry.getValue().getCard();
-
-            sb.append(String.format("%s (Cost: %d, Value: %d): %d\n",
-                    Utilities.capitalize(entry.getKey()), card.cost, card.value, entry.getValue().size()));
-        }
-    }
-
-    private void appendDeckDisplayWithoutValue(StringBuilder sb, Map<String, BoardDeck> deckMap) {
-        for (Map.Entry<String, BoardDeck> entry : deckMap.entrySet()) {
-            Card card = entry.getValue().getCard();
-
-            sb.append(String.format("%s (Cost: %d): %d\n",
-                    Utilities.capitalize(entry.getKey()), card.cost, entry.getValue().size()));
-
-        }
-    }
 }
