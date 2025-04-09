@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Player {
     ArrayList<Card> hand = new ArrayList<Card>();
     ArrayList<Card> discardPile = new ArrayList<>();
     PlayerDeck deck;
-    
+
     int coins;
     int buy = 1;
     int action = 1;
@@ -18,17 +20,17 @@ public class Player {
         this.deck = new PlayerDeck();
         this.coins = 0;
     }
-    
+
     public void addBoughtCard(Card card) {
         discardPile.add(card);
     }
 
     public void drawHand() {
-        if(deck.size() >= 5) {
+        if (deck.size() >= 5) {
             for (int i = 0; i < 5; i++) {
                 drawOneCard();
             }
-        }else{
+        } else {
             drawWhenNotEnoughCards();
         }
         this.buy = 1;
@@ -36,14 +38,22 @@ public class Player {
     }
 
     private void drawWhenNotEnoughCards() {
-        for(int i = 0; i < deck.size(); i++) {
-            drawOneCard();
-        }
-        for(Card card: discardPile) {
+        emptyDeck();
+
+        for (Card card : discardPile) {
             deck.add(card);
         }
+
+        discardPile.clear();
         deck.shuffle();
-        while(hand.size() < 5) {
+
+        while (hand.size() < 5) {
+            drawOneCard();
+        }
+    }
+
+    private void emptyDeck() {
+        for (int i = 0; i < deck.size(); i++) {
             drawOneCard();
         }
     }

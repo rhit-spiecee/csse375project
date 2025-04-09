@@ -15,7 +15,7 @@ public class PlayerDeck {
         for (int i = 0; i < 7; i++) {
             deck.add(new Card("copper", 0, Card.CardType.TREASURE, 1));
         }
-        Collections.shuffle(deck);
+        shuffle();
     }
 
     public int size() {
@@ -37,6 +37,6 @@ public class PlayerDeck {
     }
 
     public void shuffle() {
-
+        Collections.shuffle(deck);
     }
 }
