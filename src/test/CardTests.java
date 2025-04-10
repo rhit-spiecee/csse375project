@@ -12,16 +12,36 @@ public class CardTests {
     }
 
     @Test
-    public void testEqualsSameClassDifferentValues() {
+    public void testEqualsNullObject() {
+        Card card = new Card("cellar", 2, Card.CardType.KINGDOM, 0);
+        assertFalse(card.equals(null));
+    }
+
+    @Test
+    public void testEqualsDifferentCost() {
         Card card1 = new Card("cellar", 2, Card.CardType.KINGDOM, 0);
-        Card card2 = new Card("militia", 6, Card.CardType.KINGDOM, 0);
+        Card card2 = new Card("cellar", 3, Card.CardType.KINGDOM, 0);
         assertFalse(card1.equals(card2));
     }
 
     @Test
-    public void testEqualsSameValues() {
+    public void testEqualsDifferentValue() {
         Card card1 = new Card("cellar", 2, Card.CardType.KINGDOM, 0);
-        Card card2 = new Card("cellar", 2, Card.CardType.KINGDOM, 0);
-        assertTrue(card1.equals(card2));
+        Card card2 = new Card("cellar", 2, Card.CardType.KINGDOM, 1);
+        assertFalse(card1.equals(card2));
+    }
+
+    @Test
+    public void testEqualsDifferentType() {
+        Card card1 = new Card("cellar", 2, Card.CardType.KINGDOM, 0);
+        Card card2 = new Card("cellar", 2, Card.CardType.TREASURE, 0);
+        assertFalse(card1.equals(card2));
+    }
+
+    @Test
+    public void testEqualsDifferentName() {
+        Card card1 = new Card("cellar", 2, Card.CardType.KINGDOM, 0);
+        Card card2 = new Card("village", 2, Card.CardType.KINGDOM, 0);
+        assertFalse(card1.equals(card2));
     }
 }
