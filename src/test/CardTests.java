@@ -11,9 +11,17 @@ public class CardTests {
         assertFalse(card.equals(notACard));
     }
 
+    @Test
     public void testEqualsSameClassDifferentValues() {
         Card card1 = new Card("cellar", 2, Card.CardType.KINGDOM, 0);
         Card card2 = new Card("militia", 6, Card.CardType.KINGDOM, 0);
         assertFalse(card1.equals(card2));
+    }
+
+    @Test
+    public void testEqualsSameValues() {
+        Card card1 = new Card("cellar", 2, Card.CardType.KINGDOM, 0);
+        Card card2 = new Card("cellar", 2, Card.CardType.KINGDOM, 0);
+        assertTrue(card1.equals(card2));
     }
 }
