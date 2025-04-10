@@ -54,5 +54,12 @@ public class BoardDeckTests {
         assertEquals(7, deck.size());
         assertEquals(card, boughtCard);
     }
+
+    @Test
+    public void testGetCard() {
+        Card card = new Card("cellar", 2, Card.CardType.KINGDOM, 0);
+        BoardDeck deck = new BoardDeck(card, 8);
+        assertEquals(card, deck.getCard());
+    }
         
 }
