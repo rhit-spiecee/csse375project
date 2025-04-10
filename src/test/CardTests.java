@@ -10,4 +10,10 @@ public class CardTests {
         String notACard = "Not a card";
         assertFalse(card.equals(notACard));
     }
+
+    public void testEqualsSameClassDifferentValues() {
+        Card card1 = new Card("cellar", 2, Card.CardType.KINGDOM, 0);
+        Card card2 = new Card("militia", 6, Card.CardType.KINGDOM, 0);
+        assertFalse(card1.equals(card2));
+    }
 }
