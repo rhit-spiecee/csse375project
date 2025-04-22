@@ -1,7 +1,9 @@
+package S1G3;
+
 public class Moat extends KingdomCard {
 
     public Moat() {
-        super("Moat", 2, 0);
+        super("moat", 2, 0);
     }
 
     @Override

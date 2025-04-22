@@ -1,3 +1,5 @@
+package S1G3;
+
 public class Market extends KingdomCard {
 
     public Market() {

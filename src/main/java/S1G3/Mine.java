@@ -1,6 +1,8 @@
+package S1G3;
+
 public class Mine extends KingdomCard {
     public Mine() {
-        super("Mine", 5, 0);
+        super("mine", 5, 0);
     }
 
     @Override

@@ -1,7 +1,9 @@
+package S1G3;
+
 public class Smithy extends KingdomCard {
 
     public Smithy() {
-        super("Smithy", 4, 0);
+        super("smithy", 4, 0);
     }
 
     @Override

@@ -1,8 +1,10 @@
+package S1G3;
+
 public class Woodcutter extends KingdomCard {
 
 
     public Woodcutter() {
-        super("Woodcutter", 3, 0);
+        super("woodcutter", 3, 0);
     }
 
     @Override

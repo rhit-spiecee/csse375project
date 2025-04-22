@@ -1,7 +1,7 @@
+package S1G3;
+
 public class Workshop extends KingdomCard {
-    public Workshop() {
-        super("Workshop", 3, 0);
-    }
+    public Workshop() { super("workshop", 3, 0); }
 
     @Override
     public void useActionCard() {

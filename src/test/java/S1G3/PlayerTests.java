@@ -1,3 +1,5 @@
+package S1G3;
+
 import org.easymock.EasyMock;
 import org.junit.Test;
 

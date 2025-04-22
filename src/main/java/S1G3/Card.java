@@ -1,3 +1,5 @@
+package S1G3;
+
 import java.util.Objects;
 
 public abstract class Card {

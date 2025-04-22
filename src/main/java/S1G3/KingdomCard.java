@@ -1,3 +1,5 @@
+package S1G3;
+
 public abstract class KingdomCard extends Card{
     Player currentPlayer;
     public KingdomCard(String name, int cost, int value) {
