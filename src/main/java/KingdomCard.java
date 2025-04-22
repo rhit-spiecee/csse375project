@@ -1,8 +1,7 @@
-public abstract class KingdomCard {
+public abstract class KingdomCard extends Card{
     Player currentPlayer;
-
-    public KingdomCard(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
+    public KingdomCard(String name, int cost, int value) {
+        super(name, cost, CardType.KINGDOM, value);
     }
 
     public abstract void useActionCard();

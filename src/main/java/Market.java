@@ -1,7 +1,7 @@
 public class Market extends KingdomCard {
 
-    public Market(Player currentPlayer) {
-        super(currentPlayer);
+    public Market() {
+        super("market", 5,0);
     }
 
     @Override

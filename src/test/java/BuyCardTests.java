@@ -13,7 +13,7 @@ public class BuyCardTests {
         // Setup
         GUI mockGui = EasyMock.mock(GUI.class);
         Player mockPlayer = EasyMock.mock(Player.class);
-        Card card = new Card("copper", 0, Card.CardType.TREASURE, 1);
+        Card card = new TreasureCard("copper", 0, Card.CardType.TREASURE, 1);
         // Record
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(BoardDTO.class))).andReturn(1);
@@ -25,7 +25,7 @@ public class BuyCardTests {
         EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(2);
         EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(2);
         mockPlayer.drawHand();
-        mockPlayer.addBoughtCard(new Card("cellar", 2, Card.CardType.KINGDOM, 0));
+        mockPlayer.addBoughtCard(new Cellar());
         mockPlayer.cleanup();
 
 
@@ -48,7 +48,7 @@ public class BuyCardTests {
         // Setup
         GUI mockGui = EasyMock.mock(GUI.class);
         Player mockPlayer = EasyMock.mock(Player.class);
-        Card card = new Card("copper", 0, Card.CardType.TREASURE, 1);
+        Card card = new TreasureCard("copper", 0, Card.CardType.TREASURE, 1);
 
         // Record
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
@@ -63,7 +63,7 @@ public class BuyCardTests {
         EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(3);
         EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(3);
         mockPlayer.drawHand();
-        mockPlayer.addBoughtCard(new Card("cellar", 2, Card.CardType.KINGDOM, 0));
+        mockPlayer.addBoughtCard(new Cellar());
         mockPlayer.cleanup();
 
         // Replay

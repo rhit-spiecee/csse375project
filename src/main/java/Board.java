@@ -42,20 +42,29 @@ public class Board {
         // Kingdom Cards
         String[] kingdomCards = { "cellar", "market", "militia", "mine", "moat", "remodel",
                 "smithy", "village", "workshop", "woodcutter" };
-        for (String name : kingdomCards) {
-            kingdomDecks.put(name, new BoardDeck(new Card(name, getKingdomCardCost(name), Card.CardType.KINGDOM, 0), kingdomDeckSize));
-        }
+
+        kingdomDecks.put("cellar", new BoardDeck(new Cellar(), kingdomDeckSize));
+        kingdomDecks.put("market", new BoardDeck(new Market(), kingdomDeckSize));
+        kingdomDecks.put("militia", new BoardDeck(new Militia(), kingdomDeckSize));
+        kingdomDecks.put("mine", new BoardDeck(new Mine(), kingdomDeckSize));
+        kingdomDecks.put("moat", new BoardDeck(new Moat(), kingdomDeckSize));
+        kingdomDecks.put("remodel", new BoardDeck(new Remodel(), kingdomDeckSize));
+        kingdomDecks.put("smithy", new BoardDeck(new Smithy(), kingdomDeckSize));
+        kingdomDecks.put("village", new BoardDeck(new Village(), kingdomDeckSize));
+        kingdomDecks.put("workshop", new BoardDeck(new Workshop(), kingdomDeckSize));
+        kingdomDecks.put("woodcutter", new BoardDeck(new Woodcutter(), kingdomDeckSize));
+
 
         // Treasure Cards
-        treasureDecks.put("copper", new BoardDeck(new Card("copper", 0, Card.CardType.TREASURE, 1), copperDeckSize));
-        treasureDecks.put("silver", new BoardDeck(new Card("silver", 3, Card.CardType.TREASURE, 2), silverDeckSize));
-        treasureDecks.put("gold", new BoardDeck(new Card("gold", 6, Card.CardType.TREASURE, 3), goldDeckSize));
+        treasureDecks.put("copper", new BoardDeck(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1), copperDeckSize));
+        treasureDecks.put("silver", new BoardDeck(new TreasureCard("silver", 3, Card.CardType.TREASURE, 2), silverDeckSize));
+        treasureDecks.put("gold", new BoardDeck(new TreasureCard("gold", 6, Card.CardType.TREASURE, 3), goldDeckSize));
 
         // Victory Cards
-        victoryDecks.put("estate", new BoardDeck(new Card("estate", 2, Card.CardType.VICTORY, 1), victoryCardDeckSize));
-        victoryDecks.put("duchy", new BoardDeck(new Card("duchy", 5, Card.CardType.VICTORY, 3), victoryCardDeckSize));
-        victoryDecks.put("province", new BoardDeck(new Card("province", 8, Card.CardType.VICTORY, 6), victoryCardDeckSize));
-        victoryDecks.put("cursed", new BoardDeck(new Card("cursed", 0, Card.CardType.VICTORY, -1), cursedDeckSize));
+        victoryDecks.put("estate", new BoardDeck(new VictoryCard("estate", 2, Card.CardType.VICTORY, 1), victoryCardDeckSize));
+        victoryDecks.put("duchy", new BoardDeck(new VictoryCard("duchy", 5, Card.CardType.VICTORY, 3), victoryCardDeckSize));
+        victoryDecks.put("province", new BoardDeck(new VictoryCard("province", 8, Card.CardType.VICTORY, 6), victoryCardDeckSize));
+        victoryDecks.put("cursed", new BoardDeck(new VictoryCard("cursed", 0, Card.CardType.VICTORY, -1), cursedDeckSize));
     }
 
 

@@ -10,10 +10,10 @@ public class PlayerDeck {
         deck = new Stack<>();
 
         for (int i = 0; i < 3; i++) {
-            deck.add(new Card("estate", 2, Card.CardType.VICTORY, 1));
+            deck.add(new VictoryCard("estate", 2, Card.CardType.VICTORY, 1));
         }
         for (int i = 0; i < 7; i++) {
-            deck.add(new Card("copper", 0, Card.CardType.TREASURE, 1));
+            deck.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
         }
         shuffle();
     }
