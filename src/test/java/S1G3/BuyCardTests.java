@@ -1,3 +1,5 @@
+package S1G3;
+
 import org.easymock.EasyMock;
 import org.junit.Test;
 
@@ -55,7 +57,7 @@ public class BuyCardTests {
         EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(BoardDTO.class))).andReturn(1);
         EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(BoardDTO.class))).andReturn(0).times(2);
         EasyMock.expect(mockGui.getBuySelection()).andReturn("market");
-        mockGui.showErrorPopup("Player 1 does not have enough coins for market card.");
+        mockGui.showErrorPopup("com.s1g3.Player 1 does not have enough coins for market card.");
         EasyMock.expect(mockGui.getBuySelection()).andReturn("cellar");
 
         EasyMock.expect(mockPlayer.getCoins()).andReturn(2).times(5);

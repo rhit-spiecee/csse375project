@@ -1,3 +1,5 @@
+package S1G3;
+
 import org.junit.Test;
 
 import java.util.NoSuchElementException;

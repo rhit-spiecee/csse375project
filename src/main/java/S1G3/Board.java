@@ -1,3 +1,5 @@
+package S1G3;
+
 import java.util.*;
 
 public class Board {
@@ -103,7 +105,7 @@ public class Board {
 
     private void processActionMove() {
         if (!players.get(currentPlayer).hasActionCard()) {
-            throw new RuntimeException("Player " + (currentPlayer + 1) + " has no action cards");
+            throw new RuntimeException("com.s1g3.Player " + (currentPlayer + 1) + " has no action cards");
         }
     }
 
@@ -161,10 +163,10 @@ public class Board {
                 Card boughtCard = deckToBuyFrom.buyCard();
                 players.get(currentPlayer).addBoughtCard(boughtCard);
             } else {
-                throw new RuntimeException("Player " + (currentPlayer + 1) + " does not have enough coins for " + buySelection + " card.");
+                throw new RuntimeException("com.s1g3.Player " + (currentPlayer + 1) + " does not have enough coins for " + buySelection + " card.");
             }
         } else {
-            throw new RuntimeException("Card: " + buySelection + " is not available.");
+            throw new RuntimeException("com.s1g3.Card: " + buySelection + " is not available.");
         }
     }
 
