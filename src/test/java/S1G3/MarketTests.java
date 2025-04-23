@@ -25,9 +25,10 @@ public class MarketTests {
         market.useActionCard(player);
 
         assertEquals(1, player.coins);
-        assertEquals(2, player.action);
+        assertEquals(1, player.action);
         assertEquals(2, player.buy);
-        assertEquals(2, player.hand.size());
+        assertEquals(1, player.hand.size());
+        assertEquals(1, player.discardPile.size());
     }
 
 }

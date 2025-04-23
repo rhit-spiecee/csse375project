@@ -7,7 +7,7 @@ public class Moat extends KingdomCard {
     }
 
     @Override
-    public void useActionCard(Player currentPlayer) {
+    public void useCardPowers(Player currentPlayer) {
 
     }
 }

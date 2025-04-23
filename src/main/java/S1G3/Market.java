@@ -9,7 +9,7 @@ public class Market extends KingdomCard {
     }
 
     @Override
-    public void useActionCard(Player currentPlayer) {
+    public void useCardPowers(Player currentPlayer) {
         currentPlayer.coins++;
         currentPlayer.action++;
         currentPlayer.buy++;

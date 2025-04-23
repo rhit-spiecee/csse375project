@@ -6,7 +6,7 @@ public class Militia extends KingdomCard {
     }
 
     @Override
-    public void useActionCard(Player currentPlayer) {
+    public void useCardPowers(Player currentPlayer) {
 
     }
 }
