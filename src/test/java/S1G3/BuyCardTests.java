@@ -15,7 +15,7 @@ public class BuyCardTests {
         // Setup
         GUI mockGui = EasyMock.mock(GUI.class);
         Player mockPlayer = EasyMock.mock(Player.class);
-        Card card = new Card("copper", 0, Card.CardType.TREASURE, 1);
+        Card card = new TreasureCard("copper", 0, Card.CardType.TREASURE, 1);
         // Record
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(BoardDTO.class))).andReturn(1);
@@ -27,7 +27,7 @@ public class BuyCardTests {
         EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(2);
         EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(2);
         mockPlayer.drawHand();
-        mockPlayer.addBoughtCard(new Card("cellar", 2, Card.CardType.KINGDOM, 0));
+        mockPlayer.addBoughtCard(new Cellar());
         mockPlayer.cleanup();
 
 
@@ -50,14 +50,14 @@ public class BuyCardTests {
         // Setup
         GUI mockGui = EasyMock.mock(GUI.class);
         Player mockPlayer = EasyMock.mock(Player.class);
-        Card card = new Card("copper", 0, Card.CardType.TREASURE, 1);
+        Card card = new TreasureCard("copper", 0, Card.CardType.TREASURE, 1);
 
         // Record
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(BoardDTO.class))).andReturn(1);
         EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(BoardDTO.class))).andReturn(0).times(2);
         EasyMock.expect(mockGui.getBuySelection()).andReturn("market");
-        mockGui.showErrorPopup("com.s1g3.Player 1 does not have enough coins for market card.");
+        mockGui.showErrorPopup("Player 1 does not have enough coins for market card.");
         EasyMock.expect(mockGui.getBuySelection()).andReturn("cellar");
 
         EasyMock.expect(mockPlayer.getCoins()).andReturn(2).times(5);
@@ -65,7 +65,7 @@ public class BuyCardTests {
         EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(3);
         EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(3);
         mockPlayer.drawHand();
-        mockPlayer.addBoughtCard(new Card("cellar", 2, Card.CardType.KINGDOM, 0));
+        mockPlayer.addBoughtCard(new Cellar());
         mockPlayer.cleanup();
 
         // Replay

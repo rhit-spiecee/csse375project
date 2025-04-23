@@ -106,7 +106,7 @@ public class GUI {
         sb.append("\nKingdom Decks:\n");
         appendDeckDisplayWithoutValue(sb, boardDTO.kingdomDecks);
 
-        sb.append("\nCurrent com.s1g3.Player: ").append(boardDTO.currentPlayerNumber + 1).append("\n");
+        sb.append("\nCurrent Player: ").append(boardDTO.currentPlayerNumber + 1).append("\n");
         sb.append("Hand: ")
                 .append(boardDTO.currentPlayerHand
                         .stream()

@@ -2,7 +2,7 @@ package S1G3;
 
 import java.util.Objects;
 
-public class Card {
+public abstract class Card {
 
     public enum CardType {
         TREASURE,
