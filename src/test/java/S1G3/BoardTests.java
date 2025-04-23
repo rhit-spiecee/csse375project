@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class BoardTests {
     @Test
@@ -71,5 +71,20 @@ public class BoardTests {
                 "gold", "estate", "duchy", "province", "cursed"));
         assertEquals(expectedDecks.size(), availableDecks.size());
         assertEquals(expectedDecks, availableDecks);
+    }
+
+    @Test
+    public void testProvinceDeckEmpty(){
+        Board board = new Board(2);
+        board.victoryDecks.get("province").deck.clear();
+        board.checkProvinceDeckLength();
+        assertTrue(board.gameOver);
+    }
+
+    @Test
+    public void testProvinceDeckNotEmpty(){
+        Board board = new Board(2);
+        board.checkProvinceDeckLength();
+        assertFalse(board.gameOver);
     }
 }

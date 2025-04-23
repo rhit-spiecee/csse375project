@@ -82,6 +82,14 @@ public class Board {
     public void startGame() {
         while (!gameOver) {
             processTurn();
+            checkProvinceDeckLength();
+        }
+        gui.showErrorPopup("Game over. Player X won"); //TODO
+    }
+
+    public void checkProvinceDeckLength() {
+        if(victoryDecks.get("province").size() <= 0) {
+            gameOver = true;
         }
     }
 
