@@ -8,25 +8,26 @@ import static org.junit.Assert.assertEquals;
 
 public class MarketTests {
 
-    static class StubPlayer extends Player {}
+    static class StubPlayer extends Player {
+        public StubPlayer(Market market) {
+            coins = 0;
+            action = 1;
+            buy = 1;
+            hand.add(market);
+        }
+    }
 
     @Test
     public void testCardBehavior() {
         Market market = new Market();
-        market.currentPlayer = new StubPlayer();
-        market.currentPlayer.coins = 0;
-        market.currentPlayer.action = 1;
-        market.currentPlayer.buy = 1;
-        market.currentPlayer.hand = new ArrayList<Card>();
-        market.currentPlayer.hand.add(market);
+        Player player = new StubPlayer(market);
 
-        market.useActionCard();
+        market.useActionCard(player);
 
-        assertEquals(1, market.currentPlayer.coins);
-        assertEquals(2, market.currentPlayer.action);
-        assertEquals(2, market.currentPlayer.buy);
-        assertEquals(2, market.currentPlayer.hand.size());
-
+        assertEquals(1, player.coins);
+        assertEquals(2, player.action);
+        assertEquals(2, player.buy);
+        assertEquals(2, player.hand.size());
     }
 
 }

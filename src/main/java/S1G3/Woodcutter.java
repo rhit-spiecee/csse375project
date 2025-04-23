@@ -8,7 +8,7 @@ public class Woodcutter extends KingdomCard {
     }
 
     @Override
-    public void useActionCard() {
+    public void useActionCard(Player currentPlayer) {
 
     }
 }

@@ -6,7 +6,7 @@ public class Remodel extends KingdomCard {
     }
 
     @Override
-    public void useActionCard() {
+    public void useActionCard(Player currentPlayer) {
 
     }
 }
