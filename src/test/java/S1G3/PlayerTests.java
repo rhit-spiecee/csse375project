@@ -13,7 +13,6 @@ public class PlayerTests {
         //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck);
-
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
         EasyMock.expect(mockDeck.size()).andReturn(5);
 
@@ -31,7 +30,6 @@ public class PlayerTests {
         //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck);
-
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
 
         //Replay
@@ -50,7 +48,6 @@ public class PlayerTests {
         Player player = new Player(mockDeck);
 
         //Replay
-
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
         EasyMock.expect(mockDeck.size()).andReturn(5);
         EasyMock.replay(mockDeck);
@@ -68,7 +65,6 @@ public class PlayerTests {
         Player player = new Player(mockDeck);
 
         //Replay
-
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
         EasyMock.expect(mockDeck.size()).andReturn(5);
         EasyMock.replay(mockDeck);
