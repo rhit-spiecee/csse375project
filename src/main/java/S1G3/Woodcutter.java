@@ -9,6 +9,7 @@ public class Woodcutter extends KingdomCard {
 
     @Override
     public void useCardPowers(Player currentPlayer) {
-
+        currentPlayer.coins += 2;
+        currentPlayer.buy++;
     }
 }
