@@ -1,5 +1,7 @@
 package S1G3;
 
+import java.util.ArrayList;
+
 public class Market extends KingdomCard {
 
     public Market() {
@@ -7,7 +9,7 @@ public class Market extends KingdomCard {
     }
 
     @Override
-    public void useActionCard() {
+    public void useCardPowers(Player currentPlayer) {
         currentPlayer.coins++;
         currentPlayer.action++;
         currentPlayer.buy++;

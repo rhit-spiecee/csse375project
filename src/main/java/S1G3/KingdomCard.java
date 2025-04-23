@@ -1,10 +1,17 @@
 package S1G3;
 
+import java.util.ArrayList;
+
 public abstract class KingdomCard extends Card{
-    Player currentPlayer;
     public KingdomCard(String name, int cost, int value) {
         super(name, cost, CardType.KINGDOM, value);
     }
 
-    public abstract void useActionCard();
+    public void useActionCard(Player currentPlayer) {
+        useCardPowers(currentPlayer);
+        currentPlayer.action--;
+        currentPlayer.discardCard(this);
+    }
+
+    public abstract void useCardPowers(Player currentPlayer);
 }

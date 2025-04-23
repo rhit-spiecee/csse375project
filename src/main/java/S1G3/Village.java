@@ -7,7 +7,7 @@ public class Village extends KingdomCard {
     }
 
     @Override
-    public void useActionCard() {
+    public void useCardPowers(Player currentPlayer) {
 
     }
 }

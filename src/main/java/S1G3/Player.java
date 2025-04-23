@@ -97,4 +97,9 @@ public class Player {
     public ArrayList<Card> getHand() {
         return hand;
     }
+
+    public void discardCard(Card card) {
+        hand.remove(card);
+        discardPile.add(card);
+    }
 }
