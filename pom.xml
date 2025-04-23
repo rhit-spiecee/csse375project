@@ -4,9 +4,28 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.csse376_s1g3</groupId>
+    <groupId>com.s1g3</groupId>
     <artifactId>CSSE376_S1G3</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.19.1</version>
+                <configuration>
+                    <!-- no longer required -->
+                    <targetClasses>
+                        <param>S1G3*</param>
+                    </targetClasses>
+                    <!-- no longer required -->
+                    <targetTests>
+                        <param>S1G3*</param>
+                    </targetTests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
@@ -25,6 +44,12 @@
             <artifactId>easymock</artifactId>
             <version>5.5.0</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-parent</artifactId>
+            <version>1.19.1</version>
+            <type>pom</type>
         </dependency>
     </dependencies>
 
