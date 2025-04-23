@@ -1,6 +1,7 @@
 package S1G3;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
     ArrayList<Card> hand = new ArrayList<Card>();
@@ -101,5 +102,15 @@ public class Player {
     public void discardCard(Card card) {
         hand.remove(card);
         discardPile.add(card);
+    }
+
+    public List<KingdomCard> getActionCards() {
+        List<KingdomCard> actionCards = new ArrayList<>();
+        for (Card card : hand) {
+            if (card instanceof KingdomCard) {
+                actionCards.add((KingdomCard) card);
+            }
+        }
+        return actionCards;
     }
 }

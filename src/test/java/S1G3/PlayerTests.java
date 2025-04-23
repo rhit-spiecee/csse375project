@@ -182,7 +182,15 @@ public class PlayerTests {
         assertEquals(5, player.hand.size());
         EasyMock.verify(mockDeck);
     }
-
-
-
+    
+    @Test
+    public void testGetActionCards() {
+        Player player = new Player();
+        
+        player.hand.add(new Moat());
+        player.hand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        
+        assertEquals(1, player.getActionCards().size());
+        assertEquals("moat", player.getActionCards().getFirst().name);
+    }
 }

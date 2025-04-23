@@ -123,7 +123,15 @@ public class Board {
     private void processActionMove() {
         if (!players.get(currentPlayer).hasActionCard()) {
             throw new RuntimeException("Player " + (currentPlayer + 1) + " has no action cards");
+        } else {
+            KingdomCard card = getActionCardToPlay();
+            card.useActionCard(players.get(currentPlayer));
         }
+    }
+
+    private KingdomCard getActionCardToPlay() {
+        List<KingdomCard> actionCards = players.get(currentPlayer).getActionCards();
+        return actionCards.getFirst();
     }
 
     private void buyPhase() {
