@@ -8,18 +8,16 @@ public class Player {
     ArrayList<Card> discardPile = new ArrayList<>();
     PlayerDeck deck;
 
-    int coins;
+    int coins = 0;
     int buy = 1;
     int action = 1;
 
     public Player(PlayerDeck deck) {
         this.deck = deck;
-        this.coins = 0;
     }
 
     public Player() {
         this.deck = new PlayerDeck();
-        this.coins = 0;
     }
 
     public void addBoughtCard(Card card) {
@@ -27,12 +25,8 @@ public class Player {
     }
 
     public void drawHand() {
-        if (deck.size() >= 5) {
-            for (int i = 0; i < 5; i++) {
-                drawOneCard();
-            }
-        } else {
-            drawWhenNotEnoughCards();
+        for (int i = 0; i < 5; i++) {
+            drawOneCard();
         }
         this.buy = 1;
         this.action = 1;
@@ -41,16 +35,20 @@ public class Player {
     private void drawWhenNotEnoughCards() {
         emptyRemainingDeck();
 
+        recycleCards();
+
+        while (hand.size() < 5) {
+            drawOneCard();
+        }
+    }
+
+    private void recycleCards() {
         for (Card card : discardPile) {
             deck.add(card);
         }
 
         discardPile.clear();
         deck.shuffle();
-
-        while (hand.size() < 5) {
-            drawOneCard();
-        }
     }
 
     private void emptyRemainingDeck() {
@@ -60,6 +58,9 @@ public class Player {
     }
 
     public void drawOneCard() {
+        if (deck.size() == 0) {
+            recycleCards();
+        }
         hand.add(deck.draw());
     }
 

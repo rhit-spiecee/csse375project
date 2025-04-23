@@ -100,11 +100,14 @@ public class Board {
 
     private void actionPhase() {
         int actionSelection = gui.getActionSelection(getDTO());
-        try {
-            processActionPhaseSelection(actionSelection);
-        } catch (RuntimeException e) {
-            gui.showErrorPopup(e.getMessage());
-            actionPhase();
+        while (actionSelection == 0 ) {
+            try {
+                processActionMove();
+            } catch (RuntimeException e) {
+                gui.showErrorPopup(e.getMessage());
+                break;
+            }
+            actionSelection = gui.getActionSelection(getDTO());
         }
     }
 
@@ -114,49 +117,68 @@ public class Board {
         return boardDTO;
     }
 
-    private void processActionPhaseSelection(int actionSelection) {
-        if (actionSelection == 0) {
-            processActionMove();
-        }
-    }
-
     private void processActionMove() {
         if (!players.get(currentPlayer).hasActionCard()) {
             throw new RuntimeException("Player " + (currentPlayer + 1) + " has no action cards");
         } else {
             KingdomCard card = getActionCardToPlay();
+            System.out.println(card);
             card.useActionCard(players.get(currentPlayer));
         }
     }
 
     private KingdomCard getActionCardToPlay() {
         List<KingdomCard> actionCards = players.get(currentPlayer).getActionCards();
-        return actionCards.getFirst();
+        String cardToPlay = "";
+        while (!actionCardsContainsName(actionCards, cardToPlay)) {
+            cardToPlay = gui.getActionCardToPlay().toLowerCase();
+            System.out.println(cardToPlay);
+        }
+        return getCardByName(actionCards, cardToPlay);
+    }
+
+    private boolean actionCardsContainsName(List<KingdomCard> actionCards, String cardToPlay) {
+        for (KingdomCard actionCard : actionCards) {
+            System.out.println(actionCard.name);
+            if (cardToPlay.equals(actionCard.name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private KingdomCard getCardByName(List<KingdomCard> cards, String name) {
+        for (KingdomCard card : cards) {
+            if (card.name.equals(name)) {
+                System.out.println("found card");
+                return card;
+            }
+        }
+        return null;
     }
 
     private void buyPhase() {
         List<String> availableDecks = getAvailableDecks();
-        boolean noBuyDecisionMade = true;
 
-        while (noBuyDecisionMade) {
-            int buySelection = gui.showBuyOption(getDTO());
-
-            if (buySelection == 0) {
-                String cardToBuy = gui.getBuySelection();
-                if (cardToBuy == null) {
-                    continue;
-                }
-
-                try {
-                    processBuyPhaseSelection(cardToBuy.toLowerCase(), availableDecks);
-                    noBuyDecisionMade = false;
-                } catch (RuntimeException e) {
-                    gui.showErrorPopup(e.getMessage());
-                }
-
-            } else {
-                noBuyDecisionMade = false;
+        int buySelection = gui.showBuyOption(getDTO());
+        while (buySelection == 0) {
+            if (players.get(currentPlayer).getBuys() <= 0) {
+                gui.showErrorPopup("Player " + (currentPlayer + 1) + " has no buys available");
+                break;
             }
+            
+            String cardToBuy = gui.getBuySelection();
+            if (cardToBuy == null) {
+                continue;
+            }
+
+            try {
+                processBuyPhaseSelection(cardToBuy.toLowerCase(), availableDecks);
+            } catch (RuntimeException e) {
+                gui.showErrorPopup(e.getMessage());
+            }
+            buySelection = gui.showBuyOption(getDTO());
+
         }
         endTurn();
     }
@@ -187,6 +209,8 @@ public class Board {
             if (deckToBuyFrom.getCost() <= players.get(currentPlayer).getCoins()) {
                 Card boughtCard = deckToBuyFrom.buyCard();
                 players.get(currentPlayer).addBoughtCard(boughtCard);
+                players.get(currentPlayer).buy--;
+                // TODO: we gotta remove all the coins that they player uses
             } else {
                 throw new RuntimeException("Player " + (currentPlayer + 1) + " does not have enough coins for " + buySelection + " card.");
             }
