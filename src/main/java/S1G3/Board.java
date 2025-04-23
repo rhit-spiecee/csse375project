@@ -84,6 +84,7 @@ public class Board {
             processTurn();
             checkProvinceDeckLength();
         }
+        gui.showErrorPopup("Game over. Player X won"); //TODO
     }
 
     public void checkProvinceDeckLength() {
