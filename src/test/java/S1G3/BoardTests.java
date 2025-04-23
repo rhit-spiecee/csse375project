@@ -80,4 +80,11 @@ public class BoardTests {
         board.checkProvinceDeckLength();
         assertTrue(board.gameOver);
     }
+
+    @Test
+    public void testProvinceDeckNotEmpty(){
+        Board board = new Board(2);
+        board.checkProvinceDeckLength();
+        assertFalse(board.gameOver);
+    }
 }
