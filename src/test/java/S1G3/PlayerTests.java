@@ -1,3 +1,5 @@
+package S1G3;
+
 import org.easymock.EasyMock;
 import org.junit.Test;
 
@@ -11,7 +13,7 @@ public class PlayerTests {
         //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck);
-        EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
+        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
         EasyMock.expect(mockDeck.size()).andReturn(5);
 
         //Replay
@@ -28,7 +30,7 @@ public class PlayerTests {
         //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck);
-        EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1));
+        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
 
         //Replay
         EasyMock.replay(mockDeck);
@@ -46,7 +48,7 @@ public class PlayerTests {
         Player player = new Player(mockDeck);
 
         //Replay
-        EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
+        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
         EasyMock.expect(mockDeck.size()).andReturn(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
@@ -63,7 +65,7 @@ public class PlayerTests {
         Player player = new Player(mockDeck);
 
         //Replay
-        EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
+        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
         EasyMock.expect(mockDeck.size()).andReturn(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
@@ -80,8 +82,8 @@ public class PlayerTests {
         Player player = new Player(mockDeck);
 
         //Replay
-        EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(4);
-        EasyMock.expect(mockDeck.draw()).andReturn(new Card("cellar", 2, Card.CardType.KINGDOM, 0));
+        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(4);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Cellar());
         EasyMock.expect(mockDeck.size()).andReturn(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
@@ -98,7 +100,7 @@ public class PlayerTests {
         Player player = new Player(mockDeck);
 
         //Replay
-        EasyMock.expect(mockDeck.draw()).andReturn(new Card("moat", 2, Card.CardType.KINGDOM, 0)).times(5);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Moat()).times(5);
         EasyMock.expect(mockDeck.size()).andReturn(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
@@ -151,11 +153,11 @@ public class PlayerTests {
     public void testDrawHandWhenDeckIsEmpty() {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck);
-        player.discardPile.add(new Card("copper", 0, Card.CardType.TREASURE, 1));
+        player.discardPile.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
         EasyMock.expect(mockDeck.size()).andReturn(0).times(2);
-        mockDeck.add(new Card("copper", 0, Card.CardType.TREASURE, 1));
+        mockDeck.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
         mockDeck.shuffle();
-        EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
+        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
 
 
         EasyMock.replay(mockDeck);
@@ -170,7 +172,7 @@ public class PlayerTests {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck);
         EasyMock.expect(mockDeck.size()).andReturn(1).times(3);
-        EasyMock.expect(mockDeck.draw()).andReturn(new Card("copper", 0, Card.CardType.TREASURE, 1)).times(5);
+        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
         mockDeck.shuffle();
 
 

@@ -1,3 +1,5 @@
+package S1G3;
+
 import javax.swing.*;
 import java.util.Map;
 import java.util.stream.Collectors;
