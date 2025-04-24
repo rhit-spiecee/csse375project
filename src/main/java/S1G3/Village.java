@@ -8,6 +8,7 @@ public class Village extends KingdomCard {
 
     @Override
     public void useCardPowers(Player currentPlayer) {
-
+        currentPlayer.drawOneCard();
+        currentPlayer.action += 2;
     }
 }
