@@ -25,3 +25,5 @@ replay_pid*
 
 # IntelliJ specific files are gitgnored in .idea/.gitgnore
 target
+
+.idea/libraries

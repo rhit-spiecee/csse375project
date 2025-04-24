@@ -119,4 +119,8 @@ public class GUI {
 
         return sb.toString();
     }
+
+    public String getActionCardToPlay() {
+        return JOptionPane.showInputDialog("Enter name of card to play:");
+    }
 }

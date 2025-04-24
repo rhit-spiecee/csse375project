@@ -19,13 +19,15 @@ public class BuyCardTests {
         // Record
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(BoardDTO.class))).andReturn(1);
-        EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(BoardDTO.class))).andReturn(0);
+        EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(BoardDTO.class))).andReturn(0).times(2);
+        EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(3);
+        EasyMock.expect(mockPlayer.getBuys()).andReturn(0).times(2);
         EasyMock.expect(mockGui.getBuySelection()).andReturn("cellar");
+        mockGui.showErrorPopup("Player 1 has no buys available");
 
-        EasyMock.expect(mockPlayer.getCoins()).andReturn(2).times(3);
-        EasyMock.expect(mockPlayer.getHand()).andReturn(new ArrayList<>(Arrays.asList(card, card))).times(2);
-        EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(2);
-        EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(2);
+        EasyMock.expect(mockPlayer.getCoins()).andReturn(2).times(4);
+        EasyMock.expect(mockPlayer.getHand()).andReturn(new ArrayList<>(Arrays.asList(card, card))).times(3);
+        EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(3);
         mockPlayer.drawHand();
         mockPlayer.addBoughtCard(new Cellar());
         mockPlayer.cleanup();
@@ -55,15 +57,17 @@ public class BuyCardTests {
         // Record
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(BoardDTO.class))).andReturn(1);
-        EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(BoardDTO.class))).andReturn(0).times(2);
+        EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(BoardDTO.class))).andReturn(0).times(3);
         EasyMock.expect(mockGui.getBuySelection()).andReturn("market");
         mockGui.showErrorPopup("Player 1 does not have enough coins for market card.");
         EasyMock.expect(mockGui.getBuySelection()).andReturn("cellar");
 
-        EasyMock.expect(mockPlayer.getCoins()).andReturn(2).times(5);
-        EasyMock.expect(mockPlayer.getHand()).andReturn(new ArrayList<>(Arrays.asList(card, card))).times(3);
-        EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(3);
-        EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(3);
+        EasyMock.expect(mockPlayer.getCoins()).andReturn(2).times(6);
+        EasyMock.expect(mockPlayer.getHand()).andReturn(new ArrayList<>(Arrays.asList(card, card))).times(4);
+        EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(4);
+        EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(5);
+        EasyMock.expect(mockPlayer.getBuys()).andReturn(0).times(2);
+        mockGui.showErrorPopup("Player 1 has no buys available");
         mockPlayer.drawHand();
         mockPlayer.addBoughtCard(new Cellar());
         mockPlayer.cleanup();

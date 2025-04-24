@@ -14,7 +14,7 @@ public class PlayerTests {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck);
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
-        EasyMock.expect(mockDeck.size()).andReturn(5);
+        EasyMock.expect(mockDeck.size()).andReturn(5).times(5);
 
         //Replay
         EasyMock.replay(mockDeck);
@@ -31,6 +31,7 @@ public class PlayerTests {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck);
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        EasyMock.expect(mockDeck.size()).andReturn(5);
 
         //Replay
         EasyMock.replay(mockDeck);
@@ -49,7 +50,7 @@ public class PlayerTests {
 
         //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
-        EasyMock.expect(mockDeck.size()).andReturn(5);
+        EasyMock.expect(mockDeck.size()).andReturn(5).times(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
 
@@ -66,7 +67,7 @@ public class PlayerTests {
 
         //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
-        EasyMock.expect(mockDeck.size()).andReturn(5);
+        EasyMock.expect(mockDeck.size()).andReturn(5).times(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
 
@@ -84,7 +85,7 @@ public class PlayerTests {
         //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(4);
         EasyMock.expect(mockDeck.draw()).andReturn(new Cellar());
-        EasyMock.expect(mockDeck.size()).andReturn(5);
+        EasyMock.expect(mockDeck.size()).andReturn(5).times(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
 
@@ -101,7 +102,7 @@ public class PlayerTests {
 
         //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new Moat()).times(5);
-        EasyMock.expect(mockDeck.size()).andReturn(5);
+        EasyMock.expect(mockDeck.size()).andReturn(5).times(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
 
@@ -154,7 +155,8 @@ public class PlayerTests {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck);
         player.discardPile.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
-        EasyMock.expect(mockDeck.size()).andReturn(0).times(2);
+        EasyMock.expect(mockDeck.size()).andReturn(0);
+        EasyMock.expect(mockDeck.size()).andReturn(10).times(4);
         mockDeck.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
         mockDeck.shuffle();
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
@@ -171,10 +173,11 @@ public class PlayerTests {
     public void testDrawHandWhenDeckHasOneCard() {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck);
-        EasyMock.expect(mockDeck.size()).andReturn(1).times(3);
+        EasyMock.expect(mockDeck.size()).andReturn(1);
+        EasyMock.expect(mockDeck.size()).andReturn(0);
+        EasyMock.expect(mockDeck.size()).andReturn(10).times(3);
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
         mockDeck.shuffle();
-
 
         EasyMock.replay(mockDeck);
         player.drawHand();
@@ -182,7 +185,15 @@ public class PlayerTests {
         assertEquals(5, player.hand.size());
         EasyMock.verify(mockDeck);
     }
-
-
-
+    
+    @Test
+    public void testGetActionCards() {
+        Player player = new Player();
+        
+        player.hand.add(new Moat());
+        player.hand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        
+        assertEquals(1, player.getActionCards().size());
+        assertEquals("moat", player.getActionCards().getFirst().name);
+    }
 }
