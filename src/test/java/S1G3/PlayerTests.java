@@ -84,7 +84,7 @@ public class PlayerTests {
 
         //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(4);
-        EasyMock.expect(mockDeck.draw()).andReturn(new Cellar());
+        EasyMock.expect(mockDeck.draw()).andReturn(new Smithy());
         EasyMock.expect(mockDeck.size()).andReturn(5).times(5);
         EasyMock.replay(mockDeck);
         player.drawHand();

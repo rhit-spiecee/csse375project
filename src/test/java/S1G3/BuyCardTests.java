@@ -22,14 +22,14 @@ public class BuyCardTests {
         EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(BoardDTO.class))).andReturn(0).times(2);
         EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(3);
         EasyMock.expect(mockPlayer.getBuys()).andReturn(0).times(2);
-        EasyMock.expect(mockGui.getBuySelection()).andReturn("cellar");
+        EasyMock.expect(mockGui.getBuySelection()).andReturn("smithy");
         mockGui.showErrorPopup("Player 1 has no buys available");
 
-        EasyMock.expect(mockPlayer.getCoins()).andReturn(2).times(4);
+        EasyMock.expect(mockPlayer.getCoins()).andReturn(4).times(4);
         EasyMock.expect(mockPlayer.getHand()).andReturn(new ArrayList<>(Arrays.asList(card, card))).times(3);
         EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(3);
         mockPlayer.drawHand();
-        mockPlayer.addBoughtCard(new Cellar());
+        mockPlayer.addBoughtCard(new Smithy());
         mockPlayer.cleanup();
 
 
@@ -41,7 +41,7 @@ public class BuyCardTests {
 
         // Verify
         board.processTurn();
-        assertEquals(9, board.kingdomDecks.get("cellar").size());
+        assertEquals(9, board.kingdomDecks.get("smithy").size());
         assertEquals(1, board.currentPlayer);
 
         EasyMock.verify(mockGui, mockPlayer);
@@ -60,16 +60,16 @@ public class BuyCardTests {
         EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(BoardDTO.class))).andReturn(0).times(3);
         EasyMock.expect(mockGui.getBuySelection()).andReturn("market");
         mockGui.showErrorPopup("Player 1 does not have enough coins for market card.");
-        EasyMock.expect(mockGui.getBuySelection()).andReturn("cellar");
+        EasyMock.expect(mockGui.getBuySelection()).andReturn("smithy");
 
-        EasyMock.expect(mockPlayer.getCoins()).andReturn(2).times(6);
+        EasyMock.expect(mockPlayer.getCoins()).andReturn(4).times(6);
         EasyMock.expect(mockPlayer.getHand()).andReturn(new ArrayList<>(Arrays.asList(card, card))).times(4);
         EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(4);
         EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(5);
         EasyMock.expect(mockPlayer.getBuys()).andReturn(0).times(2);
         mockGui.showErrorPopup("Player 1 has no buys available");
         mockPlayer.drawHand();
-        mockPlayer.addBoughtCard(new Cellar());
+        mockPlayer.addBoughtCard(new Smithy());
         mockPlayer.cleanup();
 
         // Replay
@@ -81,7 +81,7 @@ public class BuyCardTests {
         // Verify
         board.processTurn();
         assertEquals(10, board.kingdomDecks.get("market").size());
-        assertEquals(9, board.kingdomDecks.get("cellar").size());
+        assertEquals(9, board.kingdomDecks.get("smithy").size());
         assertEquals(1, board.currentPlayer);
 
         EasyMock.verify(mockGui, mockPlayer);

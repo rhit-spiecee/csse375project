@@ -11,6 +11,6 @@ public class Remodel extends KingdomCard {
     @Override
     public void useCardPowers(Player currentPlayer) {
         Card trashedCard = board.trashAnyCard(currentPlayer);
-        board.gainAnyCard(currentPlayer, trashedCard);
+        board.gainAnyCard(currentPlayer, trashedCard.cost + 2);
     }
 }

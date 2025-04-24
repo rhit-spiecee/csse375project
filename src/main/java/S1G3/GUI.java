@@ -133,4 +133,18 @@ public class GUI {
 
         return JOptionPane.showInputDialog(popupMessage);
     }
+
+    public int getDiscardOption() {
+        String[] options = {"Yes", "No"};
+        return JOptionPane.showOptionDialog(
+                null,
+                "Do you want to discard a card?",
+                "Buy Phase",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+    }
 }

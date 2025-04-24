@@ -1,10 +1,16 @@
 package S1G3;
 
 public class Cellar extends KingdomCard {
-    public Cellar() { super("cellar", 2, 0); }
+    Board board;
+
+    public Cellar(Board board) {
+        super("cellar", 2, 0);
+        this.board = board;
+    }
 
     @Override
     public void useCardPowers(Player currentPlayer) {
-
+        int numCardsDiscarded = board.discardAnyNumberOfCards(currentPlayer);
+        board.gainCards(numCardsDiscarded, currentPlayer);
     }
 }

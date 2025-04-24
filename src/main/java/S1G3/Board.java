@@ -45,7 +45,7 @@ public class Board {
         String[] kingdomCards = { "cellar", "market", "militia", "mine", "moat", "remodel",
                 "smithy", "village", "workshop", "woodcutter" };
 
-        kingdomDecks.put("cellar", new BoardDeck(new Cellar(), kingdomDeckSize));
+        kingdomDecks.put("cellar", new BoardDeck(new Cellar(this), kingdomDeckSize));
         kingdomDecks.put("market", new BoardDeck(new Market(), kingdomDeckSize));
         kingdomDecks.put("militia", new BoardDeck(new Militia(), kingdomDeckSize));
         kingdomDecks.put("mine", new BoardDeck(new Mine(this), kingdomDeckSize));
@@ -277,9 +277,21 @@ public class Board {
         return players.get(currentPlayer).getActions();
     }
 
+    public void discardAnyCard(Player player) {
+        String popupMessage = "Enter name of the card you want to discard";
+        ArrayList<String> cardNames = player.getCardsInHandNamesExcept("cellar");
+
+        String cardToDiscard = gui.getCardFromAvailableSelection(popupMessage, cardNames);
+        while (cardNamesDoNotContainCardIgnoreCase(cardNames, cardToDiscard)) {
+            cardToDiscard = gui.getCardFromAvailableSelection(popupMessage, cardNames);
+        }
+
+        player.discardCard(cardToDiscard);
+    }
+
     public Card trashAnyCard(Player player) {
         String popupMessage = "Enter name of a card you want to trash";
-        ArrayList<String> cardNames = player.getCardsInHandNamesExceptRemodel();
+        ArrayList<String> cardNames = player.getCardsInHandNamesExcept("remodel");
         return trashCard(popupMessage, cardNames, player);
     }
 
@@ -297,19 +309,19 @@ public class Board {
         return player.trashCard(cardToTrash);
     }
 
-    public void gainAnyCard(Player player, Card trashedCard) {
+    public void gainAnyCard(Player player, int maxCost) {
         ArrayList<String> cardNames = new ArrayList<>();
 
-        cardNames.addAll(extractCardsBelowCostOf(trashedCard.cost + 2, kingdomDecks));
-        cardNames.addAll(extractCardsBelowCostOf(trashedCard.cost + 2, treasureDecks));
-        cardNames.addAll(extractCardsBelowCostOf(trashedCard.cost + 2, victoryDecks));
+        cardNames.addAll(getCardsBelowCostOf(maxCost, kingdomDecks));
+        cardNames.addAll(getCardsBelowCostOf(maxCost, treasureDecks));
+        cardNames.addAll(getCardsBelowCostOf(maxCost, victoryDecks));
 
         String popupMessage = "Enter name of a card you want to gain";
 
         gainCard(popupMessage, cardNames, player);
     }
 
-    private Collection<String> extractCardsBelowCostOf(int maxCost, Map<String, BoardDeck> decks) {
+    private Collection<String> getCardsBelowCostOf(int maxCost, Map<String, BoardDeck> decks) {
         ArrayList<String> cardNames = new ArrayList<>();
 
         for (String cardName : decks.keySet()) {
@@ -371,5 +383,33 @@ public class Board {
         }
 
         return true;
+    }
+
+    public int discardAnyNumberOfCards(Player player) {
+        int numDiscardedCards = 0;
+
+        int discardSelection = gui.getDiscardOption();
+        while (discardSelection == 0) {
+            if (player.hand.isEmpty()) {
+                gui.showErrorPopup("You have no more cards to discard");
+                break;
+            }
+            try {
+                discardAnyCard(player);
+                numDiscardedCards++;
+            } catch (RuntimeException e) {
+                gui.showErrorPopup(e.getMessage());
+                break;
+            }
+            discardSelection = gui.getDiscardOption();
+        }
+
+        return numDiscardedCards;
+    }
+
+    public void gainCards(int numCardsDiscarded, Player player) {
+        for (int i = 0; i < numCardsDiscarded; i++) {
+            gainAnyCard(player, Utilities.MAX_CARD_COST);
+        }
     }
 }

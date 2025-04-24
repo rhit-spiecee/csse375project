@@ -106,6 +106,17 @@ public class Player {
         discardPile.add(card);
     }
 
+    public void discardCard(String cardName) {
+        Card cardToDiscard = null;
+        for (Card card : hand) {
+            if (card.name.equalsIgnoreCase(cardName)) {
+                cardToDiscard = card;
+                break;
+            }
+        }
+        discardCard(cardToDiscard);
+    }
+
     public List<KingdomCard> getActionCards() {
         List<KingdomCard> actionCards = new ArrayList<>();
         for (Card card : hand) {
@@ -116,10 +127,10 @@ public class Player {
         return actionCards;
     }
 
-    public ArrayList<String> getCardsInHandNamesExceptRemodel() {
+    public ArrayList<String> getCardsInHandNamesExcept(String cardName) {
         HashSet<String> cardNames = new HashSet<>();
         for (Card card : hand) {
-            if (!card.name.equalsIgnoreCase("remodel")) {
+            if (!card.name.equalsIgnoreCase(cardName)) {
                 cardNames.add(card.name);
             }
         }
