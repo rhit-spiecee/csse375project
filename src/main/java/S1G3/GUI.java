@@ -1,6 +1,7 @@
 package S1G3;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -122,5 +123,28 @@ public class GUI {
 
     public String getActionCardToPlay() {
         return JOptionPane.showInputDialog("Enter name of card to play:");
+    }
+
+    public String getCardFromAvailableSelection(String baseMessage, ArrayList<String> cardNames) {
+        StringBuilder popupMessage = new StringBuilder(baseMessage);
+        popupMessage.append("(Available: ");
+        popupMessage.append(String.join(", ", cardNames));
+        popupMessage.append(")");
+
+        return JOptionPane.showInputDialog(popupMessage);
+    }
+
+    public int getDiscardOption() {
+        String[] options = {"Yes", "No"};
+        return JOptionPane.showOptionDialog(
+                null,
+                "Do you want to discard a card?",
+                "Buy Phase",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
     }
 }
