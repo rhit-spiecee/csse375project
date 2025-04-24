@@ -121,6 +121,29 @@ public class GUI {
         return sb.toString();
     }
 
+    public boolean getIfPlayerWantsToBlock(int currentPlayer) {
+        String[] options = {"Yes", "No"};
+        int chooseToBuy = JOptionPane.showOptionDialog(
+                null,
+                "Player " + (currentPlayer + 1) + ": Do you want to be immune to this action?",
+                "Block with Moat",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+        return chooseToBuy == JOptionPane.YES_OPTION;
+    }
+
+    public String getCardToDiscard(ArrayList<Card> hand) {
+        String[] options = hand.stream().map((card)->card.name).toArray(String[]::new);
+        //...and passing `frame` instead of `null` as first parameter
+        Object selectionObject = JOptionPane.showInputDialog(null, "Choose", "Menu", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        String selectionString = selectionObject.toString();
+        return selectionString;
+    }
+
     public String getActionCardToPlay() {
         return JOptionPane.showInputDialog("Enter name of card to play:");
     }
