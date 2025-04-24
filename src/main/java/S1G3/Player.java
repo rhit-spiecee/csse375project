@@ -102,4 +102,25 @@ public class Player {
         hand.remove(card);
         discardPile.add(card);
     }
+
+    public ArrayList<String> getTreasureCardsInHandNames() {
+        ArrayList<String> treasureCards = new ArrayList<>();
+        for (Card card : hand) {
+            if (card.type == Card.CardType.TREASURE) {
+                treasureCards.add(Utilities.capitalize(card.name));
+            }
+        }
+        return treasureCards;
+    }
+
+    public void trashCard(String cardToTrash) {
+        Card cardToRemove = null;
+        for (Card card : hand) {
+            if (card.name.equalsIgnoreCase(cardToTrash)) {
+                cardToRemove = card;
+                break;
+            }
+        }
+        hand.remove(cardToRemove);
+    }
 }

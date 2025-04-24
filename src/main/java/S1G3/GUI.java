@@ -1,6 +1,7 @@
 package S1G3;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -118,5 +119,14 @@ public class GUI {
         sb.append("Buy Abilities: ").append(boardDTO.currentPlayerBuys).append("\n");
 
         return sb.toString();
+    }
+
+    public String getCardFromAvailableSelection(String baseMessage, ArrayList<String> cardNames) {
+        StringBuilder popupMessage = new StringBuilder(baseMessage);
+        popupMessage.append("(Available: ");
+        popupMessage.append(String.join(", ", cardNames));
+        popupMessage.append(")");
+
+        return JOptionPane.showInputDialog(popupMessage);
     }
 }
