@@ -89,6 +89,15 @@ public class Player {
         return false;
     }
 
+    public boolean hasMoatCard() {
+        for (Card card : hand) {
+            if (card.name.equals("moat")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void cleanup() {
         discardPile.addAll(hand);
         hand.clear();
@@ -101,5 +110,14 @@ public class Player {
     public void discardCard(Card card) {
         hand.remove(card);
         discardPile.add(card);
+    }
+
+    public void discardCard(String cardToDiscard) {
+        for (Card card : hand) {
+            if (card.name.equals(cardToDiscard)) {
+                discardCard(card);
+                return;
+            }
+        }
     }
 }

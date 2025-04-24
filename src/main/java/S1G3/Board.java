@@ -47,7 +47,7 @@ public class Board {
 
         kingdomDecks.put("cellar", new BoardDeck(new Cellar(), kingdomDeckSize));
         kingdomDecks.put("market", new BoardDeck(new Market(), kingdomDeckSize));
-        kingdomDecks.put("militia", new BoardDeck(new Militia(), kingdomDeckSize));
+        kingdomDecks.put("militia", new BoardDeck(new Militia(this), kingdomDeckSize));
         kingdomDecks.put("mine", new BoardDeck(new Mine(), kingdomDeckSize));
         kingdomDecks.put("moat", new BoardDeck(new Moat(), kingdomDeckSize));
         kingdomDecks.put("remodel", new BoardDeck(new Remodel(), kingdomDeckSize));
@@ -211,15 +211,24 @@ public class Board {
     public int getCurrentPlayerCoins() {
         return players.get(currentPlayer).getCoins();
     }
-
-    private int getKingdomCardCost(String name) {
-        return switch (name) {
-            case "cellar", "moat" -> 2;
-            case "market", "mine" -> 5;
-            case "militia", "remodel", "smithy" -> 4;
-            case "village", "workshop", "woodcutter" -> 3;
-            default -> 0;
-        };
+    
+    public void forceMilitiaDiscard() {
+        for (int i = 0; i < numPlayers; i++) {
+            Player player = players.get(i);
+            if (currentPlayer == i) {
+                continue;
+            }
+            if (player.hasMoatCard()) {
+                boolean blockMilitia = gui.getIfPlayerWantsToBlock(currentPlayer);
+                if (blockMilitia) {
+                    continue;
+                }
+            }
+            while (player.hand.size() > 3) {
+                String cardToDiscard = gui.getCardToDiscard(player.hand);
+                player.discardCard(cardToDiscard);
+            }
+        }
     }
 
     public BoardDeck getDeck(String name) {
