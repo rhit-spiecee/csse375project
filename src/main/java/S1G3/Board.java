@@ -282,7 +282,7 @@ public class Board {
         ArrayList<String> cardNames = player.getTreasureCardsInHandNames();
 
         String cardToTrash = gui.getCardFromAvailableSelection(popupMessage, cardNames);
-        while (!cardNamesContainCardIgnoreCase(cardNames, cardToTrash)) {
+        while (cardNamesDoNotContainCardIgnoreCase(cardNames, cardToTrash)) {
             cardToTrash = gui.getCardFromAvailableSelection(popupMessage, cardNames);
         }
         player.trashCard(cardToTrash);
@@ -306,7 +306,7 @@ public class Board {
         String popupMessage = "Enter name of an action card you want to gain";
 
         String cardToGain = gui.getCardFromAvailableSelection(popupMessage, cardNames);
-        while (!cardNamesContainCardIgnoreCase(cardNames, cardToGain)) {
+        while (cardNamesDoNotContainCardIgnoreCase(cardNames, cardToGain)) {
             cardToGain = gui.getCardFromAvailableSelection(popupMessage, cardNames);
         }
 
@@ -318,13 +318,13 @@ public class Board {
         player.hand.add(card);
     }
 
-    private boolean cardNamesContainCardIgnoreCase(ArrayList<String> cardNames, String cardToCheck) {
+    private boolean cardNamesDoNotContainCardIgnoreCase(ArrayList<String> cardNames, String cardToCheck) {
         for (String card : cardNames) {
             if (card.equalsIgnoreCase(cardToCheck)) {
-                return true;
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 }
