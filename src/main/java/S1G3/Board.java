@@ -45,12 +45,12 @@ public class Board {
         String[] kingdomCards = { "cellar", "market", "militia", "mine", "moat", "remodel",
                 "smithy", "village", "workshop", "woodcutter" };
 
-        kingdomDecks.put("cellar", new BoardDeck(new Cellar(), kingdomDeckSize));
+        kingdomDecks.put("cellar", new BoardDeck(new Cellar(this), kingdomDeckSize));
         kingdomDecks.put("market", new BoardDeck(new Market(), kingdomDeckSize));
         kingdomDecks.put("militia", new BoardDeck(new Militia(this), kingdomDeckSize));
-        kingdomDecks.put("mine", new BoardDeck(new Mine(), kingdomDeckSize));
+        kingdomDecks.put("mine", new BoardDeck(new Mine(this), kingdomDeckSize));
         kingdomDecks.put("moat", new BoardDeck(new Moat(), kingdomDeckSize));
-        kingdomDecks.put("remodel", new BoardDeck(new Remodel(), kingdomDeckSize));
+        kingdomDecks.put("remodel", new BoardDeck(new Remodel(this), kingdomDeckSize));
         kingdomDecks.put("smithy", new BoardDeck(new Smithy(), kingdomDeckSize));
         kingdomDecks.put("village", new BoardDeck(new Village(), kingdomDeckSize));
         kingdomDecks.put("workshop", new BoardDeck(new Workshop(), kingdomDeckSize));
@@ -82,6 +82,14 @@ public class Board {
     public void startGame() {
         while (!gameOver) {
             processTurn();
+            checkProvinceDeckLength();
+        }
+        gui.showErrorPopup("Game over. Player X won"); //TODO
+    }
+
+    public void checkProvinceDeckLength() {
+        if(victoryDecks.get("province").size() <= 0) {
+            gameOver = true;
         }
     }
 
@@ -92,11 +100,14 @@ public class Board {
 
     private void actionPhase() {
         int actionSelection = gui.getActionSelection(getDTO());
-        try {
-            processActionPhaseSelection(actionSelection);
-        } catch (RuntimeException e) {
-            gui.showErrorPopup(e.getMessage());
-            actionPhase();
+        while (actionSelection == 0 ) {
+            try {
+                processActionMove();
+            } catch (RuntimeException e) {
+                gui.showErrorPopup(e.getMessage());
+                break;
+            }
+            actionSelection = gui.getActionSelection(getDTO());
         }
     }
 
@@ -106,41 +117,68 @@ public class Board {
         return boardDTO;
     }
 
-    private void processActionPhaseSelection(int actionSelection) {
-        if (actionSelection == 0) {
-            processActionMove();
-        }
-    }
-
     private void processActionMove() {
         if (!players.get(currentPlayer).hasActionCard()) {
             throw new RuntimeException("Player " + (currentPlayer + 1) + " has no action cards");
+        } else {
+            KingdomCard card = getActionCardToPlay();
+            System.out.println(card);
+            card.useActionCard(players.get(currentPlayer));
         }
+    }
+
+    private KingdomCard getActionCardToPlay() {
+        List<KingdomCard> actionCards = players.get(currentPlayer).getActionCards();
+        String cardToPlay = "";
+        while (!actionCardsContainsName(actionCards, cardToPlay)) {
+            cardToPlay = gui.getActionCardToPlay().toLowerCase();
+            System.out.println(cardToPlay);
+        }
+        return getCardByName(actionCards, cardToPlay);
+    }
+
+    private boolean actionCardsContainsName(List<KingdomCard> actionCards, String cardToPlay) {
+        for (KingdomCard actionCard : actionCards) {
+            System.out.println(actionCard.name);
+            if (cardToPlay.equals(actionCard.name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private KingdomCard getCardByName(List<KingdomCard> cards, String name) {
+        for (KingdomCard card : cards) {
+            if (card.name.equals(name)) {
+                System.out.println("found card");
+                return card;
+            }
+        }
+        return null;
     }
 
     private void buyPhase() {
         List<String> availableDecks = getAvailableDecks();
-        boolean noBuyDecisionMade = true;
 
-        while (noBuyDecisionMade) {
-            int buySelection = gui.showBuyOption(getDTO());
-
-            if (buySelection == 0) {
-                String cardToBuy = gui.getBuySelection();
-                if (cardToBuy == null) {
-                    continue;
-                }
-
-                try {
-                    processBuyPhaseSelection(cardToBuy.toLowerCase(), availableDecks);
-                    noBuyDecisionMade = false;
-                } catch (RuntimeException e) {
-                    gui.showErrorPopup(e.getMessage());
-                }
-
-            } else {
-                noBuyDecisionMade = false;
+        int buySelection = gui.showBuyOption(getDTO());
+        while (buySelection == 0) {
+            if (players.get(currentPlayer).getBuys() <= 0) {
+                gui.showErrorPopup("Player " + (currentPlayer + 1) + " has no buys available");
+                break;
             }
+            
+            String cardToBuy = gui.getBuySelection();
+            if (cardToBuy == null) {
+                continue;
+            }
+
+            try {
+                processBuyPhaseSelection(cardToBuy.toLowerCase(), availableDecks);
+            } catch (RuntimeException e) {
+                gui.showErrorPopup(e.getMessage());
+            }
+            buySelection = gui.showBuyOption(getDTO());
+
         }
         endTurn();
     }
@@ -171,6 +209,8 @@ public class Board {
             if (deckToBuyFrom.getCost() <= players.get(currentPlayer).getCoins()) {
                 Card boughtCard = deckToBuyFrom.buyCard();
                 players.get(currentPlayer).addBoughtCard(boughtCard);
+                players.get(currentPlayer).buy--;
+                // TODO: we gotta remove all the coins that they player uses
             } else {
                 throw new RuntimeException("Player " + (currentPlayer + 1) + " does not have enough coins for " + buySelection + " card.");
             }
@@ -246,4 +286,139 @@ public class Board {
         return players.get(currentPlayer).getActions();
     }
 
+    public void discardAnyCard(Player player) {
+        String popupMessage = "Enter name of the card you want to discard";
+        ArrayList<String> cardNames = player.getCardsInHandNamesExcept("cellar");
+
+        String cardToDiscard = gui.getCardFromAvailableSelection(popupMessage, cardNames);
+        while (cardNamesDoNotContainCardIgnoreCase(cardNames, cardToDiscard)) {
+            cardToDiscard = gui.getCardFromAvailableSelection(popupMessage, cardNames);
+        }
+
+        player.discardCard(cardToDiscard);
+    }
+
+    public Card trashAnyCard(Player player) {
+        String popupMessage = "Enter name of a card you want to trash";
+        ArrayList<String> cardNames = player.getCardsInHandNamesExcept("remodel");
+        return trashCard(popupMessage, cardNames, player);
+    }
+
+    public Card trashTreasureCard(Player player) {
+        String popupMessage = "Enter name of a treasure card you want to trash";
+        ArrayList<String> cardNames = player.getTreasureCardsInHandNames();
+        return trashCard(popupMessage, cardNames, player);
+    }
+
+    private Card trashCard(String popupMessage, ArrayList<String> cardNames, Player player) {
+        String cardToTrash = gui.getCardFromAvailableSelection(popupMessage, cardNames);
+        while (cardNamesDoNotContainCardIgnoreCase(cardNames, cardToTrash)) {
+            cardToTrash = gui.getCardFromAvailableSelection(popupMessage, cardNames);
+        }
+        return player.trashCard(cardToTrash);
+    }
+
+    public void gainAnyCard(Player player, int maxCost) {
+        ArrayList<String> cardNames = new ArrayList<>();
+
+        cardNames.addAll(getCardsBelowCostOf(maxCost, kingdomDecks));
+        cardNames.addAll(getCardsBelowCostOf(maxCost, treasureDecks));
+        cardNames.addAll(getCardsBelowCostOf(maxCost, victoryDecks));
+
+        String popupMessage = "Enter name of a card you want to gain";
+
+        gainCard(popupMessage, cardNames, player);
+    }
+
+    private Collection<String> getCardsBelowCostOf(int maxCost, Map<String, BoardDeck> decks) {
+        ArrayList<String> cardNames = new ArrayList<>();
+
+        for (String cardName : decks.keySet()) {
+            BoardDeck deck = decks.get(cardName);
+            if (!deck.isEmpty() && deck.card.cost <= maxCost) {
+                cardNames.add(cardName);
+            }
+        }
+
+        return cardNames;
+    }
+
+    public void gainTreasureCard(Player player, Card trashedCard) {
+        ArrayList<String> cardNames = new ArrayList<>();
+        if (trashedCard.name.equalsIgnoreCase("copper")) {
+            cardNames.add("Copper");
+            cardNames.add("Silver");
+        } else if (trashedCard.name.equalsIgnoreCase("silver") || trashedCard.name.equalsIgnoreCase("gold")) {
+            cardNames.add("Copper");
+            cardNames.add("Silver");
+            cardNames.add("Gold");
+        } else {
+            throw new RuntimeException("Unknown trashed card name: " + trashedCard.name);
+        }
+
+        String popupMessage = "Enter name of a treasure card you want to gain";
+
+        gainCard(popupMessage, cardNames, player);
+    }
+
+    private void gainCard(String popupMessage, ArrayList<String> cardNames, Player player) {
+        String cardToGain = gui.getCardFromAvailableSelection(popupMessage, cardNames);
+        while (cardNamesDoNotContainCardIgnoreCase(cardNames, cardToGain)) {
+            cardToGain = gui.getCardFromAvailableSelection(popupMessage, cardNames);
+        }
+        transferCardFromDeckToPlayer(cardToGain, player);
+    }
+
+    private void transferCardFromDeckToPlayer(String cardToGain, Player player) {
+        Card card;
+        if (kingdomDecks.containsKey(cardToGain)) {
+            card = kingdomDecks.get(cardToGain).buyCard();
+        } else if (treasureDecks.containsKey(cardToGain)) {
+            card = treasureDecks.get(cardToGain).buyCard();
+        } else if (victoryDecks.containsKey(cardToGain)) {
+            card = victoryDecks.get(cardToGain).buyCard();
+        } else {
+            throw new RuntimeException("Unknown trashed card name: " + cardToGain);
+        }
+
+        player.hand.add(card);
+    }
+
+    private boolean cardNamesDoNotContainCardIgnoreCase(ArrayList<String> cardNames, String cardToCheck) {
+        for (String card : cardNames) {
+            if (card.equalsIgnoreCase(cardToCheck)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public int discardAnyNumberOfCards(Player player) {
+        int numDiscardedCards = 0;
+
+        int discardSelection = gui.getDiscardOption();
+        while (discardSelection == 0) {
+            if (player.hand.isEmpty()) {
+                gui.showErrorPopup("You have no more cards to discard");
+                break;
+            }
+            try {
+                discardAnyCard(player);
+                numDiscardedCards++;
+            } catch (RuntimeException e) {
+                gui.showErrorPopup(e.getMessage());
+                break;
+            }
+            discardSelection = gui.getDiscardOption();
+        }
+
+        return numDiscardedCards;
+    }
+
+    public void gainCards(int numCardsDiscarded, Player player) {
+        for (int i = 0; i < numCardsDiscarded; i++) {
+            gainAnyCard(player, Utilities.MAX_CARD_COST);
+        }
+    }
 }

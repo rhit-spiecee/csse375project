@@ -143,4 +143,31 @@ public class GUI {
         String selectionString = selectionObject.toString();
         return selectionString;
     }
+
+    public String getActionCardToPlay() {
+        return JOptionPane.showInputDialog("Enter name of card to play:");
+    }
+
+    public String getCardFromAvailableSelection(String baseMessage, ArrayList<String> cardNames) {
+        StringBuilder popupMessage = new StringBuilder(baseMessage);
+        popupMessage.append("(Available: ");
+        popupMessage.append(String.join(", ", cardNames));
+        popupMessage.append(")");
+
+        return JOptionPane.showInputDialog(popupMessage);
+    }
+
+    public int getDiscardOption() {
+        String[] options = {"Yes", "No"};
+        return JOptionPane.showOptionDialog(
+                null,
+                "Do you want to discard a card?",
+                "Buy Phase",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+    }
 }

@@ -8,6 +8,8 @@ public class Smithy extends KingdomCard {
 
     @Override
     public void useCardPowers(Player currentPlayer) {
-
+        for(int i = 0; i < 3; i++){
+            currentPlayer.drawOneCard();
+        }
     }
 }

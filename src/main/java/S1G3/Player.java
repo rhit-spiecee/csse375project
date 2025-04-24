@@ -1,24 +1,24 @@
 package S1G3;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 public class Player {
     ArrayList<Card> hand = new ArrayList<Card>();
     ArrayList<Card> discardPile = new ArrayList<>();
     PlayerDeck deck;
 
-    int coins;
+    int coins = 0;
     int buy = 1;
     int action = 1;
 
     public Player(PlayerDeck deck) {
         this.deck = deck;
-        this.coins = 0;
     }
 
     public Player() {
         this.deck = new PlayerDeck();
-        this.coins = 0;
     }
 
     public void addBoughtCard(Card card) {
@@ -26,12 +26,8 @@ public class Player {
     }
 
     public void drawHand() {
-        if (deck.size() >= 5) {
-            for (int i = 0; i < 5; i++) {
-                drawOneCard();
-            }
-        } else {
-            drawWhenNotEnoughCards();
+        for (int i = 0; i < 5; i++) {
+            drawOneCard();
         }
         this.buy = 1;
         this.action = 1;
@@ -40,16 +36,20 @@ public class Player {
     private void drawWhenNotEnoughCards() {
         emptyRemainingDeck();
 
+        recycleCards();
+
+        while (hand.size() < 5) {
+            drawOneCard();
+        }
+    }
+
+    private void recycleCards() {
         for (Card card : discardPile) {
             deck.add(card);
         }
 
         discardPile.clear();
         deck.shuffle();
-
-        while (hand.size() < 5) {
-            drawOneCard();
-        }
     }
 
     private void emptyRemainingDeck() {
@@ -59,6 +59,9 @@ public class Player {
     }
 
     public void drawOneCard() {
+        if (deck.size() == 0) {
+            recycleCards();
+        }
         hand.add(deck.draw());
     }
 
@@ -119,5 +122,48 @@ public class Player {
                 return;
             }
         }
+    }
+
+    public List<KingdomCard> getActionCards() {
+        List<KingdomCard> actionCards = new ArrayList<>();
+        for (Card card : hand) {
+            if (card instanceof KingdomCard) {
+                actionCards.add((KingdomCard) card);
+            }
+        }
+        return actionCards;
+    }
+
+    public ArrayList<String> getCardsInHandNamesExcept(String cardName) {
+        HashSet<String> cardNames = new HashSet<>();
+        for (Card card : hand) {
+            if (!card.name.equalsIgnoreCase(cardName)) {
+                cardNames.add(card.name);
+            }
+        }
+        return new ArrayList<>(cardNames.stream().toList());
+    }
+
+    public ArrayList<String> getTreasureCardsInHandNames() {
+        HashSet<String> treasureCards = new HashSet<>();
+        for (Card card : hand) {
+            if (card.type == Card.CardType.TREASURE) {
+                treasureCards.add(Utilities.capitalize(card.name));
+            }
+        }
+        return new ArrayList<>(treasureCards.stream().toList());
+    }
+
+    public Card trashCard(String cardToTrash) {
+        Card cardToRemove = null;
+        for (Card card : hand) {
+            if (card.name.equalsIgnoreCase(cardToTrash)) {
+                cardToRemove = card;
+                break;
+            }
+        }
+        hand.remove(cardToRemove);
+
+        return cardToRemove;
     }
 }
