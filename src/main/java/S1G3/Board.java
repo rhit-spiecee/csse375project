@@ -282,7 +282,7 @@ public class Board {
         ArrayList<String> cardNames = player.getTreasureCardsInHandNames();
 
         String cardToTrash = gui.getCardFromAvailableSelection(popupMessage, cardNames);
-        while (!cardNames.contains(cardToTrash)) {
+        while (!cardNamesContainCardIgnoreCase(cardNames, cardToTrash)) {
             cardToTrash = gui.getCardFromAvailableSelection(popupMessage, cardNames);
         }
         player.trashCard(cardToTrash);
@@ -294,10 +294,8 @@ public class Board {
         ArrayList<String> cardNames = new ArrayList<>();
         if (trashedCardName.equalsIgnoreCase("copper")) {
             cardNames.add("Copper");
-        } else if (trashedCardName.equalsIgnoreCase("silver")) {
-            cardNames.add("Copper");
             cardNames.add("Silver");
-        } else if (trashedCardName.equalsIgnoreCase("gold")) {
+        } else if (trashedCardName.equalsIgnoreCase("silver") || trashedCardName.equalsIgnoreCase("gold")) {
             cardNames.add("Copper");
             cardNames.add("Silver");
             cardNames.add("Gold");
@@ -308,7 +306,7 @@ public class Board {
         String popupMessage = "Enter name of an action card you want to gain";
 
         String cardToGain = gui.getCardFromAvailableSelection(popupMessage, cardNames);
-        while (!cardNames.contains(cardToGain)) {
+        while (!cardNamesContainCardIgnoreCase(cardNames, cardToGain)) {
             cardToGain = gui.getCardFromAvailableSelection(popupMessage, cardNames);
         }
 
@@ -317,6 +315,16 @@ public class Board {
 
     private void transferCardFromDeckToPlayer(String cardToGain, Player player) {
         Card card = treasureDecks.get(cardToGain).buyCard();
-        player.addBoughtCard(card);
+        player.hand.add(card);
+    }
+
+    private boolean cardNamesContainCardIgnoreCase(ArrayList<String> cardNames, String cardToCheck) {
+        for (String card : cardNames) {
+            if (card.equalsIgnoreCase(cardToCheck)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

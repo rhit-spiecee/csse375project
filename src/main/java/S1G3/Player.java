@@ -1,6 +1,7 @@
 package S1G3;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class Player {
@@ -116,13 +117,13 @@ public class Player {
     }
 
     public ArrayList<String> getTreasureCardsInHandNames() {
-        ArrayList<String> treasureCards = new ArrayList<>();
+        HashSet<String> treasureCards = new HashSet<>();
         for (Card card : hand) {
             if (card.type == Card.CardType.TREASURE) {
                 treasureCards.add(Utilities.capitalize(card.name));
             }
         }
-        return treasureCards;
+        return new ArrayList<>(treasureCards.stream().toList());
     }
 
     public void trashCard(String cardToTrash) {
