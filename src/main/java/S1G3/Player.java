@@ -116,6 +116,16 @@ public class Player {
         return actionCards;
     }
 
+    public ArrayList<String> getCardsInHandNamesExceptRemodel() {
+        HashSet<String> cardNames = new HashSet<>();
+        for (Card card : hand) {
+            if (!card.name.equalsIgnoreCase("remodel")) {
+                cardNames.add(card.name);
+            }
+        }
+        return new ArrayList<>(cardNames.stream().toList());
+    }
+
     public ArrayList<String> getTreasureCardsInHandNames() {
         HashSet<String> treasureCards = new HashSet<>();
         for (Card card : hand) {
