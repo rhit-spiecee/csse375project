@@ -53,7 +53,7 @@ public class Board {
         kingdomDecks.put("remodel", new BoardDeck(new Remodel(this), kingdomDeckSize));
         kingdomDecks.put("smithy", new BoardDeck(new Smithy(), kingdomDeckSize));
         kingdomDecks.put("village", new BoardDeck(new Village(), kingdomDeckSize));
-        kingdomDecks.put("workshop", new BoardDeck(new Workshop(), kingdomDeckSize));
+        kingdomDecks.put("workshop", new BoardDeck(new Workshop(this), kingdomDeckSize));
         kingdomDecks.put("woodcutter", new BoardDeck(new Woodcutter(), kingdomDeckSize));
 
 
