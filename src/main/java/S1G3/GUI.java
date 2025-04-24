@@ -121,6 +121,10 @@ public class GUI {
         return sb.toString();
     }
 
+    public String getActionCardToPlay() {
+        return JOptionPane.showInputDialog("Enter name of card to play:");
+    }
+
     public String getCardFromAvailableSelection(String baseMessage, ArrayList<String> cardNames) {
         StringBuilder popupMessage = new StringBuilder(baseMessage);
         popupMessage.append("(Available: ");
