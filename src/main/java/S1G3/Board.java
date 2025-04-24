@@ -277,33 +277,34 @@ public class Board {
         return players.get(currentPlayer).getActions();
     }
 
-    public String trashCard(Player player) {
-        String popupMessage = "Enter name of an action card you want to trash";
+    public Card trashTreasureCard(Player player) {
+        String popupMessage = "Enter name of a treasure card you want to trash";
         ArrayList<String> cardNames = player.getTreasureCardsInHandNames();
+        return trashCard(popupMessage, cardNames, player);
+    }
 
+    private Card trashCard(String popupMessage, ArrayList<String> cardNames, Player player) {
         String cardToTrash = gui.getCardFromAvailableSelection(popupMessage, cardNames);
         while (cardNamesDoNotContainCardIgnoreCase(cardNames, cardToTrash)) {
             cardToTrash = gui.getCardFromAvailableSelection(popupMessage, cardNames);
         }
-        player.trashCard(cardToTrash);
-
-        return cardToTrash;
+        return player.trashCard(cardToTrash);
     }
 
-    public void gainCard(Player player, String trashedCardName) {
+    public void gainTreasureCard(Player player, Card trashedCard) {
         ArrayList<String> cardNames = new ArrayList<>();
-        if (trashedCardName.equalsIgnoreCase("copper")) {
+        if (trashedCard.name.equalsIgnoreCase("copper")) {
             cardNames.add("Copper");
             cardNames.add("Silver");
-        } else if (trashedCardName.equalsIgnoreCase("silver") || trashedCardName.equalsIgnoreCase("gold")) {
+        } else if (trashedCard.name.equalsIgnoreCase("silver") || trashedCard.name.equalsIgnoreCase("gold")) {
             cardNames.add("Copper");
             cardNames.add("Silver");
             cardNames.add("Gold");
         } else {
-            throw new RuntimeException("Unknown trashed card name: " + trashedCardName);
+            throw new RuntimeException("Unknown trashed card name: " + trashedCard.name);
         }
 
-        String popupMessage = "Enter name of an action card you want to gain";
+        String popupMessage = "Enter name of an card you want to gain";
 
         String cardToGain = gui.getCardFromAvailableSelection(popupMessage, cardNames);
         while (cardNamesDoNotContainCardIgnoreCase(cardNames, cardToGain)) {

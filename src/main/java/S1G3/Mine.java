@@ -10,7 +10,7 @@ public class Mine extends KingdomCard {
 
     @Override
     public void useCardPowers(Player currentPlayer) {
-        String trashedCard = board.trashCard(currentPlayer);
-        board.gainCard(currentPlayer, trashedCard);
+        Card trashedCard = board.trashTreasureCard(currentPlayer);
+        board.gainTreasureCard(currentPlayer, trashedCard);
     }
 }

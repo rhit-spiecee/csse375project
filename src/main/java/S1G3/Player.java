@@ -126,7 +126,7 @@ public class Player {
         return new ArrayList<>(treasureCards.stream().toList());
     }
 
-    public void trashCard(String cardToTrash) {
+    public Card trashCard(String cardToTrash) {
         Card cardToRemove = null;
         for (Card card : hand) {
             if (card.name.equalsIgnoreCase(cardToTrash)) {
@@ -135,5 +135,7 @@ public class Player {
             }
         }
         hand.remove(cardToRemove);
+
+        return cardToRemove;
     }
 }
