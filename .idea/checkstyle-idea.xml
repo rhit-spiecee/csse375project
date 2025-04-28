@@ -6,13 +6,13 @@
     <copyLibs>true</copyLibs>
     <option name="thirdPartyClasspath" />
     <option name="activeLocationIds">
-      <option value="108e5f1a-08aa-4f15-9be8-e8c11d2dff13" />
+      <option value="800debb9-7897-4767-ac37-3fbbef02bc76" />
     </option>
     <option name="locations">
       <list>
         <ConfigurationLocation id="bundled-sun-checks" type="BUNDLED" scope="All" description="Sun Checks">(bundled)</ConfigurationLocation>
         <ConfigurationLocation id="bundled-google-checks" type="BUNDLED" scope="All" description="Google Checks">(bundled)</ConfigurationLocation>
-        <ConfigurationLocation id="108e5f1a-08aa-4f15-9be8-e8c11d2dff13" type="LOCAL_FILE" scope="All" description="Custom Checkstyle">
+        <ConfigurationLocation id="800debb9-7897-4767-ac37-3fbbef02bc76" type="PROJECT_RELATIVE" scope="All" description="Custom Checks">
           $PROJECT_DIR$/checkstyle.xml
           <option name="properties">
             <map>
