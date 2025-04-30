@@ -1,10 +1,15 @@
 package S1G3;
 
 public class Workshop extends KingdomCard {
-    public Workshop() { super("workshop", 3, 0); }
+    Board board;
+
+    public Workshop(Board board) {
+        super("workshop", 3, 0);
+        this.board = board;
+    }
 
     @Override
     public void useCardPowers(Player currentPlayer) {
-
+        board.gainAnyCard(currentPlayer, 4);
     }
 }
