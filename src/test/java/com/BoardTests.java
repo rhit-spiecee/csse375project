@@ -37,16 +37,16 @@ public class BoardTests {
     public void testGetAvailableDecksLength() {
         Board board = new Board(2);
 
-        List<String> availableDecks = board.getAvailableDecks();
+        List<String> availableDecks = board.getAllAvailableDecks();
 
-        assertEquals(17, board.getAvailableDecks().size());
+        assertEquals(17, board.getAllAvailableDecks().size());
     }
 
     @Test
     public void testGetAvailableDecksContents() {
         Board board = new Board(2);
 
-        List<String> availableDecks = board.getAvailableDecks();
+        List<String> availableDecks = board.getAllAvailableDecks();
 
         List<String> expectedDecks = new ArrayList<>(Arrays.asList(
                 "cellar", "market", "militia", "mine", "moat", "remodel",
@@ -63,7 +63,7 @@ public class BoardTests {
             board.kingdomDecks.get("cellar").buyCard();
         }
         
-        List<String> availableDecks = board.getAvailableDecks();
+        List<String> availableDecks = board.getAllAvailableDecks();
 
         List<String> expectedDecks = new ArrayList<>(Arrays.asList(
                 "market", "militia", "mine", "moat", "remodel",

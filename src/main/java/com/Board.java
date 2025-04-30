@@ -1,7 +1,6 @@
 package com;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -202,7 +201,7 @@ public class Board {
         endTurn();
     }
 
-    public List<String> getAvailableDecks() {
+    public List<String> getAllAvailableDecks() {
         ArrayList<String> availableDecks = new ArrayList<>();
         availableDecks.addAll(getAvailableDecks(kingdomDecks));
         availableDecks.addAll(getAvailableDecks(treasureDecks));
@@ -223,21 +222,11 @@ public class Board {
     }
 
     private void processBuyPhaseSelection(String buySelection) {
-            BoardDeck deckToBuyFrom = getBoardDeckFromName(buySelection);
-            if (deckToBuyFrom.getCost() <= players.get(currentPlayer).getCoins()) {
-                Card boughtCard = deckToBuyFrom.buyCard();
-                players.get(currentPlayer).addBoughtCard(boughtCard);
-                players.get(currentPlayer).buy--;
-                // TODO: we gotta remove all the coins that they player uses
-            } else {
-                throw new RuntimeException(
-                        "Player "
-                                + (currentPlayer + 1)
-                                + " does not have enough coins for "
-                                + buySelection
-                                + " card."
-                );
-            }
+        BoardDeck deckToBuyFrom = getBoardDeckFromName(buySelection);
+        Card boughtCard = deckToBuyFrom.buyCard();
+        players.get(currentPlayer).addBoughtCard(boughtCard);
+        players.get(currentPlayer).buy--;
+        // TODO: we gotta remove all the coins that they player use;
     }
 
     private BoardDeck getBoardDeckFromName(String nameOfDeck) {
