@@ -171,28 +171,13 @@ public class Board {
 
     private KingdomCard getActionCardToPlay() {
         List<KingdomCard> actionCards = players.get(currentPlayer).getActionCards();
-        String cardToPlay = "";
-        while (!actionCardsContainsName(actionCards, cardToPlay)) {
-            cardToPlay = gui.getActionCardToPlay(getAvailableActionCardsInHand()).toLowerCase();
-            System.out.println(cardToPlay);
-        }
+        String cardToPlay = gui.getActionCardToPlay(getAvailableActionCardsInHand()).toLowerCase();
         return getCardByName(actionCards, cardToPlay);
-    }
-
-    private boolean actionCardsContainsName(List<KingdomCard> actionCards, String cardToPlay) {
-        for (KingdomCard actionCard : actionCards) {
-            System.out.println(actionCard.name);
-            if (cardToPlay.equals(actionCard.name)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private KingdomCard getCardByName(List<KingdomCard> cards, String name) {
         for (KingdomCard card : cards) {
             if (card.name.equals(name)) {
-                System.out.println("found card");
                 return card;
             }
         }
@@ -200,27 +185,19 @@ public class Board {
     }
 
     private void buyPhase() {
-        List<String> availableDecks = getAvailableDecks();
-
         int buySelection = gui.showBuyOption(getDto());
         while (buySelection == 0) {
             if (players.get(currentPlayer).getBuys() <= 0) {
                 gui.showErrorPopup("Player " + (currentPlayer + 1) + " has no buys available");
                 break;
             }
-
-            String cardToBuy = gui.getBuySelection(getAvailableDecks());
-            if (cardToBuy == null) {
-                continue;
+            String cardToBuy = gui.getBuySelection(
+                    getAllCardsBelowCostOf(players.get(currentPlayer).getCoins()));
+            if (cardToBuy != null) {
+                processBuyPhaseSelection(cardToBuy.toLowerCase());
+            } else {
+                buySelection = gui.showBuyOption(getDto());
             }
-
-            try {
-                processBuyPhaseSelection(cardToBuy.toLowerCase(), availableDecks);
-            } catch (RuntimeException e) {
-                gui.showErrorPopup(e.getMessage());
-            }
-            buySelection = gui.showBuyOption(getDto());
-
         }
         endTurn();
     }
@@ -245,8 +222,7 @@ public class Board {
         return availableDecks;
     }
 
-    private void processBuyPhaseSelection(String buySelection, List<String> availableDecks) {
-        if (availableDecks.contains(buySelection)) {
+    private void processBuyPhaseSelection(String buySelection) {
             BoardDeck deckToBuyFrom = getBoardDeckFromName(buySelection);
             if (deckToBuyFrom.getCost() <= players.get(currentPlayer).getCoins()) {
                 Card boughtCard = deckToBuyFrom.buyCard();
@@ -262,9 +238,6 @@ public class Board {
                                 + " card."
                 );
             }
-        } else {
-            throw new RuntimeException("Card: " + buySelection + " is not available.");
-        }
     }
 
     private BoardDeck getBoardDeckFromName(String nameOfDeck) {
@@ -373,18 +346,23 @@ public class Board {
     }
 
     public void gainAnyCard(Player player, int maxCost) {
-        ArrayList<String> cardNames = new ArrayList<>();
-
-        cardNames.addAll(getCardsBelowCostOf(maxCost, kingdomDecks));
-        cardNames.addAll(getCardsBelowCostOf(maxCost, treasureDecks));
-        cardNames.addAll(getCardsBelowCostOf(maxCost, victoryDecks));
+        ArrayList<String> cardNames = getAllCardsBelowCostOf(maxCost);
 
         String popupMessage = "Enter name of a card you want to gain";
 
         gainCard(popupMessage, cardNames, player);
     }
 
-    private Collection<String> getCardsBelowCostOf(int maxCost, Map<String, BoardDeck> decks) {
+    private ArrayList<String> getAllCardsBelowCostOf(int maxCost) {
+        ArrayList<String> cardNames = new ArrayList<>();
+
+        cardNames.addAll(getCardsBelowCostOf(maxCost, kingdomDecks));
+        cardNames.addAll(getCardsBelowCostOf(maxCost, treasureDecks));
+        cardNames.addAll(getCardsBelowCostOf(maxCost, victoryDecks));
+        return cardNames;
+    }
+
+    private List<String> getCardsBelowCostOf(int maxCost, Map<String, BoardDeck> decks) {
         ArrayList<String> cardNames = new ArrayList<>();
 
         for (String cardName : decks.keySet()) {

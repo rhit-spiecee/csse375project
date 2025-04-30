@@ -62,9 +62,9 @@ public class Gui {
         return chooseToBuy;
     }
 
-    public String getBuySelection(List<String> availableCards) {
-        String[] options = new String[availableCards.size()];
-        availableCards.toArray(options);
+    public String getBuySelection(List<String> availableCardsUnderPlayerCoins) {
+        String[] options = new String[availableCardsUnderPlayerCoins.size()];
+        availableCardsUnderPlayerCoins.toArray(options);
         Object selectionObject = JOptionPane.showInputDialog(
                 null,
                 "Choose Card to Buy:",
