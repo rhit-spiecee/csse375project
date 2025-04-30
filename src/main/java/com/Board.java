@@ -196,7 +196,7 @@ public class Board {
                 break;
             }
 
-            String cardToBuy = gui.getBuySelection();
+            String cardToBuy = gui.getBuySelection(getAvailableDecks());
             if (cardToBuy == null) {
                 continue;
             }
