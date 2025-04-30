@@ -191,7 +191,7 @@ public class Board {
                 break;
             }
             String cardToBuy = gui.getBuySelection(
-                    getAllCardsBelowCostOf(players.get(currentPlayer).getCoins()));
+                    getAllCardsBelowCostOf(players.get(currentPlayer).getCoinsInHand()));
             if (cardToBuy != null) {
                 processBuyPhaseSelection(cardToBuy.toLowerCase());
             } else {
@@ -226,7 +226,15 @@ public class Board {
         Card boughtCard = deckToBuyFrom.buyCard();
         players.get(currentPlayer).addBoughtCard(boughtCard);
         players.get(currentPlayer).buy--;
-        // TODO: we gotta remove all the coins that they player use;
+        Player currentPlayer = players.get(this.currentPlayer);
+
+        int coinsInHand = currentPlayer.getCoinsInHand();
+        if (coinsInHand >= boughtCard.cost) {
+            currentPlayer.removeTreasureCardsOfCost(boughtCard.cost);
+        } else {
+            currentPlayer.coins -= (boughtCard.cost - coinsInHand);
+            currentPlayer.removeTreasureCardsOfCost(coinsInHand);
+        }
     }
 
     private BoardDeck getBoardDeckFromName(String nameOfDeck) {
@@ -259,7 +267,7 @@ public class Board {
     }
 
     public int getCurrentPlayerCoins() {
-        return players.get(currentPlayer).getCoins();
+        return players.get(currentPlayer).getCoinsInHand();
     }
 
     public void forceMilitiaDiscard() {

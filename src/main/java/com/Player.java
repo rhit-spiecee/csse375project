@@ -65,7 +65,7 @@ public class Player {
         hand.add(deck.draw());
     }
 
-    public int getCoins() {
+    public int getCoinsInHand() {
         int coins = this.coins;
         for (Card card : hand) {
             if (card.type == Card.CardType.TREASURE) {
@@ -166,4 +166,37 @@ public class Player {
 
         return cardToRemove;
     }
+
+    public void removeTreasureCardsOfCost(int cost) {
+        int goldValue = 3;
+        int silverValue = 2;
+        int copperValue = 1;
+
+        int coinsRemainingAfterGold = getCoinsAfterRemovingCard(cost, goldValue, "gold");
+        int coinsRemainingAfterSilver = getCoinsAfterRemovingCard(coinsRemainingAfterGold, silverValue, "silver");
+        getCoinsAfterRemovingCard(coinsRemainingAfterSilver, copperValue, "copper");
+
+    }
+
+    private int getCoinsAfterRemovingCard(int coinsRemaining, int treasuryCardValue, String treasureCardType) {
+        int index = hasTreasureCardType(treasureCardType);
+        while (coinsRemaining >= treasuryCardValue && index > -1) {
+            hand.remove(index);
+            coinsRemaining -= treasuryCardValue;
+            index = hasTreasureCardType(treasureCardType);
+        }
+        return coinsRemaining;
+    }
+
+    private int hasTreasureCardType(String type) {
+        int index = 0;
+        for (Card card : hand) {
+            if (card.name.equals(type)) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+
 }

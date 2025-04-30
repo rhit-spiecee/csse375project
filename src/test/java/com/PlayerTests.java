@@ -55,7 +55,7 @@ public class PlayerTests {
         player.drawHand();
 
         //Verify
-        assertEquals(5, player.getCoins());
+        assertEquals(5, player.getCoinsInHand());
         EasyMock.verify(mockDeck);
     }
 
