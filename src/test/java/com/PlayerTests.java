@@ -55,7 +55,7 @@ public class PlayerTests {
         player.drawHand();
 
         //Verify
-        assertEquals(5, player.getCoinsInHand());
+        assertEquals(5, player.getCoins());
         EasyMock.verify(mockDeck);
     }
 
@@ -203,10 +203,10 @@ public class PlayerTests {
 
         player.hand.add(new TreasureCard("gold", 6, Card.CardType.TREASURE, 3));
 
-        assertEquals(3, player.getCoinsInHand());
+        assertEquals(3, player.getCoins());
         player.removeTreasureCardsOfCost(3);
         assertEquals(0, player.hand.size());
-        assertEquals(0, player.getCoinsInHand());
+        assertEquals(0, player.getCoins());
     }
 
     @Test
@@ -215,10 +215,10 @@ public class PlayerTests {
 
         player.hand.add(new TreasureCard("silver", 4, Card.CardType.TREASURE, 2));
 
-        assertEquals(2, player.getCoinsInHand());
+        assertEquals(2, player.getCoins());
         player.removeTreasureCardsOfCost(2);
         assertEquals(0, player.hand.size());
-        assertEquals(0, player.getCoinsInHand());
+        assertEquals(0, player.getCoins());
     }
 
     @Test
@@ -227,9 +227,9 @@ public class PlayerTests {
 
         player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
 
-        assertEquals(1, player.getCoinsInHand());
+        assertEquals(1, player.getCoins());
         player.removeTreasureCardsOfCost(1);
         assertEquals(0, player.hand.size());
-        assertEquals(0, player.getCoinsInHand());
+        assertEquals(0, player.getCoins());
     }
 }

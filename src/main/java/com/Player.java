@@ -65,8 +65,20 @@ public class Player {
         hand.add(deck.draw());
     }
 
-    public int getCoinsInHand() {
+
+
+    public int getCoins() {
         int coins = this.coins;
+        for (Card card : hand) {
+            if (card.type == Card.CardType.TREASURE) {
+                coins += card.value;
+            }
+        }
+        return coins;
+    }
+
+    public int getCoinsInHand() {
+        int coins = 0;
         for (Card card : hand) {
             if (card.type == Card.CardType.TREASURE) {
                 coins += card.value;

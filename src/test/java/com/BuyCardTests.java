@@ -25,7 +25,8 @@ public class BuyCardTests {
         EasyMock.expect(mockPlayer.getBuys()).andReturn(0).times(1);
         EasyMock.expect(mockGui.getBuySelection(EasyMock.anyObject())).andReturn("smithy");
 
-        EasyMock.expect(mockPlayer.getCoinsInHand()).andReturn(4).times(5);
+        EasyMock.expect(mockPlayer.getCoinsInHand()).andReturn(4);
+        EasyMock.expect(mockPlayer.getCoins()).andReturn(4).times(4);
         EasyMock.expect(mockPlayer.getHand()).andReturn(new ArrayList<>(Arrays.asList(card, card))).times(3);
         EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(3);
         mockPlayer.removeTreasureCardsOfCost(4);

@@ -192,7 +192,7 @@ public class Board {
                 break;
             } else {
                 String cardToBuy = gui.getBuySelection(
-                        getAllCardsBelowCostOf(players.get(currentPlayer).getCoinsInHand()));
+                        getAllCardsBelowCostOf(players.get(currentPlayer).getCoins()));
                 if (cardToBuy != null) {
                     processBuyPhaseSelection(cardToBuy.toLowerCase());
                 }
@@ -268,7 +268,7 @@ public class Board {
     }
 
     public int getCurrentPlayerCoins() {
-        return players.get(currentPlayer).getCoinsInHand();
+        return players.get(currentPlayer).getCoins();
     }
 
     public void forceMilitiaDiscard() {
