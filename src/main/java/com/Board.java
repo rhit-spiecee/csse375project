@@ -115,6 +115,7 @@ public class Board {
     void processTurn() {
         actionPhase();
         buyPhase();
+
     }
 
     private void actionPhase() {
@@ -189,12 +190,12 @@ public class Board {
             if (players.get(currentPlayer).getBuys() <= 0) {
                 gui.showErrorPopup("Player " + (currentPlayer + 1) + " has no buys available");
                 break;
-            }
-            String cardToBuy = gui.getBuySelection(
-                    getAllCardsBelowCostOf(players.get(currentPlayer).getCoinsInHand()));
-            if (cardToBuy != null) {
-                processBuyPhaseSelection(cardToBuy.toLowerCase());
             } else {
+                String cardToBuy = gui.getBuySelection(
+                        getAllCardsBelowCostOf(players.get(currentPlayer).getCoinsInHand()));
+                if (cardToBuy != null) {
+                    processBuyPhaseSelection(cardToBuy.toLowerCase());
+                }
                 buySelection = gui.showBuyOption(getDto());
             }
         }
