@@ -16,11 +16,11 @@
                 <configuration>
                     <!-- no longer required -->
                     <targetClasses>
-                        <param>S1G3*</param>
+                        <param>com*</param>
                     </targetClasses>
                     <!-- no longer required -->
                     <targetTests>
-                        <param>S1G3*</param>
+                        <param>com*</param>
                     </targetTests>
                 </configuration>
             </plugin>
