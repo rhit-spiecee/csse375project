@@ -161,8 +161,16 @@ public class Gui {
         return selectionObject.toString();
     }
 
-    public String getActionCardToPlay() {
-        return JOptionPane.showInputDialog("Enter name of card to play:");
+    public String getActionCardToPlay(String[] availableCardInHand) {
+        Object selectionObject = JOptionPane.showInputDialog(
+                null,
+                "Choose Action Card to Play:",
+                "Action Phase",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                availableCardInHand,
+                availableCardInHand[0]);
+        return (String) selectionObject;
     }
 
     public String getCardFromAvailableSelection(String baseMessage, ArrayList<String> cardNames) {
