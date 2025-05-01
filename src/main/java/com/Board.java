@@ -121,12 +121,17 @@ public class Board {
     private void actionPhase() {
         int actionSelection = gui.getActionSelection(currentPlayer);
         while (actionSelection == 0) {
+            if (players.get(currentPlayer).getActions() <= 0) {
+                gui.showErrorPopup("Player " + (currentPlayer + 1) + " has no actions available");
+                break;
+            }
             try {
                 processActionMove();
             } catch (RuntimeException e) {
                 gui.showErrorPopup(e.getMessage());
                 break;
             }
+            gui.updateView(getDto());
             actionSelection = gui.getActionSelection(currentPlayer);
         }
     }
@@ -151,7 +156,6 @@ public class Board {
             throw new RuntimeException("Player " + (currentPlayer + 1) + " has no action cards");
         } else {
             KingdomCard card = getActionCardToPlay();
-            System.out.println(card);
             card.useActionCard(players.get(currentPlayer));
         }
     }
@@ -195,9 +199,9 @@ public class Board {
                     getAllCardsBelowCostOf(players.get(currentPlayer).getCoins()));
             if (cardToBuy != null) {
                 processBuyPhaseSelection(cardToBuy.toLowerCase());
-            } else {
-                buySelection = gui.showBuyOption(currentPlayer);
             }
+            gui.updateView(getDto());
+            buySelection = gui.showBuyOption(currentPlayer);
         }
         endTurn();
     }
@@ -255,7 +259,7 @@ public class Board {
         players.get(currentPlayer).cleanup();
         players.get(currentPlayer).drawHand();
         currentPlayer = (currentPlayer + 1) % numPlayers;
-
+        gui.updateView(getDto());
     }
 
     public int getCurrentPlayerNumber() {
@@ -284,7 +288,7 @@ public class Board {
                 }
             }
             while (player.hand.size() > 3) {
-                String cardToDiscard = gui.getCardToDiscard(player.hand);
+                String cardToDiscard = gui.getCardToDiscard(player.hand, currentPlayer);
                 player.discardCard(cardToDiscard);
             }
         }

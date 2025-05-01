@@ -19,6 +19,7 @@ public class BoardTests {
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
         EasyMock.expect(mockGui.showBuyOption(0)).andReturn(1);
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
 
         // Replay
         EasyMock.replay(mockGui);

@@ -23,6 +23,8 @@ public class Gui {
     }
     
     public void updateView(BoardDto boardDto) {
+        frame.getContentPane().removeAll();
+        
         addBoardDecks(boardDto);
         addHandAndInfo(boardDto);
 
@@ -167,31 +169,6 @@ public class Gui {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    void appendDeckDisplayWithoutValue(StringBuilder sb, Map<String, BoardDeck> deckMap) {
-        for (Map.Entry<String, BoardDeck> entry : deckMap.entrySet()) {
-            Card card = entry.getValue().getCard();
-
-            sb.append(String.format("%s (Cost: %d): %d\n",
-                    Utilities.capitalize(entry.getKey()), card.cost, entry.getValue().size()));
-
-        }
-    }
-
-    void appendDeckDisplayWithValue(StringBuilder sb, Map<String, BoardDeck> deckMap) {
-        for (Map.Entry<String, BoardDeck> entry : deckMap.entrySet()) {
-            Card card = entry.getValue().getCard();
-
-            sb.append(
-                    String.format("%s (Cost: %d, Value: %d): %d\n", 
-                            Utilities.capitalize(entry.getKey()), 
-                            card.cost, 
-                            card.value, 
-                            entry.getValue().size()
-                    )
-            );
-        }
-    }
-
     public boolean getIfPlayerWantsToBlock(int currentPlayer) {
         String[] options = {"Yes", "No"};
         int chooseToBuy = JOptionPane.showOptionDialog(
@@ -207,12 +184,12 @@ public class Gui {
         return chooseToBuy == JOptionPane.YES_OPTION;
     }
 
-    public String getCardToDiscard(ArrayList<Card> hand) {
+    public String getCardToDiscard(ArrayList<Card> hand, int playerNumber) {
         String[] options = hand.stream().map((card) -> card.name).toArray(String[]::new);
         //...and passing `frame` instead of `null` as first parameter
         Object selectionObject = JOptionPane.showInputDialog(
                 null,
-                "Choose",
+                "Player " + (playerNumber + 1) + ": What would you like to discard?",
                 "Menu",
                 JOptionPane.PLAIN_MESSAGE,
                 null,
