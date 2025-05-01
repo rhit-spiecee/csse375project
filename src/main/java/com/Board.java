@@ -227,7 +227,15 @@ public class Board {
         Card boughtCard = deckToBuyFrom.buyCard();
         players.get(currentPlayer).addBoughtCard(boughtCard);
         players.get(currentPlayer).buy--;
-        // TODO: we gotta remove all the coins that they player use;
+        Player currentPlayer = players.get(this.currentPlayer);
+
+        int coinsInHand = currentPlayer.getCoinsInHand();
+        if (coinsInHand >= boughtCard.cost) {
+            currentPlayer.removeTreasureCardsOfCost(boughtCard.cost);
+        } else {
+            currentPlayer.coins -= (boughtCard.cost - coinsInHand);
+            currentPlayer.removeTreasureCardsOfCost(coinsInHand);
+        }
     }
 
     private BoardDeck getBoardDeckFromName(String nameOfDeck) {

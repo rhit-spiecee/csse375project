@@ -196,4 +196,40 @@ public class PlayerTests {
         assertEquals(1, player.getActionCards().size());
         assertEquals("moat", player.getActionCards().getFirst().name);
     }
+
+    @Test
+    public void testRemoveTreasureCardsOfCostOfThree() {
+        Player player = new Player();
+
+        player.hand.add(new TreasureCard("gold", 6, Card.CardType.TREASURE, 3));
+
+        assertEquals(3, player.getCoins());
+        player.removeTreasureCardsOfCost(3);
+        assertEquals(0, player.hand.size());
+        assertEquals(0, player.getCoins());
+    }
+
+    @Test
+    public void testRemoveTreasureCardsOfCostOfTwo() {
+        Player player = new Player();
+
+        player.hand.add(new TreasureCard("silver", 4, Card.CardType.TREASURE, 2));
+
+        assertEquals(2, player.getCoins());
+        player.removeTreasureCardsOfCost(2);
+        assertEquals(0, player.hand.size());
+        assertEquals(0, player.getCoins());
+    }
+
+    @Test
+    public void testRemoveTreasureCardsOfCostOfOne() {
+        Player player = new Player();
+
+        player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+
+        assertEquals(1, player.getCoins());
+        player.removeTreasureCardsOfCost(1);
+        assertEquals(0, player.hand.size());
+        assertEquals(0, player.getCoins());
+    }
 }
