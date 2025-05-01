@@ -1,6 +1,7 @@
 package com;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
@@ -9,24 +10,16 @@ public class Gui {
     public static final int DEFAULT_NUM_PLAYERS = -1;
     
     public int getNumPlayers() {
-        int numPlayers = DEFAULT_NUM_PLAYERS;
-        while (numPlayers == DEFAULT_NUM_PLAYERS) {
-            String input = JOptionPane.showInputDialog("Enter the number of players:");
-            if (input == null) {
-                System.exit(0);
-            }
-
-            try {
-                numPlayers = Integer.parseInt(input);
-                if (numPlayers < 2 || numPlayers > 4) {
-                    this.showErrorPopup("Enter a valid number from 2 to 4");
-                    numPlayers = DEFAULT_NUM_PLAYERS;
-                }
-            } catch (NumberFormatException e) {
-                this.showErrorPopup("Enter a valid number from 2 to 4");
-            }
-        }
-        return numPlayers;
+        String[] options = {"2", "3", "4"};
+        Object selectionObject = JOptionPane.showInputDialog(
+                null,
+                "Choose Number of Players:",
+                "Number of Players",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                options,
+                options[0]);
+        return Integer.parseInt((String) selectionObject);
     }
 
     public int getActionSelection(BoardDto boardDto) {
@@ -69,8 +62,18 @@ public class Gui {
         return chooseToBuy;
     }
 
-    public String getBuySelection() {
-        return JOptionPane.showInputDialog("Enter name of card to buy:");
+    public String getBuySelection(List<String> availableCardsUnderPlayerCoins) {
+        String[] options = new String[availableCardsUnderPlayerCoins.size()];
+        availableCardsUnderPlayerCoins.toArray(options);
+        Object selectionObject = JOptionPane.showInputDialog(
+                null,
+                "Choose Card to Buy:",
+                "Buy Phase",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                options,
+                options[0]);
+        return (String) selectionObject;
     }
 
     public void showErrorPopup(String message) {
@@ -147,19 +150,27 @@ public class Gui {
         String[] options = hand.stream().map((card) -> card.name).toArray(String[]::new);
         //...and passing `frame` instead of `null` as first parameter
         Object selectionObject = JOptionPane.showInputDialog(
-                null, 
-                "Choose", 
-                "Menu", 
-                JOptionPane.PLAIN_MESSAGE, 
-                null, 
-                options, 
+                null,
+                "Choose",
+                "Menu",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                options,
                 options[0]
         );
         return selectionObject.toString();
     }
 
-    public String getActionCardToPlay() {
-        return JOptionPane.showInputDialog("Enter name of card to play:");
+    public String getActionCardToPlay(String[] availableCardInHand) {
+        Object selectionObject = JOptionPane.showInputDialog(
+                null,
+                "Choose Action Card to Play:",
+                "Action Phase",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                availableCardInHand,
+                availableCardInHand[0]);
+        return (String) selectionObject;
     }
 
     public String getCardFromAvailableSelection(String baseMessage, ArrayList<String> cardNames) {
