@@ -206,6 +206,8 @@ public class Board {
         endTurn();
     }
 
+    // TODO: we need to remove these unused methods,
+    //  and rework the tests to test getAllCardsBelowCostOf
     public List<String> getAllAvailableDecks() {
         ArrayList<String> availableDecks = new ArrayList<>();
         availableDecks.addAll(getAvailableDecks(kingdomDecks));
