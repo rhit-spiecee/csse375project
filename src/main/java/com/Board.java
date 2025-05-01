@@ -115,6 +115,7 @@ public class Board {
     void processTurn() {
         actionPhase();
         buyPhase();
+
     }
 
     private void actionPhase() {
@@ -189,12 +190,12 @@ public class Board {
             if (players.get(currentPlayer).getBuys() <= 0) {
                 gui.showErrorPopup("Player " + (currentPlayer + 1) + " has no buys available");
                 break;
-            }
-            String cardToBuy = gui.getBuySelection(
-                    getAllCardsBelowCostOf(players.get(currentPlayer).getCoins()));
-            if (cardToBuy != null) {
-                processBuyPhaseSelection(cardToBuy.toLowerCase());
             } else {
+                String cardToBuy = gui.getBuySelection(
+                        getAllCardsBelowCostOf(players.get(currentPlayer).getCoins()));
+                if (cardToBuy != null) {
+                    processBuyPhaseSelection(cardToBuy.toLowerCase());
+                }
                 buySelection = gui.showBuyOption(getDto());
             }
         }
@@ -226,7 +227,15 @@ public class Board {
         Card boughtCard = deckToBuyFrom.buyCard();
         players.get(currentPlayer).addBoughtCard(boughtCard);
         players.get(currentPlayer).buy--;
-        // TODO: we gotta remove all the coins that they player use;
+        Player currentPlayer = players.get(this.currentPlayer);
+
+        int coinsInHand = currentPlayer.getCoinsInHand();
+        if (coinsInHand >= boughtCard.cost) {
+            currentPlayer.removeTreasureCardsOfCost(boughtCard.cost);
+        } else {
+            currentPlayer.coins -= (boughtCard.cost - coinsInHand);
+            currentPlayer.removeTreasureCardsOfCost(coinsInHand);
+        }
     }
 
     private BoardDeck getBoardDeckFromName(String nameOfDeck) {
