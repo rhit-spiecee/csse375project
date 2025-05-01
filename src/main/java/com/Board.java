@@ -100,6 +100,7 @@ public class Board {
 
     public void startGame() {
         while (!gameOver) {
+            gui.updateView(getDto());
             processTurn();
             checkProvinceDeckLength();
         }
@@ -118,7 +119,7 @@ public class Board {
     }
 
     private void actionPhase() {
-        int actionSelection = gui.getActionSelection(getDto());
+        int actionSelection = gui.getActionSelection(currentPlayer);
         while (actionSelection == 0) {
             try {
                 processActionMove();
@@ -126,7 +127,7 @@ public class Board {
                 gui.showErrorPopup(e.getMessage());
                 break;
             }
-            actionSelection = gui.getActionSelection(getDto());
+            actionSelection = gui.getActionSelection(currentPlayer);
         }
     }
 
@@ -184,7 +185,7 @@ public class Board {
     }
 
     private void buyPhase() {
-        int buySelection = gui.showBuyOption(getDto());
+        int buySelection = gui.showBuyOption(currentPlayer);
         while (buySelection == 0) {
             if (players.get(currentPlayer).getBuys() <= 0) {
                 gui.showErrorPopup("Player " + (currentPlayer + 1) + " has no buys available");
@@ -195,7 +196,7 @@ public class Board {
             if (cardToBuy != null) {
                 processBuyPhaseSelection(cardToBuy.toLowerCase());
             } else {
-                buySelection = gui.showBuyOption(getDto());
+                buySelection = gui.showBuyOption(currentPlayer);
             }
         }
         endTurn();

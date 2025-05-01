@@ -19,8 +19,8 @@ public class BuyCardTests {
         Card card = new TreasureCard("copper", 0, Card.CardType.TREASURE, 1);
         // Record
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(BoardDto.class))).andReturn(1);
-        EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(BoardDto.class))).andReturn(0).times(1);
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
+        EasyMock.expect(mockGui.showBuyOption(0)).andReturn(0).times(1);
         EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(3);
         EasyMock.expect(mockPlayer.getBuys()).andReturn(0).times(1);
         EasyMock.expect(mockGui.getBuySelection(EasyMock.anyObject())).andReturn("smithy");

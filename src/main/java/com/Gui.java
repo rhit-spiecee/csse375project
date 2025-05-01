@@ -1,14 +1,103 @@
 package com;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class Gui {
-    public static final int DEFAULT_NUM_PLAYERS = -1;
+    public static final int IMAGE_WIDTH = 150;
+    public static final int IMAGE_HEIGHT = 240;
+    JFrame frame;
     
+    public Gui() {
+        setupFrame();
+    }
+    
+    public void updateView(BoardDto boardDto) {
+        addBoardDecks(boardDto);
+        addHandAndInfo(boardDto);
+
+        frame.revalidate();
+        frame.repaint();
+    }
+
+    private void addHandAndInfo(BoardDto boardDto) {
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new GridLayout(2, 1));
+        JLabel infoLabel = new JLabel(
+                "Current Player: " + (boardDto.currentPlayerNumber + 1)
+                        + ", Coins: " + boardDto.currentPlayerCoins
+                        + ", Actions: " + boardDto.currentPlayerActions
+                        + ", Buys: " + boardDto.currentPlayerBuys
+                        
+        );
+        bottomPanel.add(infoLabel);
+
+        JPanel handPanel = new JPanel();
+        handPanel.setLayout(new FlowLayout());
+        handPanel.add(new JLabel("Hand: "));
+        for (Card card : boardDto.currentPlayerHand) {
+            ImageIcon imageIcon = getImageFromCardName(card.name);
+            JLabel cardImageLabel = new JLabel(imageIcon);
+            handPanel.add(cardImageLabel);
+        }
+        bottomPanel.add(handPanel);
+        frame.add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+    private void addBoardDecks(BoardDto boardDto) {
+        JPanel supplyPanel = new JPanel();
+        supplyPanel.setLayout(new GridLayout(2, 9));
+        addDecksToFrame(boardDto.treasureDecks, supplyPanel);
+        addDecksToFrame(boardDto.victoryDecks, supplyPanel);
+        addDecksToFrame(boardDto.kingdomDecks, supplyPanel);
+
+        frame.add(supplyPanel, BorderLayout.NORTH);
+    }
+
+    private void addDecksToFrame(Map<String, BoardDeck> decks, JPanel supplyPanel) {
+        for (Map.Entry<String, BoardDeck> deck : decks.entrySet()) {
+            JPanel deckPanel = new JPanel();
+            JLabel deckLabel = new JLabel("Cards left: " + deck.getValue().size());
+            ImageIcon imageIcon = getImageFromCardName(deck.getKey());
+            JLabel imageLabel = new JLabel(imageIcon);
+            deckPanel.add(deckLabel);
+            deckPanel.add(imageLabel);
+            supplyPanel.add(deckPanel);
+        }
+    }
+
+    private ImageIcon getImageFromCardName(String cardName) {
+        String fileName = "src/main/resources/cards/" + cardName + ".jpg";
+        ImageIcon imageIcon = new ImageIcon(fileName);
+        return new ImageIcon(
+                imageIcon
+                        .getImage()
+                        .getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_DEFAULT)
+        );
+    }
+
+    private void setupFrame() {
+        frame = new JFrame("Dominion");
+
+        frame.setSize(1920, 1000);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        frame.setVisible(true);
+
+        frame.setLayout(new BorderLayout());
+    }
+
     public int getNumPlayers() {
         String[] options = {"2", "3", "4"};
         Object selectionObject = JOptionPane.showInputDialog(
@@ -22,12 +111,11 @@ public class Gui {
         return Integer.parseInt((String) selectionObject);
     }
 
-    public int getActionSelection(BoardDto boardDto) {
-        String boardDisplayMessage = getBoardDisplay(boardDto);
+    public int getActionSelection(int playerNumber) {
         String[] options = {"Action", "Next Phase"};
         int chooseToAction = JOptionPane.showOptionDialog(
                 null,
-                boardDisplayMessage,
+                "Player " + (playerNumber + 1) + ": What would you like to do in the action phase?",
                 "Action Phase",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -42,12 +130,11 @@ public class Gui {
         return chooseToAction;
     }
 
-    public int showBuyOption(BoardDto boardDto) {
-        String boardDisplayMessage = getBoardDisplay(boardDto);
+    public int showBuyOption(int playerNumber) {
         String[] options = {"Buy", "End Turn"};
         int chooseToBuy = JOptionPane.showOptionDialog(
                 null,
-                boardDisplayMessage,
+                "Player " + (playerNumber + 1) + ": What would you like to do in the buy phase?",
                 "Buy Phase",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -103,32 +190,6 @@ public class Gui {
                     )
             );
         }
-    }
-
-    String getBoardDisplay(BoardDto boardDto) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("Treasure Decks:\n");
-        appendDeckDisplayWithValue(sb, boardDto.treasureDecks);
-
-        sb.append("\nVictory Decks:\n");
-        appendDeckDisplayWithValue(sb, boardDto.victoryDecks);
-
-        sb.append("\nKingdom Decks:\n");
-        appendDeckDisplayWithoutValue(sb, boardDto.kingdomDecks);
-
-        sb.append("\nCurrent Player: ").append(boardDto.currentPlayerNumber + 1).append("\n");
-        sb.append("Hand: ")
-                .append(boardDto.currentPlayerHand
-                        .stream()
-                        .map((card) -> Utilities.capitalize(card.name))
-                        .collect(Collectors.joining(", ")))
-                .append("\n");
-        sb.append("Coins: ").append(boardDto.currentPlayerCoins).append("\n");
-        sb.append("Action Abilities: ").append(boardDto.currentPlayerActions).append("\n");
-        sb.append("Buy Abilities: ").append(boardDto.currentPlayerBuys).append("\n");
-
-        return sb.toString();
     }
 
     public boolean getIfPlayerWantsToBlock(int currentPlayer) {
