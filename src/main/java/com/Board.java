@@ -476,7 +476,7 @@ public class Board {
 
         int discardSelection = gui.getDiscardOption();
         while (discardSelection == 0) {
-            if (player.hand.isEmpty()) {
+            if (player.hand.size() <= 1) {
                 gui.showErrorPopup("You have no more cards to discard");
                 break;
             }
