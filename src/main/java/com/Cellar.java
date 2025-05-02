@@ -11,6 +11,8 @@ public class Cellar extends KingdomCard {
     @Override
     public void useCardPowers(Player currentPlayer) {
         int numCardsDiscarded = board.discardAnyNumberOfCards(currentPlayer);
-        board.gainCards(numCardsDiscarded, currentPlayer);
+        for (int i = 0; i < numCardsDiscarded; i++) {
+            currentPlayer.drawOneCard();
+        }
     }
 }

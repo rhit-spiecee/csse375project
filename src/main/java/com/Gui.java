@@ -212,12 +212,18 @@ public class Gui {
     }
 
     public String getCardFromAvailableSelection(String baseMessage, ArrayList<String> cardNames) {
-        StringBuilder popupMessage = new StringBuilder(baseMessage);
-        popupMessage.append("(Available: ");
-        popupMessage.append(String.join(", ", cardNames));
-        popupMessage.append(")");
-
-        return JOptionPane.showInputDialog(popupMessage);
+        String[] options = cardNames.toArray(new String[cardNames.size()]);
+        //...and passing `frame` instead of `null` as first parameter
+        Object selectionObject = JOptionPane.showInputDialog(
+                null,
+                baseMessage,
+                "Menu",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+        return selectionObject.toString();
     }
 
     public int getDiscardOption() {

@@ -321,13 +321,13 @@ public class Board {
                 continue;
             }
             if (player.hasMoatCard()) {
-                boolean blockMilitia = gui.getIfPlayerWantsToBlock(currentPlayer);
+                boolean blockMilitia = gui.getIfPlayerWantsToBlock(i);
                 if (blockMilitia) {
                     continue;
                 }
             }
             while (player.hand.size() > 3) {
-                String cardToDiscard = gui.getCardToDiscard(player.hand, currentPlayer);
+                String cardToDiscard = gui.getCardToDiscard(player.hand, i);
                 player.discardCard(cardToDiscard);
             }
         }
@@ -419,13 +419,13 @@ public class Board {
     public void gainTreasureCard(Player player, Card trashedCard) {
         ArrayList<String> cardNames = new ArrayList<>();
         if (trashedCard.name.equalsIgnoreCase("copper")) {
-            cardNames.add("Copper");
-            cardNames.add("Silver");
+            cardNames.add("copper");
+            cardNames.add("silver");
         } else if (trashedCard.name.equalsIgnoreCase("silver")
                 || trashedCard.name.equalsIgnoreCase("gold")) {
-            cardNames.add("Copper");
-            cardNames.add("Silver");
-            cardNames.add("Gold");
+            cardNames.add("copper");
+            cardNames.add("silver");
+            cardNames.add("gold");
         } else {
             throw new RuntimeException("Unknown trashed card name: " + trashedCard.name);
         }
@@ -452,7 +452,7 @@ public class Board {
         } else if (victoryDecks.containsKey(cardToGain)) {
             card = victoryDecks.get(cardToGain).buyCard();
         } else {
-            throw new RuntimeException("Unknown trashed card name: " + cardToGain);
+            throw new RuntimeException("Unknown gained card name: " + cardToGain);
         }
 
         player.hand.add(card);
@@ -476,7 +476,7 @@ public class Board {
 
         int discardSelection = gui.getDiscardOption();
         while (discardSelection == 0) {
-            if (player.hand.isEmpty()) {
+            if (player.hand.size() <= 1) {
                 gui.showErrorPopup("You have no more cards to discard");
                 break;
             }

@@ -160,7 +160,7 @@ public class Player {
         HashSet<String> treasureCards = new HashSet<>();
         for (Card card : hand) {
             if (card.type == Card.CardType.TREASURE) {
-                treasureCards.add(Utilities.capitalize(card.name));
+                treasureCards.add(card.name);
             }
         }
         return new ArrayList<>(treasureCards.stream().toList());
