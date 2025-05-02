@@ -211,4 +211,15 @@ public class Player {
         return -1;
     }
 
+    public int calculateScore() {
+        emptyRemainingDeck();
+        discardPile.addAll(hand);
+        int score = 0;
+        for (Card card : discardPile) {
+            if (card.type == Card.CardType.VICTORY) {
+                score += card.value;
+            }
+        }
+        return score;
+    }
 }

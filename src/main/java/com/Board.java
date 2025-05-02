@@ -1,9 +1,6 @@
 package com;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Board {
     List<Player> players;
@@ -104,13 +101,48 @@ public class Board {
             processTurn();
             checkProvinceDeckLength();
         }
-        gui.showErrorPopup("Game over. Player X won"); //TODO
+        StringBuilder finalMessage = new StringBuilder("Province Deck Empty! Game Over!\n");
+        List<PlayerScoreEntry> scoredPlayers = new ArrayList<>();
+        for (int i = 0; i < players.size(); i++) {
+            int score = players.get(i).calculateScore(); // only calculate once
+            scoredPlayers.add(new PlayerScoreEntry(i + 1, players.get(i), score));
+        }
+
+        scoredPlayers.sort((a, b) -> Integer.compare(b.score, a.score));
+
+        PlayerScoreEntry winner = scoredPlayers.get(0);
+        finalMessage.append("Winner: Player ").append(winner.index)
+                .append(" with ").append(winner.score).append(" points!\n\n");
+
+        int rank = 1;
+        for (PlayerScoreEntry entry : scoredPlayers) {
+            finalMessage.append(rank).append(". Player ")
+                    .append(entry.index).append(" - ")
+                    .append(entry.score).append(" points\n");
+            rank++;
+        }
+
+        gui.showErrorPopup(finalMessage.toString());
     }
 
-    public void checkProvinceDeckLength() {
+    private static class PlayerScoreEntry {
+        int index;
+        Player player;
+        int score;
+
+        PlayerScoreEntry(int index, Player player, int score) {
+            this.index = index;
+            this.player = player;
+            this.score = score;
+        }
+    }
+
+    public boolean checkProvinceDeckLength() {
         if (victoryDecks.get("province").size() <= 0) {
             gameOver = true;
+            return true;
         }
+        return false;
     }
 
     void processTurn() {
@@ -121,6 +153,7 @@ public class Board {
     private void actionPhase() {
         int actionSelection = gui.getActionSelection(currentPlayer);
         while (actionSelection == 0) {
+            if (checkProvinceDeckLength()) return;
             if (players.get(currentPlayer).getActions() <= 0) {
                 gui.showErrorPopup("Player " + (currentPlayer + 1) + " has no actions available");
                 break;
@@ -152,6 +185,7 @@ public class Board {
     }
 
     private void processActionMove() {
+        if (checkProvinceDeckLength()) return;
         if (!players.get(currentPlayer).hasActionCard()) {
             throw new RuntimeException("Player " + (currentPlayer + 1) + " has no action cards");
         } else {
@@ -189,8 +223,10 @@ public class Board {
     }
 
     private void buyPhase() {
+        if (checkProvinceDeckLength()) return;
         int buySelection = gui.showBuyOption(currentPlayer);
         while (buySelection == 0) {
+            if (checkProvinceDeckLength()) return;
             if (players.get(currentPlayer).getBuys() <= 0) {
                 gui.showErrorPopup("Player " + (currentPlayer + 1) + " has no buys available");
                 break;
@@ -229,6 +265,7 @@ public class Board {
     }
 
     private void processBuyPhaseSelection(String buySelection) {
+        if (checkProvinceDeckLength()) return;
         BoardDeck deckToBuyFrom = getBoardDeckFromName(buySelection);
         Card boughtCard = deckToBuyFrom.buyCard();
         players.get(currentPlayer).addBoughtCard(boughtCard);
