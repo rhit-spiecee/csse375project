@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 public class BoardTests {
@@ -87,5 +88,47 @@ public class BoardTests {
         Board board = new Board(2);
         board.checkProvinceDeckLength();
         assertFalse(board.gameOver);
+    }
+
+    @Test
+    public void testWinnerScoreAndOrdering() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+
+        Player player1 = EasyMock.mock(Player.class);
+        Player player2 = EasyMock.mock(Player.class);
+        Player player3 = EasyMock.mock(Player.class);
+
+        EasyMock.expect(player1.calculateScore()).andReturn(18);
+        EasyMock.expect(player2.calculateScore()).andReturn(25);
+        EasyMock.expect(player3.calculateScore()).andReturn(14);
+
+        mockGui.updateView(isA(BoardDto.class));
+        expectLastCall().anyTimes();
+
+        StringBuilder capturedOutput = new StringBuilder();
+        mockGui.showErrorPopup(isA(String.class));
+        expectLastCall().andAnswer(() -> {
+            String msg = (String) getCurrentArguments()[0];
+            capturedOutput.append(msg);
+            return null;
+        });
+
+        EasyMock.replay(mockGui, player1, player2, player3);
+
+        Board board = new Board(3);
+        board.gui = mockGui;
+        board.players = Arrays.asList(player1, player2, player3);
+        board.gameOver = true;
+
+        board.startGame();
+
+        EasyMock.verify(mockGui, player1, player2, player3);
+
+        String output = capturedOutput.toString();
+
+        assertTrue(output.contains("Winner: Player 2 with 25 points"));
+        assertTrue(output.contains("1. Player 2 - 25 points"));
+        assertTrue(output.contains("2. Player 1 - 18 points"));
+        assertTrue(output.contains("3. Player 3 - 14 points"));
     }
 }
