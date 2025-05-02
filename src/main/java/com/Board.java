@@ -321,13 +321,13 @@ public class Board {
                 continue;
             }
             if (player.hasMoatCard()) {
-                boolean blockMilitia = gui.getIfPlayerWantsToBlock(currentPlayer);
+                boolean blockMilitia = gui.getIfPlayerWantsToBlock(i);
                 if (blockMilitia) {
                     continue;
                 }
             }
             while (player.hand.size() > 3) {
-                String cardToDiscard = gui.getCardToDiscard(player.hand, currentPlayer);
+                String cardToDiscard = gui.getCardToDiscard(player.hand, i);
                 player.discardCard(cardToDiscard);
             }
         }
