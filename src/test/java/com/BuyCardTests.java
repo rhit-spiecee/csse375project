@@ -18,21 +18,23 @@ public class BuyCardTests {
         Card card = new TreasureCard("copper", 0, Card.CardType.TREASURE, 1);
         // Record
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(mockGui.getActionSelection(EasyMock.isA(BoardDto.class))).andReturn(1);
-        EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(BoardDto.class))).andReturn(0).times(1);
-        EasyMock.expect(mockGui.showBuyOption(EasyMock.isA(BoardDto.class))).andReturn(1).times(1);
-        EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(3);
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
+        EasyMock.expect(mockGui.showBuyOption(0)).andReturn(0).times(1);
+        EasyMock.expect(mockGui.showBuyOption(0)).andReturn(1).times(1);
+        EasyMock.expect(mockPlayer.getBuys()).andReturn(1).times(1);
         EasyMock.expect(mockPlayer.getBuys()).andReturn(0).times(1);
         EasyMock.expect(mockGui.getBuySelection(EasyMock.anyObject())).andReturn("smithy");
 
         EasyMock.expect(mockPlayer.getCoinsInHand()).andReturn(4);
-        EasyMock.expect(mockPlayer.getCoins()).andReturn(4).times(4);
-        EasyMock.expect(mockPlayer.getHand()).andReturn(new ArrayList<>(Arrays.asList(card, card))).times(3);
-        EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(3);
+        EasyMock.expect(mockPlayer.getCoins()).andReturn(4).times(2);
+        EasyMock.expect(mockPlayer.getHand()).andReturn(new ArrayList<>(Arrays.asList(card, card))).times(1);
+        EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(1);
         mockPlayer.removeTreasureCardsOfCost(4);
         mockPlayer.drawHand();
         mockPlayer.addBoughtCard(new Smithy());
         mockPlayer.cleanup();
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
 
 
         // Replay

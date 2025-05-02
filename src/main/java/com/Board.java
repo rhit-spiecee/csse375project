@@ -100,6 +100,7 @@ public class Board {
 
     public void startGame() {
         while (!gameOver) {
+            gui.updateView(getDto());
             processTurn();
             checkProvinceDeckLength();
         }
@@ -115,19 +116,23 @@ public class Board {
     void processTurn() {
         actionPhase();
         buyPhase();
-
     }
 
     private void actionPhase() {
-        int actionSelection = gui.getActionSelection(getDto());
+        int actionSelection = gui.getActionSelection(currentPlayer);
         while (actionSelection == 0) {
+            if (players.get(currentPlayer).getActions() <= 0) {
+                gui.showErrorPopup("Player " + (currentPlayer + 1) + " has no actions available");
+                break;
+            }
             try {
                 processActionMove();
             } catch (RuntimeException e) {
                 gui.showErrorPopup(e.getMessage());
                 break;
             }
-            actionSelection = gui.getActionSelection(getDto());
+            gui.updateView(getDto());
+            actionSelection = gui.getActionSelection(currentPlayer);
         }
     }
 
@@ -151,7 +156,6 @@ public class Board {
             throw new RuntimeException("Player " + (currentPlayer + 1) + " has no action cards");
         } else {
             KingdomCard card = getActionCardToPlay();
-            System.out.println(card);
             card.useActionCard(players.get(currentPlayer));
         }
     }
@@ -185,23 +189,25 @@ public class Board {
     }
 
     private void buyPhase() {
-        int buySelection = gui.showBuyOption(getDto());
+        int buySelection = gui.showBuyOption(currentPlayer);
         while (buySelection == 0) {
             if (players.get(currentPlayer).getBuys() <= 0) {
                 gui.showErrorPopup("Player " + (currentPlayer + 1) + " has no buys available");
                 break;
-            } else {
-                String cardToBuy = gui.getBuySelection(
-                        getAllCardsBelowCostOf(players.get(currentPlayer).getCoins()));
-                if (cardToBuy != null) {
-                    processBuyPhaseSelection(cardToBuy.toLowerCase());
-                }
-                buySelection = gui.showBuyOption(getDto());
             }
+            String cardToBuy = gui.getBuySelection(
+                    getAllCardsBelowCostOf(players.get(currentPlayer).getCoins()));
+            if (cardToBuy != null) {
+                processBuyPhaseSelection(cardToBuy.toLowerCase());
+            }
+            gui.updateView(getDto());
+            buySelection = gui.showBuyOption(currentPlayer);
         }
         endTurn();
     }
 
+    // TODO: we need to remove these unused methods,
+    //  and rework the tests to test getAllCardsBelowCostOf
     public List<String> getAllAvailableDecks() {
         ArrayList<String> availableDecks = new ArrayList<>();
         availableDecks.addAll(getAvailableDecks(kingdomDecks));
@@ -255,7 +261,7 @@ public class Board {
         players.get(currentPlayer).cleanup();
         players.get(currentPlayer).drawHand();
         currentPlayer = (currentPlayer + 1) % numPlayers;
-
+        gui.updateView(getDto());
     }
 
     public int getCurrentPlayerNumber() {
@@ -284,7 +290,7 @@ public class Board {
                 }
             }
             while (player.hand.size() > 3) {
-                String cardToDiscard = gui.getCardToDiscard(player.hand);
+                String cardToDiscard = gui.getCardToDiscard(player.hand, currentPlayer);
                 player.discardCard(cardToDiscard);
             }
         }
