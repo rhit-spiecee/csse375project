@@ -19,7 +19,7 @@ public class MilitiaTests {
     public void testCardBehavior() {
         Gui mockGui = EasyMock.mock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(mockGui.getCardToDiscard(EasyMock.notNull(), EasyMock.eq(0))).andReturn("copper").times(2);
+        EasyMock.expect(mockGui.getCardToDiscard(EasyMock.notNull(), EasyMock.eq(1))).andReturn("copper").times(2);
         
         EasyMock.replay(mockGui);
         Board board = Board.fromGui(mockGui);
