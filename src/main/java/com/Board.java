@@ -104,7 +104,13 @@ public class Board {
             processTurn();
             checkProvinceDeckLength();
         }
-        gui.showErrorPopup("Game over. Player X won"); //TODO
+        StringBuilder finalMessage = new StringBuilder("Game Over\n");
+        int index = 1;
+        for (Player player : players) {
+            finalMessage.append("Player " + (currentPlayer + index) + "'s final score: " + player.calculateScore() + "\n");
+            index++;
+        }
+        gui.showErrorPopup(String.valueOf(finalMessage));
     }
 
     public void checkProvinceDeckLength() {

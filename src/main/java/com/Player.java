@@ -9,7 +9,7 @@ public class Player {
     ArrayList<Card> discardPile = new ArrayList<>();
     PlayerDeck deck;
 
-    int coins = 0;
+    int coins = 8000;
     int buy = 1;
     int action = 1;
 
@@ -211,4 +211,15 @@ public class Player {
         return -1;
     }
 
+    public int calculateScore() {
+        emptyRemainingDeck();
+        discardPile.addAll(hand);
+        int score = 0;
+        for (Card card : discardPile) {
+            if (card.type == Card.CardType.VICTORY) {
+                score += card.value;
+            }
+        }
+        return score;
+    }
 }
