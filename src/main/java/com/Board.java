@@ -104,7 +104,7 @@ public class Board {
             processTurn();
             checkProvinceDeckLength();
         }
-        StringBuilder finalMessage = new StringBuilder("Game Over\n");
+        StringBuilder finalMessage = new StringBuilder("Game Over!\n");
         int index = 1;
         for (Player player : players) {
             finalMessage.append("Player " + (currentPlayer + index) + "'s final score: " + player.calculateScore() + "\n");

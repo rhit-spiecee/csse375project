@@ -9,7 +9,7 @@ public class Player {
     ArrayList<Card> discardPile = new ArrayList<>();
     PlayerDeck deck;
 
-    int coins = 8000;
+    int coins = 0;
     int buy = 1;
     int action = 1;
 
