@@ -34,7 +34,7 @@ public class CellarTests {
         cellar.useActionCard(player);
 
         assertEquals(0, player.coins);
-        assertEquals(0, player.action);
+        assertEquals(1, player.action);
         assertEquals(1, player.buy);
         assertEquals(3, player.hand.size());
         assertEquals(4, player.discardPile.size());
