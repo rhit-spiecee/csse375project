@@ -196,6 +196,7 @@ public class Player {
     private int getCoinsAfterRemovingCard(int coinsRemaining, int treasuryCardValue, String treasureCardType) {
         int index = hasTreasureCardType(treasureCardType);
         while (coinsRemaining >= treasuryCardValue && index > -1) {
+            discardPile.add(hand.get(index));
             hand.remove(index);
             coinsRemaining -= treasuryCardValue;
             index = hasTreasureCardType(treasureCardType);
