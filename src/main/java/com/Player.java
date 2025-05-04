@@ -114,6 +114,9 @@ public class Player {
     }
 
     public void cleanup() {
+        coins = 0;
+        buy = 1;
+        action = 1;
         discardPile.addAll(hand);
         hand.clear();
     }
