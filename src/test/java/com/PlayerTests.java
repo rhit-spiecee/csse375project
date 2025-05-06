@@ -261,4 +261,17 @@ public class PlayerTests {
         Player player = new Player();
         assertFalse(player.hasMoatCard());
     }
+
+    @Test
+    public void testHasMoatCardWithMoatCardInDeck() {
+        Player player = new Player();
+
+        player.deck.add(new Moat());
+
+        player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        player.hand.add(new VictoryCard("province", 8, Card.CardType.VICTORY, 6));
+        player.hand.add(new Market());
+
+        assertFalse(player.hasMoatCard());
+    }
 }
