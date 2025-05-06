@@ -47,6 +47,7 @@ public class MilitiaTests {
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getIfPlayerWantsToBlock(1)).andReturn(true);
+
         mockPlayerOne.discardCard(EasyMock.isA(KingdomCard.class));
 
         EasyMock.replay(mockGui, mockPlayerOne);
@@ -57,12 +58,13 @@ public class MilitiaTests {
         newHand.add(new Moat());
         newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
         newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
 
         board.players.getLast().hand = newHand;
 
         // Verify
         militia.useActionCard(mockPlayerOne);
-        assertEquals(3, board.players.getLast().getHand().size());
+        assertEquals(4, board.players.getLast().getHand().size());
         assertEquals(newHand, board.players.getLast().getHand());
 
         EasyMock.verify(mockGui, mockPlayerOne);
