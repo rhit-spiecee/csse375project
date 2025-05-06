@@ -151,5 +151,28 @@ public class BoardTests {
 
         EasyMock.verify(player1, player2);
     }
+    
+    @Test
+    public void testActionPhaseNoActionsAvailable() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+        
+        Player player1 = EasyMock.mock(Player.class);
+        
+        EasyMock.expect(player1.getActions()).andReturn(0);
+        
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
+        mockGui.showErrorPopup("Player 1 has no actions available");
+        
+        EasyMock.replay(mockGui);
+        
+        Board board = Board.fromGui(mockGui);
+        board.players.removeFirst();
+        board.players.addFirst(player1);
+        
+        board.actionPhase();
+        
+        EasyMock.verify(mockGui);
+    }
 }
  

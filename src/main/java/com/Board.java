@@ -134,7 +134,7 @@ public class Board {
         buyPhase();
     }
 
-    private void actionPhase() { // TODO: change to game class
+    void actionPhase() { // TODO: change to game class
         int actionSelection = gui.getActionSelection(currentPlayerIndex);
         while (actionSelection == 0 && !checkProvinceDeckLength()) {
             if (getCurrentPlayerActions() <= 0) {
