@@ -238,4 +238,21 @@ public class PlayerTests {
         Player player = new Player();
         assertEquals(3, player.calculateScore());
     }
+
+    @Test
+    public void testGetCoinsInHand() {
+        Player player = new Player();
+
+        player.deck.add(new TreasureCard("gold", 6, Card.CardType.TREASURE, 3));
+        player.deck.add(new Moat());
+
+        player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        player.hand.add(new TreasureCard("silver", 4, Card.CardType.TREASURE, 2));
+        player.hand.add(new TreasureCard("gold", 6, Card.CardType.TREASURE, 3));
+        player.hand.add(new VictoryCard("province", 8, Card.CardType.VICTORY, 6));
+        player.hand.add(new Market());
+
+        assertEquals(6, player.getCoinsInHand());
+
+    }
 }
