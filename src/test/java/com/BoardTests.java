@@ -3,6 +3,7 @@ package com;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -137,5 +138,28 @@ public class BoardTests {
         Board board = new Board(2);
         int playerIndex = board.getCurrentPlayerIndex();
         assertEquals(playerIndex, board.currentPlayerIndex);
+    }
+
+    @Test
+    public void testGetCurrentPlayerHand() {
+        Board board = new Board(2);
+        Player mockPlayer = EasyMock.mock(Player.class);
+
+        board.players.removeFirst();
+        board.players.addFirst(mockPlayer);
+
+        ArrayList<Card> hand = new ArrayList<Card>();
+        for (int i = 0; i < 5; i++) {
+            hand.add(new Moat());
+        }
+
+        EasyMock.expect(mockPlayer.getHand()).andReturn(hand);
+        EasyMock.replay(mockPlayer);
+
+        ArrayList<Card> returnedHand = board.getCurrentPlayerHand();
+        EasyMock.verify(mockPlayer);
+
+        assertEquals(5, returnedHand.size());
+        assertEquals(hand, returnedHand);
     }
 }
