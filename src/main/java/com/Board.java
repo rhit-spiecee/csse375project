@@ -171,16 +171,12 @@ public class Board {
     }
 
     public String[] getAvailableActionCardsInHand() {
-        int index = 0;
-        Player currentPlayer = getCurrentPlayer();
-        String[] availableActionCardsInHand = new String[getCurrentPlayerHand().size()];
-        for (Card c : currentPlayer.hand) {
-            if (c.type.equals(Card.CardType.KINGDOM)) { // TODO: change card to have isAction
-                availableActionCardsInHand[index] = c.name;
-                index++;
-            }
+        List<KingdomCard> actionCards = getCurrentPlayer().getActionCards();
+        String[] availableActionCards = new String[actionCards.size()];
+        for (int i = 0; i < actionCards.size(); i++) {
+            availableActionCards[i] = actionCards.get(i).name;
         }
-        return availableActionCardsInHand;
+        return availableActionCards;
     }
 
     private KingdomCard getActionCardToPlay() {
