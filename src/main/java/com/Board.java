@@ -109,7 +109,7 @@ public class Board {
         gui.displayGameOverScreen(scoredPlayers);
     }
 
-    private List<PlayerScoreEntry> getSortedPlayerEntries() {
+    List<PlayerScoreEntry> getSortedPlayerEntries() {
         List<PlayerScoreEntry> scoredPlayers = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
             int score = players.get(i).calculateScore(); // only calculate once

@@ -123,4 +123,33 @@ public class BoardTests {
         
         EasyMock.verify(mockGui, player1, player2, mockDeck);
     }
+    
+    @Test
+    public void testGetSortedPlayerEntries() {
+        Board board = new Board(2);
+        
+        Player player1 = EasyMock.mock(Player.class);
+        Player player2 = EasyMock.mock(Player.class);
+
+        EasyMock.expect(player1.calculateScore()).andReturn(18);
+        EasyMock.expect(player2.calculateScore()).andReturn(25);
+        
+        EasyMock.replay(player1, player2);
+        
+        board.players = Arrays.asList(player1, player2);
+        
+        List<PlayerScoreEntry> sortedEntries = board.getSortedPlayerEntries();
+        PlayerScoreEntry winner = sortedEntries.get(0);
+        PlayerScoreEntry second = sortedEntries.get(1);
+        assertEquals(25, winner.score);
+        assertEquals(player2, winner.player);
+        assertEquals(2, winner.index);
+        
+        assertEquals(18, second.score);
+        assertEquals(player1, second.player);
+        assertEquals(1, second.index);
+
+        EasyMock.verify(player1, player2);
+    }
 }
+ 
