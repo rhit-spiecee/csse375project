@@ -200,7 +200,7 @@ public class Player {
         return coinsRemaining;
     }
 
-    private int hasTreasureCardType(String type) {
+    int hasTreasureCardType(String type) {
         int index = 0;
         for (Card card : hand) {
             if (card.name.equals(type)) {

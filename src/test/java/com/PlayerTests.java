@@ -249,7 +249,7 @@ public class PlayerTests {
         player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
         player.hand.add(new TreasureCard("silver", 4, Card.CardType.TREASURE, 2));
         player.hand.add(new TreasureCard("gold", 6, Card.CardType.TREASURE, 3));
-        player.hand.add(new VictoryCard("province", 8, Card.CardType.VICTORY, 6));
+        player.hand.add(new VictoryCard("estate", 2, Card.CardType.VICTORY, 1));
         player.hand.add(new Market());
 
         assertEquals(6, player.getCoinsInHand());
@@ -330,6 +330,14 @@ public class PlayerTests {
     }
 
     @Test
+    public void testGetCoinsAfterRemovingCardWithTreasureCards() {
+        Player player = new Player();
+        player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+
+        assertEquals(0, player.getCoinsAfterRemovingCard(1, 1, "copper"));
+    }
+
+    @Test
     public void testRecycleCards() {
         Player player = new Player();
 
@@ -345,5 +353,11 @@ public class PlayerTests {
         assertEquals(2, player.deck.size());
         assertEquals(10, player.hand.size());
         assertEquals(0, player.discardPile.size());
+    }
+
+    @Test
+    public void testHasTreasureCardTypeWithoutTreasureCard() {
+        Player player = new Player();
+        assertEquals(-1, player.hasTreasureCardType("copper"));
     }
 }
