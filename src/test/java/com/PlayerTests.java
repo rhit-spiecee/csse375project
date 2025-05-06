@@ -232,4 +232,10 @@ public class PlayerTests {
         assertEquals(0, player.hand.size());
         assertEquals(0, player.getCoins());
     }
+
+    @Test
+    public void testCalculateScore(){
+        Player player = new Player();
+        assertEquals(3, player.calculateScore());
+    }
 }

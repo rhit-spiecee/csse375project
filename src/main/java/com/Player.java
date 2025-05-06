@@ -44,7 +44,8 @@ public class Player {
     }
 
     private void emptyRemainingDeck() {
-        for (int i = 0; i < deck.size(); i++) {
+        int deckSize = deck.size();
+        for (int i = 0; i < deckSize; i++) {
             drawOneCard();
         }
     }
