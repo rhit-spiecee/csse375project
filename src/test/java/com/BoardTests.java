@@ -162,4 +162,21 @@ public class BoardTests {
         assertEquals(5, returnedHand.size());
         assertEquals(hand, returnedHand);
     }
+
+    @Test
+    public void testGetCurrentPlayerCoins() {
+        Board board = new Board(2);
+        Player mockPlayer = EasyMock.mock(Player.class);
+
+        board.players.removeFirst();
+        board.players.addFirst(mockPlayer);
+
+        EasyMock.expect(mockPlayer.getCoins()).andReturn(8);
+        EasyMock.replay(mockPlayer);
+
+        int returnedCoinAmount = board.getCurrentPlayerCoins();
+        EasyMock.verify(mockPlayer);
+
+        assertEquals(returnedCoinAmount, 8);
+    }
 }
