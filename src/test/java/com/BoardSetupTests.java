@@ -115,7 +115,7 @@ public class BoardSetupTests {
     @Test
     public void testInitialPlayerNumber() {
         Board board = new Board(2);
-        assertEquals(0, board.getCurrentPlayerNumber());
+        assertEquals(0, board.getCurrentPlayerIndex());
     }
     
     @Test

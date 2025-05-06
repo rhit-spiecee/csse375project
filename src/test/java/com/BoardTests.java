@@ -30,7 +30,7 @@ public class BoardTests {
         board.processTurn();
         assertEquals(5, board.players.getFirst().hand.size());
         assertEquals(5, board.players.getFirst().discardPile.size());
-        assertEquals(1, board.currentPlayer);
+        assertEquals(1, board.currentPlayerIndex);
 
         EasyMock.verify(mockGui);
     }
