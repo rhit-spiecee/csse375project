@@ -170,6 +170,9 @@ public class Player {
                 break;
             }
         }
+        if (cardToRemove == null) {
+            return null;
+        }
         hand.remove(cardToRemove);
 
         return cardToRemove;

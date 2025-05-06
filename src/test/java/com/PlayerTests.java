@@ -295,4 +295,10 @@ public class PlayerTests {
         player.hand.add(new Moat());
         assertTrue(player.discardCard("moat"));
     }
+
+    @Test
+    public void testTrashCardWithNoCardsInHand(){
+        Player player = new Player();
+        assertNull(player.trashCard("moat"));
+    }
 }
