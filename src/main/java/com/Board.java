@@ -11,7 +11,6 @@ public class Board {
     boolean gameOver = false;
     int numPlayers;
     int currentPlayerIndex;
-    int currentPlayerNumber;
     Gui gui;
 
     public Board(int numPlayers) {
@@ -20,7 +19,6 @@ public class Board {
         }
         this.numPlayers = numPlayers;
         this.currentPlayerIndex = 0;
-        this.currentPlayerNumber = currentPlayerIndex + 1;
 
         initializeDecks();
         initializePlayers();
@@ -155,11 +153,11 @@ public class Board {
         int actionSelection = gui.getActionSelection(currentPlayerIndex);
         while (actionSelection == 0 && !checkProvinceDeckLength()) {
             if (getCurrentPlayerActions() <= 0) {
-                gui.showErrorPopup("Player " + currentPlayerNumber + " has no actions available");
+                gui.showErrorPopup("Player " + getCurrentPlayerNumber() + " has no actions available");
                 break;
             }
             if (!getCurrentPlayer().hasActionCard()) {
-                gui.showErrorPopup("Player " + currentPlayerNumber + " has no action cards");
+                gui.showErrorPopup("Player " + getCurrentPlayerNumber() + " has no action cards");
                 break;
             }
 
@@ -223,7 +221,7 @@ public class Board {
         int buySelection = gui.showBuyOption(currentPlayerIndex);
         while (buySelection == 0 && !checkProvinceDeckLength()) {
             if (getCurrentPlayerBuys() <= 0) {
-                gui.showErrorPopup("Player " + currentPlayerNumber + " has no buys available");
+                gui.showErrorPopup("Player " + getCurrentPlayerNumber() + " has no buys available");
                 break;
             }
             String cardToBuy = gui.getBuySelection(
@@ -273,8 +271,12 @@ public class Board {
         Player currentPlayer = getCurrentPlayer();
         currentPlayer.cleanup();
         currentPlayer.drawHand();
-        currentPlayerIndex = currentPlayerNumber % numPlayers;
+        currentPlayerIndex = getCurrentPlayerNumber() % numPlayers;
         gui.updateView(getDto());
+    }
+
+    private int getCurrentPlayerNumber() {
+        return currentPlayerIndex + 1;
     }
 
     public Player getCurrentPlayer() {
