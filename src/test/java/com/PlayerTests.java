@@ -255,4 +255,10 @@ public class PlayerTests {
         assertEquals(6, player.getCoinsInHand());
 
     }
+
+    @Test
+    public void testHasMoatCardWithoutMoatCard() {
+        Player player = new Player();
+        assertFalse(player.hasMoatCard());
+    }
 }
