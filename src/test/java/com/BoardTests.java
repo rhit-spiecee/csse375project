@@ -196,4 +196,27 @@ public class BoardTests {
 
         assertEquals(returnedActionAmount, 2);
     }
+
+    @Test
+    public void testCurrentPlayerGetActionCards() {
+        Board board = new Board(2);
+        Player mockPlayer = EasyMock.mock(Player.class);
+
+        board.players.removeFirst();
+        board.players.addFirst(mockPlayer);
+
+        ArrayList<KingdomCard> hand = new ArrayList<KingdomCard>();
+        for (int i = 0; i < 3; i++) {
+            hand.add(new Moat());
+        }
+
+        EasyMock.expect(mockPlayer.getActionCards()).andReturn(hand);
+        EasyMock.replay(mockPlayer);
+
+        List<KingdomCard> returnedActionCards = board.getCurrentPlayerActionCards();
+        EasyMock.verify(mockPlayer);
+
+        assertEquals(3, returnedActionCards.size());
+        assertEquals(hand, returnedActionCards);
+    }
 }
