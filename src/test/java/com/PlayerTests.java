@@ -328,4 +328,22 @@ public class PlayerTests {
 
         assertEquals(initialCoins, player.getCoinsAfterRemovingCard(initialCoins, cardValue, treasureCardType));
     }
+
+    @Test
+    public void testRecycleCards() {
+        Player player = new Player();
+
+        player.emptyRemainingDeck();
+        assertEquals(0, player.deck.size());
+        assertEquals(10, player.hand.size());
+        assertEquals(0, player.discardPile.size());
+
+        player.discardPile.add(new TreasureCard("gold", 6, Card.CardType.TREASURE, 1));
+        player.discardPile.add(new TreasureCard("silver", 4, Card.CardType.TREASURE, 2));
+
+        player.recycleCards();
+        assertEquals(2, player.deck.size());
+        assertEquals(10, player.hand.size());
+        assertEquals(0, player.discardPile.size());
+    }
 }

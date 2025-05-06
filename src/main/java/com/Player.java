@@ -34,7 +34,7 @@ public class Player {
     }
 
 
-    private void recycleCards() {
+    void recycleCards() {
         for (Card card : discardPile) {
             deck.add(card);
         }
@@ -43,7 +43,7 @@ public class Player {
         deck.shuffle();
     }
 
-    private void emptyRemainingDeck() {
+    void emptyRemainingDeck() {
         int deckSize = deck.size();
         for (int i = 0; i < deckSize; i++) {
             drawOneCard();
