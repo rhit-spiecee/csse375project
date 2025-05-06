@@ -21,7 +21,9 @@ public class PlayerTests {
         player.drawHand();
 
         //Verify
-        assertEquals(5, player.hand.size());
+        assertEquals(5, player.getHand().size());
+        assertEquals(1, player.getActions());
+        assertEquals(1, player.getBuys());
         EasyMock.verify(mockDeck);
     }
 
