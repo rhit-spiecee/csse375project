@@ -164,7 +164,7 @@ public class BoardTests {
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
         mockGui.showErrorPopup("Player 1 has no actions available");
         
-        EasyMock.replay(mockGui);
+        EasyMock.replay(mockGui, player1);
         
         Board board = Board.fromGui(mockGui);
         board.players.removeFirst();
@@ -172,7 +172,31 @@ public class BoardTests {
         
         board.actionPhase();
         
-        EasyMock.verify(mockGui);
+        EasyMock.verify(mockGui, player1);
+    }
+    
+    @Test
+    public void testActionPhaseNoActionCardsAvailable() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+
+        Player player1 = EasyMock.mock(Player.class);
+
+        EasyMock.expect(player1.getActions()).andReturn(1);
+        EasyMock.expect(player1.hasActionCard()).andReturn(false);
+
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
+        mockGui.showErrorPopup("Player 1 has no action cards");
+
+        EasyMock.replay(mockGui, player1);
+
+        Board board = Board.fromGui(mockGui);
+        board.players.removeFirst();
+        board.players.addFirst(player1);
+
+        board.actionPhase();
+
+        EasyMock.verify(mockGui, player1);
     }
 }
  
