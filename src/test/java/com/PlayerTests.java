@@ -360,4 +360,11 @@ public class PlayerTests {
         Player player = new Player();
         assertEquals(-1, player.hasTreasureCardType("copper"));
     }
+
+    @Test
+    public void testHasTreasureCardTypeWithTreasureCard() {
+        Player player = new Player();
+        player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        assertEquals(0, player.hasTreasureCardType("copper"));
+    }
 }
