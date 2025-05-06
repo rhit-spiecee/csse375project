@@ -149,7 +149,7 @@ public class Board {
         buyPhase();
     }
 
-    private void actionPhase() { // TODO: change to game class
+    void actionPhase() { // TODO: change to game class
         int actionSelection = gui.getActionSelection(currentPlayerIndex);
         while (actionSelection == 0 && !checkProvinceDeckLength()) {
             if (getCurrentPlayerActions() <= 0) {
@@ -189,7 +189,7 @@ public class Board {
         int index = 0;
         Player currentPlayer = getCurrentPlayer();
         String[] availableActionCardsInHand = new String[getCurrentPlayerHand().size()];
-        for (Card c : currentPlayer.hand) {
+        for (Card c : currentPlayer.getHand()) {
             if (c.type.equals(Card.CardType.KINGDOM)) { // TODO: change card to have isAction
                 availableActionCardsInHand[index] = c.name;
                 index++;

@@ -3,6 +3,9 @@ package com;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class MilitiaTests {
@@ -35,5 +38,34 @@ public class MilitiaTests {
         assertEquals(1, player.discardPile.size());
         
         EasyMock.verify(mockGui);
+    }
+
+    @Test
+    public void testPlayerBlockMilitia() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+        Player mockPlayerOne = EasyMock.mock(Player.class);
+
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getIfPlayerWantsToBlock(1)).andReturn(true);
+        mockPlayerOne.discardCard(EasyMock.isA(KingdomCard.class));
+
+        EasyMock.replay(mockGui, mockPlayerOne);
+
+        Board board = Board.fromGui(mockGui);
+        Militia militia = new Militia(board);
+        ArrayList<Card> newHand = new ArrayList<>();
+        newHand.add(new Moat());
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+
+        board.players.getLast().hand = newHand;
+
+        // Verify
+        militia.useActionCard(mockPlayerOne);
+        assertEquals(3, board.players.getLast().getHand().size());
+        assertEquals(newHand, board.players.getLast().getHand());
+
+        EasyMock.verify(mockGui, mockPlayerOne);
+
     }
 }

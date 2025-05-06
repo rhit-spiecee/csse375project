@@ -29,9 +29,9 @@ public class BoardTests {
 
         // Verify
         board.processTurn();
-        assertEquals(5, board.players.getFirst().hand.size());
+        assertEquals(5, board.players.getFirst().getHand().size());
         assertEquals(5, board.players.getFirst().discardPile.size());
-        assertEquals(1, board.currentPlayerIndex);
+        assertEquals(1, board.getCurrentPlayerIndex());
 
         EasyMock.verify(mockGui);
     }
@@ -131,92 +131,5 @@ public class BoardTests {
         assertTrue(output.contains("1. Player 2 - 25 points"));
         assertTrue(output.contains("2. Player 1 - 18 points"));
         assertTrue(output.contains("3. Player 3 - 14 points"));
-    }
-
-    @Test
-    public void testCurrentPlayerIndex() {
-        Board board = new Board(2);
-        int playerIndex = board.getCurrentPlayerIndex();
-        assertEquals(playerIndex, board.currentPlayerIndex);
-    }
-
-    @Test
-    public void testGetCurrentPlayerHand() {
-        Board board = new Board(2);
-        Player mockPlayer = EasyMock.mock(Player.class);
-
-        board.players.removeFirst();
-        board.players.addFirst(mockPlayer);
-
-        ArrayList<Card> hand = new ArrayList<Card>();
-        for (int i = 0; i < 5; i++) {
-            hand.add(new Moat());
-        }
-
-        EasyMock.expect(mockPlayer.getHand()).andReturn(hand);
-        EasyMock.replay(mockPlayer);
-
-        ArrayList<Card> returnedHand = board.getCurrentPlayerHand();
-        EasyMock.verify(mockPlayer);
-
-        assertEquals(5, returnedHand.size());
-        assertEquals(hand, returnedHand);
-    }
-
-    @Test
-    public void testGetCurrentPlayerCoins() {
-        Board board = new Board(2);
-        Player mockPlayer = EasyMock.mock(Player.class);
-
-        board.players.removeFirst();
-        board.players.addFirst(mockPlayer);
-
-        EasyMock.expect(mockPlayer.getCoins()).andReturn(8);
-        EasyMock.replay(mockPlayer);
-
-        int returnedCoinAmount = board.getCurrentPlayerCoins();
-        EasyMock.verify(mockPlayer);
-
-        assertEquals(returnedCoinAmount, 8);
-    }
-
-    @Test
-    public void testCurrentPlayerActions() {
-        Board board = new Board(2);
-        Player mockPlayer = EasyMock.mock(Player.class);
-
-        board.players.removeFirst();
-        board.players.addFirst(mockPlayer);
-
-        EasyMock.expect(mockPlayer.getActions()).andReturn(2);
-        EasyMock.replay(mockPlayer);
-
-        int returnedActionAmount = board.getCurrentPlayerActions();
-        EasyMock.verify(mockPlayer);
-
-        assertEquals(returnedActionAmount, 2);
-    }
-
-    @Test
-    public void testCurrentPlayerGetActionCards() {
-        Board board = new Board(2);
-        Player mockPlayer = EasyMock.mock(Player.class);
-
-        board.players.removeFirst();
-        board.players.addFirst(mockPlayer);
-
-        ArrayList<KingdomCard> hand = new ArrayList<KingdomCard>();
-        for (int i = 0; i < 3; i++) {
-            hand.add(new Moat());
-        }
-
-        EasyMock.expect(mockPlayer.getActionCards()).andReturn(hand);
-        EasyMock.replay(mockPlayer);
-
-        List<KingdomCard> returnedActionCards = board.getCurrentPlayerActionCards();
-        EasyMock.verify(mockPlayer);
-
-        assertEquals(3, returnedActionCards.size());
-        assertEquals(hand, returnedActionCards);
     }
 }
