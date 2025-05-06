@@ -46,7 +46,7 @@ public class BuyCardTests {
         // Verify
         board.processTurn();
         assertEquals(9, board.kingdomDecks.get("smithy").size());
-        assertEquals(1, board.currentPlayer);
+        assertEquals(1, board.currentPlayerIndex);
 
         EasyMock.verify(mockGui, mockPlayer);
     }
