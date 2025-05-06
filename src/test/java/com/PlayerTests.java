@@ -367,4 +367,14 @@ public class PlayerTests {
         player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
         assertEquals(0, player.hasTreasureCardType("copper"));
     }
+
+    @Test
+    public void testHasTreasureCardTypeWithFullHand() {
+        Player player = new Player();
+        for(int i = 0; i < 4; i++) {
+            player.hand.add(new Moat());
+        }
+        player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        assertEquals(4, player.hasTreasureCardType("copper"));
+    }
 }
