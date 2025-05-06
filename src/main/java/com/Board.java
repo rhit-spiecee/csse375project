@@ -11,11 +11,16 @@ public class Board {
     boolean gameOver = false;
     int numPlayers;
     int currentPlayerIndex;
+    int currentPlayerNumber;
     Gui gui;
 
     public Board(int numPlayers) {
+        if (numPlayers < 2 || numPlayers > 4) {
+            throw new RuntimeException("Number of players must be between 2 and 4");
+        }
         this.numPlayers = numPlayers;
         this.currentPlayerIndex = 0;
+        this.currentPlayerNumber = currentPlayerIndex + 1;
 
         initializeDecks();
         initializePlayers();
@@ -147,19 +152,19 @@ public class Board {
 
     private void actionPhase() { // TODO: change to game class
         int actionSelection = gui.getActionSelection(currentPlayerIndex);
-        while (actionSelection == 0) {
-            if (checkProvinceDeckLength()) return;
-            if (players.get(currentPlayerIndex).getActions() <= 0) {
-                gui.showErrorPopup("Player " + (currentPlayerIndex + 1) + " has no actions available");
+        while (actionSelection == 0 && !checkProvinceDeckLength()) {
+            if (getCurrentPlayerActions() <= 0) {
+                gui.showErrorPopup("Player " + currentPlayerNumber + " has no actions available");
                 break;
             }
-            if (!players.get(currentPlayerIndex).hasActionCard()) {
-                gui.showErrorPopup("Player " + (currentPlayerIndex + 1) + " has no action cards");
+            if (!getCurrentPlayer().hasActionCard()) {
+                gui.showErrorPopup("Player " + currentPlayerNumber + " has no action cards");
                 break;
             }
+
             KingdomCard actionCardToPlay = getActionCardToPlay();
             if (actionCardToPlay != null) {
-                actionCardToPlay.useActionCard(players.get(currentPlayerIndex));
+                actionCardToPlay.useActionCard(getCurrentPlayer());
             }
             gui.updateView(getDto());
             actionSelection = gui.getActionSelection(currentPlayerIndex);
@@ -183,7 +188,7 @@ public class Board {
 
     public String[] getAvailableActionCardsInHand() {
         int index = 0;
-        Player currentPlayer = players.get(this.currentPlayerIndex);
+        Player currentPlayer = getCurrentPlayer();
         String[] availableActionCardsInHand = new String[getCurrentPlayerHand().size()];
         for (Card c : currentPlayer.hand) {
             if (c.type.equals(Card.CardType.KINGDOM)) { // TODO: change card to have isAction
@@ -195,7 +200,7 @@ public class Board {
     }
 
     private KingdomCard getActionCardToPlay() {
-        List<KingdomCard> actionCards = players.get(currentPlayerIndex).getActionCards();
+        List<KingdomCard> actionCards = getCurrentPlayerActionCards();
         String cardToPlay = gui.getActionCardToPlay(getAvailableActionCardsInHand()).toLowerCase();
         return getCardByName(actionCards, cardToPlay);
     }
@@ -210,16 +215,18 @@ public class Board {
     }
 
     private void buyPhase() { //TODO: add to game class
-        if (checkProvinceDeckLength()) return;
+        if (checkProvinceDeckLength()) {
+            return;
+        }
+
         int buySelection = gui.showBuyOption(currentPlayerIndex);
-        while (buySelection == 0) {
-            if (checkProvinceDeckLength()) return;
-            if (players.get(currentPlayerIndex).getBuys() <= 0) {
-                gui.showErrorPopup("Player " + (currentPlayerIndex + 1) + " has no buys available");
+        while (buySelection == 0 && !checkProvinceDeckLength()) {
+            if (getCurrentPlayerBuys() <= 0) {
+                gui.showErrorPopup("Player " + currentPlayerNumber + " has no buys available");
                 break;
             }
             String cardToBuy = gui.getBuySelection(
-                    getAllCardsBelowCostOf(players.get(currentPlayerIndex).getCoins()));
+                    getAllCardsBelowCostOf(getCurrentPlayerCoins()));
             if (cardToBuy != null) {
                 processBuyPhaseSelection(cardToBuy.toLowerCase());
             }
@@ -233,12 +240,14 @@ public class Board {
     //  and rework the tests to test getAllCardsBelowCostOf
 
     private void processBuyPhaseSelection(String buySelection) { // TODO: game class
-        if (checkProvinceDeckLength()) return;
+        if (checkProvinceDeckLength()) {
+            return;
+        }
         BoardDeck deckToBuyFrom = getBoardDeckFromName(buySelection);
         Card boughtCard = deckToBuyFrom.buyCard();
-        players.get(currentPlayerIndex).addBoughtCard(boughtCard);
-        players.get(currentPlayerIndex).buy--;
-        Player currentPlayer = players.get(this.currentPlayerIndex);
+        Player currentPlayer = getCurrentPlayer();
+        currentPlayer.addBoughtCard(boughtCard);
+        currentPlayer.buy--;
 
         int coinsInHand = currentPlayer.getCoinsInHand();
         if (coinsInHand >= boughtCard.cost) {
@@ -263,9 +272,10 @@ public class Board {
     }
 
     private void endTurn() { // TODO: game class
-        players.get(currentPlayerIndex).cleanup();
-        players.get(currentPlayerIndex).drawHand();
-        currentPlayerIndex = (currentPlayerIndex + 1) % numPlayers;
+        Player currentPlayer = getCurrentPlayer();
+        currentPlayer.cleanup();
+        currentPlayer.drawHand();
+        currentPlayerIndex = currentPlayerNumber % numPlayers;
         gui.updateView(getDto());
     }
 
@@ -283,6 +293,18 @@ public class Board {
 
     public int getCurrentPlayerCoins() {
         return getCurrentPlayer().getCoins();
+    }
+
+    public int getCurrentPlayerBuys() {
+        return getCurrentPlayer().getBuys();
+    }
+
+    public int getCurrentPlayerActions() {
+        return getCurrentPlayer().getActions();
+    }
+
+    public List<KingdomCard> getCurrentPlayerActionCards() {
+        return getCurrentPlayer().getActionCards();
     }
 
     public void forceMilitiaDiscard() { //TODO: this should be moved to militia implementation
@@ -304,7 +326,7 @@ public class Board {
         }
     }
 
-    public BoardDeck getDeck(String name) {
+    public BoardDeck getDeckByName(String name) {
         if (kingdomDecks.containsKey(name)) {
             return kingdomDecks.get(name);
         }
@@ -315,14 +337,6 @@ public class Board {
             return victoryDecks.get(name);
         }
         return null;
-    }
-
-    public int getCurrentPlayerBuys() {
-        return getCurrentPlayer().getBuys();
-    }
-
-    public int getCurrentPlayerActions() {
-        return getCurrentPlayer().getActions();
     }
 
     public void discardAnyCard(Player player) {
@@ -463,4 +477,27 @@ public class Board {
 
         return numDiscardedCards;
     }
+
+
+    // Only used in tests
+    public List<String> getAllAvailableDecks() {
+        ArrayList<String> availableDecks = new ArrayList<>();
+        availableDecks.addAll(getAvailableDecks(kingdomDecks));
+        availableDecks.addAll(getAvailableDecks(treasureDecks));
+        availableDecks.addAll(getAvailableDecks(victoryDecks));
+        return availableDecks;
+    }
+
+    private List<String> getAvailableDecks(Map<String, BoardDeck> decks) {
+        List<String> availableDecks = new ArrayList<>();
+        for (Map.Entry<String, BoardDeck> entry : decks.entrySet()) {
+            BoardDeck deck = entry.getValue();
+            if (deck.isNotEmpty()) {
+                availableDecks.add(entry.getKey());
+            }
+        }
+
+        return availableDecks;
+    }
+
 }
