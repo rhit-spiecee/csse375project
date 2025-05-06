@@ -282,4 +282,10 @@ public class PlayerTests {
         player.hand.add(new Moat());
         assertTrue(player.hasMoatCard());
     }
+
+    @Test
+    public void discardCardWithEmptyHand(){
+        Player player = new Player();
+        assertFalse(player.discardCard("copper"));
+    }
 }

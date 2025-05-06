@@ -122,13 +122,14 @@ public class Player {
         discardPile.add(card);
     }
 
-    public void discardCard(String cardToDiscard) {
+    public boolean discardCard(String cardToDiscard) {
         for (Card card : hand) {
             if (card.name.equals(cardToDiscard)) {
                 discardCard(card);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     public List<KingdomCard> getActionCards() {
