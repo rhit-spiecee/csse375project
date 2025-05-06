@@ -21,7 +21,9 @@ public class PlayerTests {
         player.drawHand();
 
         //Verify
-        assertEquals(5, player.hand.size());
+        assertEquals(5, player.getHand().size());
+        assertEquals(1, player.getActions());
+        assertEquals(1, player.getBuys());
         EasyMock.verify(mockDeck);
     }
 
@@ -231,5 +233,161 @@ public class PlayerTests {
         player.removeTreasureCardsOfCost(1);
         assertEquals(0, player.hand.size());
         assertEquals(0, player.getCoins());
+    }
+
+    @Test
+    public void testCalculateScore(){
+        Player player = new Player();
+        assertEquals(3, player.calculateScore());
+    }
+
+    @Test
+    public void testGetCoinsInHand() {
+        Player player = new Player();
+
+        player.deck.add(new TreasureCard("gold", 6, Card.CardType.TREASURE, 3));
+        player.deck.add(new Moat());
+
+        player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        player.hand.add(new TreasureCard("silver", 4, Card.CardType.TREASURE, 2));
+        player.hand.add(new TreasureCard("gold", 6, Card.CardType.TREASURE, 3));
+        player.hand.add(new VictoryCard("estate", 2, Card.CardType.VICTORY, 1));
+        player.hand.add(new Market());
+
+        assertEquals(6, player.getCoinsInHand());
+
+    }
+
+    @Test
+    public void testHasMoatCardWithoutMoatCard() {
+        Player player = new Player();
+        assertFalse(player.hasMoatCard());
+    }
+
+    @Test
+    public void testHasMoatCardWithMoatCardInDeck() {
+        Player player = new Player();
+
+        player.deck.add(new Moat());
+
+        player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        player.hand.add(new VictoryCard("province", 8, Card.CardType.VICTORY, 6));
+        player.hand.add(new Market());
+
+        assertFalse(player.hasMoatCard());
+    }
+
+    @Test
+    public void testHasMoatCardWithMoatCardInHand() {
+        Player player = new Player();
+
+        player.hand.add(new Moat());
+        assertTrue(player.hasMoatCard());
+    }
+
+    @Test
+    public void testDiscardCardWithEmptyHand(){
+        Player player = new Player();
+        assertFalse(player.discardCard("copper"));
+    }
+
+    @Test
+    public void testDiscardCardWithCardInHand(){
+        Player player = new Player();
+        player.hand.add(new Moat());
+        assertTrue(player.discardCard("moat"));
+    }
+
+    @Test
+    public void testTrashCardWithNoCardsInHand(){
+        Player player = new Player();
+        assertNull(player.trashCard("moat"));
+    }
+
+    @Test
+    public void testTrashCardWithCardInHand(){
+        Player player = new Player();
+        Moat moat = new Moat();
+        player.hand.add(moat);
+        assertEquals(moat, player.trashCard("moat"));
+    }
+
+    @Test
+    public void testTrashCardWithCardInDeck(){
+        Player player = new Player();
+        Moat moat = new Moat();
+        player.deck.add(moat);
+        assertNull(player.trashCard("moat"));
+    }
+
+    @Test
+    public void testGetCoinsAfterRemovingCardWithoutTreasureCards() {
+        Player player = new Player();
+
+        int initialCoins = 4;
+        int cardValue = initialCoins;
+        String treasureCardType = "copper";
+
+        assertEquals(initialCoins, player.getCoinsAfterRemovingCard(initialCoins, cardValue, treasureCardType));
+    }
+
+    @Test
+    public void testGetCoinsAfterRemovingCardWithTreasureCards() {
+        Player player = new Player();
+        player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+
+        assertEquals(0, player.getCoinsAfterRemovingCard(1, 1, "copper"));
+    }
+
+    @Test
+    public void testRecycleCards() {
+        Player player = new Player();
+
+        player.emptyRemainingDeck();
+        assertEquals(0, player.deck.size());
+        assertEquals(10, player.hand.size());
+        assertEquals(0, player.discardPile.size());
+
+        player.discardPile.add(new TreasureCard("gold", 6, Card.CardType.TREASURE, 1));
+        player.discardPile.add(new TreasureCard("silver", 4, Card.CardType.TREASURE, 2));
+
+        player.recycleCards();
+        assertEquals(2, player.deck.size());
+        assertEquals(10, player.hand.size());
+        assertEquals(0, player.discardPile.size());
+    }
+
+    @Test
+    public void testHasTreasureCardTypeWithoutTreasureCard() {
+        Player player = new Player();
+        assertEquals(-1, player.hasTreasureCardType("copper"));
+    }
+
+    @Test
+    public void testHasTreasureCardTypeWithTreasureCard() {
+        Player player = new Player();
+        player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        assertEquals(0, player.hasTreasureCardType("copper"));
+    }
+
+    @Test
+    public void testHasTreasureCardTypeWithFullHand() {
+        Player player = new Player();
+        for(int i = 0; i < 4; i++) {
+            player.hand.add(new Moat());
+        }
+        player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        assertEquals(4, player.hasTreasureCardType("copper"));
+    }
+
+    @Test
+    public void testHasTreasureCardTypeWithFullHandFirstElementIsTreasureCard() {
+        Player player = new Player();
+        player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        for(int i = 0; i < 3; i++) {
+            player.hand.add(new Moat());
+        }
+        player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        assertEquals(0, player.hasTreasureCardType("copper"));
     }
 }
