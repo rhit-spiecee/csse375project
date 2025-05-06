@@ -179,4 +179,21 @@ public class BoardTests {
 
         assertEquals(returnedCoinAmount, 8);
     }
+
+    @Test
+    public void testCurrentPlayerActions() {
+        Board board = new Board(2);
+        Player mockPlayer = EasyMock.mock(Player.class);
+
+        board.players.removeFirst();
+        board.players.addFirst(mockPlayer);
+
+        EasyMock.expect(mockPlayer.getActions()).andReturn(2);
+        EasyMock.replay(mockPlayer);
+
+        int returnedActionAmount = board.getCurrentPlayerActions();
+        EasyMock.verify(mockPlayer);
+
+        assertEquals(returnedActionAmount, 2);
+    }
 }
