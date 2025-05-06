@@ -147,6 +147,7 @@ public class Board {
 
     void processTurn() { // TODO: change to game class
         actionPhase();
+
         buyPhase();
     }
 
@@ -235,9 +236,6 @@ public class Board {
         }
         endTurn();
     }
-
-    // TODO: we need to remove these unused methods,
-    //  and rework the tests to test getAllCardsBelowCostOf
 
     private void processBuyPhaseSelection(String buySelection) { // TODO: game class
         if (checkProvinceDeckLength()) {
@@ -379,28 +377,6 @@ public class Board {
         gainCard(popupMessage, cardNames, player);
     }
 
-    private ArrayList<String> getAllCardsBelowCostOf(int maxCost) {
-        ArrayList<String> cardNames = new ArrayList<>();
-
-        cardNames.addAll(getCardsBelowCostOf(maxCost, kingdomDecks));
-        cardNames.addAll(getCardsBelowCostOf(maxCost, treasureDecks));
-        cardNames.addAll(getCardsBelowCostOf(maxCost, victoryDecks));
-        return cardNames;
-    }
-
-    private List<String> getCardsBelowCostOf(int maxCost, Map<String, BoardDeck> decks) {
-        ArrayList<String> cardNames = new ArrayList<>();
-
-        for (String cardName : decks.keySet()) {
-            BoardDeck deck = decks.get(cardName);
-            if (deck.isNotEmpty() && deck.card.cost <= maxCost) {
-                cardNames.add(cardName);
-            }
-        }
-
-        return cardNames;
-    }
-
     public void gainTreasureCard(Player player, Card trashedCard) {
         ArrayList<String> cardNames = new ArrayList<>();
         if (trashedCard.name.equalsIgnoreCase("copper")) {
@@ -443,6 +419,27 @@ public class Board {
         player.hand.add(card);
     }
 
+    private ArrayList<String> getAllCardsBelowCostOf(int maxCost) {
+        ArrayList<String> cardNames = new ArrayList<>();
+        cardNames.addAll(getCardsBelowCostOf(maxCost, kingdomDecks));
+        cardNames.addAll(getCardsBelowCostOf(maxCost, treasureDecks));
+        cardNames.addAll(getCardsBelowCostOf(maxCost, victoryDecks));
+        return cardNames;
+    }
+
+    private List<String> getCardsBelowCostOf(int maxCost, Map<String, BoardDeck> decks) {
+        ArrayList<String> cardNames = new ArrayList<>();
+
+        for (String cardName : decks.keySet()) {
+            BoardDeck deck = decks.get(cardName);
+            if (deck.isNotEmpty() && deck.card.cost <= maxCost) {
+                cardNames.add(cardName);
+            }
+        }
+
+        return cardNames;
+    }
+
     private boolean cardNamesDoNotContainCardIgnoreCase(
             ArrayList<String> cardNames, 
             String cardToCheck
@@ -456,7 +453,7 @@ public class Board {
         return true;
     }
 
-    public int discardAnyNumberOfCards(Player player) {
+    public int discardAnyNumberOfCards(Player player) { // TODO: Move to cellar implementation
         int numDiscardedCards = 0;
 
         int discardSelection = gui.getDiscardOption();
@@ -496,7 +493,6 @@ public class Board {
                 availableDecks.add(entry.getKey());
             }
         }
-
         return availableDecks;
     }
 
