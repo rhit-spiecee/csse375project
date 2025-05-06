@@ -301,4 +301,12 @@ public class PlayerTests {
         Player player = new Player();
         assertNull(player.trashCard("moat"));
     }
+
+    @Test
+    public void testTrashCardWithCardInHand(){
+        Player player = new Player();
+        Moat moat = new Moat();
+        player.hand.add(moat);
+        assertEquals(moat, player.trashCard("moat"));
+    }
 }
