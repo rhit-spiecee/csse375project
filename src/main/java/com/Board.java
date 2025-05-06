@@ -158,11 +158,13 @@ public class Board {
                 gui.showErrorPopup("Player " + (currentPlayer + 1) + " has no actions available");
                 break;
             }
-            try {
-                processActionMove();
-            } catch (RuntimeException e) {
-                gui.showErrorPopup(e.getMessage());
+            if (!players.get(currentPlayer).hasActionCard()) {
+                gui.showErrorPopup("Player " + (currentPlayer + 1) + " has no action cards");
                 break;
+            }
+            KingdomCard actionCardToPlay = getActionCardToPlay();
+            if (actionCardToPlay != null) {
+                actionCardToPlay.useActionCard(players.get(currentPlayer));
             }
             gui.updateView(getDto());
             actionSelection = gui.getActionSelection(currentPlayer);
@@ -182,16 +184,6 @@ public class Board {
                 getCurrentPlayerBuys()
         );
         return boardDto;
-    }
-
-    private void processActionMove() {
-        if (checkProvinceDeckLength()) return;
-        if (!players.get(currentPlayer).hasActionCard()) {
-            throw new RuntimeException("Player " + (currentPlayer + 1) + " has no action cards");
-        } else {
-            KingdomCard card = getActionCardToPlay();
-            card.useActionCard(players.get(currentPlayer));
-        }
     }
 
     public String[] getAvailableActionCardsInHand() {
