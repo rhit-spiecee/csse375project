@@ -274,4 +274,12 @@ public class PlayerTests {
 
         assertFalse(player.hasMoatCard());
     }
+
+    @Test
+    public void testHasMoatCardWithMoatCardInHand() {
+        Player player = new Player();
+
+        player.hand.add(new Moat());
+        assertTrue(player.hasMoatCard());
+    }
 }
