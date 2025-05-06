@@ -33,15 +33,6 @@ public class Player {
         this.action = 1;
     }
 
-    private void drawWhenNotEnoughCards() {
-        emptyRemainingDeck();
-
-        recycleCards();
-
-        while (hand.size() < 5) {
-            drawOneCard();
-        }
-    }
 
     private void recycleCards() {
         for (Card card : discardPile) {
