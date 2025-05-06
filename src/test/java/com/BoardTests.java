@@ -235,5 +235,31 @@ public class BoardTests {
 
         EasyMock.verify(mockGui, player1);
     }
+    
+    @Test
+    public void testBuyPhaseNoBuysAvailable() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+
+        Player player1 = EasyMock.mock(Player.class);
+
+        EasyMock.expect(player1.getBuys()).andReturn(0);
+        player1.cleanup();
+        player1.drawHand();
+
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.showBuyOption(0)).andReturn(0);
+        mockGui.showErrorPopup("Player 1 has no buys available");
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
+
+        EasyMock.replay(mockGui, player1);
+
+        Board board = Board.fromGui(mockGui);
+        board.players.removeFirst();
+        board.players.addFirst(player1);
+
+        board.buyPhase();
+
+        EasyMock.verify(mockGui, player1);
+    }
 }
  

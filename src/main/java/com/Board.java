@@ -194,7 +194,7 @@ public class Board {
         return null;
     }
 
-    private void buyPhase() { //TODO: add to game class
+    void buyPhase() { //TODO: add to game class
         if (checkProvinceDeckLength()) {
             return;
         }
