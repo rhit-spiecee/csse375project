@@ -317,4 +317,15 @@ public class PlayerTests {
         player.deck.add(moat);
         assertNull(player.trashCard("moat"));
     }
+
+    @Test
+    public void testGetCoinsAfterRemovingCardWithoutTreasureCards() {
+        Player player = new Player();
+
+        int initialCoins = 4;
+        int cardValue = initialCoins;
+        String treasureCardType = "copper";
+
+        assertEquals(initialCoins, player.getCoinsAfterRemovingCard(initialCoins, cardValue, treasureCardType));
+    }
 }
