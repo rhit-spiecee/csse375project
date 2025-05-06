@@ -131,4 +131,11 @@ public class BoardTests {
         assertTrue(output.contains("2. Player 1 - 18 points"));
         assertTrue(output.contains("3. Player 3 - 14 points"));
     }
+
+    @Test
+    public void testCurrentPlayerIndex() {
+        Board board = new Board(2);
+        int playerIndex = board.getCurrentPlayerIndex();
+        assertEquals(playerIndex, board.currentPlayerIndex);
+    }
 }
