@@ -99,7 +99,17 @@ public class Board {
             processTurn();
             checkProvinceDeckLength();
         }
-        StringBuilder finalMessage = new StringBuilder("Province Deck Empty! Game Over!\n");
+
+        handleGameOver();
+    }
+
+    private void handleGameOver() {
+        List<PlayerScoreEntry> scoredPlayers = getSortedPlayerEntries();
+
+        gui.displayGameOverScreen(scoredPlayers);
+    }
+
+    private List<PlayerScoreEntry> getSortedPlayerEntries() {
         List<PlayerScoreEntry> scoredPlayers = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
             int score = players.get(i).calculateScore(); // only calculate once
@@ -107,32 +117,7 @@ public class Board {
         }
 
         scoredPlayers.sort((a, b) -> Integer.compare(b.score, a.score));
-
-        PlayerScoreEntry winner = scoredPlayers.get(0);
-        finalMessage.append("Winner: Player ").append(winner.index)
-                .append(" with ").append(winner.score).append(" points!\n\n");
-
-        int rank = 1;
-        for (PlayerScoreEntry entry : scoredPlayers) {
-            finalMessage.append(rank).append(". Player ")
-                    .append(entry.index).append(" - ")
-                    .append(entry.score).append(" points\n");
-            rank++;
-        }
-
-        gui.showErrorPopup(finalMessage.toString());
-    }
-
-    private static class PlayerScoreEntry { //TODO: Change to player
-        int index;
-        Player player;
-        int score;
-
-        PlayerScoreEntry(int index, Player player, int score) {
-            this.index = index;
-            this.player = player;
-            this.score = score;
-        }
+        return scoredPlayers;
     }
 
     public boolean checkProvinceDeckLength() { // TODO: change to game class
