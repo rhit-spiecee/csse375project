@@ -380,9 +380,9 @@ public class BoardTests {
     }
 
     @Test
-    public void testGainTreasureAfterTrashingGold() {
+    public void testUnknownTrashedCard() {
         Board board = new Board(2);
-
+        assertThrows(RuntimeException.class, () -> board.gainTreasureCard(board.getCurrentPlayer(), new Moat()));
     }
 
 
