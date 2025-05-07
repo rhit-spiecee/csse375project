@@ -3,6 +3,7 @@ package com;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -216,6 +217,26 @@ public class BoardTests {
 
         assertEquals(new Moat(), board.getCardByName(cards, "moat"));
 
+    }
+
+    @Test
+    public void testGetActionCardToPlay() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getActionCardToPlay(EasyMock.anyObject())).andReturn("market");
+
+        EasyMock.replay(mockGui);
+
+        Board board = Board.fromGui(mockGui);
+
+        Market market = new Market();
+
+        board.getCurrentPlayer().hand.add(market);
+
+        assertEquals(market, board.getActionCardToPlay());
+
+        EasyMock.verify(mockGui);
     }
 
     @Test

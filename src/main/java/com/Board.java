@@ -179,7 +179,7 @@ public class Board {
         return availableActionCards;
     }
 
-    private KingdomCard getActionCardToPlay() {
+    KingdomCard getActionCardToPlay() {
         List<KingdomCard> actionCards = getCurrentPlayerActionCardsInHand();
         String cardToPlay = gui.getActionCardToPlay(getAvailableActionCardsInHand()).toLowerCase();
         return getCardByName(actionCards, cardToPlay);
