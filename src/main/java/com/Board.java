@@ -370,7 +370,7 @@ public class Board {
         transferCardFromDeckToPlayer(cardToGain, player);
     }
 
-    private void transferCardFromDeckToPlayer(String cardToGain, Player player) {
+    void transferCardFromDeckToPlayer(String cardToGain, Player player) {
         Card card;
         if (kingdomDecks.containsKey(cardToGain)) {
             card = kingdomDecks.get(cardToGain).buyCard();
@@ -406,16 +406,12 @@ public class Board {
         return cardNames;
     }
 
-    private boolean cardNamesDoNotContainCardIgnoreCase(
-            ArrayList<String> cardNames, 
-            String cardToCheck
-    ) {
+    private boolean cardNamesDoNotContainCardIgnoreCase(ArrayList<String> cardNames, String cardToCheck) {
         for (String card : cardNames) {
             if (card.equalsIgnoreCase(cardToCheck)) {
                 return false;
             }
         }
-
         return true;
     }
 

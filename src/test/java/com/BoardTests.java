@@ -373,6 +373,18 @@ public class BoardTests {
         assertThrows(RuntimeException.class, () -> board.getBoardDeckByName(""));
     }
 
+    @Test
+    public void testUnknownCardToGain() {
+        Board board = new Board(2);
+        assertThrows(RuntimeException.class, () -> board.transferCardFromDeckToPlayer("", board.getCurrentPlayer()));
+    }
+
+    @Test
+    public void testGainTreasureAfterTrashingGold() {
+        Board board = new Board(2);
+
+    }
+
 
 }
  
