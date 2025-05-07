@@ -201,22 +201,18 @@ public class BoardTests {
     @Test
     public void testGetCardByNameEmptyCardList() {
         Board board = new Board(2);
-
         ArrayList<KingdomCard> cards = new ArrayList<>();
 
         assertThrows(RuntimeException.class, () -> board.getCardByName(cards, ""));
-
     }
 
     @Test
     public void testGetCardByName() {
         Board board = new Board(2);
-
         ArrayList<KingdomCard> cards = new ArrayList<>();
         cards.add(new Moat());
 
         assertEquals(new Moat(), board.getCardByName(cards, "moat"));
-
     }
 
     @Test
@@ -229,11 +225,8 @@ public class BoardTests {
         EasyMock.replay(mockGui);
 
         Board board = Board.fromGui(mockGui);
-
         Market market = new Market();
-
         board.getCurrentPlayer().hand.add(market);
-
         String[] check = new String[1];
         check[0] = "market";
 
@@ -253,7 +246,6 @@ public class BoardTests {
         EasyMock.replay(mockGui);
 
         Board board = Board.fromGui(mockGui);
-
         String[] check = new String[0];
 
         assertEquals(check.length, board.getAvailableActionCardsInHand().length);
