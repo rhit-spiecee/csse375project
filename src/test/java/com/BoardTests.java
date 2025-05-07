@@ -1,15 +1,12 @@
 package com;
 
 import org.easymock.EasyMock;
-import org.easymock.LogicalOperator;
 import org.junit.Test;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 public class BoardTests {
@@ -183,7 +180,7 @@ public class BoardTests {
         Player player1 = EasyMock.mock(Player.class);
 
         EasyMock.expect(player1.getActions()).andReturn(1);
-        EasyMock.expect(player1.hasActionCard()).andReturn(false);
+        EasyMock.expect(player1.hasActionCardInHand()).andReturn(false);
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
@@ -207,12 +204,12 @@ public class BoardTests {
         Player player1 = EasyMock.mock(Player.class);
 
         EasyMock.expect(player1.getActions()).andReturn(1);
-        EasyMock.expect(player1.hasActionCard()).andReturn(true);
+        EasyMock.expect(player1.hasActionCardInHand()).andReturn(true);
         ArrayList<KingdomCard> actionCards = new ArrayList<>();
         actionCards.add(new Market());
         ArrayList<Card> hand = new ArrayList<>();
         hand.add(new Market());
-        EasyMock.expect(player1.getActionCards()).andReturn(actionCards).anyTimes();
+        EasyMock.expect(player1.getActionCardsInHand()).andReturn(actionCards).anyTimes();
         EasyMock.expect(player1.getHand()).andReturn(hand);
         player1.drawOneCard();
         player1.discardCard(EasyMock.isA(Card.class));
@@ -261,6 +258,26 @@ public class BoardTests {
         board.buyPhase();
 
         EasyMock.verify(mockGui, player1);
+    }
+
+    @Test
+    public void testCardMoreThanCoinsInHand() {
+        Board board = new Board(2);
+
+        ArrayList<Card> newHand = new ArrayList<>();
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        newHand.add(new Moat());
+        newHand.add(new Moat());
+
+        board.getCurrentPlayer().hand = newHand;
+        board.getCurrentPlayer().coins = 3;
+
+        board.processBuyPhaseSelection("market");
+
+        assertEquals(1, board.players.getFirst().coins);
+        assertEquals(4, board.players.getFirst().discardPile.size());
     }
 }
  

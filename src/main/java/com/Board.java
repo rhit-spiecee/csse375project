@@ -141,7 +141,7 @@ public class Board {
                 gui.showErrorPopup("Player " + getCurrentPlayerNumber() + " has no actions available");
                 break;
             }
-            if (!getCurrentPlayer().hasActionCard()) {
+            if (!getCurrentPlayer().hasActionCardInHand()) {
                 gui.showErrorPopup("Player " + getCurrentPlayerNumber() + " has no action cards");
                 break;
             }
@@ -171,7 +171,7 @@ public class Board {
     }
 
     public String[] getAvailableActionCardsInHand() {
-        List<KingdomCard> actionCards = getCurrentPlayer().getActionCards();
+        List<KingdomCard> actionCards = getCurrentPlayer().getActionCardsInHand();
         String[] availableActionCards = new String[actionCards.size()];
         for (int i = 0; i < actionCards.size(); i++) {
             availableActionCards[i] = actionCards.get(i).name;
@@ -180,7 +180,7 @@ public class Board {
     }
 
     private KingdomCard getActionCardToPlay() {
-        List<KingdomCard> actionCards = getCurrentPlayerActionCards();
+        List<KingdomCard> actionCards = getCurrentPlayerActionCardsInHand();
         String cardToPlay = gui.getActionCardToPlay(getAvailableActionCardsInHand()).toLowerCase();
         return getCardByName(actionCards, cardToPlay);
     }
@@ -216,7 +216,7 @@ public class Board {
         endTurn();
     }
 
-    private void processBuyPhaseSelection(String buySelection) { // TODO: game class
+    void processBuyPhaseSelection(String buySelection) { // TODO: game class
         if (checkProvinceDeckLength()) {
             return;
         }
@@ -284,8 +284,8 @@ public class Board {
         return getCurrentPlayer().getActions();
     }
 
-    public List<KingdomCard> getCurrentPlayerActionCards() {
-        return getCurrentPlayer().getActionCards();
+    public List<KingdomCard> getCurrentPlayerActionCardsInHand() {
+        return getCurrentPlayer().getActionCardsInHand();
     }
 
     public void forceMilitiaDiscard() { //TODO: this should be moved to militia implementation
