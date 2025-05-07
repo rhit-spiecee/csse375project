@@ -33,17 +33,8 @@ public class Player {
         this.action = 1;
     }
 
-    private void drawWhenNotEnoughCards() {
-        emptyRemainingDeck();
 
-        recycleCards();
-
-        while (hand.size() < 5) {
-            drawOneCard();
-        }
-    }
-
-    private void recycleCards() {
+    void recycleCards() {
         for (Card card : discardPile) {
             deck.add(card);
         }
@@ -52,8 +43,9 @@ public class Player {
         deck.shuffle();
     }
 
-    private void emptyRemainingDeck() {
-        for (int i = 0; i < deck.size(); i++) {
+    void emptyRemainingDeck() {
+        int deckSize = deck.size();
+        for (int i = 0; i < deckSize; i++) {
             drawOneCard();
         }
     }
@@ -130,13 +122,14 @@ public class Player {
         discardPile.add(card);
     }
 
-    public void discardCard(String cardToDiscard) {
+    public boolean discardCard(String cardToDiscard) {
         for (Card card : hand) {
             if (card.name.equals(cardToDiscard)) {
                 discardCard(card);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     public List<KingdomCard> getActionCards() {
@@ -177,6 +170,9 @@ public class Player {
                 break;
             }
         }
+        if (cardToRemove == null) {
+            return null;
+        }
         hand.remove(cardToRemove);
 
         return cardToRemove;
@@ -193,7 +189,7 @@ public class Player {
 
     }
 
-    private int getCoinsAfterRemovingCard(int coinsRemaining, int treasuryCardValue, String treasureCardType) {
+    int getCoinsAfterRemovingCard(int coinsRemaining, int treasuryCardValue, String treasureCardType) {
         int index = hasTreasureCardType(treasureCardType);
         while (coinsRemaining >= treasuryCardValue && index > -1) {
             discardPile.add(hand.get(index));
@@ -204,7 +200,7 @@ public class Player {
         return coinsRemaining;
     }
 
-    private int hasTreasureCardType(String type) {
+    int hasTreasureCardType(String type) {
         int index = 0;
         for (Card card : hand) {
             if (card.name.equals(type)) {

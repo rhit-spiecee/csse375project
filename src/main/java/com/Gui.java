@@ -239,4 +239,21 @@ public class Gui {
                 options[0]
         );
     }
+
+    public void displayGameOverScreen(List<PlayerScoreEntry> scoredPlayers) {
+        StringBuilder finalMessage = new StringBuilder("Game Over!\n");
+        PlayerScoreEntry winner = scoredPlayers.getFirst();
+        finalMessage.append("Winner: Player ").append(winner.index)
+                .append(" with ").append(winner.score).append(" points!\n\n");
+
+        int rank = 1;
+        for (PlayerScoreEntry entry : scoredPlayers) {
+            finalMessage.append(rank).append(". Player ")
+                    .append(entry.index).append(" - ")
+                    .append(entry.score).append(" points\n");
+            rank++;
+        }
+
+        JOptionPane.showMessageDialog(null, finalMessage, "Game Over", JOptionPane.PLAIN_MESSAGE);
+    }
 }
