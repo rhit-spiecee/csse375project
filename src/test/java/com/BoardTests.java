@@ -203,10 +203,21 @@ public class BoardTests {
 
         ArrayList<KingdomCard> cards = new ArrayList<>();
 
-        assertThrows(RuntimeException.class, () -> board.getCardByName(cards, "copper"));
+        assertThrows(RuntimeException.class, () -> board.getCardByName(cards, "market"));
 
     }
-    
+
+    @Test
+    public void testGetCardByName() {
+        Board board = new Board(2);
+
+        ArrayList<KingdomCard> cards = new ArrayList<>();
+        cards.add(new Moat());
+
+        assertEquals(new Moat(), board.getCardByName(cards, "moat"));
+
+    }
+
     @Test
     public void testBuyPhaseNoBuysAvailable() {
         Gui mockGui = EasyMock.mock(Gui.class);
