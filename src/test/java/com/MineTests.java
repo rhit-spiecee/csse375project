@@ -67,5 +67,30 @@ public class MineTests {
         EasyMock.verify(mockGui);
     }
 
+    @Test
+    public void testCardBehaviorTrashingGold() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("gold");
+        EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("silver");
+
+        EasyMock.replay(mockGui);
+        Board board = Board.fromGui(mockGui);
+        Mine mine = new Mine(board);
+        Player player = new StubPlayer(mine, "gold");
+
+        mine.useActionCard(player);
+        Card silver = new TreasureCard("silver", 4, Card.CardType.TREASURE, 2);
+
+        assertEquals(0, player.coins);
+        assertEquals(0, player.action);
+        assertEquals(1, player.buy);
+        assertEquals(1, player.hand.size());
+        assertEquals(silver.name, player.hand.getFirst().name);
+        assertEquals(1, player.discardPile.size());
+
+        EasyMock.verify(mockGui);
+    }
+
 
 }
