@@ -258,6 +258,7 @@ public class BoardTests {
         board.buyPhase();
 
         assertEquals(1, board.getCurrentPlayerIndex());
+        assertEquals(5, board.getCurrentPlayerHand().size());
 
         EasyMock.verify(mockGui, player1);
     }
