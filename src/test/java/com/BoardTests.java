@@ -367,6 +367,12 @@ public class BoardTests {
         EasyMock.verify(mockGui);
     }
 
+    @Test
+    public void testUnknownBoardDeckName() {
+        Board board = new Board(2);
+        assertThrows(RuntimeException.class, () -> board.getBoardDeckByName(""));
+    }
+
 
 }
  
