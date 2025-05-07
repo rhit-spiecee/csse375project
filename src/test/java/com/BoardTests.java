@@ -323,6 +323,24 @@ public class BoardTests {
         assertEquals(6, board.players.getFirst().discardPile.size());
     }
 
+    @Test
+    public void testActionPhase(){
+        Gui mockGui = EasyMock.mock(Gui.class);
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
+        EasyMock.expect(mockGui.getActionCardToPlay(EasyMock.anyObject())).andReturn("woodcutter");
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
+
+        EasyMock.replay(mockGui);
+        Board board = Board.fromGui(mockGui);
+        board.players.getFirst().hand.add(new Woodcutter());
+        board.actionPhase();
+
+        assertEquals(5, board.players.getFirst().hand.size());
+        EasyMock.verify(mockGui);
+    }
+
 
 }
  

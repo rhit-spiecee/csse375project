@@ -220,7 +220,7 @@ public class Board {
         if (checkProvinceDeckLength()) {
             return;
         }
-        BoardDeck deckToBuyFrom = getBoardDeckFromName(buySelection);
+        BoardDeck deckToBuyFrom = getBoardDeckByName(buySelection);
         Card boughtCard = deckToBuyFrom.buyCard();
         Player currentPlayer = getCurrentPlayer();
         currentPlayer.addBoughtCard(boughtCard);
@@ -229,19 +229,6 @@ public class Board {
         int coinsInHand = currentPlayer.getCoinsInHand();
         currentPlayer.coins -= (boughtCard.cost - coinsInHand);
         currentPlayer.removeTreasureCardsOfCost(coinsInHand);
-    }
-
-    private BoardDeck getBoardDeckFromName(String nameOfDeck) {
-        if (kingdomDecks.containsKey(nameOfDeck)) {
-            return kingdomDecks.get(nameOfDeck);
-        }
-        if (treasureDecks.containsKey(nameOfDeck)) {
-            return treasureDecks.get(nameOfDeck);
-        }
-        if (victoryDecks.containsKey(nameOfDeck)) {
-            return victoryDecks.get(nameOfDeck);
-        }
-        throw new RuntimeException("Unknown kingdom deck: " + nameOfDeck);
     }
 
     private void endTurn() { // TODO: game class
@@ -303,17 +290,17 @@ public class Board {
         }
     }
 
-    public BoardDeck getDeckByName(String name) {
-        if (kingdomDecks.containsKey(name)) {
-            return kingdomDecks.get(name);
+    public BoardDeck getBoardDeckByName(String nameOfDeck) {
+        if (kingdomDecks.containsKey(nameOfDeck)) {
+            return kingdomDecks.get(nameOfDeck);
         }
-        if (treasureDecks.containsKey(name)) {
-            return treasureDecks.get(name);
+        if (treasureDecks.containsKey(nameOfDeck)) {
+            return treasureDecks.get(nameOfDeck);
         }
-        if (victoryDecks.containsKey(name)) {
-            return victoryDecks.get(name);
+        if (victoryDecks.containsKey(nameOfDeck)) {
+            return victoryDecks.get(nameOfDeck);
         }
-        return null;
+        throw new RuntimeException("Unknown kingdom deck: " + nameOfDeck);
     }
 
     public void discardAnyCard(Player player) {

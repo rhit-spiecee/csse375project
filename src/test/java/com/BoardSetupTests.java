@@ -33,27 +33,27 @@ public class BoardSetupTests {
         Board board = new Board(2);
 
         // Kingdom card decks
-        assertEquals(10, board.getDeckByName("cellar").size());
-        assertEquals(10, board.getDeckByName("market").size());
-        assertEquals(10, board.getDeckByName("militia").size());
-        assertEquals(10, board.getDeckByName("mine").size());
-        assertEquals(10, board.getDeckByName("moat").size());
-        assertEquals(10, board.getDeckByName("remodel").size());
-        assertEquals(10, board.getDeckByName("smithy").size());
-        assertEquals(10, board.getDeckByName("village").size());
-        assertEquals(10, board.getDeckByName("woodcutter").size());
-        assertEquals(10, board.getDeckByName("workshop").size());
+        assertEquals(10, board.getBoardDeckByName("cellar").size());
+        assertEquals(10, board.getBoardDeckByName("market").size());
+        assertEquals(10, board.getBoardDeckByName("militia").size());
+        assertEquals(10, board.getBoardDeckByName("mine").size());
+        assertEquals(10, board.getBoardDeckByName("moat").size());
+        assertEquals(10, board.getBoardDeckByName("remodel").size());
+        assertEquals(10, board.getBoardDeckByName("smithy").size());
+        assertEquals(10, board.getBoardDeckByName("village").size());
+        assertEquals(10, board.getBoardDeckByName("woodcutter").size());
+        assertEquals(10, board.getBoardDeckByName("workshop").size());
 
         // Treasure decks
-        assertEquals(46, board.getDeckByName("copper").size());
-        assertEquals(40, board.getDeckByName("silver").size());
-        assertEquals(30, board.getDeckByName("gold").size());
+        assertEquals(46, board.getBoardDeckByName("copper").size());
+        assertEquals(40, board.getBoardDeckByName("silver").size());
+        assertEquals(30, board.getBoardDeckByName("gold").size());
 
         // Victory decks
-        assertEquals(8, board.getDeckByName("estate").size());
-        assertEquals(8, board.getDeckByName("duchy").size());
-        assertEquals(8, board.getDeckByName("province").size());
-        assertEquals(10, board.getDeckByName("cursed").size());
+        assertEquals(8, board.getBoardDeckByName("estate").size());
+        assertEquals(8, board.getBoardDeckByName("duchy").size());
+        assertEquals(8, board.getBoardDeckByName("province").size());
+        assertEquals(10, board.getBoardDeckByName("cursed").size());
     }
 
     @Test
@@ -61,27 +61,27 @@ public class BoardSetupTests {
         Board board = new Board(3);
 
         // Kingdom card decks
-        assertEquals(10, board.getDeckByName("cellar").size());
-        assertEquals(10, board.getDeckByName("market").size());
-        assertEquals(10, board.getDeckByName("militia").size());
-        assertEquals(10, board.getDeckByName("mine").size());
-        assertEquals(10, board.getDeckByName("moat").size());
-        assertEquals(10, board.getDeckByName("remodel").size());
-        assertEquals(10, board.getDeckByName("smithy").size());
-        assertEquals(10, board.getDeckByName("village").size());
-        assertEquals(10, board.getDeckByName("woodcutter").size());
-        assertEquals(10, board.getDeckByName("workshop").size());
+        assertEquals(10, board.getBoardDeckByName("cellar").size());
+        assertEquals(10, board.getBoardDeckByName("market").size());
+        assertEquals(10, board.getBoardDeckByName("militia").size());
+        assertEquals(10, board.getBoardDeckByName("mine").size());
+        assertEquals(10, board.getBoardDeckByName("moat").size());
+        assertEquals(10, board.getBoardDeckByName("remodel").size());
+        assertEquals(10, board.getBoardDeckByName("smithy").size());
+        assertEquals(10, board.getBoardDeckByName("village").size());
+        assertEquals(10, board.getBoardDeckByName("woodcutter").size());
+        assertEquals(10, board.getBoardDeckByName("workshop").size());
 
         // Treasure decks
-        assertEquals(39, board.getDeckByName("copper").size());
-        assertEquals(40, board.getDeckByName("silver").size());
-        assertEquals(30, board.getDeckByName("gold").size());
+        assertEquals(39, board.getBoardDeckByName("copper").size());
+        assertEquals(40, board.getBoardDeckByName("silver").size());
+        assertEquals(30, board.getBoardDeckByName("gold").size());
 
         // Victory decks
-        assertEquals(12, board.getDeckByName("estate").size());
-        assertEquals(12, board.getDeckByName("duchy").size());
-        assertEquals(12, board.getDeckByName("province").size());
-        assertEquals(20, board.getDeckByName("cursed").size());
+        assertEquals(12, board.getBoardDeckByName("estate").size());
+        assertEquals(12, board.getBoardDeckByName("duchy").size());
+        assertEquals(12, board.getBoardDeckByName("province").size());
+        assertEquals(20, board.getBoardDeckByName("cursed").size());
     }
 
     @Test
@@ -89,27 +89,27 @@ public class BoardSetupTests {
         Board board = new Board(4);
 
         // Kingdom card decks
-        assertEquals(10, board.getDeckByName("cellar").size());
-        assertEquals(10, board.getDeckByName("market").size());
-        assertEquals(10, board.getDeckByName("militia").size());
-        assertEquals(10, board.getDeckByName("mine").size());
-        assertEquals(10, board.getDeckByName("moat").size());
-        assertEquals(10, board.getDeckByName("remodel").size());
-        assertEquals(10, board.getDeckByName("smithy").size());
-        assertEquals(10, board.getDeckByName("village").size());
-        assertEquals(10, board.getDeckByName("woodcutter").size());
-        assertEquals(10, board.getDeckByName("workshop").size());
+        assertEquals(10, board.getBoardDeckByName("cellar").size());
+        assertEquals(10, board.getBoardDeckByName("market").size());
+        assertEquals(10, board.getBoardDeckByName("militia").size());
+        assertEquals(10, board.getBoardDeckByName("mine").size());
+        assertEquals(10, board.getBoardDeckByName("moat").size());
+        assertEquals(10, board.getBoardDeckByName("remodel").size());
+        assertEquals(10, board.getBoardDeckByName("smithy").size());
+        assertEquals(10, board.getBoardDeckByName("village").size());
+        assertEquals(10, board.getBoardDeckByName("woodcutter").size());
+        assertEquals(10, board.getBoardDeckByName("workshop").size());
 
         // Treasure decks
-        assertEquals(32, board.getDeckByName("copper").size());
-        assertEquals(40, board.getDeckByName("silver").size());
-        assertEquals(30, board.getDeckByName("gold").size());
+        assertEquals(32, board.getBoardDeckByName("copper").size());
+        assertEquals(40, board.getBoardDeckByName("silver").size());
+        assertEquals(30, board.getBoardDeckByName("gold").size());
 
         // Victory decks
-        assertEquals(12, board.getDeckByName("estate").size());
-        assertEquals(12, board.getDeckByName("duchy").size());
-        assertEquals(12, board.getDeckByName("province").size());
-        assertEquals(30, board.getDeckByName("cursed").size());
+        assertEquals(12, board.getBoardDeckByName("estate").size());
+        assertEquals(12, board.getBoardDeckByName("duchy").size());
+        assertEquals(12, board.getBoardDeckByName("province").size());
+        assertEquals(30, board.getBoardDeckByName("cursed").size());
     }
 
     @Test
