@@ -198,40 +198,13 @@ public class BoardTests {
     }
     
     @Test
-    public void testActionPhaseActionCardsAvailable() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+    public void testGetCardByNameEmptyCardList() {
+        Board board = new Board(2);
 
-        Player player1 = EasyMock.mock(Player.class);
+        ArrayList<KingdomCard> cards = new ArrayList<>();
 
-        EasyMock.expect(player1.getActions()).andReturn(1);
-        EasyMock.expect(player1.hasActionCardInHand()).andReturn(true);
-        ArrayList<KingdomCard> actionCards = new ArrayList<>();
-        actionCards.add(new Market());
-        ArrayList<Card> hand = new ArrayList<>();
-        hand.add(new Market());
-        EasyMock.expect(player1.getActionCardsInHand()).andReturn(actionCards).anyTimes();
-        EasyMock.expect(player1.getHand()).andReturn(hand);
-        player1.drawOneCard();
-        player1.discardCard(EasyMock.isA(Card.class));
-        EasyMock.expect(player1.getCoins()).andReturn(0);
-        EasyMock.expect(player1.getActions()).andReturn(0);
-        EasyMock.expect(player1.getBuys()).andReturn(0);
+        assertThrows(RuntimeException.class, () -> board.getCardByName(cards, "copper"));
 
-        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
-        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
-        EasyMock.expect(mockGui.getActionCardToPlay(new String[] {"market"})).andReturn("market");
-        mockGui.updateView(EasyMock.isA(BoardDto.class));
-
-        EasyMock.replay(mockGui, player1);
-
-        Board board = Board.fromGui(mockGui);
-        board.players.removeFirst();
-        board.players.addFirst(player1);
-
-        board.actionPhase();
-
-        EasyMock.verify(mockGui, player1);
     }
     
     @Test

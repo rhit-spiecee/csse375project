@@ -185,13 +185,13 @@ public class Board {
         return getCardByName(actionCards, cardToPlay);
     }
 
-    private KingdomCard getCardByName(List<KingdomCard> cards, String name) {
+    KingdomCard getCardByName(List<KingdomCard> cards, String name) {
         for (KingdomCard card : cards) {
             if (card.name.equals(name)) {
                 return card;
             }
         }
-        return null;
+        throw new RuntimeException("Card list is empty or name of card is invalid");
     }
 
     void buyPhase() { //TODO: add to game class
