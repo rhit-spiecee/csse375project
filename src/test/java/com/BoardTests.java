@@ -204,7 +204,7 @@ public class BoardTests {
 
         ArrayList<KingdomCard> cards = new ArrayList<>();
 
-        assertThrows(RuntimeException.class, () -> board.getCardByName(cards, "market"));
+        assertThrows(RuntimeException.class, () -> board.getCardByName(cards, ""));
 
     }
 
@@ -234,7 +234,30 @@ public class BoardTests {
 
         board.getCurrentPlayer().hand.add(market);
 
+        String[] check = new String[1];
+        check[0] = "market";
+
+        assertEquals(check[0], board.getAvailableActionCardsInHand()[0]);
         assertEquals(market, board.getActionCardToPlay());
+
+        EasyMock.verify(mockGui);
+    }
+
+    @Test
+    public void testGetActionCardToPlayNoActionCards() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getActionCardToPlay(EasyMock.anyObject())).andReturn("market");
+
+        EasyMock.replay(mockGui);
+
+        Board board = Board.fromGui(mockGui);
+
+        String[] check = new String[0];
+
+        assertEquals(check.length, board.getAvailableActionCardsInHand().length);
+        assertThrows(RuntimeException.class, board::getActionCardToPlay);
 
         EasyMock.verify(mockGui);
     }
