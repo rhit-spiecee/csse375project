@@ -228,7 +228,7 @@ public class Board {
 
         int coinsInHand = currentPlayer.getCoinsInHand();
         currentPlayer.coins -= (boughtCard.cost - coinsInHand);
-        currentPlayer.removeTreasureCardsOfCost(coinsInHand);
+        currentPlayer.removeTreasureCardsOfCost(boughtCard.cost);
     }
 
     private void endTurn() { // TODO: game class
