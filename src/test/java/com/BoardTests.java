@@ -279,5 +279,27 @@ public class BoardTests {
         assertEquals(1, board.players.getFirst().coins);
         assertEquals(4, board.players.getFirst().discardPile.size());
     }
+
+    @Test
+    public void testCardEqualToCoinsInHand() {
+        Board board = new Board(2);
+
+        ArrayList<Card> newHand = new ArrayList<>();
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+
+        board.getCurrentPlayer().hand = newHand;
+        board.getCurrentPlayer().coins = 3;
+
+        board.processBuyPhaseSelection("market");
+
+        assertEquals(3, board.players.getFirst().coins);
+        assertEquals(6, board.players.getFirst().discardPile.size());
+    }
+
+
 }
  

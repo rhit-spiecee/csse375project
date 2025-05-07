@@ -227,12 +227,8 @@ public class Board {
         currentPlayer.buy--;
 
         int coinsInHand = currentPlayer.getCoinsInHand();
-        if (coinsInHand >= boughtCard.cost) {
-            currentPlayer.removeTreasureCardsOfCost(boughtCard.cost);
-        } else {
-            currentPlayer.coins -= (boughtCard.cost - coinsInHand);
-            currentPlayer.removeTreasureCardsOfCost(coinsInHand);
-        }
+        currentPlayer.coins -= (boughtCard.cost - coinsInHand);
+        currentPlayer.removeTreasureCardsOfCost(coinsInHand);
     }
 
     private BoardDeck getBoardDeckFromName(String nameOfDeck) {
