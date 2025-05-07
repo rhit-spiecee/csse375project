@@ -4,6 +4,7 @@ import org.easymock.EasyMock;
 import org.easymock.LogicalOperator;
 import org.junit.Test;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,9 +30,9 @@ public class BoardTests {
 
         // Verify
         board.processTurn();
-        assertEquals(5, board.players.getFirst().hand.size());
+        assertEquals(5, board.players.getFirst().getHand().size());
         assertEquals(5, board.players.getFirst().discardPile.size());
-        assertEquals(1, board.currentPlayerIndex);
+        assertEquals(1, board.getCurrentPlayerIndex());
 
         EasyMock.verify(mockGui);
     }
