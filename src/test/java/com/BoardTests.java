@@ -1,6 +1,7 @@
 package com;
 
 import org.easymock.EasyMock;
+import org.easymock.LogicalOperator;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -89,46 +90,176 @@ public class BoardTests {
         board.checkProvinceDeckLength();
         assertFalse(board.gameOver);
     }
-
+    
     @Test
-    public void testWinnerScoreAndOrdering() {
+    public void testStartGameAndGameOver() {
         Gui mockGui = EasyMock.mock(Gui.class);
-
         Player player1 = EasyMock.mock(Player.class);
         Player player2 = EasyMock.mock(Player.class);
-        Player player3 = EasyMock.mock(Player.class);
+        BoardDeck mockDeck = EasyMock.mock(BoardDeck.class);
+
+        EasyMock.expect(player1.calculateScore()).andReturn(18);
+        EasyMock.expect(player1.getHand()).andReturn(new ArrayList<>());
+        EasyMock.expect(player1.getCoins()).andReturn(0);
+        EasyMock.expect(player1.getActions()).andReturn(1);
+        EasyMock.expect(player1.getBuys()).andReturn(1);
+                
+        EasyMock.expect(player2.calculateScore()).andReturn(25);
+        
+        EasyMock.expect(mockDeck.size()).andReturn(0).anyTimes();
+        
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
+        mockGui.displayGameOverScreen(EasyMock.anyObject());
+        
+        EasyMock.replay(mockGui, player1, player2, mockDeck);
+        
+        Board board = Board.fromGui(mockGui);
+        board.players = Arrays.asList(player1, player2);
+        board.victoryDecks.put("province" , mockDeck);
+        
+        board.startGame();
+        
+        EasyMock.verify(mockGui, player1, player2, mockDeck);
+    }
+    
+    @Test
+    public void testGetSortedPlayerEntries() {
+        Board board = new Board(2);
+        
+        Player player1 = EasyMock.mock(Player.class);
+        Player player2 = EasyMock.mock(Player.class);
 
         EasyMock.expect(player1.calculateScore()).andReturn(18);
         EasyMock.expect(player2.calculateScore()).andReturn(25);
-        EasyMock.expect(player3.calculateScore()).andReturn(14);
+        
+        EasyMock.replay(player1, player2);
+        
+        board.players = Arrays.asList(player1, player2);
+        
+        List<PlayerScoreEntry> sortedEntries = board.getSortedPlayerEntries();
+        PlayerScoreEntry winner = sortedEntries.get(0);
+        PlayerScoreEntry second = sortedEntries.get(1);
+        assertEquals(25, winner.score);
+        assertEquals(player2, winner.player);
+        assertEquals(2, winner.index);
+        
+        assertEquals(18, second.score);
+        assertEquals(player1, second.player);
+        assertEquals(1, second.index);
 
-        mockGui.updateView(isA(BoardDto.class));
-        expectLastCall().anyTimes();
+        EasyMock.verify(player1, player2);
+    }
+    
+    @Test
+    public void testActionPhaseNoActionsAvailable() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+        
+        Player player1 = EasyMock.mock(Player.class);
+        
+        EasyMock.expect(player1.getActions()).andReturn(0);
+        
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
+        mockGui.showErrorPopup("Player 1 has no actions available");
+        
+        EasyMock.replay(mockGui, player1);
+        
+        Board board = Board.fromGui(mockGui);
+        board.players.removeFirst();
+        board.players.addFirst(player1);
+        
+        board.actionPhase();
+        
+        EasyMock.verify(mockGui, player1);
+    }
+    
+    @Test
+    public void testActionPhaseNoActionCardsAvailable() {
+        Gui mockGui = EasyMock.mock(Gui.class);
 
-        StringBuilder capturedOutput = new StringBuilder();
-        mockGui.showErrorPopup(isA(String.class));
-        expectLastCall().andAnswer(() -> {
-            String msg = (String) getCurrentArguments()[0];
-            capturedOutput.append(msg);
-            return null;
-        });
+        Player player1 = EasyMock.mock(Player.class);
 
-        EasyMock.replay(mockGui, player1, player2, player3);
+        EasyMock.expect(player1.getActions()).andReturn(1);
+        EasyMock.expect(player1.hasActionCard()).andReturn(false);
 
-        Board board = new Board(3);
-        board.gui = mockGui;
-        board.players = Arrays.asList(player1, player2, player3);
-        board.gameOver = true;
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
+        mockGui.showErrorPopup("Player 1 has no action cards");
 
-        board.startGame();
+        EasyMock.replay(mockGui, player1);
 
-        EasyMock.verify(mockGui, player1, player2, player3);
+        Board board = Board.fromGui(mockGui);
+        board.players.removeFirst();
+        board.players.addFirst(player1);
 
-        String output = capturedOutput.toString();
+        board.actionPhase();
 
-        assertTrue(output.contains("Winner: Player 2 with 25 points"));
-        assertTrue(output.contains("1. Player 2 - 25 points"));
-        assertTrue(output.contains("2. Player 1 - 18 points"));
-        assertTrue(output.contains("3. Player 3 - 14 points"));
+        EasyMock.verify(mockGui, player1);
+    }
+    
+    @Test
+    public void testActionPhaseActionCardsAvailable() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+
+        Player player1 = EasyMock.mock(Player.class);
+
+        EasyMock.expect(player1.getActions()).andReturn(1);
+        EasyMock.expect(player1.hasActionCard()).andReturn(true);
+        ArrayList<KingdomCard> actionCards = new ArrayList<>();
+        actionCards.add(new Market());
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.add(new Market());
+        EasyMock.expect(player1.getActionCards()).andReturn(actionCards).anyTimes();
+        EasyMock.expect(player1.getHand()).andReturn(hand);
+        player1.drawOneCard();
+        player1.discardCard(EasyMock.isA(Card.class));
+        EasyMock.expect(player1.getCoins()).andReturn(0);
+        EasyMock.expect(player1.getActions()).andReturn(0);
+        EasyMock.expect(player1.getBuys()).andReturn(0);
+
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
+        EasyMock.expect(mockGui.getActionCardToPlay(new String[] {"market"})).andReturn("market");
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
+
+        EasyMock.replay(mockGui, player1);
+
+        Board board = Board.fromGui(mockGui);
+        board.players.removeFirst();
+        board.players.addFirst(player1);
+
+        board.actionPhase();
+
+        EasyMock.verify(mockGui, player1);
+    }
+    
+    @Test
+    public void testBuyPhaseNoBuysAvailable() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+
+        Player player1 = EasyMock.mock(Player.class);
+
+        EasyMock.expect(player1.getBuys()).andReturn(0);
+        player1.cleanup();
+        player1.drawHand();
+
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.showBuyOption(0)).andReturn(0);
+        mockGui.showErrorPopup("Player 1 has no buys available");
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
+
+        EasyMock.replay(mockGui, player1);
+
+        Board board = Board.fromGui(mockGui);
+        board.players.removeFirst();
+        board.players.addFirst(player1);
+
+        board.buyPhase();
+
+        EasyMock.verify(mockGui, player1);
     }
 }
+ 
