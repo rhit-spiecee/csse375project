@@ -141,7 +141,7 @@ public class Board {
                 gui.showErrorPopup("Player " + getCurrentPlayerNumber() + " has no actions available");
                 break;
             }
-            if (!getCurrentPlayer().hasActionCard()) {
+            if (!getCurrentPlayer().hasActionCardInHand()) {
                 gui.showErrorPopup("Player " + getCurrentPlayerNumber() + " has no action cards");
                 break;
             }
@@ -171,7 +171,7 @@ public class Board {
     }
 
     public String[] getAvailableActionCardsInHand() {
-        List<KingdomCard> actionCards = getCurrentPlayer().getActionCards();
+        List<KingdomCard> actionCards = getCurrentPlayer().getActionCardsInHand();
         String[] availableActionCards = new String[actionCards.size()];
         for (int i = 0; i < actionCards.size(); i++) {
             availableActionCards[i] = actionCards.get(i).name;
@@ -179,19 +179,19 @@ public class Board {
         return availableActionCards;
     }
 
-    private KingdomCard getActionCardToPlay() {
-        List<KingdomCard> actionCards = getCurrentPlayerActionCards();
+    KingdomCard getActionCardToPlay() {
+        List<KingdomCard> actionCards = getCurrentPlayerActionCardsInHand();
         String cardToPlay = gui.getActionCardToPlay(getAvailableActionCardsInHand()).toLowerCase();
         return getCardByName(actionCards, cardToPlay);
     }
 
-    private KingdomCard getCardByName(List<KingdomCard> cards, String name) {
+    KingdomCard getCardByName(List<KingdomCard> cards, String name) {
         for (KingdomCard card : cards) {
             if (card.name.equals(name)) {
                 return card;
             }
         }
-        return null;
+        throw new RuntimeException("Card list is empty or name of card is invalid");
     }
 
     void buyPhase() { //TODO: add to game class
@@ -216,36 +216,19 @@ public class Board {
         endTurn();
     }
 
-    private void processBuyPhaseSelection(String buySelection) { // TODO: game class
+    void processBuyPhaseSelection(String buySelection) { // TODO: game class
         if (checkProvinceDeckLength()) {
             return;
         }
-        BoardDeck deckToBuyFrom = getBoardDeckFromName(buySelection);
+        BoardDeck deckToBuyFrom = getBoardDeckByName(buySelection);
         Card boughtCard = deckToBuyFrom.buyCard();
         Player currentPlayer = getCurrentPlayer();
         currentPlayer.addBoughtCard(boughtCard);
         currentPlayer.buy--;
 
         int coinsInHand = currentPlayer.getCoinsInHand();
-        if (coinsInHand >= boughtCard.cost) {
-            currentPlayer.removeTreasureCardsOfCost(boughtCard.cost);
-        } else {
-            currentPlayer.coins -= (boughtCard.cost - coinsInHand);
-            currentPlayer.removeTreasureCardsOfCost(coinsInHand);
-        }
-    }
-
-    private BoardDeck getBoardDeckFromName(String nameOfDeck) {
-        if (kingdomDecks.containsKey(nameOfDeck)) {
-            return kingdomDecks.get(nameOfDeck);
-        }
-        if (treasureDecks.containsKey(nameOfDeck)) {
-            return treasureDecks.get(nameOfDeck);
-        }
-        if (victoryDecks.containsKey(nameOfDeck)) {
-            return victoryDecks.get(nameOfDeck);
-        }
-        throw new RuntimeException("Unknown kingdom deck: " + nameOfDeck);
+        currentPlayer.coins -= (boughtCard.cost - coinsInHand);
+        currentPlayer.removeTreasureCardsOfCost(boughtCard.cost);
     }
 
     private void endTurn() { // TODO: game class
@@ -284,8 +267,8 @@ public class Board {
         return getCurrentPlayer().getActions();
     }
 
-    public List<KingdomCard> getCurrentPlayerActionCards() {
-        return getCurrentPlayer().getActionCards();
+    public List<KingdomCard> getCurrentPlayerActionCardsInHand() {
+        return getCurrentPlayer().getActionCardsInHand();
     }
 
     public void forceMilitiaDiscard() { //TODO: this should be moved to militia implementation
@@ -307,17 +290,17 @@ public class Board {
         }
     }
 
-    public BoardDeck getDeckByName(String name) {
-        if (kingdomDecks.containsKey(name)) {
-            return kingdomDecks.get(name);
+    public BoardDeck getBoardDeckByName(String nameOfDeck) {
+        if (kingdomDecks.containsKey(nameOfDeck)) {
+            return kingdomDecks.get(nameOfDeck);
         }
-        if (treasureDecks.containsKey(name)) {
-            return treasureDecks.get(name);
+        if (treasureDecks.containsKey(nameOfDeck)) {
+            return treasureDecks.get(nameOfDeck);
         }
-        if (victoryDecks.containsKey(name)) {
-            return victoryDecks.get(name);
+        if (victoryDecks.containsKey(nameOfDeck)) {
+            return victoryDecks.get(nameOfDeck);
         }
-        return null;
+        throw new RuntimeException("Unknown kingdom deck: " + nameOfDeck);
     }
 
     public void discardAnyCard(Player player) {
@@ -387,7 +370,7 @@ public class Board {
         transferCardFromDeckToPlayer(cardToGain, player);
     }
 
-    private void transferCardFromDeckToPlayer(String cardToGain, Player player) {
+    void transferCardFromDeckToPlayer(String cardToGain, Player player) {
         Card card;
         if (kingdomDecks.containsKey(cardToGain)) {
             card = kingdomDecks.get(cardToGain).buyCard();
@@ -423,16 +406,12 @@ public class Board {
         return cardNames;
     }
 
-    private boolean cardNamesDoNotContainCardIgnoreCase(
-            ArrayList<String> cardNames, 
-            String cardToCheck
-    ) {
+    private boolean cardNamesDoNotContainCardIgnoreCase(ArrayList<String> cardNames, String cardToCheck) {
         for (String card : cardNames) {
             if (card.equalsIgnoreCase(cardToCheck)) {
                 return false;
             }
         }
-
         return true;
     }
 

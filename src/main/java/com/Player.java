@@ -87,7 +87,7 @@ public class Player {
         return this.action;
     }
 
-    public boolean hasActionCard() {
+    public boolean hasActionCardInHand() {
         for (Card card : hand) {
             if (card.type == Card.CardType.KINGDOM) {
                 return true;
@@ -132,7 +132,7 @@ public class Player {
         return false;
     }
 
-    public List<KingdomCard> getActionCards() {
+    public List<KingdomCard> getActionCardsInHand() {
         List<KingdomCard> actionCards = new ArrayList<>();
         for (Card card : hand) {
             if (card instanceof KingdomCard) {

@@ -74,7 +74,7 @@ public class PlayerTests {
         player.drawHand();
 
         //Verify
-        assertFalse(player.hasActionCard());
+        assertFalse(player.hasActionCardInHand());
         EasyMock.verify(mockDeck);
     }
 
@@ -92,7 +92,7 @@ public class PlayerTests {
         player.drawHand();
 
         //Verify
-        assertTrue(player.hasActionCard());
+        assertTrue(player.hasActionCardInHand());
         EasyMock.verify(mockDeck);
     }
 
@@ -109,7 +109,7 @@ public class PlayerTests {
         player.drawHand();
 
         //Verify
-        assertTrue(player.hasActionCard());
+        assertTrue(player.hasActionCardInHand());
         EasyMock.verify(mockDeck);
     }
 
@@ -195,8 +195,8 @@ public class PlayerTests {
         player.hand.add(new Moat());
         player.hand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
         
-        assertEquals(1, player.getActionCards().size());
-        assertEquals("moat", player.getActionCards().getFirst().name);
+        assertEquals(1, player.getActionCardsInHand().size());
+        assertEquals("moat", player.getActionCardsInHand().getFirst().name);
     }
 
     @Test
