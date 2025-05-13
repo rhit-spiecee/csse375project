@@ -302,4 +302,8 @@ public class Gui {
                 JOptionPane.PLAIN_MESSAGE
         );
     }
+
+    public ResourceBundle getBundle() {
+        return bundle;
+    }
 }

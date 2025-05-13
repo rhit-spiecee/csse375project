@@ -2,8 +2,8 @@ package com;
 
 public class Smithy extends KingdomCard {
 
-    public Smithy() {
-        super("smithy", 4, 0);
+    public Smithy(String name) {
+        super(name, 4, 0);
     }
 
     @Override

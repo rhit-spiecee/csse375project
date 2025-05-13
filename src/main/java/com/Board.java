@@ -1,6 +1,11 @@
 package com;
 
-import java.util.*;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class Board {
     List<Player> players;
@@ -26,9 +31,22 @@ public class Board {
         initializePlayers();
     }
 
+    public Board(int numPlayers) {
+        if (numPlayers < 2 || numPlayers > 4) {
+            throw new RuntimeException("Number of players must be between 2 and 4");
+        }
+        this.numPlayers = numPlayers;
+        this.currentPlayerIndex = 0;
+        this.bundle = ResourceBundle.getBundle("language");
+
+        initializeDecks();
+        initializePlayers();
+    }
+
     public static Board fromGui(Gui gui) {
         int numPlayers = gui.getNumPlayers();
-        Board board = new Board(numPlayers);
+        ResourceBundle bundle = gui.getBundle();
+        Board board = new Board(numPlayers, bundle);
         board.gui = gui;
 
         return board;
@@ -46,53 +64,104 @@ public class Board {
     private void initializeDecks() {
 
         int kingdomDeckSize = 10;
-        kingdomDecks.put("cellar", new BoardDeck(new Cellar(this), kingdomDeckSize));
-        kingdomDecks.put("market", new BoardDeck(new Market(), kingdomDeckSize));
-        kingdomDecks.put("militia", new BoardDeck(new Militia(this), kingdomDeckSize));
-        kingdomDecks.put("mine", new BoardDeck(new Mine(this), kingdomDeckSize));
-        kingdomDecks.put("moat", new BoardDeck(new Moat(), kingdomDeckSize));
-        kingdomDecks.put("remodel", new BoardDeck(new Remodel(this), kingdomDeckSize));
-        kingdomDecks.put("smithy", new BoardDeck(new Smithy(), kingdomDeckSize));
-        kingdomDecks.put("village", new BoardDeck(new Village(), kingdomDeckSize));
-        kingdomDecks.put("workshop", new BoardDeck(new Workshop(this), kingdomDeckSize));
-        kingdomDecks.put("woodcutter", new BoardDeck(new Woodcutter(), kingdomDeckSize));
+        kingdomDecks.put(
+                bundle.getString("cellar"), 
+                new BoardDeck(new Cellar(this, bundle.getString("cellar")), kingdomDeckSize)
+        );
+        kingdomDecks.put(
+                bundle.getString("market"), 
+                new BoardDeck(new Market(bundle.getString("market")), kingdomDeckSize)
+        );
+        kingdomDecks.put(
+                bundle.getString("militia"), 
+                new BoardDeck(new Militia(this, bundle.getString("militia")), kingdomDeckSize)
+        );
+        kingdomDecks.put(
+                bundle.getString("mine"), 
+                new BoardDeck(new Mine(this, bundle.getString("mine")), kingdomDeckSize)
+        );
+        kingdomDecks.put(
+                bundle.getString("moat"), 
+                new BoardDeck(new Moat(bundle.getString("moat")), kingdomDeckSize)
+        );
+        kingdomDecks.put(
+                bundle.getString("remodel"),
+                new BoardDeck(new Remodel(this, bundle.getString("remodel")), kingdomDeckSize)
+        );
+        kingdomDecks.put(
+                bundle.getString("smithy"), 
+                new BoardDeck(new Smithy(bundle.getString("smithy")), kingdomDeckSize)
+        );
+        kingdomDecks.put(
+                bundle.getString("village"), 
+                new BoardDeck(new Village(bundle.getString("village")), kingdomDeckSize)
+        );
+        kingdomDecks.put(
+                bundle.getString("workshop"), 
+                new BoardDeck(new Workshop(this, bundle.getString("workshop")), kingdomDeckSize)
+        );
+        kingdomDecks.put(
+                bundle.getString("woodcutter"), 
+                new BoardDeck(new Woodcutter(bundle.getString("woodcutter")), kingdomDeckSize)
+        );
 
 
         int copperDeckSize = 60 - (numPlayers * 7);
         int silverDeckSize = 40;
         int goldDeckSize = 30;
         treasureDecks.put(
-                "copper",
-                new BoardDeck(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1),
-                        copperDeckSize));
+                bundle.getString("copper"),
+                new BoardDeck(
+                        new TreasureCard(bundle.getString("copper"), 0, Card.CardType.TREASURE, 1),
+                        copperDeckSize
+                )
+        );
         treasureDecks.put(
-                "silver",
-                new BoardDeck(new TreasureCard("silver", 3, Card.CardType.TREASURE, 2),
-                        silverDeckSize));
+                bundle.getString("silver"),
+                new BoardDeck(
+                        new TreasureCard(bundle.getString("silver"), 3, Card.CardType.TREASURE, 2),
+                        silverDeckSize
+                )
+        );
         treasureDecks.put(
-                "gold",
-                new BoardDeck(new TreasureCard("gold", 6, Card.CardType.TREASURE, 3),
-                        goldDeckSize));
+                bundle.getString("gold"),
+                new BoardDeck(
+                        new TreasureCard(bundle.getString("gold"), 6, Card.CardType.TREASURE, 3),
+                        goldDeckSize
+                )
+        );
 
 
         int cursedDeckSize = (numPlayers - 1) * 10;
         int victoryCardDeckSize = (numPlayers == 2) ? 8 : 12;
         victoryDecks.put(
-                "estate",
-                new BoardDeck(new VictoryCard("estate", 2, Card.CardType.VICTORY, 1),
-                        victoryCardDeckSize));
+                bundle.getString("estate"),
+                new BoardDeck(
+                        new VictoryCard(bundle.getString("estate"), 2, Card.CardType.VICTORY, 1),
+                        victoryCardDeckSize
+                )
+        );
         victoryDecks.put(
-                "duchy",
-                new BoardDeck(new VictoryCard("duchy", 5, Card.CardType.VICTORY, 3),
-                        victoryCardDeckSize));
+                bundle.getString("duchy"),
+                new BoardDeck(
+                        new VictoryCard(bundle.getString("duchy"), 5, Card.CardType.VICTORY, 3),
+                        victoryCardDeckSize
+                )
+        );
         victoryDecks.put(
-                "province",
-                new BoardDeck(new VictoryCard("province", 8, Card.CardType.VICTORY, 6),
-                        victoryCardDeckSize));
+                bundle.getString("province"),
+                new BoardDeck(
+                        new VictoryCard(bundle.getString("province"), 8, Card.CardType.VICTORY, 6),
+                        victoryCardDeckSize
+                )
+        );
         victoryDecks.put(
-                "cursed",
-                new BoardDeck(new VictoryCard("cursed", 0, Card.CardType.VICTORY, -1),
-                        cursedDeckSize));
+                bundle.getString("cursed"),
+                new BoardDeck(
+                        new VictoryCard(bundle.getString("cursed"), 0, Card.CardType.VICTORY, -1),
+                        cursedDeckSize
+                )
+        );
     }
 
     public void startGame() { //TODO: Game class
@@ -140,11 +209,21 @@ public class Board {
         int actionSelection = gui.getActionSelection(currentPlayerIndex);
         while (actionSelection == 0 && !checkProvinceDeckLength()) {
             if (getCurrentPlayerActions() <= 0) {
-                gui.showErrorPopup("Player " + getCurrentPlayerNumber() + " has no actions available");
+                gui.showErrorPopup(
+                        MessageFormat.format(
+                                bundle.getString("player.0.no.actions.available"), 
+                                getCurrentPlayerNumber()
+                        )
+                );
                 break;
             }
             if (!getCurrentPlayer().hasActionCardInHand()) {
-                gui.showErrorPopup("Player " + getCurrentPlayerNumber() + " has no action cards");
+                gui.showErrorPopup(
+                        MessageFormat.format(
+                                bundle.getString("player.0.no.action.cards"), 
+                                getCurrentPlayerNumber()
+                        )
+                );
                 break;
             }
 
@@ -204,7 +283,12 @@ public class Board {
         int buySelection = gui.showBuyOption(currentPlayerIndex);
         while (buySelection == 0 && !checkProvinceDeckLength()) {
             if (getCurrentPlayerBuys() <= 0) {
-                gui.showErrorPopup("Player " + getCurrentPlayerNumber() + " has no buys available");
+                gui.showErrorPopup(
+                        MessageFormat.format(
+                                bundle.getString("player.0.no.buys.available"), 
+                                getCurrentPlayerNumber()
+                        )
+                );
                 break;
             }
             String cardToBuy = gui.getBuySelection(
@@ -306,41 +390,36 @@ public class Board {
     }
 
     public void discardAnyCard(Player player) {
-        String popupMessage = "Enter name of the card you want to discard";
+        String popupMessage = bundle.getString("enter.discard.name");
         ArrayList<String> cardNames = player.getCardsInHandNamesExcept("cellar");
 
         String cardToDiscard = gui.getCardFromAvailableSelection(popupMessage, cardNames);
-        while (cardNamesDoNotContainCardIgnoreCase(cardNames, cardToDiscard)) {
-            cardToDiscard = gui.getCardFromAvailableSelection(popupMessage, cardNames);
-        }
 
         player.discardCard(cardToDiscard);
     }
 
     public Card trashAnyCard(Player player) {
-        String popupMessage = "Enter name of a card you want to trash";
-        ArrayList<String> cardNames = player.getCardsInHandNamesExcept("remodel");
+        String popupMessage = bundle.getString("trash.any.card");
+        ArrayList<String> cardNames = player.getCardsInHandNamesExcept(bundle.getString("remodel"));
         return trashCard(popupMessage, cardNames, player);
     }
 
     public Card trashTreasureCard(Player player) {
-        String popupMessage = "Enter name of a treasure card you want to trash";
+        String popupMessage = bundle.getString("trash.treasure.card");
         ArrayList<String> cardNames = player.getTreasureCardsInHandNames();
         return trashCard(popupMessage, cardNames, player);
     }
 
     private Card trashCard(String popupMessage, ArrayList<String> cardNames, Player player) {
         String cardToTrash = gui.getCardFromAvailableSelection(popupMessage, cardNames);
-        while (cardNamesDoNotContainCardIgnoreCase(cardNames, cardToTrash)) {
-            cardToTrash = gui.getCardFromAvailableSelection(popupMessage, cardNames);
-        }
+        
         return player.trashCard(cardToTrash);
     }
 
     public void gainAnyCard(Player player, int maxCost) {
         ArrayList<String> cardNames = getAllCardsBelowCostOf(maxCost);
 
-        String popupMessage = "Enter name of a card you want to gain";
+        String popupMessage = bundle.getString("card.to.discard");
 
         gainCard(popupMessage, cardNames, player);
     }
@@ -355,20 +434,16 @@ public class Board {
             cardNames.add("copper");
             cardNames.add("silver");
             cardNames.add("gold");
-        } else {
-            throw new RuntimeException("Unknown trashed card name: " + trashedCard.name);
         }
 
-        String popupMessage = "Enter name of a treasure card you want to gain";
+        String popupMessage = bundle.getString("gain.treasure.card");
 
         gainCard(popupMessage, cardNames, player);
     }
 
     private void gainCard(String popupMessage, ArrayList<String> cardNames, Player player) {
         String cardToGain = gui.getCardFromAvailableSelection(popupMessage, cardNames);
-        while (cardNamesDoNotContainCardIgnoreCase(cardNames, cardToGain)) {
-            cardToGain = gui.getCardFromAvailableSelection(popupMessage, cardNames);
-        }
+        
         transferCardFromDeckToPlayer(cardToGain, player);
     }
 
@@ -408,31 +483,19 @@ public class Board {
         return cardNames;
     }
 
-    private boolean cardNamesDoNotContainCardIgnoreCase(ArrayList<String> cardNames, String cardToCheck) {
-        for (String card : cardNames) {
-            if (card.equalsIgnoreCase(cardToCheck)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public int discardAnyNumberOfCards(Player player) { // TODO: Move to cellar implementation
         int numDiscardedCards = 0;
 
         int discardSelection = gui.getDiscardOption();
         while (discardSelection == 0) {
             if (player.hand.size() <= 1) {
-                gui.showErrorPopup("You have no more cards to discard");
+                gui.showErrorPopup(bundle.getString("no.more.cards"));
                 break;
             }
-            try {
-                discardAnyCard(player);
-                numDiscardedCards++;
-            } catch (RuntimeException e) {
-                gui.showErrorPopup(e.getMessage());
-                break;
-            }
+            
+            discardAnyCard(player);
+            numDiscardedCards++;
+            
             discardSelection = gui.getDiscardOption();
         }
 
