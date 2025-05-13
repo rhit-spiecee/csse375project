@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,11 +19,31 @@ public class Gui {
     public static final int IMAGE_WIDTH = 150;
     public static final int IMAGE_HEIGHT = 240;
     JFrame frame;
+    ResourceBundle bundle;
     
     public Gui() {
+        setupLanguage();
         setupFrame();
     }
-    
+
+    private void setupLanguage() {
+        // show dropdown with language thing
+        String[] options = new String[] {"English", "Deutsch"};
+        String selectionObject = (String) JOptionPane.showInputDialog(
+                null,
+                "Pick a language (Wählen Sie eine Sprache aus): ",
+                "",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                options,
+                options[0]);
+        if (selectionObject.equals("Deutsch")) {
+            bundle = ResourceBundle.getBundle("language_de");
+        } else {
+            bundle = ResourceBundle.getBundle("language");
+        }
+    }
+
     public void updateView(BoardDto boardDto) {
         frame.getContentPane().removeAll();
         
@@ -36,17 +58,19 @@ public class Gui {
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(2, 1));
         JLabel infoLabel = new JLabel(
-                "Current Player: " + (boardDto.currentPlayerNumber + 1)
-                        + ", Coins: " + boardDto.currentPlayerCoins
-                        + ", Actions: " + boardDto.currentPlayerActions
-                        + ", Buys: " + boardDto.currentPlayerBuys
-                        
+                MessageFormat.format(
+                        bundle.getString("current.player.0.coins.1.actions.2.buys.3"), 
+                        boardDto.currentPlayerNumber + 1,
+                        boardDto.currentPlayerCoins,
+                        boardDto.currentPlayerActions,
+                        boardDto.currentPlayerBuys
+                )
         );
         bottomPanel.add(infoLabel);
 
         JPanel handPanel = new JPanel();
         handPanel.setLayout(new FlowLayout());
-        handPanel.add(new JLabel("Hand: "));
+        handPanel.add(new JLabel(bundle.getString("hand")));
         for (Card card : boardDto.currentPlayerHand) {
             ImageIcon imageIcon = getImageFromCardName(card.name);
             JLabel cardImageLabel = new JLabel(imageIcon);
@@ -69,7 +93,7 @@ public class Gui {
     private void addDecksToFrame(Map<String, BoardDeck> decks, JPanel supplyPanel) {
         for (Map.Entry<String, BoardDeck> deck : decks.entrySet()) {
             JPanel deckPanel = new JPanel();
-            JLabel deckLabel = new JLabel("Cards left: " + deck.getValue().size());
+            JLabel deckLabel = new JLabel(MessageFormat.format(bundle.getString("cards.left.0"), deck.getValue().size()));
             ImageIcon imageIcon = getImageFromCardName(deck.getKey());
             JLabel imageLabel = new JLabel(imageIcon);
             deckPanel.add(deckLabel);
@@ -89,7 +113,7 @@ public class Gui {
     }
 
     private void setupFrame() {
-        frame = new JFrame("Dominion");
+        frame = new JFrame(bundle.getString("dominion"));
 
         frame.setSize(1920, 1000);
 
@@ -104,8 +128,8 @@ public class Gui {
         String[] options = {"2", "3", "4"};
         Object selectionObject = JOptionPane.showInputDialog(
                 null,
-                "Choose Number of Players:",
-                "Number of Players",
+                bundle.getString("choose.number.of.players"),
+                bundle.getString("number.of.players"),
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 options,
@@ -114,11 +138,14 @@ public class Gui {
     }
 
     public int getActionSelection(int playerNumber) {
-        String[] options = {"Action", "Next Phase"};
+        String[] options = {bundle.getString("action"), bundle.getString("next.phase")};
         int chooseToAction = JOptionPane.showOptionDialog(
                 null,
-                "Player " + (playerNumber + 1) + ": What would you like to do in the action phase?",
-                "Action Phase",
+                MessageFormat.format(
+                        bundle.getString("action.selection.message"), 
+                        playerNumber + 1
+                ),
+                bundle.getString("action.selection.title"),
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
@@ -133,11 +160,11 @@ public class Gui {
     }
 
     public int showBuyOption(int playerNumber) {
-        String[] options = {"Buy", "End Turn"};
+        String[] options = {bundle.getString("buy"), bundle.getString("end.turn")};
         int chooseToBuy = JOptionPane.showOptionDialog(
                 null,
-                "Player " + (playerNumber + 1) + ": What would you like to do in the buy phase?",
-                "Buy Phase",
+                MessageFormat.format(bundle.getString("buy.selection.message"), playerNumber + 1),
+                bundle.getString("buy.selection.title"),
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
@@ -156,8 +183,8 @@ public class Gui {
         availableCardsUnderPlayerCoins.toArray(options);
         Object selectionObject = JOptionPane.showInputDialog(
                 null,
-                "Choose Card to Buy:",
-                "Buy Phase",
+                bundle.getString("choose.card.to.buy"),
+                bundle.getString("buy.phase.title"),
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 options,
@@ -166,15 +193,20 @@ public class Gui {
     }
 
     public void showErrorPopup(String message) {
-        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(
+                null, 
+                message, 
+                bundle.getString("error"), 
+                JOptionPane.ERROR_MESSAGE
+        );
     }
 
     public boolean getIfPlayerWantsToBlock(int currentPlayer) {
-        String[] options = {"Yes", "No"};
+        String[] options = {bundle.getString("yes"), bundle.getString("no")};
         int chooseToBuy = JOptionPane.showOptionDialog(
                 null,
-                "Player " + (currentPlayer + 1) + ": Do you want to be immune to this action?",
-                "Block with Moat",
+                MessageFormat.format(bundle.getString("player.block.message"), currentPlayer + 1),
+                bundle.getString("player.block.title"),
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
@@ -189,8 +221,8 @@ public class Gui {
         //...and passing `frame` instead of `null` as first parameter
         Object selectionObject = JOptionPane.showInputDialog(
                 null,
-                "Player " + (playerNumber + 1) + ": What would you like to discard?",
-                "Menu",
+                MessageFormat.format(bundle.getString("get.discard.message"), playerNumber + 1),
+                bundle.getString("get.discard.title"),
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 options,
@@ -202,8 +234,8 @@ public class Gui {
     public String getActionCardToPlay(String[] availableCardInHand) {
         Object selectionObject = JOptionPane.showInputDialog(
                 null,
-                "Choose Action Card to Play:",
-                "Action Phase",
+                bundle.getString("get.action.message"),
+                bundle.getString("get.action.title"),
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 availableCardInHand,
@@ -213,11 +245,10 @@ public class Gui {
 
     public String getCardFromAvailableSelection(String baseMessage, ArrayList<String> cardNames) {
         String[] options = cardNames.toArray(new String[cardNames.size()]);
-        //...and passing `frame` instead of `null` as first parameter
         Object selectionObject = JOptionPane.showInputDialog(
                 null,
                 baseMessage,
-                "Menu",
+                bundle.getString("card.selection.title"),
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 options,
@@ -227,11 +258,11 @@ public class Gui {
     }
 
     public int getDiscardOption() {
-        String[] options = {"Yes", "No"};
+        String[] options = {bundle.getString("yes"), bundle.getString("no")};
         return JOptionPane.showOptionDialog(
                 null,
-                "Do you want to discard a card?",
-                "Buy Phase",
+                bundle.getString("discard.option.message"),
+                bundle.getString("buy.phase.title"),
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
@@ -241,19 +272,34 @@ public class Gui {
     }
 
     public void displayGameOverScreen(List<PlayerScoreEntry> scoredPlayers) {
-        StringBuilder finalMessage = new StringBuilder("Game Over!\n");
+        StringBuilder finalMessage = new StringBuilder(bundle.getString("game.over"));
         PlayerScoreEntry winner = scoredPlayers.getFirst();
-        finalMessage.append("Winner: Player ").append(winner.index)
-                .append(" with ").append(winner.score).append(" points!\n\n");
+        finalMessage.append(
+                MessageFormat.format(
+                        bundle.getString("winner.player.0.with.1.points"), 
+                        winner.index, 
+                        winner.score
+                )
+        );
 
         int rank = 1;
         for (PlayerScoreEntry entry : scoredPlayers) {
-            finalMessage.append(rank).append(". Player ")
-                    .append(entry.index).append(" - ")
-                    .append(entry.score).append(" points\n");
+            finalMessage.append(
+                    MessageFormat.format(
+                            bundle.getString("player.score.entry"), 
+                            rank,
+                            entry.index,
+                            entry.score
+                    )
+            );
             rank++;
         }
 
-        JOptionPane.showMessageDialog(null, finalMessage, "Game Over", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(
+                null, 
+                finalMessage,
+                bundle.getString("game.over.no.new.line"), 
+                JOptionPane.PLAIN_MESSAGE
+        );
     }
 }

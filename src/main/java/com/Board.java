@@ -12,13 +12,15 @@ public class Board {
     int numPlayers;
     int currentPlayerIndex;
     Gui gui;
+    ResourceBundle bundle;
 
-    public Board(int numPlayers) {
+    public Board(int numPlayers, ResourceBundle bundle) {
         if (numPlayers < 2 || numPlayers > 4) {
             throw new RuntimeException("Number of players must be between 2 and 4");
         }
         this.numPlayers = numPlayers;
         this.currentPlayerIndex = 0;
+        this.bundle = bundle;
 
         initializeDecks();
         initializePlayers();
