@@ -83,9 +83,9 @@ Action Phase:
             - [x] player gains +1 action
             - [x] player gains +1 buy
             - [x] player gains +1 coin
-    - [ ] Militia (+2 coins, other players discard down to 3 cards)
-        - [ ] Tests
-            - [ ] Opponent already has 3 or less cards in hand
+    - [x] Militia (+2 coins, other players discard down to 3 cards)
+        - [x] Tests
+            - [x] Opponent already has 3 or less cards in hand
             - [x] Opponent has 5 cards
             - [x] player gains +2 coins
     - [ ] Mine (trash a treasure card, gain a treasure card up to 3 more coins than the card they discarded)
@@ -138,16 +138,12 @@ Clean-up Phase:
         - [ ] Test when player has 2 cards left in hand
         - [ ] Test when player has 5 cards left in hand
 
-
-
 End Game:
 
-- [ ] Check the supply pile of province cards is empty
-    - [ ] Tests (cross-checking)
+- [x] Check the supply pile of province cards is empty
+    - [x] Tests (cross-checking)
         - [x] Supply pile of province cards has 0 left ->Game Over
-        - [ ] Supply pile of province cards has 1 left -> Continue Playing
-        - [ ] Supply pile of province cards has 2 left -> Continue Playing
-        - [ ] Supply pile of province cards has 12 left -> Continue Playing
+        - [x] Supply pile of province cards has more than 0 left -> Continue Playing
 - [ ] Check any three supply piles are empty (every supply card needs to be tested once)
     - [ ] Tests for each supply pile
         - [ ] Supply pile has 0 left -> Game Over
