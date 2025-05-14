@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Locale;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,8 +40,10 @@ public class Gui {
                 options[0]);
         if (selectionObject.equals("Deutsch")) {
             bundle = ResourceBundle.getBundle(Utilities.GERMAN_BUNDLE);
+            JOptionPane.setDefaultLocale(Locale.GERMAN);
         } else {
             bundle = ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE);
+            JOptionPane.setDefaultLocale(Locale.ENGLISH);
         }
     }
 
