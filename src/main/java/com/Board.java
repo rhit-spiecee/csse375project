@@ -20,9 +20,6 @@ public class Board {
     ResourceBundle bundle;
 
     public Board(int numPlayers, ResourceBundle bundle) {
-        if (numPlayers < 2 || numPlayers > 4) {
-            throw new RuntimeException("Number of players must be between 2 and 4");
-        }
         this.numPlayers = numPlayers;
         this.currentPlayerIndex = 0;
         this.bundle = bundle;
@@ -32,9 +29,6 @@ public class Board {
     }
 
     public Board(int numPlayers) {
-        if (numPlayers < 2 || numPlayers > 4) {
-            throw new RuntimeException("Number of players must be between 2 and 4");
-        }
         this.numPlayers = numPlayers;
         this.currentPlayerIndex = 0;
         this.bundle = ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE);
