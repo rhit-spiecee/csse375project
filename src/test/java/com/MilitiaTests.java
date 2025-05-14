@@ -36,6 +36,7 @@ public class MilitiaTests {
         assertEquals(1, player.buy);
         assertEquals(0, player.hand.size());
         assertEquals(1, player.discardPile.size());
+        assertEquals(3, board.players.getLast().hand.size());
         
         EasyMock.verify(mockGui);
     }
@@ -65,6 +66,34 @@ public class MilitiaTests {
         // Verify
         militia.useActionCard(mockPlayerOne);
         assertEquals(4, board.players.getLast().getHand().size());
+        assertEquals(newHand, board.players.getLast().getHand());
+
+        EasyMock.verify(mockGui, mockPlayerOne);
+    }
+
+    @Test
+    public void testPlayerMilitiaDiscardNone() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+        Player mockPlayerOne = EasyMock.mock(Player.class);
+
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+
+        mockPlayerOne.discardCard(EasyMock.isA(KingdomCard.class));
+
+        EasyMock.replay(mockGui, mockPlayerOne);
+
+        Board board = Board.fromGui(mockGui);
+        Militia militia = new Militia(board);
+        ArrayList<Card> newHand = new ArrayList<>();
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+
+        board.players.getLast().hand = newHand;
+
+        // Verify
+        militia.useActionCard(mockPlayerOne);
+        assertEquals(3, board.players.getLast().getHand().size());
         assertEquals(newHand, board.players.getLast().getHand());
 
         EasyMock.verify(mockGui, mockPlayerOne);
