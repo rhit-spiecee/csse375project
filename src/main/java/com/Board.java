@@ -270,10 +270,6 @@ public class Board {
     }
 
     void buyPhase() { //TODO: add to game class
-        if (checkProvinceDeckLength()) {
-            return;
-        }
-
         int buySelection = gui.showBuyOption(currentPlayerIndex);
         while (buySelection == 0 && !checkProvinceDeckLength()) {
             if (getCurrentPlayerBuys() <= 0) {
@@ -293,13 +289,13 @@ public class Board {
             gui.updateView(getDto());
             buySelection = gui.showBuyOption(currentPlayerIndex);
         }
+        if (checkProvinceDeckLength()) {
+            return;
+        }
         endTurn();
     }
 
     void processBuyPhaseSelection(String buySelection) { // TODO: game class
-        if (checkProvinceDeckLength()) {
-            return;
-        }
         BoardDeck deckToBuyFrom = getBoardDeckByName(buySelection);
         Card boughtCard = deckToBuyFrom.buyCard();
         Player currentPlayer = getCurrentPlayer();
