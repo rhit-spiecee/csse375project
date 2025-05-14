@@ -4,6 +4,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +13,7 @@ public class PlayerTests {
     public void testDrawInitialHandMock(){
         //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
-        Player player = new Player(mockDeck);
+        Player player = new Player(mockDeck, ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
         EasyMock.expect(mockDeck.size()).andReturn(5).times(5);
 
@@ -31,7 +32,7 @@ public class PlayerTests {
     public void testDrawOneCardMock() {
         //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
-        Player player = new Player(mockDeck);
+        Player player = new Player(mockDeck, ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
         EasyMock.expect(mockDeck.size()).andReturn(5);
 
@@ -48,7 +49,7 @@ public class PlayerTests {
     public void testGetInitialCoins() {
         //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
-        Player player = new Player(mockDeck);
+        Player player = new Player(mockDeck, ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
@@ -65,7 +66,7 @@ public class PlayerTests {
     public void testPlayerHasActionCardsWithNoActionCards() {
         //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
-        Player player = new Player(mockDeck);
+        Player player = new Player(mockDeck, ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
@@ -82,7 +83,7 @@ public class PlayerTests {
     public void testPlayerHasActionCardsWithOneActionCard() {
         //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
-        Player player = new Player(mockDeck);
+        Player player = new Player(mockDeck, ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(4);
@@ -100,7 +101,7 @@ public class PlayerTests {
     public void testPlayerHasActionCardsWithFullHandActionCard() {
         //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
-        Player player = new Player(mockDeck);
+        Player player = new Player(mockDeck, ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new Moat("moat")).times(5);
@@ -155,7 +156,7 @@ public class PlayerTests {
     @Test
     public void testDrawHandWhenDeckIsEmpty() {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
-        Player player = new Player(mockDeck);
+        Player player = new Player(mockDeck, ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
         player.discardPile.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
         EasyMock.expect(mockDeck.size()).andReturn(0);
         EasyMock.expect(mockDeck.size()).andReturn(10).times(4);
@@ -174,7 +175,7 @@ public class PlayerTests {
     @Test
     public void testDrawHandWhenDeckHasOneCard() {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
-        Player player = new Player(mockDeck);
+        Player player = new Player(mockDeck, ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
         EasyMock.expect(mockDeck.size()).andReturn(1);
         EasyMock.expect(mockDeck.size()).andReturn(0);
         EasyMock.expect(mockDeck.size()).andReturn(10).times(3);

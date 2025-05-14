@@ -24,6 +24,11 @@ public class Player {
         this.deck = new PlayerDeck(bundle);
         this.bundle = bundle;
     }
+    
+    public Player() {
+        this.bundle = ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE);
+        this.deck = new PlayerDeck(bundle);
+    }
 
     public void addBoughtCard(Card card) {
         discardPile.add(card);
