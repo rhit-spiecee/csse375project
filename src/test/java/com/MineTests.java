@@ -3,6 +3,8 @@ package com;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import java.util.ResourceBundle;
+
 import static org.junit.Assert.assertEquals;
 
 public class MineTests {
@@ -23,10 +25,11 @@ public class MineTests {
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("silver");
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("gold");
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
         Board board = Board.fromGui(mockGui);
-        Mine mine = new Mine(board);
+        Mine mine = new Mine(board, "mine");
         Player player = new StubPlayer(mine, "silver");
 
         mine.useActionCard(player);
@@ -48,10 +51,11 @@ public class MineTests {
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("copper");
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("silver");
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
         Board board = Board.fromGui(mockGui);
-        Mine mine = new Mine(board);
+        Mine mine = new Mine(board, "mine");
         Player player = new StubPlayer(mine, "copper");
 
         mine.useActionCard(player);
@@ -73,10 +77,11 @@ public class MineTests {
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("gold");
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("silver");
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
         Board board = Board.fromGui(mockGui);
-        Mine mine = new Mine(board);
+        Mine mine = new Mine(board, "mine");
         Player player = new StubPlayer(mine, "gold");
 
         mine.useActionCard(player);

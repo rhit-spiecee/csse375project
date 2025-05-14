@@ -3,6 +3,8 @@ package com;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import java.util.ResourceBundle;
+
 import static org.junit.Assert.assertEquals;
 
 public class CellarTests {
@@ -25,10 +27,11 @@ public class CellarTests {
         EasyMock.expect(mockGui.getDiscardOption()).andReturn(0).times(3);
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("copper").times(3);
         EasyMock.expect(mockGui.getDiscardOption()).andReturn(1);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
         Board board = Board.fromGui(mockGui);
-        Cellar cellar = new Cellar(board);
+        Cellar cellar = new Cellar(board, "cellar");
         Player player = new StubPlayer(cellar);
 
         cellar.useActionCard(player);

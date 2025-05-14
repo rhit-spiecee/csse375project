@@ -16,7 +16,7 @@ public class MoatTests {
 
     @Test
     public void testCardBehavior() {
-        Moat moat = new Moat();
+        Moat moat = new Moat("moat");
         Player player = new StubPlayer(moat);
 
         moat.useActionCard(player);

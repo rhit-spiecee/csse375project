@@ -17,7 +17,7 @@ public class MarketTests {
 
     @Test
     public void testCardBehavior() {
-        Market market = new Market();
+        Market market = new Market("market");
         Player player = new StubPlayer(market);
 
         market.useActionCard(player);

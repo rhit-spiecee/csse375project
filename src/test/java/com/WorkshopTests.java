@@ -3,6 +3,8 @@ package com;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import java.util.ResourceBundle;
+
 import static org.junit.Assert.assertEquals;
 
 public class WorkshopTests {
@@ -20,11 +22,12 @@ public class WorkshopTests {
         Gui mockGui = EasyMock.mock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("smithy");
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
 
         EasyMock.replay(mockGui);
         Board board = Board.fromGui(mockGui);
-        Workshop workshop = new Workshop(board);
+        Workshop workshop = new Workshop(board, "workshop");
         Player player = new WorkshopTests.StubPlayer(workshop);
 
         workshop.useActionCard(player);

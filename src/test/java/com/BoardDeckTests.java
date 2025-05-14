@@ -7,33 +7,33 @@ import static org.junit.Assert.*;
 public class BoardDeckTests {
     @Test
     public void testLowerLegalSizeOnInit() {
-        BoardDeck cellarDeck = new BoardDeck(new Smithy(), 8);
+        BoardDeck cellarDeck = new BoardDeck(new Smithy("smithy"), 8);
         assertEquals(8, cellarDeck.size());
     }
 
     @Test
     public void testLowerIllegalSizeOnInit() {
         assertThrows(RuntimeException.class, () -> {
-            new BoardDeck(new Smithy(), 7);
+            new BoardDeck(new Smithy("smithy"), 7);
         });
     }
 
     @Test
     public void testUpperLegalSizeOnInit() {
-        BoardDeck cellarDeck = new BoardDeck(new Smithy(), 60);
+        BoardDeck cellarDeck = new BoardDeck(new Smithy("smithy"), 60);
         assertEquals(60, cellarDeck.size());
     }
 
     @Test
     public void testUpperIllegalSizeOnInit() {
         assertThrows(RuntimeException.class, () -> {
-            new BoardDeck(new Smithy(), 61);
+            new BoardDeck(new Smithy("smithy"), 61);
         });
     }
     
     @Test
     public void testBuyCardInvalidSize() {
-        BoardDeck deck = new BoardDeck(new Smithy(), 8);
+        BoardDeck deck = new BoardDeck(new Smithy("smithy"), 8);
         assertEquals(8, deck.size());
         
         for (int i = 0; i < 8; i++) {
@@ -49,7 +49,7 @@ public class BoardDeckTests {
     
     @Test
     public void testBuyCard() {
-        Card card = new Smithy();
+        Card card = new Smithy("smithy");
         BoardDeck deck = new BoardDeck(card, 8);
         Card boughtCard = deck.buyCard();
         
@@ -59,7 +59,7 @@ public class BoardDeckTests {
 
     @Test
     public void testGetCard() {
-        Card card = new Smithy();
+        Card card = new Smithy("smithy");
         BoardDeck deck = new BoardDeck(card, 8);
         assertEquals(card, deck.getCard());
     }
