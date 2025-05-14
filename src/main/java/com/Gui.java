@@ -5,10 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -103,7 +100,10 @@ public class Gui {
     }
 
     private ImageIcon getImageFromCardName(String cardName) {
-        String fileName = "src/main/resources/cards/" + cardName + ".jpg";
+        String fileName = "src/main/resources/cards/" 
+                + cardName 
+                + bundle.getString("image.suffix")
+                + ".jpg";
         ImageIcon imageIcon = new ImageIcon(fileName);
         return new ImageIcon(
                 imageIcon

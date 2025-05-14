@@ -49,7 +49,7 @@ public class Board {
     private void initializePlayers() {
         this.players = new ArrayList<>();
         for (int i = 0; i < numPlayers; i++) {
-            Player player = new Player();
+            Player player = new Player(bundle);
             player.drawHand();
             players.add(player);
         }
@@ -186,7 +186,7 @@ public class Board {
     }
 
     public boolean checkProvinceDeckLength() { // TODO: change to game class
-        if (victoryDecks.get("province").size() <= 0) {
+        if (victoryDecks.get(bundle.getString("province")).size() <= 0) {
             gameOver = true;
             return true;
         }
