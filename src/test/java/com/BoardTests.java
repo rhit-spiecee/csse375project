@@ -464,5 +464,30 @@ public class BoardTests {
         EasyMock.verify(mockGui);
     }
 
+    @Test
+    public void testDiscardAnyNumbersOfCardsWhenHandEmpty() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getDiscardOption()).andReturn(0);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
+        mockGui.showErrorPopup("You have no more cards to discard");
+
+        EasyMock.replay(mockGui);
+        Board board = Board.fromGui(mockGui);
+        Player player = new Player();
+        int discardedCards;
+
+        ArrayList<Card> newHand = new ArrayList<>();
+        player.hand = newHand;
+
+        discardedCards = board.discardAnyNumberOfCards(player);
+
+        assertEquals(0, discardedCards);
+        assertEquals(0, player.hand.size());
+
+        EasyMock.verify(mockGui);
+    }
+
 }
  
