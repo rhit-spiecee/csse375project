@@ -5,7 +5,11 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,8 +40,10 @@ public class Gui {
                 options[0]);
         if (selectionObject.equals("Deutsch")) {
             bundle = ResourceBundle.getBundle(Utilities.GERMAN_BUNDLE);
+            JOptionPane.setDefaultLocale(Locale.GERMAN);
         } else {
             bundle = ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE);
+            JOptionPane.setDefaultLocale(Locale.ENGLISH);
         }
     }
 

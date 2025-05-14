@@ -423,15 +423,13 @@ public class Board {
         if (trashedCard.name.equalsIgnoreCase("copper")) {
             cardNames.add("copper");
             cardNames.add("silver");
-        } else if (trashedCard.name.equalsIgnoreCase("silver")
-                || trashedCard.name.equalsIgnoreCase("gold")) {
+        } else {
             cardNames.add("copper");
             cardNames.add("silver");
             cardNames.add("gold");
         }
 
         String popupMessage = bundle.getString("gain.treasure.card");
-
         gainCard(popupMessage, cardNames, player);
     }
 
