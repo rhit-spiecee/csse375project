@@ -458,7 +458,7 @@ public class Board {
         return cardNames;
     }
 
-    private List<String> getCardsBelowCostOf(int maxCost, Map<String, BoardDeck> decks) {
+    public List<String> getCardsBelowCostOf(int maxCost, Map<String, BoardDeck> decks) {
         ArrayList<String> cardNames = new ArrayList<>();
 
         for (String cardName : decks.keySet()) {

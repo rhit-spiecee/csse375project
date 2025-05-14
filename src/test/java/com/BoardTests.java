@@ -4,10 +4,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -388,6 +385,21 @@ public class BoardTests {
     public void testUnknownCardToGain() {
         Board board = new Board(2);
         assertThrows(RuntimeException.class, () -> board.transferCardFromDeckToPlayer("", board.getCurrentPlayer()));
+    }
+
+    @Test
+    public void testGetCardsBelowCostWhenDeckEmpty() {
+        Board board = new Board(2);
+        Map<String, BoardDeck> decks = new HashMap<>();
+        decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, Card.CardType.TREASURE, 0), 8));
+        for (int i = 0; i < 8; i++) {
+            decks.get("estate").buyCard();
+        }
+        List<String> returnCards;
+
+        returnCards = board.getCardsBelowCostOf(2, decks);
+
+        assertEquals(0, returnCards.size());
     }
 
 }
