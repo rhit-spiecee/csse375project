@@ -3,8 +3,8 @@ package com;
 public class Woodcutter extends KingdomCard {
 
 
-    public Woodcutter() {
-        super("woodcutter", 3, 0);
+    public Woodcutter(String name) {
+        super(name, 3, 0);
     }
 
     @Override

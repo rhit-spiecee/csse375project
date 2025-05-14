@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
 import static org.junit.Assert.assertEquals;
 
@@ -31,10 +32,11 @@ public class BuyCardTests {
         EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(1);
         mockPlayer.removeTreasureCardsOfCost(4);
         mockPlayer.drawHand();
-        mockPlayer.addBoughtCard(new Smithy());
+        mockPlayer.addBoughtCard(new Smithy("smithy"));
         mockPlayer.cleanup();
         mockGui.updateView(EasyMock.isA(BoardDto.class));
         mockGui.updateView(EasyMock.isA(BoardDto.class));
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
 
         // Replay

@@ -3,8 +3,8 @@ package com;
 public class Militia extends KingdomCard {
     private final Board board;
 
-    public Militia(Board board) {
-        super("militia", 4, 0);
+    public Militia(Board board, String name) {
+        super(name, 4, 0);
         this.board = board;
     }
 

@@ -2,20 +2,21 @@ package com;
 
 import java.util.Collections;
 import java.util.NoSuchElementException;
+import java.util.ResourceBundle;
 import java.util.Stack;
 
 public class PlayerDeck {
     public static final int MAX_DECK_SIZE = 308;
     private Stack<Card> deck;
 
-    public PlayerDeck() {
+    public PlayerDeck(ResourceBundle bundle) {
         deck = new Stack<>();
 
         for (int i = 0; i < 3; i++) {
-            deck.add(new VictoryCard("estate", 2, Card.CardType.VICTORY, 1));
+            deck.add(new VictoryCard(bundle.getString("estate"), 2, Card.CardType.VICTORY, 1));
         }
         for (int i = 0; i < 7; i++) {
-            deck.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+            deck.add(new TreasureCard(bundle.getString("copper"), 0, Card.CardType.TREASURE, 1));
         }
         shuffle();
     }

@@ -3,6 +3,7 @@ package com;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class Player {
     ArrayList<Card> hand = new ArrayList<Card>();
@@ -12,13 +13,21 @@ public class Player {
     int coins = 0;
     int buy = 1;
     int action = 1;
+    ResourceBundle bundle;
 
-    public Player(PlayerDeck deck) {
+    public Player(PlayerDeck deck, ResourceBundle bundle) {
         this.deck = deck;
+        this.bundle = bundle;
     }
 
+    public Player(ResourceBundle bundle) {
+        this.deck = new PlayerDeck(bundle);
+        this.bundle = bundle;
+    }
+    
     public Player() {
-        this.deck = new PlayerDeck();
+        this.bundle = ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE);
+        this.deck = new PlayerDeck(bundle);
     }
 
     public void addBoughtCard(Card card) {
@@ -98,7 +107,7 @@ public class Player {
 
     public boolean hasMoatCard() {
         for (Card card : hand) {
-            if (card.name.equals("moat")) {
+            if (card.name.equals(bundle.getString("moat"))) {
                 return true;
             }
         }
@@ -183,13 +192,31 @@ public class Player {
         int silverValue = 2;
         int copperValue = 1;
 
-        int coinsRemainingAfterGold = getCoinsAfterRemovingCard(cost, goldValue, "gold");
-        int coinsRemainingAfterSilver = getCoinsAfterRemovingCard(coinsRemainingAfterGold, silverValue, "silver");
-        getCoinsAfterRemovingCard(coinsRemainingAfterSilver, copperValue, "copper");
+        int coinsRemainingAfterGold = 
+                getCoinsAfterRemovingCard(
+                        cost, 
+                        goldValue, 
+                        bundle.getString("gold")
+                );
+        int coinsRemainingAfterSilver = 
+                getCoinsAfterRemovingCard(
+                        coinsRemainingAfterGold, 
+                        silverValue, 
+                        bundle.getString("silver")
+                );
+        getCoinsAfterRemovingCard(
+                coinsRemainingAfterSilver, 
+                copperValue, 
+                bundle.getString("copper")
+        );
 
     }
 
-    int getCoinsAfterRemovingCard(int coinsRemaining, int treasuryCardValue, String treasureCardType) {
+    int getCoinsAfterRemovingCard(
+            int coinsRemaining, 
+            int treasuryCardValue, 
+            String treasureCardType
+    ) {
         int index = hasTreasureCardType(treasureCardType);
         while (coinsRemaining >= treasuryCardValue && index > -1) {
             discardPile.add(hand.get(index));

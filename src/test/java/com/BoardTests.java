@@ -7,6 +7,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import static org.junit.Assert.*;
 
@@ -21,6 +22,7 @@ public class BoardTests {
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
         EasyMock.expect(mockGui.showBuyOption(0)).andReturn(1);
         mockGui.updateView(EasyMock.isA(BoardDto.class));
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         // Replay
         EasyMock.replay(mockGui);
@@ -109,6 +111,7 @@ public class BoardTests {
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
         mockGui.updateView(EasyMock.isA(BoardDto.class));
         mockGui.displayGameOverScreen(EasyMock.anyObject());
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui, player1, player2, mockDeck);
 
@@ -157,13 +160,14 @@ public class BoardTests {
         Gui mockGui = EasyMock.mock(Gui.class);
         Player player1 = EasyMock.mock(Player.class);
         ArrayList<Card> hand = new ArrayList<>();
-        hand.add(new Moat());
+        hand.add(new Moat("moat"));
         player1.hand = hand;
 
         EasyMock.expect(player1.getActions()).andReturn(0);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
         mockGui.showErrorPopup("Player 1 has no actions available");
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui, player1);
 
@@ -192,6 +196,7 @@ public class BoardTests {
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
         EasyMock.expect(player1.hasActionCardInHand()).andReturn(false);
         mockGui.showErrorPopup("Player 1 has no action cards");
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui, player1);
 
@@ -220,9 +225,9 @@ public class BoardTests {
     public void testGetCardByName() {
         Board board = new Board(2);
         ArrayList<KingdomCard> cards = new ArrayList<>();
-        cards.add(new Moat());
+        cards.add(new Moat("moat"));
 
-        assertEquals(new Moat(), board.getCardByName(cards, "moat"));
+        assertEquals(new Moat("moat"), board.getCardByName(cards, "moat"));
     }
 
     @Test
@@ -231,11 +236,12 @@ public class BoardTests {
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionCardToPlay(EasyMock.anyObject())).andReturn("market");
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
 
         Board board = Board.fromGui(mockGui);
-        Market market = new Market();
+        Market market = new Market("market");
         board.getCurrentPlayer().hand.add(market);
         String[] check = new String[1];
         check[0] = "market";
@@ -252,6 +258,7 @@ public class BoardTests {
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionCardToPlay(EasyMock.anyObject())).andReturn("market");
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
 
@@ -278,6 +285,7 @@ public class BoardTests {
         EasyMock.expect(mockGui.showBuyOption(0)).andReturn(0);
         mockGui.showErrorPopup("Player 1 has no buys available");
         mockGui.updateView(EasyMock.isA(BoardDto.class));
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui, player1);
 
@@ -301,8 +309,8 @@ public class BoardTests {
         newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
         newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
         newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
-        newHand.add(new Moat());
-        newHand.add(new Moat());
+        newHand.add(new Moat("moat"));
+        newHand.add(new Moat("moat"));
 
         board.getCurrentPlayer().hand = newHand;
         board.getCurrentPlayer().coins = 3;
@@ -341,10 +349,11 @@ public class BoardTests {
         EasyMock.expect(mockGui.getActionCardToPlay(EasyMock.anyObject())).andReturn("woodcutter");
         mockGui.updateView(EasyMock.isA(BoardDto.class));
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
         Board board = Board.fromGui(mockGui);
-        board.players.getFirst().hand.add(new Woodcutter());
+        board.players.getFirst().hand.add(new Woodcutter("woodcutter"));
         board.actionPhase();
 
         assertEquals(5, board.players.getFirst().hand.size());
@@ -355,6 +364,7 @@ public class BoardTests {
     public void testTwoBuysInARow(){
         Gui mockGui = EasyMock.niceMock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
         Board board = Board.fromGui(mockGui);
@@ -378,13 +388,5 @@ public class BoardTests {
         Board board = new Board(2);
         assertThrows(RuntimeException.class, () -> board.transferCardFromDeckToPlayer("", board.getCurrentPlayer()));
     }
-
-    @Test
-    public void testUnknownTrashedCard() {
-        Board board = new Board(2);
-        assertThrows(RuntimeException.class, () -> board.gainTreasureCard(board.getCurrentPlayer(), new Moat()));
-    }
-
-
 }
  

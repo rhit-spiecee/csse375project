@@ -3,6 +3,8 @@ package com;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import java.util.ResourceBundle;
+
 import static org.junit.Assert.assertEquals;
 
 public class RemodelTests {
@@ -22,10 +24,11 @@ public class RemodelTests {
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("gold");
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("province");
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
         Board board = Board.fromGui(mockGui);
-        Remodel remodel = new Remodel(board);
+        Remodel remodel = new Remodel(board, "remodel");
         Player player = new StubPlayer(remodel);
 
         remodel.useActionCard(player);

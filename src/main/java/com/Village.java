@@ -2,8 +2,8 @@ package com;
 
 public class Village extends KingdomCard {
 
-    public Village() {
-        super("village", 3, 0);
+    public Village(String name) {
+        super(name, 3, 0);
     }
 
     @Override

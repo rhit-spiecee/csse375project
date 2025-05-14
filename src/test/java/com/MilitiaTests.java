@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,10 +24,11 @@ public class MilitiaTests {
         Gui mockGui = EasyMock.mock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getCardToDiscard(EasyMock.notNull(), EasyMock.eq(1))).andReturn("copper").times(2);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
         
         EasyMock.replay(mockGui);
         Board board = Board.fromGui(mockGui);
-        Militia militia = new Militia(board);
+        Militia militia = new Militia(board, "militia");
         Player player = new StubPlayer(militia);
 
         militia.useActionCard(player);
@@ -48,15 +50,15 @@ public class MilitiaTests {
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getIfPlayerWantsToBlock(1)).andReturn(true);
-
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
         mockPlayerOne.discardCard(EasyMock.isA(KingdomCard.class));
 
         EasyMock.replay(mockGui, mockPlayerOne);
 
         Board board = Board.fromGui(mockGui);
-        Militia militia = new Militia(board);
+        Militia militia = new Militia(board, "militia");
         ArrayList<Card> newHand = new ArrayList<>();
-        newHand.add(new Moat());
+        newHand.add(new Moat("moat"));
         newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
         newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
         newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
