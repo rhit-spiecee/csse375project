@@ -402,5 +402,17 @@ public class BoardTests {
         assertEquals(0, returnCards.size());
     }
 
+    @Test
+    public void testGetCardsBelowCostWhenDeckIsOverCost() {
+        Board board = new Board(2);
+        Map<String, BoardDeck> decks = new HashMap<>();
+        decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, Card.CardType.TREASURE, 0), 8));
+        List<String> returnCards;
+
+        returnCards = board.getCardsBelowCostOf(1, decks);
+
+        assertEquals(0, returnCards.size());
+    }
+
 }
  
