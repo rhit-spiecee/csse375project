@@ -37,7 +37,7 @@ public class Board {
         }
         this.numPlayers = numPlayers;
         this.currentPlayerIndex = 0;
-        this.bundle = ResourceBundle.getBundle("language");
+        this.bundle = ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE);
 
         initializeDecks();
         initializePlayers();

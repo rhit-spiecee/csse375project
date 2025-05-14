@@ -38,9 +38,9 @@ public class Gui {
                 options,
                 options[0]);
         if (selectionObject.equals("Deutsch")) {
-            bundle = ResourceBundle.getBundle("language_de");
+            bundle = ResourceBundle.getBundle(Utilities.GERMAN_BUNDLE);
         } else {
-            bundle = ResourceBundle.getBundle("language");
+            bundle = ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE);
         }
     }
 
