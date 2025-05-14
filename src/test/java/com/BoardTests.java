@@ -403,6 +403,18 @@ public class BoardTests {
     }
 
     @Test
+    public void testGetCardsBelowCostWhenDeckIsBelowCost() {
+        Board board = new Board(2);
+        Map<String, BoardDeck> decks = new HashMap<>();
+        decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, Card.CardType.TREASURE, 0), 8));
+        List<String> returnCards;
+
+        returnCards = board.getCardsBelowCostOf(3, decks);
+
+        assertEquals(1, returnCards.size());
+    }
+
+    @Test
     public void testGetCardsBelowCostWhenDeckIsOverCost() {
         Board board = new Board(2);
         Map<String, BoardDeck> decks = new HashMap<>();
