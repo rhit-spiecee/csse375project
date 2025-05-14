@@ -415,6 +415,18 @@ public class BoardTests {
     }
 
     @Test
+    public void testGetCardsBelowCostWhenDeckIsSameCost() {
+        Board board = new Board(2);
+        Map<String, BoardDeck> decks = new HashMap<>();
+        decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, Card.CardType.TREASURE, 0), 8));
+        List<String> returnCards;
+
+        returnCards = board.getCardsBelowCostOf(2, decks);
+
+        assertEquals(1, returnCards.size());
+    }
+
+    @Test
     public void testGetCardsBelowCostWhenDeckIsOverCost() {
         Board board = new Board(2);
         Map<String, BoardDeck> decks = new HashMap<>();
@@ -424,6 +436,32 @@ public class BoardTests {
         returnCards = board.getCardsBelowCostOf(1, decks);
 
         assertEquals(0, returnCards.size());
+    }
+
+    @Test
+    public void testDiscardAnyNumbersOfCardsWhenHandSizeOne() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getDiscardOption()).andReturn(0);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
+        mockGui.showErrorPopup("You have no more cards to discard");
+
+        EasyMock.replay(mockGui);
+        Board board = Board.fromGui(mockGui);
+        Player player = new Player();
+        int discardedCards;
+
+        ArrayList<Card> newHand = new ArrayList<>();
+        newHand.add(new Moat("moat"));
+        player.hand = newHand;
+
+        discardedCards = board.discardAnyNumberOfCards(player);
+
+        assertEquals(0, discardedCards);
+        assertEquals(1, player.hand.size());
+
+        EasyMock.verify(mockGui);
     }
 
 }
