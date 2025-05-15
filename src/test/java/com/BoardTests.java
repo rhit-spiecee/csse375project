@@ -525,5 +525,18 @@ public class BoardTests {
 
         assertTrue(board.haveThreeEmptySupplyPiles());
     }
+
+    @Test
+    public void testStartGameWithThreePilesEmpty() {
+        Board board = new Board(2);
+
+        board.kingdomDecks.get("moat").deck.clear();
+        board.treasureDecks.get("silver").deck.clear();
+        board.victoryDecks.get("duchy").deck.clear();
+
+        board.startGame();
+
+        assertTrue(board.gameOver);
+    }
 }
  
