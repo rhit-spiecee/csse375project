@@ -106,6 +106,7 @@ public class BoardTests {
         EasyMock.expect(player2.calculateScore()).andReturn(25);
 
         EasyMock.expect(mockDeck.size()).andReturn(0).anyTimes();
+        EasyMock.expect(mockDeck.isNotEmpty()).andReturn(true);
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
