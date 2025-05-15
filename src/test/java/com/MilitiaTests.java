@@ -81,11 +81,12 @@ public class MilitiaTests {
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
 
         mockPlayerOne.discardCard(EasyMock.isA(KingdomCard.class));
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui, mockPlayerOne);
 
         Board board = Board.fromGui(mockGui);
-        Militia militia = new Militia(board);
+        Militia militia = new Militia(board, "militia");
         ArrayList<Card> newHand = new ArrayList<>();
         newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
         newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
