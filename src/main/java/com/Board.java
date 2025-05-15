@@ -512,6 +512,48 @@ public class Board {
     }
 
     public boolean haveThreeEmptySupplyPiles() {
-        return !treasureDecks.get("silver").isNotEmpty();
+        int numEmptyPiles = 0;
+
+        numEmptyPiles += getNumEmptyKingdomDecks();
+        numEmptyPiles += getNumEmptyTreasureDecks();
+        numEmptyPiles += getNumEmptyVictoryDecks();
+
+        return numEmptyPiles >= 3;
+    }
+
+    private int getNumEmptyKingdomDecks() {
+        int numEmptyDecks = 0;
+
+        for (BoardDeck deck : kingdomDecks.values()) {
+            if (!deck.isNotEmpty()) {
+                numEmptyDecks++;
+            }
+        }
+
+        return numEmptyDecks;
+    }
+
+    private int getNumEmptyTreasureDecks() {
+        int numEmptyDecks = 0;
+
+        for (BoardDeck deck : treasureDecks.values()) {
+            if (!deck.isNotEmpty()) {
+                numEmptyDecks++;
+            }
+        }
+
+        return numEmptyDecks;
+    }
+
+    private int getNumEmptyVictoryDecks() {
+        int numEmptyDecks = 0;
+
+        for (BoardDeck deck : victoryDecks.values()) {
+            if (!deck.isNotEmpty()) {
+                numEmptyDecks++;
+            }
+        }
+
+        return numEmptyDecks;
     }
 }
