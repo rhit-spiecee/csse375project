@@ -531,6 +531,7 @@ public class BoardTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
         mockGui.updateView(EasyMock.isA(BoardDto.class));
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
+        EasyMock.expect(mockGui.showBuyOption(0)).andReturn(0);
         mockGui.displayGameOverScreen(EasyMock.anyObject());
 
         EasyMock.replay(mockGui);
