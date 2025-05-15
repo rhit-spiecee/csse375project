@@ -511,4 +511,7 @@ public class Board {
         return availableDecks;
     }
 
+    public boolean haveThreeEmptySupplyPiles() {
+        return true;
+    }
 }
