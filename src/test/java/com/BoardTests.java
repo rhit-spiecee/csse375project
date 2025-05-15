@@ -528,7 +528,16 @@ public class BoardTests {
 
     @Test
     public void testStartGameWithThreePilesEmpty() {
-        Board board = new Board(2);
+        Gui mockGui = EasyMock.mock(Gui.class);
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
+        mockGui.displayGameOverScreen(EasyMock.anyObject());
+
+        EasyMock.replay(mockGui);
+
+        Board board = Board.fromGui(mockGui);
 
         board.kingdomDecks.get("moat").deck.clear();
         board.treasureDecks.get("silver").deck.clear();
@@ -537,6 +546,7 @@ public class BoardTests {
         board.startGame();
 
         assertTrue(board.gameOver);
+        EasyMock.verify(mockGui);
     }
 }
  
