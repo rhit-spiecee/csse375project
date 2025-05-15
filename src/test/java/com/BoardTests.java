@@ -503,5 +503,15 @@ public class BoardTests {
 
         assertTrue(board.haveThreeEmptySupplyPiles());
     }
+
+    @Test
+    public void testWinConditionThreePilesEmptyWithJustTwoEmpty() {
+        Board board = new Board(2);
+
+        board.kingdomDecks.get("moat").deck.clear();
+        board.victoryDecks.get("duchy").deck.clear();
+
+        assertFalse(board.haveThreeEmptySupplyPiles());
+    }
 }
  
