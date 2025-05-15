@@ -512,6 +512,6 @@ public class Board {
     }
 
     public boolean haveThreeEmptySupplyPiles() {
-        return true;
+        return !treasureDecks.get("silver").isNotEmpty();
     }
 }
