@@ -4,7 +4,10 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 
 import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 import static org.junit.Assert.*;
 
@@ -489,5 +492,16 @@ public class BoardTests {
         EasyMock.verify(mockGui);
     }
 
+
+    @Test
+    public void testWinConditionThreePilesEmptyWithAllThreeEmpty() {
+        Board board = new Board(2);
+
+        board.kingdomDecks.get("moat").deck.clear();
+        board.treasureDecks.get("silver").deck.clear();
+        board.victoryDecks.get("duchy").deck.clear();
+
+        assertTrue(board.haveThreeEmptySupplyPiles());
+    }
 }
  
