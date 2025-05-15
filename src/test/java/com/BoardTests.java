@@ -513,5 +513,17 @@ public class BoardTests {
 
         assertFalse(board.haveThreeEmptySupplyPiles());
     }
+
+    @Test
+    public void testWinConditionThreePilesEmptyWithFourEmpty() {
+        Board board = new Board(2);
+
+        board.kingdomDecks.get("woodcutter").deck.clear();
+        board.kingdomDecks.get("militia").deck.clear();
+        board.treasureDecks.get("copper").deck.clear();
+        board.victoryDecks.get("estate").deck.clear();
+
+        assertTrue(board.haveThreeEmptySupplyPiles());
+    }
 }
  
