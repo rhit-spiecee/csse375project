@@ -82,7 +82,6 @@ public class MilitiaTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         mockPlayerOne.discardCard(EasyMock.isA(KingdomCard.class));
-        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui, mockPlayerOne);
 
