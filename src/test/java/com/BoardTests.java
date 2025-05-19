@@ -103,6 +103,7 @@ public class BoardTests {
         EasyMock.expect(player2.calculateScore()).andReturn(25);
 
         EasyMock.expect(mockDeck.size()).andReturn(0).anyTimes();
+        EasyMock.expect(mockDeck.isNotEmpty()).andReturn(true);
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
@@ -489,5 +490,62 @@ public class BoardTests {
         EasyMock.verify(mockGui);
     }
 
+
+    @Test
+    public void testWinConditionThreePilesEmptyWithAllThreeEmpty() {
+        Board board = new Board(2);
+
+        board.kingdomDecks.get("moat").deck.clear();
+        board.treasureDecks.get("silver").deck.clear();
+        board.victoryDecks.get("duchy").deck.clear();
+
+        assertTrue(board.haveThreeEmptySupplyPiles());
+    }
+
+    @Test
+    public void testWinConditionThreePilesEmptyWithJustTwoEmpty() {
+        Board board = new Board(2);
+
+        board.kingdomDecks.get("moat").deck.clear();
+        board.victoryDecks.get("duchy").deck.clear();
+
+        assertFalse(board.haveThreeEmptySupplyPiles());
+    }
+
+    @Test
+    public void testWinConditionThreePilesEmptyWithFourEmpty() {
+        Board board = new Board(2);
+
+        board.kingdomDecks.get("woodcutter").deck.clear();
+        board.kingdomDecks.get("militia").deck.clear();
+        board.treasureDecks.get("copper").deck.clear();
+        board.victoryDecks.get("estate").deck.clear();
+
+        assertTrue(board.haveThreeEmptySupplyPiles());
+    }
+
+    @Test
+    public void testStartGameWithThreePilesEmpty() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
+        EasyMock.expect(mockGui.showBuyOption(0)).andReturn(0);
+        mockGui.displayGameOverScreen(EasyMock.anyObject());
+
+        EasyMock.replay(mockGui);
+
+        Board board = Board.fromGui(mockGui);
+
+        board.kingdomDecks.get("moat").deck.clear();
+        board.treasureDecks.get("silver").deck.clear();
+        board.victoryDecks.get("duchy").deck.clear();
+
+        board.startGame();
+
+        assertTrue(board.gameOver);
+        EasyMock.verify(mockGui);
+    }
 }
  

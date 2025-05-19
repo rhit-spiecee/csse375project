@@ -163,6 +163,9 @@ public class Board {
             gui.updateView(getDto());
             processTurn();
             checkProvinceDeckLength();
+            if (haveThreeEmptySupplyPiles()) {
+                gameOver = true;
+            }
         }
 
         handleGameOver();
@@ -201,7 +204,7 @@ public class Board {
 
     void actionPhase() { // TODO: change to game class
         int actionSelection = gui.getActionSelection(currentPlayerIndex);
-        while (actionSelection == 0 && !checkProvinceDeckLength()) {
+        while (actionSelection == 0 && !checkProvinceDeckLength() && !haveThreeEmptySupplyPiles()) {
             if (getCurrentPlayerActions() <= 0) {
                 gui.showErrorPopup(
                         MessageFormat.format(
@@ -271,7 +274,7 @@ public class Board {
 
     void buyPhase() { //TODO: add to game class
         int buySelection = gui.showBuyOption(currentPlayerIndex);
-        while (buySelection == 0 && !checkProvinceDeckLength()) {
+        while (buySelection == 0 && !checkProvinceDeckLength() && !haveThreeEmptySupplyPiles()) {
             if (getCurrentPlayerBuys() <= 0) {
                 gui.showErrorPopup(
                         MessageFormat.format(
@@ -290,6 +293,10 @@ public class Board {
             buySelection = gui.showBuyOption(currentPlayerIndex);
         }
         if (checkProvinceDeckLength()) {
+            return;
+        }
+        if (haveThreeEmptySupplyPiles()) {
+            gameOver = true;
             return;
         }
         endTurn();
@@ -511,4 +518,49 @@ public class Board {
         return availableDecks;
     }
 
+    public boolean haveThreeEmptySupplyPiles() {
+        int numEmptyPiles = 0;
+
+        numEmptyPiles += getNumEmptyKingdomDecks();
+        numEmptyPiles += getNumEmptyTreasureDecks();
+        numEmptyPiles += getNumEmptyVictoryDecks();
+
+        return numEmptyPiles >= 3;
+    }
+
+    private int getNumEmptyKingdomDecks() {
+        int numEmptyDecks = 0;
+
+        for (BoardDeck deck : kingdomDecks.values()) {
+            if (!deck.isNotEmpty()) {
+                numEmptyDecks++;
+            }
+        }
+
+        return numEmptyDecks;
+    }
+
+    private int getNumEmptyTreasureDecks() {
+        int numEmptyDecks = 0;
+
+        for (BoardDeck deck : treasureDecks.values()) {
+            if (!deck.isNotEmpty()) {
+                numEmptyDecks++;
+            }
+        }
+
+        return numEmptyDecks;
+    }
+
+    private int getNumEmptyVictoryDecks() {
+        int numEmptyDecks = 0;
+
+        for (BoardDeck deck : victoryDecks.values()) {
+            if (!deck.isNotEmpty()) {
+                numEmptyDecks++;
+            }
+        }
+
+        return numEmptyDecks;
+    }
 }
