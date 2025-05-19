@@ -13,7 +13,6 @@ public class Board {
     Map<String, BoardDeck> treasureDecks = new LinkedHashMap<>();
     Map<String, BoardDeck> victoryDecks = new LinkedHashMap<>();
 
-    boolean gameOver = false;
     int numPlayers;
     int currentPlayerIndex;
     Gui gui;
@@ -159,13 +158,9 @@ public class Board {
     }
 
     public void startGame() { //TODO: Game class
-        while (!gameOver) {
+        while (!isGameOver()) {
             gui.updateView(getDto());
             processTurn();
-            checkProvinceDeckLength();
-            if (haveThreeEmptySupplyPiles()) {
-                gameOver = true;
-            }
         }
 
         handleGameOver();
@@ -190,7 +185,6 @@ public class Board {
 
     public boolean checkProvinceDeckLength() { // TODO: change to game class
         if (victoryDecks.get(bundle.getString("province")).size() <= 0) {
-            gameOver = true;
             return true;
         }
         return false;
@@ -204,7 +198,7 @@ public class Board {
 
     void actionPhase() { // TODO: change to game class
         int actionSelection = gui.getActionSelection(currentPlayerIndex);
-        while (actionSelection == 0 && !checkProvinceDeckLength() && !haveThreeEmptySupplyPiles()) {
+        while (actionSelection == 0 && !isGameOver()) {
             if (getCurrentPlayerActions() <= 0) {
                 gui.showErrorPopup(
                         MessageFormat.format(
@@ -229,6 +223,9 @@ public class Board {
                 actionCardToPlay.useActionCard(getCurrentPlayer());
             }
             gui.updateView(getDto());
+            if (isGameOver()) {
+                return;
+            }
             actionSelection = gui.getActionSelection(currentPlayerIndex);
         }
     }
@@ -274,7 +271,7 @@ public class Board {
 
     void buyPhase() { //TODO: add to game class
         int buySelection = gui.showBuyOption(currentPlayerIndex);
-        while (buySelection == 0 && !checkProvinceDeckLength() && !haveThreeEmptySupplyPiles()) {
+        while (buySelection == 0 && !isGameOver()) {
             if (getCurrentPlayerBuys() <= 0) {
                 gui.showErrorPopup(
                         MessageFormat.format(
@@ -290,14 +287,10 @@ public class Board {
                 processBuyPhaseSelection(cardToBuy.toLowerCase());
             }
             gui.updateView(getDto());
+            if (isGameOver()) {
+                return;
+            }
             buySelection = gui.showBuyOption(currentPlayerIndex);
-        }
-        if (checkProvinceDeckLength()) {
-            return;
-        }
-        if (haveThreeEmptySupplyPiles()) {
-            gameOver = true;
-            return;
         }
         endTurn();
     }
@@ -526,6 +519,10 @@ public class Board {
         numEmptyPiles += getNumEmptyVictoryDecks();
 
         return numEmptyPiles >= 3;
+    }
+
+    public boolean isGameOver() {
+        return haveThreeEmptySupplyPiles() || checkProvinceDeckLength();
     }
 
     private int getNumEmptyKingdomDecks() {
