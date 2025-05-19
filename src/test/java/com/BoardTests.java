@@ -86,7 +86,7 @@ public class BoardTests {
         board.checkProvinceDeckLength();
         assertFalse(board.isGameOver());
     }
-    
+
     @Test
     public void testStartGameAndGameOver() {
         Gui mockGui = EasyMock.mock(Gui.class);
@@ -95,13 +95,29 @@ public class BoardTests {
         BoardDeck mockDeck = EasyMock.mock(BoardDeck.class);
 
         EasyMock.expect(player1.calculateScore()).andReturn(18);
+        EasyMock.expect(player1.getHand()).andReturn(new ArrayList<>());
+        EasyMock.expect(player1.getCoins()).andReturn(0);
+        EasyMock.expect(player1.getActions()).andReturn(1);
+        EasyMock.expect(player1.getBuys()).andReturn(1);
+        player1.cleanup();
+        player1.drawHand();
+
 
         EasyMock.expect(player2.calculateScore()).andReturn(25);
+        EasyMock.expect(player2.getHand()).andReturn(new ArrayList<>());
+        EasyMock.expect(player2.getCoins()).andReturn(0);
+        EasyMock.expect(player2.getActions()).andReturn(1);
+        EasyMock.expect(player2.getBuys()).andReturn(1);
 
-        EasyMock.expect(mockDeck.size()).andReturn(0).anyTimes();
         EasyMock.expect(mockDeck.isNotEmpty()).andReturn(true).times(2);
+        EasyMock.expect(mockDeck.isNotEmpty()).andReturn(false).times(4);
+
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
+        EasyMock.expect(mockGui.showBuyOption(0)).andReturn(1);
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
         mockGui.displayGameOverScreen(EasyMock.anyObject());
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
@@ -116,35 +132,35 @@ public class BoardTests {
         assertTrue(board.isGameOver());
         EasyMock.verify(mockGui, player1, player2, mockDeck);
     }
-    
+
     @Test
     public void testGetSortedPlayerEntries() {
         Board board = new Board(2);
-        
+
         Player player1 = EasyMock.mock(Player.class);
         Player player2 = EasyMock.mock(Player.class);
 
         EasyMock.expect(player1.calculateScore()).andReturn(18);
         EasyMock.expect(player2.calculateScore()).andReturn(25);
-        
+
         EasyMock.replay(player1, player2);
-        
+
         board.players = Arrays.asList(player1, player2);
-        
+
         List<PlayerScoreEntry> sortedEntries = board.getSortedPlayerEntries();
         PlayerScoreEntry winner = sortedEntries.get(0);
         PlayerScoreEntry second = sortedEntries.get(1);
         assertEquals(25, winner.score);
         assertEquals(player2, winner.player);
         assertEquals(2, winner.index);
-        
+
         assertEquals(18, second.score);
         assertEquals(player1, second.player);
         assertEquals(1, second.index);
 
         EasyMock.verify(player1, player2);
     }
-    
+
     @Test
     public void testActionPhaseNoActionsAvailable() {
         Gui mockGui = EasyMock.mock(Gui.class);
@@ -202,7 +218,7 @@ public class BoardTests {
         EasyMock.verify(mockGui, player1);
     }
 
-    
+
     @Test
     public void testGetCardByNameEmptyCardList() {
         Board board = new Board(2);
@@ -534,6 +550,22 @@ public class BoardTests {
 
         assertTrue(board.isGameOver());
         EasyMock.verify(mockGui);
+    }
+
+    @Test
+    public void testPopulateDTO() {
+        Board board = new Board(2);
+
+        BoardDto boardDto = board.getDto();
+
+        assertEquals(board.kingdomDecks, boardDto.kingdomDecks);
+        assertEquals(board.treasureDecks, boardDto.treasureDecks);
+        assertEquals(board.victoryDecks, boardDto.victoryDecks);
+        assertEquals(board.currentPlayerIndex, boardDto.currentPlayerNumber);
+        assertEquals(board.getCurrentPlayerHand(), boardDto.currentPlayerHand);
+        assertEquals(board.getCurrentPlayerCoins(), boardDto.currentPlayerCoins);
+        assertEquals(board.getCurrentPlayerActions(), boardDto.currentPlayerActions);
+        assertEquals(board.getCurrentPlayerBuys(), boardDto.currentPlayerBuys);
     }
 }
  

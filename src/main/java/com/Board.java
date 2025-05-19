@@ -184,10 +184,7 @@ public class Board {
     }
 
     public boolean checkProvinceDeckLength() { // TODO: change to game class
-        if (victoryDecks.get(bundle.getString("province")).size() <= 0) {
-            return true;
-        }
-        return false;
+        return !victoryDecks.get(bundle.getString("province")).isNotEmpty();
     }
 
     void processTurn() { // TODO: change to game class
@@ -230,7 +227,7 @@ public class Board {
         }
     }
 
-    private BoardDto getDto() {
+    public BoardDto getDto() {
         BoardDto boardDto = new BoardDto();
         boardDto.populate(
                 kingdomDecks,
