@@ -223,6 +223,7 @@ public class BoardTests {
     public void testGetCardByNameEmptyCardList() {
         Board board = new Board(2);
         ArrayList<KingdomCard> cards = new ArrayList<>();
+        cards.add(new Moat("moat"));
 
         assertThrows(RuntimeException.class, () -> board.getCardByName(cards, ""));
     }
@@ -323,7 +324,7 @@ public class BoardTests {
 
         board.processBuyPhaseSelection("market");
 
-        assertEquals(1, board.players.getFirst().coins);
+        assertEquals(1, board.getCurrentPlayerCoins());
         assertEquals(4, board.players.getFirst().discardPile.size());
     }
 
