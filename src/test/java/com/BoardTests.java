@@ -568,5 +568,30 @@ public class BoardTests {
         assertEquals(board.getCurrentPlayerActions(), boardDto.currentPlayerActions);
         assertEquals(board.getCurrentPlayerBuys(), boardDto.currentPlayerBuys);
     }
+
+    @Test
+    public void testGainTreasureCardCopper(){
+        ArrayList<String> cardNames = new ArrayList<>();
+        cardNames.add("copper");
+        cardNames.add("silver");
+
+        Gui mockGui = EasyMock.mock((Gui.class));
+        Player player1 = EasyMock.mock((Player.class));
+        player1.hand = new ArrayList<Card>();
+
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getCardFromAvailableSelection("Enter name of a treasure card you want to gain", cardNames)).andReturn("copper");
+
+
+        EasyMock.replay(mockGui, player1);
+        Board board = Board.fromGui(mockGui);
+        board.players.clear();
+        board.players.add(player1);
+
+        assertEquals(2, board.gainTreasureCard(player1, new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).size());
+
+        EasyMock.verify(mockGui, player1);
+    }
 }
  

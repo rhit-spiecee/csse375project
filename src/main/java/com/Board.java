@@ -411,7 +411,7 @@ public class Board {
         gainCard(popupMessage, cardNames, player);
     }
 
-    public void gainTreasureCard(Player player, Card trashedCard) {
+    public ArrayList<String> gainTreasureCard(Player player, Card trashedCard) {
         ArrayList<String> cardNames = new ArrayList<>();
         if (trashedCard.name.equalsIgnoreCase("copper")) {
             cardNames.add("copper");
@@ -424,6 +424,7 @@ public class Board {
 
         String popupMessage = bundle.getString("gain.treasure.card");
         gainCard(popupMessage, cardNames, player);
+        return cardNames;
     }
 
     private void gainCard(String popupMessage, ArrayList<String> cardNames, Player player) {
