@@ -195,7 +195,12 @@ public class Gui {
                 null,
                 options,
                 options[0]);
-        return (String) selectionObject;
+
+        if (selectionObject != null) {
+            return selectionObject.toString();
+        }
+        return "";
+
     }
 
     public void showErrorPopup(String message) {
@@ -246,6 +251,10 @@ public class Gui {
                 null,
                 availableCardInHand,
                 availableCardInHand[0]);
+
+        if (selectionObject == null) {
+            return "";
+        }
         return (String) selectionObject;
     }
 

@@ -13,7 +13,6 @@ public class Board {
     Map<String, BoardDeck> treasureDecks = new LinkedHashMap<>();
     Map<String, BoardDeck> victoryDecks = new LinkedHashMap<>();
 
-    boolean gameOver = false;
     int numPlayers;
     int currentPlayerIndex;
     Gui gui;
@@ -158,14 +157,10 @@ public class Board {
         );
     }
 
-    public void startGame() { //TODO: Game class
-        while (!gameOver) {
+    public void startGame() {
+        while (!isGameOver()) {
             gui.updateView(getDto());
             processTurn();
-            checkProvinceDeckLength();
-            if (haveThreeEmptySupplyPiles()) {
-                gameOver = true;
-            }
         }
 
         handleGameOver();
@@ -180,7 +175,7 @@ public class Board {
     List<PlayerScoreEntry> getSortedPlayerEntries() {
         List<PlayerScoreEntry> scoredPlayers = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
-            int score = players.get(i).calculateScore(); // only calculate once
+            int score = players.get(i).calculateScore();
             scoredPlayers.add(new PlayerScoreEntry(i + 1, players.get(i), score));
         }
 
@@ -188,23 +183,19 @@ public class Board {
         return scoredPlayers;
     }
 
-    public boolean checkProvinceDeckLength() { // TODO: change to game class
-        if (victoryDecks.get(bundle.getString("province")).size() <= 0) {
-            gameOver = true;
-            return true;
-        }
-        return false;
+    public boolean checkProvinceDeckLength() {
+        return !victoryDecks.get(bundle.getString("province")).isNotEmpty();
     }
 
-    void processTurn() { // TODO: change to game class
+    void processTurn() {
         actionPhase();
 
         buyPhase();
     }
 
-    void actionPhase() { // TODO: change to game class
+    void actionPhase() {
         int actionSelection = gui.getActionSelection(currentPlayerIndex);
-        while (actionSelection == 0 && !checkProvinceDeckLength() && !haveThreeEmptySupplyPiles()) {
+        while (actionSelection == 0) {
             if (getCurrentPlayerActions() <= 0) {
                 gui.showErrorPopup(
                         MessageFormat.format(
@@ -224,16 +215,17 @@ public class Board {
                 break;
             }
 
-            KingdomCard actionCardToPlay = getActionCardToPlay();
-            if (actionCardToPlay != null) {
-                actionCardToPlay.useActionCard(getCurrentPlayer());
+            String actionCardToPlay = getActionCardToPlay();
+            if (!actionCardToPlay.isEmpty()) {
+                KingdomCard actionCard = getCardByName(getCurrentPlayerActionCardsInHand(), actionCardToPlay);
+                actionCard.useActionCard(getCurrentPlayer());
+                gui.updateView(getDto());
             }
-            gui.updateView(getDto());
             actionSelection = gui.getActionSelection(currentPlayerIndex);
         }
     }
 
-    private BoardDto getDto() {
+    public BoardDto getDto() {
         BoardDto boardDto = new BoardDto();
         boardDto.populate(
                 kingdomDecks,
@@ -257,10 +249,8 @@ public class Board {
         return availableActionCards;
     }
 
-    KingdomCard getActionCardToPlay() {
-        List<KingdomCard> actionCards = getCurrentPlayerActionCardsInHand();
-        String cardToPlay = gui.getActionCardToPlay(getAvailableActionCardsInHand()).toLowerCase();
-        return getCardByName(actionCards, cardToPlay);
+    String getActionCardToPlay() {
+        return gui.getActionCardToPlay(getAvailableActionCardsInHand());
     }
 
     KingdomCard getCardByName(List<KingdomCard> cards, String name) {
@@ -272,9 +262,9 @@ public class Board {
         throw new RuntimeException("Card list is empty or name of card is invalid");
     }
 
-    void buyPhase() { //TODO: add to game class
+    void buyPhase() {
         int buySelection = gui.showBuyOption(currentPlayerIndex);
-        while (buySelection == 0 && !checkProvinceDeckLength() && !haveThreeEmptySupplyPiles()) {
+        while (buySelection == 0) {
             if (getCurrentPlayerBuys() <= 0) {
                 gui.showErrorPopup(
                         MessageFormat.format(
@@ -286,23 +276,19 @@ public class Board {
             }
             String cardToBuy = gui.getBuySelection(
                     getAllCardsBelowCostOf(getCurrentPlayerCoins()));
-            if (cardToBuy != null) {
+            if (!cardToBuy.isEmpty()) {
                 processBuyPhaseSelection(cardToBuy.toLowerCase());
             }
             gui.updateView(getDto());
+            if (isGameOver()) {
+                return;
+            }
             buySelection = gui.showBuyOption(currentPlayerIndex);
-        }
-        if (checkProvinceDeckLength()) {
-            return;
-        }
-        if (haveThreeEmptySupplyPiles()) {
-            gameOver = true;
-            return;
         }
         endTurn();
     }
 
-    void processBuyPhaseSelection(String buySelection) { // TODO: game class
+    void processBuyPhaseSelection(String buySelection) {
         BoardDeck deckToBuyFrom = getBoardDeckByName(buySelection);
         Card boughtCard = deckToBuyFrom.buyCard();
         Player currentPlayer = getCurrentPlayer();
@@ -314,7 +300,7 @@ public class Board {
         currentPlayer.removeTreasureCardsOfCost(boughtCard.cost);
     }
 
-    private void endTurn() { // TODO: game class
+    private void endTurn() {
         Player currentPlayer = getCurrentPlayer();
         currentPlayer.cleanup();
         currentPlayer.drawHand();
@@ -354,7 +340,7 @@ public class Board {
         return getCurrentPlayer().getActionCardsInHand();
     }
 
-    public void forceMilitiaDiscard() { //TODO: this should be moved to militia implementation
+    public void forceMilitiaDiscard() {
         for (int i = 0; i < numPlayers; i++) {
             Player player = players.get(i);
             if (currentPlayerIndex == i) {
@@ -421,7 +407,7 @@ public class Board {
         gainCard(popupMessage, cardNames, player);
     }
 
-    public void gainTreasureCard(Player player, Card trashedCard) {
+    public ArrayList<String> gainTreasureCard(Player player, Card trashedCard) {
         ArrayList<String> cardNames = new ArrayList<>();
         if (trashedCard.name.equalsIgnoreCase("copper")) {
             cardNames.add("copper");
@@ -434,6 +420,7 @@ public class Board {
 
         String popupMessage = bundle.getString("gain.treasure.card");
         gainCard(popupMessage, cardNames, player);
+        return cardNames;
     }
 
     private void gainCard(String popupMessage, ArrayList<String> cardNames, Player player) {
@@ -478,7 +465,7 @@ public class Board {
         return cardNames;
     }
 
-    public int discardAnyNumberOfCards(Player player) { // TODO: Move to cellar implementation
+    public int discardAnyNumberOfCards(Player player) {
         int numDiscardedCards = 0;
 
         int discardSelection = gui.getDiscardOption();
@@ -497,17 +484,7 @@ public class Board {
         return numDiscardedCards;
     }
 
-
-    // Only used in tests
-    public List<String> getAllAvailableDecks() {
-        ArrayList<String> availableDecks = new ArrayList<>();
-        availableDecks.addAll(getAvailableDecks(kingdomDecks));
-        availableDecks.addAll(getAvailableDecks(treasureDecks));
-        availableDecks.addAll(getAvailableDecks(victoryDecks));
-        return availableDecks;
-    }
-
-    private List<String> getAvailableDecks(Map<String, BoardDeck> decks) {
+    List<String> getAvailableDecks(Map<String, BoardDeck> decks) {
         List<String> availableDecks = new ArrayList<>();
         for (Map.Entry<String, BoardDeck> entry : decks.entrySet()) {
             BoardDeck deck = entry.getValue();
@@ -526,6 +503,10 @@ public class Board {
         numEmptyPiles += getNumEmptyVictoryDecks();
 
         return numEmptyPiles >= 3;
+    }
+
+    public boolean isGameOver() {
+        return haveThreeEmptySupplyPiles() || checkProvinceDeckLength();
     }
 
     private int getNumEmptyKingdomDecks() {
