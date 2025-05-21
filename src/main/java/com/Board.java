@@ -426,13 +426,13 @@ public class Board {
 
     public void gainTreasureCard(Player player, Card trashedCard) {
         ArrayList<String> cardNames = new ArrayList<>();
-        if (trashedCard.name.equalsIgnoreCase("copper")) {
-            cardNames.add("copper");
-            cardNames.add("silver");
+        if (trashedCard.name.equalsIgnoreCase(bundle.getString("copper"))) {
+            cardNames.add(bundle.getString("copper"));
+            cardNames.add(bundle.getString("silver"));
         } else {
-            cardNames.add("copper");
-            cardNames.add("silver");
-            cardNames.add("gold");
+            cardNames.add(bundle.getString("copper"));
+            cardNames.add(bundle.getString("silver"));
+            cardNames.add(bundle.getString("gold"));
         }
 
         String popupMessage = bundle.getString("gain.treasure.card");
