@@ -394,6 +394,8 @@ public class Board {
         while (cardToDiscard.isEmpty()) {
             cardToDiscard = gui.getCardToDiscard(player.getCardsInHandExceptOne("cellar"), players.indexOf(player));
         }
+
+        player.discardCard(cardToDiscard);
     }
 
     public Card trashAnyCard(Player player) {
