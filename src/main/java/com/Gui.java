@@ -234,7 +234,12 @@ public class Gui {
                 options,
                 options[0]
         );
-        return selectionObject.toString();
+
+        if (selectionObject != null) {
+            return selectionObject.toString();
+        }
+
+        return "";
     }
 
     public String getActionCardToPlay(String[] availableCardInHand) {

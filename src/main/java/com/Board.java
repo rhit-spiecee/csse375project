@@ -368,6 +368,9 @@ public class Board {
             }
             while (player.hand.size() > 3) {
                 String cardToDiscard = gui.getCardToDiscard(player.hand, i);
+                if (cardToDiscard.isEmpty()) {
+                    continue;
+                }
                 player.discardCard(cardToDiscard);
             }
         }
@@ -386,9 +389,13 @@ public class Board {
         throw new RuntimeException("Unknown kingdom deck: " + nameOfDeck);
     }
 
-    public void discardAnyCard(Player player) {
+    private boolean didDiscardCard(Player player) {
         String cardToDiscard = gui.getCardToDiscard(player.getCardsInHandExceptOne("cellar"), currentPlayerIndex);
-        player.discardCard(cardToDiscard);
+        if (!cardToDiscard.isEmpty()) {
+            player.discardCard(cardToDiscard);
+            return true;
+        }
+        return false;
     }
 
     public Card trashAnyCard(Player player) {
@@ -483,11 +490,15 @@ public class Board {
                 gui.showErrorPopup(bundle.getString("no.more.cards"));
                 break;
             }
-            
-            discardAnyCard(player);
-            numDiscardedCards++;
-            
-            discardSelection = gui.getDiscardOption();
+
+            if (didDiscardCard(player)) {
+                numDiscardedCards++;
+                discardSelection = gui.getDiscardOption();
+
+            } else {
+                break;
+            }
+
         }
 
         return numDiscardedCards;
