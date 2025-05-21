@@ -389,13 +389,11 @@ public class Board {
         throw new RuntimeException("Unknown kingdom deck: " + nameOfDeck);
     }
 
-    private boolean didDiscardCard(Player player) {
+    private void discardAnyCard(Player player) {
         String cardToDiscard = gui.getCardToDiscard(player.getCardsInHandExceptOne("cellar"), players.indexOf(player));
-        if (!cardToDiscard.isEmpty()) {
-            player.discardCard(cardToDiscard);
-            return true;
+        while (cardToDiscard.isEmpty()) {
+            cardToDiscard = gui.getCardToDiscard(player.getCardsInHandExceptOne("cellar"), players.indexOf(player));
         }
-        return false;
     }
 
     public Card trashAnyCard(Player player) {
@@ -491,13 +489,10 @@ public class Board {
                 break;
             }
 
-            if (didDiscardCard(player)) {
-                numDiscardedCards++;
-                discardSelection = gui.getDiscardOption();
+            discardAnyCard(player);
+            numDiscardedCards++;
 
-            } else {
-                break;
-            }
+            discardSelection = gui.getDiscardOption();
 
         }
 
