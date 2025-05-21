@@ -151,16 +151,6 @@ public class Player {
         return actionCards;
     }
 
-    public ArrayList<String> getCardsInHandNamesExcept(String cardName) {
-        HashSet<String> cardNames = new HashSet<>();
-        for (Card card : hand) {
-            if (!card.name.equalsIgnoreCase(cardName)) {
-                cardNames.add(card.name);
-            }
-        }
-        return new ArrayList<>(cardNames.stream().toList());
-    }
-
     public ArrayList<Card> getTreasureCardsInHand() {
         ArrayList<Card> treasureCards = new ArrayList<>();
         for (Card card : hand) {
