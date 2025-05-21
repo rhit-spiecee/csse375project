@@ -390,7 +390,7 @@ public class Board {
     }
 
     private boolean didDiscardCard(Player player) {
-        String cardToDiscard = gui.getCardToDiscard(player.getCardsInHandExceptOne("cellar"), currentPlayerIndex);
+        String cardToDiscard = gui.getCardToDiscard(player.getCardsInHandExceptOne("cellar"), players.indexOf(player));
         if (!cardToDiscard.isEmpty()) {
             player.discardCard(cardToDiscard);
             return true;
@@ -399,20 +399,17 @@ public class Board {
     }
 
     public Card trashAnyCard(Player player) {
-        String popupMessage = bundle.getString("trash.any.card");
-        ArrayList<String> cardNames = player.getCardsInHandNamesExcept(bundle.getString("remodel"));
-        return trashCard(popupMessage, cardNames, player);
+        ArrayList<Card> cards = player.getCardsInHandExceptOne(bundle.getString("remodel"));
+        return trashCard(cards, player);
     }
 
     public Card trashTreasureCard(Player player) {
-        String popupMessage = bundle.getString("trash.treasure.card");
-        ArrayList<String> cardNames = player.getTreasureCardsInHandNames();
-        return trashCard(popupMessage, cardNames, player);
+        ArrayList<Card> cards = player.getTreasureCardsInHand();
+        return trashCard(cards, player);
     }
 
-    private Card trashCard(String popupMessage, ArrayList<String> cardNames, Player player) {
-        String cardToTrash = gui.getCardFromAvailableSelection(popupMessage, cardNames);
-        
+    private Card trashCard(ArrayList<Card> cards, Player player) {
+        String cardToTrash = gui.getCardToTrash(cards, players.indexOf(player));
         return player.trashCard(cardToTrash);
     }
 

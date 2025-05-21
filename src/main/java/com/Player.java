@@ -161,14 +161,14 @@ public class Player {
         return new ArrayList<>(cardNames.stream().toList());
     }
 
-    public ArrayList<String> getTreasureCardsInHandNames() {
-        HashSet<String> treasureCards = new HashSet<>();
+    public ArrayList<Card> getTreasureCardsInHand() {
+        ArrayList<Card> treasureCards = new ArrayList<>();
         for (Card card : hand) {
             if (card.type == Card.CardType.TREASURE) {
-                treasureCards.add(card.name);
+                treasureCards.add(card);
             }
         }
-        return new ArrayList<>(treasureCards.stream().toList());
+        return treasureCards;
     }
 
     public Card trashCard(String cardToTrash) {
