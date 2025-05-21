@@ -239,7 +239,32 @@ public class Gui {
                 options,
                 options[0]
         );
-        return selectionObject.toString();
+
+        if (selectionObject != null) {
+            return selectionObject.toString();
+        }
+
+        return "";
+    }
+
+    public String getCardToTrash(ArrayList<Card> hand, int playerNumber) {
+        String[] options = hand.stream().map((card) -> card.name).toArray(String[]::new);
+        //...and passing `frame` instead of `null` as first parameter
+        Object selectionObject = JOptionPane.showInputDialog(
+                null,
+                MessageFormat.format(bundle.getString("get.trash.message"), playerNumber + 1),
+                bundle.getString("get.trash.title"),
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+
+        if (selectionObject != null) {
+            return selectionObject.toString();
+        }
+
+        return "";
     }
 
     public String getActionCardToPlay(String[] availableCardInHand) {

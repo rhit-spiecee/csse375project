@@ -354,6 +354,9 @@ public class Board {
             }
             while (player.hand.size() > 3) {
                 String cardToDiscard = gui.getCardToDiscard(player.hand, i);
+                if (cardToDiscard.isEmpty()) {
+                    continue;
+                }
                 player.discardCard(cardToDiscard);
             }
         }
@@ -372,30 +375,30 @@ public class Board {
         throw new RuntimeException("Unknown kingdom deck: " + nameOfDeck);
     }
 
-    public void discardAnyCard(Player player) {
-        String popupMessage = bundle.getString("enter.discard.name");
-        ArrayList<String> cardNames = player.getCardsInHandNamesExcept("cellar");
-
-        String cardToDiscard = gui.getCardFromAvailableSelection(popupMessage, cardNames);
+    private void discardAnyCard(Player player) {
+        String cardToDiscard = gui.getCardToDiscard(player.getCardsInHandExceptOne("cellar"), players.indexOf(player));
+        while (cardToDiscard.isEmpty()) {
+            cardToDiscard = gui.getCardToDiscard(player.getCardsInHandExceptOne("cellar"), players.indexOf(player));
+        }
 
         player.discardCard(cardToDiscard);
     }
 
     public Card trashAnyCard(Player player) {
-        String popupMessage = bundle.getString("trash.any.card");
-        ArrayList<String> cardNames = player.getCardsInHandNamesExcept(bundle.getString("remodel"));
-        return trashCard(popupMessage, cardNames, player);
+        ArrayList<Card> cards = player.getCardsInHandExceptOne(bundle.getString("remodel"));
+        return trashCard(cards, player);
     }
 
     public Card trashTreasureCard(Player player) {
-        String popupMessage = bundle.getString("trash.treasure.card");
-        ArrayList<String> cardNames = player.getTreasureCardsInHandNames();
-        return trashCard(popupMessage, cardNames, player);
+        ArrayList<Card> cards = player.getTreasureCardsInHand();
+        return trashCard(cards, player);
     }
 
-    private Card trashCard(String popupMessage, ArrayList<String> cardNames, Player player) {
-        String cardToTrash = gui.getCardFromAvailableSelection(popupMessage, cardNames);
-        
+    private Card trashCard(ArrayList<Card> cards, Player player) {
+        String cardToTrash = gui.getCardToTrash(cards, players.indexOf(player));
+        while (cardToTrash.isEmpty()) {
+            cardToTrash = gui.getCardToTrash(cards, players.indexOf(player));
+        }
         return player.trashCard(cardToTrash);
     }
 
@@ -409,13 +412,13 @@ public class Board {
 
     public ArrayList<String> gainTreasureCard(Player player, Card trashedCard) {
         ArrayList<String> cardNames = new ArrayList<>();
-        if (trashedCard.name.equalsIgnoreCase("copper")) {
-            cardNames.add("copper");
-            cardNames.add("silver");
+        if (trashedCard.name.equalsIgnoreCase(bundle.getString("copper"))) {
+            cardNames.add(bundle.getString("copper"));
+            cardNames.add(bundle.getString("silver"));
         } else {
-            cardNames.add("copper");
-            cardNames.add("silver");
-            cardNames.add("gold");
+            cardNames.add(bundle.getString("copper"));
+            cardNames.add(bundle.getString("silver"));
+            cardNames.add(bundle.getString("gold"));
         }
 
         String popupMessage = bundle.getString("gain.treasure.card");
@@ -474,11 +477,12 @@ public class Board {
                 gui.showErrorPopup(bundle.getString("no.more.cards"));
                 break;
             }
-            
+
             discardAnyCard(player);
             numDiscardedCards++;
-            
+
             discardSelection = gui.getDiscardOption();
+
         }
 
         return numDiscardedCards;

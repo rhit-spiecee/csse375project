@@ -23,7 +23,7 @@ public class MineTests {
     public void testCardBehaviorTrashingSilver() {
         Gui mockGui = EasyMock.mock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("silver");
+        EasyMock.expect(mockGui.getCardToTrash(EasyMock.notNull(), EasyMock.anyInt())).andReturn("silver");
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("gold");
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
@@ -49,7 +49,7 @@ public class MineTests {
     public void testCardBehaviorTrashingCopper() {
         Gui mockGui = EasyMock.mock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("copper");
+        EasyMock.expect(mockGui.getCardToTrash(EasyMock.notNull(), EasyMock.anyInt())).andReturn("copper");
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("silver");
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
@@ -75,7 +75,7 @@ public class MineTests {
     public void testCardBehaviorTrashingGold() {
         Gui mockGui = EasyMock.mock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("gold");
+        EasyMock.expect(mockGui.getCardToTrash(EasyMock.notNull(), EasyMock.anyInt())).andReturn("gold");
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("silver");
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 

@@ -22,7 +22,8 @@ public class RemodelTests {
     public void testCardBehavior() {
         Gui mockGui = EasyMock.mock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("gold");
+        EasyMock.expect(mockGui.getCardToTrash(EasyMock.notNull(), EasyMock.anyInt())).andReturn("");
+        EasyMock.expect(mockGui.getCardToTrash(EasyMock.notNull(), EasyMock.anyInt())).andReturn("gold");
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("province");
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
