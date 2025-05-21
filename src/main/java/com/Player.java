@@ -249,4 +249,18 @@ public class Player {
         }
         return score;
     }
+
+    public ArrayList<Card> getCardsInHandExceptOne(String cardToExclude) {
+        boolean foundCard = false;
+        ArrayList<Card> cards = new ArrayList<>();
+        for (Card card : hand) {
+            if (card.name.equals(cardToExclude) && !foundCard) {
+                foundCard = true;
+            } else {
+                cards.add(card);
+            }
+        }
+
+        return cards;
+    }
 }

@@ -391,4 +391,51 @@ public class PlayerTests {
         player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
         assertEquals(0, player.hasTreasureCardType("copper"));
     }
+
+    @Test
+    public void testGetCardsInHandExceptOneWithNoCardsToExclude() {
+        Player player = new Player();
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        hand.add(new Village("village"));
+        hand.add(new Woodcutter("woodcutter"));
+        hand.add(new VictoryCard("estate", 2, Card.CardType.VICTORY, 1));
+
+        player.hand = new ArrayList<>(hand);
+
+        assertEquals(hand, player.getCardsInHandExceptOne("silver"));
+    }
+
+    @Test
+    public void testGetCardsInHandExceptOneWithOneCardToExclude() {
+        Player player = new Player();
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.add(new TreasureCard("silver", 4, Card.CardType.TREASURE, 2));
+        hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        hand.add(new Village("village"));
+        hand.add(new Woodcutter("woodcutter"));
+        hand.add(new VictoryCard("estate", 2, Card.CardType.VICTORY, 1));
+
+        player.hand = new ArrayList<>(hand);
+        hand.remove(0);
+
+        assertEquals(hand, player.getCardsInHandExceptOne("silver"));
+    }
+
+    @Test
+    public void testGetCardsInHandExceptOneWithMultipleCardsToExclude() {
+        Player player = new Player();
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.add(new TreasureCard("silver", 4, Card.CardType.TREASURE, 2));
+        hand.add(new TreasureCard("silver", 4, Card.CardType.TREASURE, 2));
+        hand.add(new Village("village"));
+        hand.add(new Woodcutter("woodcutter"));
+        hand.add(new VictoryCard("estate", 2, Card.CardType.VICTORY, 1));
+
+        player.hand = new ArrayList<>(hand);
+        hand.remove(0);
+
+        assertEquals(hand, player.getCardsInHandExceptOne("silver"));
+    }
 }

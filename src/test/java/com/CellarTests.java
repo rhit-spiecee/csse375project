@@ -25,7 +25,7 @@ public class CellarTests {
         Gui mockGui = EasyMock.mock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getDiscardOption()).andReturn(0).times(3);
-        EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("copper").times(3);
+        EasyMock.expect(mockGui.getCardToDiscard(EasyMock.notNull(), EasyMock.eq(0))).andReturn("copper").times(3);
         EasyMock.expect(mockGui.getDiscardOption()).andReturn(1);
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 

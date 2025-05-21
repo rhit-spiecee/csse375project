@@ -387,11 +387,7 @@ public class Board {
     }
 
     public void discardAnyCard(Player player) {
-        String popupMessage = bundle.getString("enter.discard.name");
-        ArrayList<String> cardNames = player.getCardsInHandNamesExcept("cellar");
-
-        String cardToDiscard = gui.getCardFromAvailableSelection(popupMessage, cardNames);
-
+        String cardToDiscard = gui.getCardToDiscard(player.getCardsInHandExceptOne("cellar"), currentPlayerIndex);
         player.discardCard(cardToDiscard);
     }
 
