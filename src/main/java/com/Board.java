@@ -410,6 +410,9 @@ public class Board {
 
     private Card trashCard(ArrayList<Card> cards, Player player) {
         String cardToTrash = gui.getCardToTrash(cards, players.indexOf(player));
+        while (cardToTrash.isEmpty()) {
+            cardToTrash = gui.getCardToTrash(cards, players.indexOf(player));
+        }
         return player.trashCard(cardToTrash);
     }
 
