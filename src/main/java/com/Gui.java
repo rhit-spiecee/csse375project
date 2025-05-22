@@ -96,7 +96,8 @@ public class Gui {
     private void addDecksToFrame(Map<String, BoardDeck> decks, JPanel supplyPanel) {
         for (Map.Entry<String, BoardDeck> deck : decks.entrySet()) {
             JPanel deckPanel = new JPanel();
-            JLabel deckLabel = new JLabel(MessageFormat.format(bundle.getString("cards.left.0"), deck.getValue().size()));
+            JLabel deckLabel = new JLabel(
+                    MessageFormat.format(bundle.getString("cards.left.0"), deck.getValue().size()));
             ImageIcon imageIcon = getImageFromCardName(deck.getKey());
             JLabel imageLabel = new JLabel(imageIcon);
             deckPanel.add(deckLabel);
