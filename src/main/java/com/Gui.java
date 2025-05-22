@@ -28,22 +28,18 @@ public class Gui {
     }
 
     private void setupLanguage() {
-        String[] options = new String[] {"English", "Deutsch"};
+        String[] options = Utilities.AVAILABLE_LANGUAGES;
         String selectionObject = (String) JOptionPane.showInputDialog(
                 null,
-                "Pick a language (Wählen Sie eine Sprache aus): ",
+                Utilities.CHOOSE_LANGUAGE_MESSAGE,
                 "",
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 options,
                 options[0]);
-        if (selectionObject.equals("Deutsch")) {
-            bundle = ResourceBundle.getBundle(Utilities.GERMAN_BUNDLE);
-            JOptionPane.setDefaultLocale(Locale.GERMAN);
-        } else {
-            bundle = ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE);
-            JOptionPane.setDefaultLocale(Locale.ENGLISH);
-        }
+
+        bundle = ResourceBundle.getBundle(Utilities.getBundleName(selectionObject));
+        JOptionPane.setDefaultLocale(Utilities.getLocale(selectionObject));
     }
 
     public void updateView(BoardDto boardDto) {
@@ -131,7 +127,11 @@ public class Gui {
     }
 
     public int getNumPlayers() {
-        String[] options = {"2", "3", "4"};
+        String two = MessageFormat.format("{0,number}", 2);
+        String three = MessageFormat.format("{0,number}", 3);
+        String four = MessageFormat.format("{0,number}", 4);
+
+        String[] options = {two, three, four};
         Object selectionObject = JOptionPane.showInputDialog(
                 null,
                 bundle.getString("choose.number.of.players"),
