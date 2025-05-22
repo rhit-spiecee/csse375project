@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class Board {
+    private static final int NUM_EMPTY_PILES_FOR_GAME_OVER = 3;
+
     List<Player> players;
     Map<String, BoardDeck> kingdomDecks = new LinkedHashMap<>();
     Map<String, BoardDeck> treasureDecks = new LinkedHashMap<>();
@@ -512,7 +514,7 @@ public class Board {
         numEmptyPiles += getNumEmptyTreasureDecks();
         numEmptyPiles += getNumEmptyVictoryDecks();
 
-        return numEmptyPiles >= 3;
+        return numEmptyPiles >= NUM_EMPTY_PILES_FOR_GAME_OVER;
     }
 
     public boolean isGameOver() {

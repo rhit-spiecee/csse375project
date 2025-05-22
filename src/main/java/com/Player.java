@@ -6,13 +6,17 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class Player {
+    static final int INITIAL_HAND_SIZE = 5;
+    static final int INITIAL_BUYS = 1;
+    static final int INITIAL_ACTIONS = 1;
+
     ArrayList<Card> hand = new ArrayList<Card>();
     ArrayList<Card> discardPile = new ArrayList<>();
     PlayerDeck deck;
 
     int coins = 0;
-    int buy = 1;
-    int action = 1;
+    int buy = INITIAL_BUYS;
+    int action = INITIAL_ACTIONS;
     ResourceBundle bundle;
 
     public Player(PlayerDeck deck, ResourceBundle bundle) {
@@ -35,11 +39,11 @@ public class Player {
     }
 
     public void drawHand() {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
             drawOneCard();
         }
-        this.buy = 1;
-        this.action = 1;
+        this.buy = INITIAL_BUYS;
+        this.action = INITIAL_ACTIONS;
     }
 
 
@@ -65,8 +69,6 @@ public class Player {
         }
         hand.add(deck.draw());
     }
-
-
 
     public int getCoins() {
         int coins = this.coins;
@@ -116,8 +118,8 @@ public class Player {
 
     public void cleanup() {
         coins = 0;
-        buy = 1;
-        action = 1;
+        buy = INITIAL_BUYS;
+        action = INITIAL_ACTIONS;
         discardPile.addAll(hand);
         hand.clear();
     }
