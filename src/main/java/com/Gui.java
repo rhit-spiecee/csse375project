@@ -29,22 +29,18 @@ public class Gui {
 
     private void setupLanguage() {
         // show dropdown with language thing
-        String[] options = new String[] {"English", "Deutsch"};
+        String[] options = Utilities.AVAILABLE_LANGUAGES;
         String selectionObject = (String) JOptionPane.showInputDialog(
                 null,
-                "Pick a language (Wählen Sie eine Sprache aus): ",
+                Utilities.CHOOSE_LANGUAGE_MESSAGE,
                 "",
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 options,
                 options[0]);
-        if (selectionObject.equals("Deutsch")) {
-            bundle = ResourceBundle.getBundle(Utilities.GERMAN_BUNDLE);
-            JOptionPane.setDefaultLocale(Locale.GERMAN);
-        } else {
-            bundle = ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE);
-            JOptionPane.setDefaultLocale(Locale.ENGLISH);
-        }
+
+        bundle = ResourceBundle.getBundle(Utilities.getBundleName(selectionObject));
+        JOptionPane.setDefaultLocale(Utilities.getLocale(selectionObject));
     }
 
     public void updateView(BoardDto boardDto) {
