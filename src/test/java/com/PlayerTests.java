@@ -11,17 +11,14 @@ import static org.junit.Assert.*;
 public class PlayerTests {
     @Test
     public void testDrawInitialHandMock(){
-        //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
         EasyMock.expect(mockDeck.size()).andReturn(5).times(5);
 
-        //Replay
         EasyMock.replay(mockDeck);
         player.drawHand();
 
-        //Verify
         assertEquals(5, player.getHand().size());
         assertEquals(1, player.getActions());
         assertEquals(1, player.getBuys());
@@ -30,86 +27,71 @@ public class PlayerTests {
 
     @Test
     public void testDrawOneCardMock() {
-        //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
         EasyMock.expect(mockDeck.size()).andReturn(5);
 
-        //Replay
         EasyMock.replay(mockDeck);
         player.drawOneCard();
 
-        //Verify
         assertEquals(1, player.hand.size());
         EasyMock.verify(mockDeck);
     }
     
     @Test
     public void testGetInitialCoins() {
-        //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
-        //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
         EasyMock.expect(mockDeck.size()).andReturn(5).times(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
 
-        //Verify
         assertEquals(5, player.getCoins());
         EasyMock.verify(mockDeck);
     }
 
     @Test
     public void testPlayerHasActionCardsWithNoActionCards() {
-        //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
-        //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(5);
         EasyMock.expect(mockDeck.size()).andReturn(5).times(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
 
-        //Verify
         assertFalse(player.hasActionCardInHand());
         EasyMock.verify(mockDeck);
     }
 
     @Test
     public void testPlayerHasActionCardsWithOneActionCard() {
-        //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
-        //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).times(4);
         EasyMock.expect(mockDeck.draw()).andReturn(new Smithy("smithy"));
         EasyMock.expect(mockDeck.size()).andReturn(5).times(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
 
-        //Verify
         assertTrue(player.hasActionCardInHand());
         EasyMock.verify(mockDeck);
     }
 
     @Test
     public void testPlayerHasActionCardsWithFullHandActionCard() {
-        //Record
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
-        //Replay
         EasyMock.expect(mockDeck.draw()).andReturn(new Moat("moat")).times(5);
         EasyMock.expect(mockDeck.size()).andReturn(5).times(5);
         EasyMock.replay(mockDeck);
         player.drawHand();
 
-        //Verify
         assertTrue(player.hasActionCardInHand());
         EasyMock.verify(mockDeck);
     }
