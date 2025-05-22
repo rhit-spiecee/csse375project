@@ -201,7 +201,7 @@ public class Board {
         return scoreComparison;
     }
 
-    public boolean checkProvinceDeckLength() { // TODO: change to game class
+    public boolean checkProvinceDeckLength() {
         return !victoryDecks.get(bundle.getString("province")).isNotEmpty();
     }
 
