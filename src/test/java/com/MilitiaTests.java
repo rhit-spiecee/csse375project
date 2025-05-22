@@ -66,7 +66,6 @@ public class MilitiaTests {
 
         board.players.getLast().hand = newHand;
 
-        // Verify
         militia.useActionCard(mockPlayerOne);
         assertEquals(4, board.players.getLast().getHand().size());
         assertEquals(newHand, board.players.getLast().getHand());
@@ -95,7 +94,6 @@ public class MilitiaTests {
 
         board.players.getLast().hand = newHand;
 
-        // Verify
         militia.useActionCard(mockPlayerOne);
         assertEquals(3, board.players.getLast().getHand().size());
         assertEquals(newHand, board.players.getLast().getHand());

@@ -11,21 +11,17 @@ import static org.junit.Assert.*;
 public class BoardTests {
     @Test
     public void testPlayerCleanupPhaseNoBuy() {
-        // Setup
         Gui mockGui = EasyMock.mock(Gui.class);
 
-        // Record
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
         EasyMock.expect(mockGui.showBuyOption(0)).andReturn(1);
         mockGui.updateView(EasyMock.isA(BoardDto.class));
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
-        // Replay
         EasyMock.replay(mockGui);
         Board board = Board.fromGui(mockGui);
 
-        // Verify
         board.processTurn();
         assertEquals(5, board.players.getFirst().getHand().size());
         assertEquals(5, board.players.getFirst().discardPile.size());
@@ -352,7 +348,6 @@ public class BoardTests {
         Gui mockGui = EasyMock.mock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
-        //EasyMock.expect(mockGui.getActionCardToPlay(EasyMock.anyObject())).andReturn("market");
         EasyMock.expect(mockGui.getActionCardToPlay(EasyMock.anyObject())).andReturn("woodcutter");
         mockGui.updateView(EasyMock.isA(BoardDto.class));
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);

@@ -13,11 +13,10 @@ public class BuyCardTests {
 
     @Test
     public void testBuyOneCardWithEnoughCoins() {
-        // Setup
         Gui mockGui = EasyMock.mock(Gui.class);
         Player mockPlayer = EasyMock.mock(Player.class);
         Card card = new TreasureCard("copper", 0, Card.CardType.TREASURE, 1);
-        // Record
+
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
         EasyMock.expect(mockGui.showBuyOption(0)).andReturn(0).times(1);
@@ -38,14 +37,11 @@ public class BuyCardTests {
         mockGui.updateView(EasyMock.isA(BoardDto.class));
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
-
-        // Replay
         EasyMock.replay(mockGui, mockPlayer);
         Board board = Board.fromGui(mockGui);
         board.players.removeFirst();
         board.players.addFirst(mockPlayer);
 
-        // Verify
         board.processTurn();
         assertEquals(9, board.kingdomDecks.get("smithy").size());
         assertEquals(1, board.currentPlayerIndex);

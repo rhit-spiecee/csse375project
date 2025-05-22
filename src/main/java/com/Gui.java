@@ -28,7 +28,6 @@ public class Gui {
     }
 
     private void setupLanguage() {
-        // show dropdown with language thing
         String[] options = Utilities.AVAILABLE_LANGUAGES;
         String selectionObject = (String) JOptionPane.showInputDialog(
                 null,
@@ -92,7 +91,8 @@ public class Gui {
     private void addDecksToFrame(Map<String, BoardDeck> decks, JPanel supplyPanel) {
         for (Map.Entry<String, BoardDeck> deck : decks.entrySet()) {
             JPanel deckPanel = new JPanel();
-            JLabel deckLabel = new JLabel(MessageFormat.format(bundle.getString("cards.left.0"), deck.getValue().size()));
+            JLabel deckLabel = new JLabel(
+                    MessageFormat.format(bundle.getString("cards.left.0"), deck.getValue().size()));
             ImageIcon imageIcon = getImageFromCardName(deck.getKey());
             JLabel imageLabel = new JLabel(imageIcon);
             deckPanel.add(deckLabel);
@@ -229,7 +229,6 @@ public class Gui {
 
     public String getCardToDiscard(ArrayList<Card> hand, int playerNumber) {
         String[] options = hand.stream().map((card) -> card.name).toArray(String[]::new);
-        //...and passing `frame` instead of `null` as first parameter
         Object selectionObject = JOptionPane.showInputDialog(
                 null,
                 MessageFormat.format(bundle.getString("get.discard.message"), playerNumber + 1),
@@ -249,7 +248,6 @@ public class Gui {
 
     public String getCardToTrash(ArrayList<Card> hand, int playerNumber) {
         String[] options = hand.stream().map((card) -> card.name).toArray(String[]::new);
-        //...and passing `frame` instead of `null` as first parameter
         Object selectionObject = JOptionPane.showInputDialog(
                 null,
                 MessageFormat.format(bundle.getString("get.trash.message"), playerNumber + 1),
