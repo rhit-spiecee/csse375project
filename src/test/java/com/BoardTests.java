@@ -348,6 +348,23 @@ public class BoardTests {
     }
 
     @Test
+    public void testCardLessThanCoinsInHand() {
+        Board board = new Board(2);
+
+        ArrayList<Card> newHand = new ArrayList<>();
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+        newHand.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+
+        board.getCurrentPlayer().hand = newHand;
+        board.getCurrentPlayer().coins = 0;
+
+        board.processBuyPhaseSelection("moat");
+
+        assertEquals(0, board.players.getFirst().getCoins());
+        assertEquals(3, board.players.getFirst().discardPile.size());
+    }
+
+    @Test
     public void testActionPhase(){
         Gui mockGui = EasyMock.mock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
