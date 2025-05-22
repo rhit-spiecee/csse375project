@@ -170,8 +170,13 @@ public class Board {
 
     private void handleGameOver() {
         List<PlayerScoreEntry> scoredPlayers = getSortedPlayerEntries();
-
-        gui.displayGameOverScreen(scoredPlayers);
+        String gameOverMessage;
+        if (haveThreeEmptySupplyPiles()) {
+            gameOverMessage = "you.have.3.empty.supply.piles.game.over";
+        } else {
+            gameOverMessage = "you.have.an.empty.province.deck.game.over";
+        }
+        gui.displayGameOverScreen(scoredPlayers, gameOverMessage);
     }
 
     List<PlayerScoreEntry> getSortedPlayerEntries() {

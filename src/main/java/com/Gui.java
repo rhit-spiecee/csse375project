@@ -309,8 +309,8 @@ public class Gui {
         );
     }
 
-    public void displayGameOverScreen(List<PlayerScoreEntry> scoredPlayers) {
-        StringBuilder finalMessage = new StringBuilder(bundle.getString("game.over"));
+    public void displayGameOverScreen(List<PlayerScoreEntry> scoredPlayers, String key) {
+        StringBuilder finalMessage = new StringBuilder(bundle.getString(key));
         PlayerScoreEntry winner = scoredPlayers.getFirst();
         finalMessage.append(
                 MessageFormat.format(
