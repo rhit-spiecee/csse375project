@@ -310,7 +310,12 @@ public class PlayerTests {
         Player player = new Player();
         Moat moat = new Moat("moat");
         player.hand.add(moat);
+
+        ArrayList<Card> newHandAfterTrashing = new ArrayList<>(player.hand);
+        newHandAfterTrashing.remove(moat);
+
         assertEquals(moat, player.trashCard("moat"));
+        assertEquals(newHandAfterTrashing, player.hand);
     }
 
     @Test
@@ -318,7 +323,10 @@ public class PlayerTests {
         Player player = new Player();
         Moat moat = new Moat("moat");
         player.deck.add(moat);
+
+        ArrayList<Card> newHandAfterTrashing = new ArrayList<>(player.hand);
         assertNull(player.trashCard("moat"));
+        assertEquals(newHandAfterTrashing, player.hand);
     }
 
     @Test
