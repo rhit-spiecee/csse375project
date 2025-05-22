@@ -311,8 +311,13 @@ public class Board {
         currentPlayer.buy--;
 
         int coinsInHand = currentPlayer.getCoinsInHand();
-        currentPlayer.coins -= (boughtCard.cost - coinsInHand);
-        currentPlayer.removeTreasureCardsOfCost(boughtCard.cost);
+        
+        if (coinsInHand >= boughtCard.cost) {
+            currentPlayer.removeTreasureCardsOfCost(boughtCard.cost);
+        } else {
+            currentPlayer.coins -= (boughtCard.cost - coinsInHand);
+            currentPlayer.removeTreasureCardsOfCost(coinsInHand);
+        }
     }
 
     private void endTurn() {
