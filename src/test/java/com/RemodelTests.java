@@ -3,9 +3,11 @@ package com;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class RemodelTests {
     static class StubPlayer extends Player {
@@ -22,8 +24,15 @@ public class RemodelTests {
     public void testCardBehavior() {
         Gui mockGui = EasyMock.mock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("gold");
-        EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(), EasyMock.notNull())).andReturn("province");
+        EasyMock.expect(mockGui.getCardToTrash(EasyMock.notNull(), EasyMock.anyInt())).andReturn("");
+        EasyMock.expect(mockGui.getCardToTrash(EasyMock.notNull(), EasyMock.anyInt())).andReturn("gold");
+        EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.notNull(),EasyMock.capture(EasyMock.newCapture()))).andAnswer(
+                () -> {
+                    ArrayList<String> availableCards = (ArrayList<String>) EasyMock.getCurrentArguments()[1];
+                    assertTrue(availableCards.contains("province"));
+                    return "province";
+                }
+        );
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);

@@ -157,7 +157,7 @@ public class Board {
         );
     }
 
-    public void startGame() { //TODO: Game class
+    public void startGame() {
         while (!isGameOver()) {
             gui.updateView(getDto());
             processTurn();
@@ -175,13 +175,14 @@ public class Board {
     List<PlayerScoreEntry> getSortedPlayerEntries() {
         List<PlayerScoreEntry> scoredPlayers = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
-            int score = players.get(i).calculateScore(); // only calculate once
+            int score = players.get(i).calculateScore();
             scoredPlayers.add(new PlayerScoreEntry(i + 1, players.get(i), score));
         }
 
         scoredPlayers.sort(Board::getPlayerScoreComparison);
         return scoredPlayers;
     }
+
 
     private static int getPlayerScoreComparison(PlayerScoreEntry a, PlayerScoreEntry b) {
         int scoreComparison = Integer.compare(b.score, a.score);
@@ -197,15 +198,15 @@ public class Board {
         return !victoryDecks.get(bundle.getString("province")).isNotEmpty();
     }
 
-    void processTurn() { // TODO: change to game class
+    void processTurn() {
         actionPhase();
 
         buyPhase();
     }
 
-    void actionPhase() { // TODO: change to game class
+    void actionPhase() {
         int actionSelection = gui.getActionSelection(currentPlayerIndex);
-        while (actionSelection == 0 && !isGameOver()) {
+        while (actionSelection == 0) {
             if (getCurrentPlayerActions() <= 0) {
                 gui.showErrorPopup(
                         MessageFormat.format(
@@ -225,13 +226,11 @@ public class Board {
                 break;
             }
 
-            KingdomCard actionCardToPlay = getActionCardToPlay();
-            if (actionCardToPlay != null) {
-                actionCardToPlay.useActionCard(getCurrentPlayer());
-            }
-            gui.updateView(getDto());
-            if (isGameOver()) {
-                return;
+            String actionCardToPlay = getActionCardToPlay();
+            if (!actionCardToPlay.isEmpty()) {
+                KingdomCard actionCard = getCardByName(getCurrentPlayerActionCardsInHand(), actionCardToPlay);
+                actionCard.useActionCard(getCurrentPlayer());
+                gui.updateView(getDto());
             }
             actionSelection = gui.getActionSelection(currentPlayerIndex);
         }
@@ -261,10 +260,8 @@ public class Board {
         return availableActionCards;
     }
 
-    KingdomCard getActionCardToPlay() {
-        List<KingdomCard> actionCards = getCurrentPlayerActionCardsInHand();
-        String cardToPlay = gui.getActionCardToPlay(getAvailableActionCardsInHand()).toLowerCase();
-        return getCardByName(actionCards, cardToPlay);
+    String getActionCardToPlay() {
+        return gui.getActionCardToPlay(getAvailableActionCardsInHand());
     }
 
     KingdomCard getCardByName(List<KingdomCard> cards, String name) {
@@ -276,9 +273,9 @@ public class Board {
         throw new RuntimeException("Card list is empty or name of card is invalid");
     }
 
-    void buyPhase() { //TODO: add to game class
+    void buyPhase() {
         int buySelection = gui.showBuyOption(currentPlayerIndex);
-        while (buySelection == 0 && !isGameOver()) {
+        while (buySelection == 0) {
             if (getCurrentPlayerBuys() <= 0) {
                 gui.showErrorPopup(
                         MessageFormat.format(
@@ -290,7 +287,7 @@ public class Board {
             }
             String cardToBuy = gui.getBuySelection(
                     getAllCardsBelowCostOf(getCurrentPlayerCoins()));
-            if (cardToBuy != null) {
+            if (!cardToBuy.isEmpty()) {
                 processBuyPhaseSelection(cardToBuy.toLowerCase());
             }
             gui.updateView(getDto());
@@ -302,7 +299,7 @@ public class Board {
         endTurn();
     }
 
-    void processBuyPhaseSelection(String buySelection) { // TODO: game class
+    void processBuyPhaseSelection(String buySelection) {
         BoardDeck deckToBuyFrom = getBoardDeckByName(buySelection);
         Card boughtCard = deckToBuyFrom.buyCard();
         Player currentPlayer = getCurrentPlayer();
@@ -314,7 +311,7 @@ public class Board {
         currentPlayer.removeTreasureCardsOfCost(boughtCard.cost);
     }
 
-    private void endTurn() { // TODO: game class
+    private void endTurn() {
         Player currentPlayer = getCurrentPlayer();
         currentPlayer.cleanup();
         currentPlayer.drawHand();
@@ -354,7 +351,7 @@ public class Board {
         return getCurrentPlayer().getActionCardsInHand();
     }
 
-    public void forceMilitiaDiscard() { //TODO: this should be moved to militia implementation
+    public void forceMilitiaDiscard() {
         for (int i = 0; i < numPlayers; i++) {
             Player player = players.get(i);
             if (currentPlayerIndex == i) {
@@ -368,6 +365,9 @@ public class Board {
             }
             while (player.hand.size() > 3) {
                 String cardToDiscard = gui.getCardToDiscard(player.hand, i);
+                if (cardToDiscard.isEmpty()) {
+                    continue;
+                }
                 player.discardCard(cardToDiscard);
             }
         }
@@ -386,30 +386,34 @@ public class Board {
         throw new RuntimeException("Unknown kingdom deck: " + nameOfDeck);
     }
 
-    public void discardAnyCard(Player player) {
-        String popupMessage = bundle.getString("enter.discard.name");
-        ArrayList<String> cardNames = player.getCardsInHandNamesExcept("cellar");
-
-        String cardToDiscard = gui.getCardFromAvailableSelection(popupMessage, cardNames);
+    private void discardAnyCard(Player player) {
+        String cardToDiscard = gui.getCardToDiscard(
+                player.getCardsInHandExceptOne(bundle.getString("cellar")),
+                players.indexOf(player));
+        while (cardToDiscard.isEmpty()) {
+            cardToDiscard = gui.getCardToDiscard(
+                    player.getCardsInHandExceptOne(bundle.getString("cellar")),
+                    players.indexOf(player));
+        }
 
         player.discardCard(cardToDiscard);
     }
 
     public Card trashAnyCard(Player player) {
-        String popupMessage = bundle.getString("trash.any.card");
-        ArrayList<String> cardNames = player.getCardsInHandNamesExcept(bundle.getString("remodel"));
-        return trashCard(popupMessage, cardNames, player);
+        ArrayList<Card> cards = player.getCardsInHandExceptOne(bundle.getString("remodel"));
+        return trashCard(cards, player);
     }
 
     public Card trashTreasureCard(Player player) {
-        String popupMessage = bundle.getString("trash.treasure.card");
-        ArrayList<String> cardNames = player.getTreasureCardsInHandNames();
-        return trashCard(popupMessage, cardNames, player);
+        ArrayList<Card> cards = player.getTreasureCardsInHand();
+        return trashCard(cards, player);
     }
 
-    private Card trashCard(String popupMessage, ArrayList<String> cardNames, Player player) {
-        String cardToTrash = gui.getCardFromAvailableSelection(popupMessage, cardNames);
-        
+    private Card trashCard(ArrayList<Card> cards, Player player) {
+        String cardToTrash = gui.getCardToTrash(cards, players.indexOf(player));
+        while (cardToTrash.isEmpty()) {
+            cardToTrash = gui.getCardToTrash(cards, players.indexOf(player));
+        }
         return player.trashCard(cardToTrash);
     }
 
@@ -421,19 +425,20 @@ public class Board {
         gainCard(popupMessage, cardNames, player);
     }
 
-    public void gainTreasureCard(Player player, Card trashedCard) {
+    public ArrayList<String> gainTreasureCard(Player player, Card trashedCard) {
         ArrayList<String> cardNames = new ArrayList<>();
-        if (trashedCard.name.equalsIgnoreCase("copper")) {
-            cardNames.add("copper");
-            cardNames.add("silver");
+        if (trashedCard.name.equalsIgnoreCase(bundle.getString("copper"))) {
+            cardNames.add(bundle.getString("copper"));
+            cardNames.add(bundle.getString("silver"));
         } else {
-            cardNames.add("copper");
-            cardNames.add("silver");
-            cardNames.add("gold");
+            cardNames.add(bundle.getString("copper"));
+            cardNames.add(bundle.getString("silver"));
+            cardNames.add(bundle.getString("gold"));
         }
 
         String popupMessage = bundle.getString("gain.treasure.card");
         gainCard(popupMessage, cardNames, player);
+        return cardNames;
     }
 
     private void gainCard(String popupMessage, ArrayList<String> cardNames, Player player) {
@@ -478,7 +483,7 @@ public class Board {
         return cardNames;
     }
 
-    public int discardAnyNumberOfCards(Player player) { // TODO: Move to cellar implementation
+    public int discardAnyNumberOfCards(Player player) {
         int numDiscardedCards = 0;
 
         int discardSelection = gui.getDiscardOption();
@@ -487,27 +492,18 @@ public class Board {
                 gui.showErrorPopup(bundle.getString("no.more.cards"));
                 break;
             }
-            
+
             discardAnyCard(player);
             numDiscardedCards++;
-            
+
             discardSelection = gui.getDiscardOption();
+
         }
 
         return numDiscardedCards;
     }
 
-
-    // Only used in tests
-    public List<String> getAllAvailableDecks() {
-        ArrayList<String> availableDecks = new ArrayList<>();
-        availableDecks.addAll(getAvailableDecks(kingdomDecks));
-        availableDecks.addAll(getAvailableDecks(treasureDecks));
-        availableDecks.addAll(getAvailableDecks(victoryDecks));
-        return availableDecks;
-    }
-
-    private List<String> getAvailableDecks(Map<String, BoardDeck> decks) {
+    List<String> getAvailableDecks(Map<String, BoardDeck> decks) {
         List<String> availableDecks = new ArrayList<>();
         for (Map.Entry<String, BoardDeck> entry : decks.entrySet()) {
             BoardDeck deck = entry.getValue();

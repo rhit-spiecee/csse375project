@@ -151,24 +151,14 @@ public class Player {
         return actionCards;
     }
 
-    public ArrayList<String> getCardsInHandNamesExcept(String cardName) {
-        HashSet<String> cardNames = new HashSet<>();
-        for (Card card : hand) {
-            if (!card.name.equalsIgnoreCase(cardName)) {
-                cardNames.add(card.name);
-            }
-        }
-        return new ArrayList<>(cardNames.stream().toList());
-    }
-
-    public ArrayList<String> getTreasureCardsInHandNames() {
-        HashSet<String> treasureCards = new HashSet<>();
+    public ArrayList<Card> getTreasureCardsInHand() {
+        ArrayList<Card> treasureCards = new ArrayList<>();
         for (Card card : hand) {
             if (card.type == Card.CardType.TREASURE) {
-                treasureCards.add(card.name);
+                treasureCards.add(card);
             }
         }
-        return new ArrayList<>(treasureCards.stream().toList());
+        return treasureCards;
     }
 
     public Card trashCard(String cardToTrash) {
@@ -248,5 +238,19 @@ public class Player {
             }
         }
         return score;
+    }
+
+    public ArrayList<Card> getCardsInHandExceptOne(String cardToExclude) {
+        boolean foundCard = false;
+        ArrayList<Card> cards = new ArrayList<>();
+        for (Card card : hand) {
+            if (card.name.equals(cardToExclude) && !foundCard) {
+                foundCard = true;
+            } else {
+                cards.add(card);
+            }
+        }
+
+        return cards;
     }
 }

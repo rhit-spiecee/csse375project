@@ -310,7 +310,12 @@ public class PlayerTests {
         Player player = new Player();
         Moat moat = new Moat("moat");
         player.hand.add(moat);
+
+        ArrayList<Card> newHandAfterTrashing = new ArrayList<>(player.hand);
+        newHandAfterTrashing.remove(moat);
+
         assertEquals(moat, player.trashCard("moat"));
+        assertEquals(newHandAfterTrashing, player.hand);
     }
 
     @Test
@@ -318,7 +323,10 @@ public class PlayerTests {
         Player player = new Player();
         Moat moat = new Moat("moat");
         player.deck.add(moat);
+
+        ArrayList<Card> newHandAfterTrashing = new ArrayList<>(player.hand);
         assertNull(player.trashCard("moat"));
+        assertEquals(newHandAfterTrashing, player.hand);
     }
 
     @Test
@@ -390,5 +398,76 @@ public class PlayerTests {
         }
         player.hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
         assertEquals(0, player.hasTreasureCardType("copper"));
+    }
+
+    @Test
+    public void testGetCardsInHandExceptOneWithNoCardsToExclude() {
+        Player player = new Player();
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        hand.add(new Village("village"));
+        hand.add(new Woodcutter("woodcutter"));
+        hand.add(new VictoryCard("estate", 2, Card.CardType.VICTORY, 1));
+
+        player.hand = new ArrayList<>(hand);
+
+        assertEquals(hand, player.getCardsInHandExceptOne("silver"));
+    }
+
+    @Test
+    public void testGetCardsInHandExceptOneWithOneCardToExclude() {
+        Player player = new Player();
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.add(new TreasureCard("silver", 4, Card.CardType.TREASURE, 2));
+        hand.add(new TreasureCard("copper", 2, Card.CardType.TREASURE, 1));
+        hand.add(new Village("village"));
+        hand.add(new Woodcutter("woodcutter"));
+        hand.add(new VictoryCard("estate", 2, Card.CardType.VICTORY, 1));
+
+        player.hand = new ArrayList<>(hand);
+        hand.remove(0);
+
+        assertEquals(hand, player.getCardsInHandExceptOne("silver"));
+    }
+
+    @Test
+    public void testGetCardsInHandExceptOneWithMultipleCardsToExclude() {
+        Player player = new Player();
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.add(new TreasureCard("silver", 4, Card.CardType.TREASURE, 2));
+        hand.add(new TreasureCard("silver", 4, Card.CardType.TREASURE, 2));
+        hand.add(new Village("village"));
+        hand.add(new Woodcutter("woodcutter"));
+        hand.add(new VictoryCard("estate", 2, Card.CardType.VICTORY, 1));
+
+        player.hand = new ArrayList<>(hand);
+        hand.remove(0);
+
+        assertEquals(hand, player.getCardsInHandExceptOne("silver"));
+    }
+
+    @Test
+    public void testGetTreasureCardsInHand() {
+        Player player = new Player();
+
+        Card silver = new TreasureCard("silver", 4, Card.CardType.TREASURE, 2);
+        Card gold = new TreasureCard("gold", 6, Card.CardType.TREASURE, 3);
+
+        ArrayList<Card> treasureCards = new ArrayList<>();
+        treasureCards.add(silver);
+        treasureCards.add(gold);
+
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.addAll(treasureCards);
+        hand.add(new Woodcutter("woodcutter"));
+        hand.add(new Moat("moat"));
+        hand.add(new VictoryCard("province", 8, Card.CardType.VICTORY, 6));
+
+        player.hand = hand;
+
+        ArrayList<Card> treasureCardsInHand = player.getTreasureCardsInHand();
+
+        assertEquals(treasureCards, treasureCardsInHand);
     }
 }

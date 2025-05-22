@@ -38,14 +38,14 @@ public class BoardTests {
     public void testGetAvailableDecksLength() {
         Board board = new Board(2);
 
-        assertEquals(17, board.getAllAvailableDecks().size());
+        assertEquals(17, getAllAvailableDecks(board).size());
     }
 
     @Test
     public void testGetAvailableDecksContents() {
         Board board = new Board(2);
 
-        List<String> availableDecks = board.getAllAvailableDecks();
+        List<String> availableDecks = getAllAvailableDecks(board);
 
         List<String> expectedDecks = new ArrayList<>(Arrays.asList(
                 "cellar", "market", "militia", "mine", "moat", "remodel",
@@ -62,7 +62,7 @@ public class BoardTests {
             board.kingdomDecks.get("cellar").buyCard();
         }
         
-        List<String> availableDecks = board.getAllAvailableDecks();
+        List<String> availableDecks = getAllAvailableDecks(board);
 
         List<String> expectedDecks = new ArrayList<>(Arrays.asList(
                 "market", "militia", "mine", "moat", "remodel",
@@ -258,6 +258,7 @@ public class BoardTests {
     public void testGetCardByNameEmptyCardList() {
         Board board = new Board(2);
         ArrayList<KingdomCard> cards = new ArrayList<>();
+        cards.add(new Moat("moat"));
 
         assertThrows(RuntimeException.class, () -> board.getCardByName(cards, ""));
     }
@@ -288,7 +289,7 @@ public class BoardTests {
         check[0] = "market";
 
         assertEquals(check[0], board.getAvailableActionCardsInHand()[0]);
-        assertEquals(market, board.getActionCardToPlay());
+        assertEquals("market", board.getActionCardToPlay());
 
         EasyMock.verify(mockGui);
     }
@@ -298,7 +299,6 @@ public class BoardTests {
         Gui mockGui = EasyMock.mock(Gui.class);
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(mockGui.getActionCardToPlay(EasyMock.anyObject())).andReturn("market");
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
@@ -307,7 +307,7 @@ public class BoardTests {
         String[] check = new String[0];
 
         assertEquals(check.length, board.getAvailableActionCardsInHand().length);
-        assertThrows(RuntimeException.class, board::getActionCardToPlay);
+        assertThrows(RuntimeException.class, () -> board.getCardByName(board.players.getFirst().getActionCardsInHand(), null));
 
         EasyMock.verify(mockGui);
     }
@@ -358,7 +358,7 @@ public class BoardTests {
 
         board.processBuyPhaseSelection("market");
 
-        assertEquals(1, board.players.getFirst().coins);
+        assertEquals(1, board.getCurrentPlayerCoins());
         assertEquals(4, board.players.getFirst().discardPile.size());
     }
 
@@ -387,6 +387,7 @@ public class BoardTests {
         Gui mockGui = EasyMock.mock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
+        //EasyMock.expect(mockGui.getActionCardToPlay(EasyMock.anyObject())).andReturn("market");
         EasyMock.expect(mockGui.getActionCardToPlay(EasyMock.anyObject())).andReturn("woodcutter");
         mockGui.updateView(EasyMock.isA(BoardDto.class));
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
@@ -601,6 +602,154 @@ public class BoardTests {
         assertEquals(board.getCurrentPlayerCoins(), boardDto.currentPlayerCoins);
         assertEquals(board.getCurrentPlayerActions(), boardDto.currentPlayerActions);
         assertEquals(board.getCurrentPlayerBuys(), boardDto.currentPlayerBuys);
+    }
+
+    @Test
+    public void testGainTreasureCardCopper(){
+        ArrayList<String> cardNames = new ArrayList<>();
+        cardNames.add("copper");
+        cardNames.add("silver");
+
+        Gui mockGui = EasyMock.mock((Gui.class));
+        Player player1 = EasyMock.mock((Player.class));
+        player1.hand = new ArrayList<Card>();
+
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getCardFromAvailableSelection("Enter name of a treasure card you want to gain", cardNames)).andReturn("copper");
+
+
+        EasyMock.replay(mockGui, player1);
+        Board board = Board.fromGui(mockGui);
+        board.players.clear();
+        board.players.add(player1);
+
+        assertEquals(2, board.gainTreasureCard(player1, new TreasureCard("copper", 0, Card.CardType.TREASURE, 1)).size());
+
+        EasyMock.verify(mockGui, player1);
+    }
+
+
+    @Test
+    public void testWinOffBuyPhase(){
+        Gui mockGui = EasyMock.mock(Gui.class);
+        Player mockPlayer = EasyMock.mock(Player.class);
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
+        EasyMock.expect(mockGui.showBuyOption(0)).andReturn(0).times(2);
+        EasyMock.expect(mockPlayer.getBuys()).andReturn(100).times(4);
+        EasyMock.expect(mockPlayer.getCoins()).andReturn(100).anyTimes();
+        EasyMock.expect(mockGui.getBuySelection(EasyMock.isA(List.class))).andReturn("");
+        EasyMock.expect(mockGui.getBuySelection(EasyMock.isA(List.class))).andReturn("copper");
+        mockPlayer.addBoughtCard(EasyMock.isA(TreasureCard.class));
+        EasyMock.expect(mockPlayer.getCoinsInHand()).andReturn(100);
+        mockPlayer.removeTreasureCardsOfCost(0);
+        EasyMock.expect(mockPlayer.getHand()).andReturn(new ArrayList<Card>()).times(2);
+        EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(2);
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
+
+        EasyMock.replay(mockGui, mockPlayer);
+        Board board = Board.fromGui(mockGui);
+        board.players.removeFirst();
+        board.players.addFirst(mockPlayer);
+        board.kingdomDecks.get("moat").deck.clear();
+        board.victoryDecks.get("duchy").deck.clear();
+        board.treasureDecks.get("copper").deck.clear();
+        board.treasureDecks.get("copper").deck.add(new TreasureCard("copper", 0, Card.CardType.TREASURE, 1));
+
+        board.buyPhase();
+
+        assertTrue(board.isGameOver());
+
+        EasyMock.verify(mockGui, mockPlayer);
+    }
+
+    @Test
+    public void testPassEmptyStringInActionPhase(){
+        Gui mockGui = EasyMock.mock(Gui.class);
+
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
+        EasyMock.expect(mockGui.getActionCardToPlay(EasyMock.isA(String[].class))).andReturn("");
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
+
+        EasyMock.replay(mockGui);
+        Player player = new Player();
+        Board board = Board.fromGui(mockGui);
+        board.players.removeFirst();
+        board.players.addFirst(player);
+        player.hand.clear();
+        player.hand.add(new Moat("moat"));
+        player.hand.add(new Moat("moat"));
+        board.actionPhase();
+
+        EasyMock.verify(mockGui);
+
+        assertEquals(2, player.hand.size());
+    }
+
+    @Test
+    public void testSkipThroughTurn(){
+        Gui mockGui = EasyMock.mock(Gui.class);
+        Player mockPlayer = EasyMock.mock(Player.class);
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
+        EasyMock.expect(mockGui.showBuyOption(0)).andReturn(1);
+        EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
+        EasyMock.expect(mockPlayer.getHand()).andReturn(new ArrayList<Card>()).anyTimes();
+        EasyMock.expect(mockPlayer.getCoins()).andReturn(100).anyTimes();
+        EasyMock.expect(mockPlayer.getBuys()).andReturn(100).anyTimes();
+        EasyMock.expect(mockPlayer.getActions()).andReturn(100).anyTimes();
+        mockGui.updateView(EasyMock.isA(BoardDto.class));
+        EasyMock.expectLastCall().anyTimes();
+        mockPlayer.cleanup();
+        mockPlayer.drawHand();
+
+        EasyMock.replay(mockGui, mockPlayer);
+        Board board = Board.fromGui(mockGui);
+        board.players.removeFirst();
+        board.players.addFirst(mockPlayer);
+        board.actionPhase();
+        board.buyPhase();
+
+        EasyMock.verify(mockGui, mockPlayer);
+    }
+
+    @Test
+    public void testForceMilitiaDiscardButDecline(){
+        Gui mockGui = EasyMock.mock(Gui.class);
+        Player player = new Player();
+        player.hand = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            player.hand.add(new Moat("moat"));
+        }
+
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
+        EasyMock.expect(mockGui.getIfPlayerWantsToBlock(0)).andReturn(false);
+        EasyMock.expect(mockGui.getCardToDiscard(player.hand, 0)).andReturn("moat").times(2);
+
+        EasyMock.replay(mockGui);
+        Board board = Board.fromGui(mockGui);
+        board.currentPlayerIndex = 1;
+        board.players.removeFirst();
+        board.players.addFirst(player);
+        board.players.get(1).hand.add(new Moat("moat"));
+        board.forceMilitiaDiscard();
+
+        EasyMock.verify(mockGui);
+        assertEquals(3, player.hand.size());
+    }
+
+    private List<String> getAllAvailableDecks(Board board) {
+        ArrayList<String> availableDecks = new ArrayList<>();
+        availableDecks.addAll(board.getAvailableDecks(board.kingdomDecks));
+        availableDecks.addAll(board.getAvailableDecks(board.treasureDecks));
+        availableDecks.addAll(board.getAvailableDecks(board.victoryDecks));
+        return availableDecks;
     }
 }
  

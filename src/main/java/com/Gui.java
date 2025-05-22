@@ -29,22 +29,18 @@ public class Gui {
 
     private void setupLanguage() {
         // show dropdown with language thing
-        String[] options = new String[] {"English", "Deutsch"};
+        String[] options = Utilities.AVAILABLE_LANGUAGES;
         String selectionObject = (String) JOptionPane.showInputDialog(
                 null,
-                "Pick a language (Wählen Sie eine Sprache aus): ",
+                Utilities.CHOOSE_LANGUAGE_MESSAGE,
                 "",
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 options,
                 options[0]);
-        if (selectionObject.equals("Deutsch")) {
-            bundle = ResourceBundle.getBundle(Utilities.GERMAN_BUNDLE);
-            JOptionPane.setDefaultLocale(Locale.GERMAN);
-        } else {
-            bundle = ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE);
-            JOptionPane.setDefaultLocale(Locale.ENGLISH);
-        }
+
+        bundle = ResourceBundle.getBundle(Utilities.getBundleName(selectionObject));
+        JOptionPane.setDefaultLocale(Utilities.getLocale(selectionObject));
     }
 
     public void updateView(BoardDto boardDto) {
@@ -131,7 +127,11 @@ public class Gui {
     }
 
     public int getNumPlayers() {
-        String[] options = {"2", "3", "4"};
+        String two = MessageFormat.format("{0,number}", 2);
+        String three = MessageFormat.format("{0,number}", 3);
+        String four = MessageFormat.format("{0,number}", 4);
+
+        String[] options = {two, three, four};
         Object selectionObject = JOptionPane.showInputDialog(
                 null,
                 bundle.getString("choose.number.of.players"),
@@ -195,7 +195,12 @@ public class Gui {
                 null,
                 options,
                 options[0]);
-        return (String) selectionObject;
+
+        if (selectionObject != null) {
+            return selectionObject.toString();
+        }
+        return "";
+
     }
 
     public void showErrorPopup(String message) {
@@ -234,7 +239,32 @@ public class Gui {
                 options,
                 options[0]
         );
-        return selectionObject.toString();
+
+        if (selectionObject != null) {
+            return selectionObject.toString();
+        }
+
+        return "";
+    }
+
+    public String getCardToTrash(ArrayList<Card> hand, int playerNumber) {
+        String[] options = hand.stream().map((card) -> card.name).toArray(String[]::new);
+        //...and passing `frame` instead of `null` as first parameter
+        Object selectionObject = JOptionPane.showInputDialog(
+                null,
+                MessageFormat.format(bundle.getString("get.trash.message"), playerNumber + 1),
+                bundle.getString("get.trash.title"),
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+
+        if (selectionObject != null) {
+            return selectionObject.toString();
+        }
+
+        return "";
     }
 
     public String getActionCardToPlay(String[] availableCardInHand) {
@@ -246,6 +276,10 @@ public class Gui {
                 null,
                 availableCardInHand,
                 availableCardInHand[0]);
+
+        if (selectionObject == null) {
+            return "";
+        }
         return (String) selectionObject;
     }
 
