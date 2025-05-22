@@ -446,4 +446,28 @@ public class PlayerTests {
 
         assertEquals(hand, player.getCardsInHandExceptOne("silver"));
     }
+
+    @Test
+    public void testGetTreasureCardsInHand() {
+        Player player = new Player();
+
+        Card silver = new TreasureCard("silver", 4, Card.CardType.TREASURE, 2);
+        Card gold = new TreasureCard("gold", 6, Card.CardType.TREASURE, 3);
+
+        ArrayList<Card> treasureCards = new ArrayList<>();
+        treasureCards.add(silver);
+        treasureCards.add(gold);
+
+        ArrayList<Card> hand = new ArrayList<>();
+        hand.addAll(treasureCards);
+        hand.add(new Woodcutter("woodcutter"));
+        hand.add(new Moat("moat"));
+        hand.add(new VictoryCard("province", 8, Card.CardType.VICTORY, 6));
+
+        player.hand = hand;
+
+        ArrayList<Card> treasureCardsInHand = player.getTreasureCardsInHand();
+
+        assertEquals(treasureCards, treasureCardsInHand);
+    }
 }
