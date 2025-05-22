@@ -181,11 +181,22 @@ public class Board {
             scoredPlayers.add(new PlayerScoreEntry(i + 1, players.get(i), score));
         }
 
-        scoredPlayers.sort((a, b) -> Integer.compare(b.score, a.score));
+        scoredPlayers.sort(Board::getPlayerScoreComparison);
         return scoredPlayers;
     }
 
-    public boolean checkProvinceDeckLength() {
+
+    private static int getPlayerScoreComparison(PlayerScoreEntry a, PlayerScoreEntry b) {
+        int scoreComparison = Integer.compare(b.score, a.score);
+        if (scoreComparison == 0) {
+
+            return Integer.compare(b.index, a.index);
+
+        }
+        return scoreComparison;
+    }
+
+    public boolean checkProvinceDeckLength() { // TODO: change to game class
         return !victoryDecks.get(bundle.getString("province")).isNotEmpty();
     }
 

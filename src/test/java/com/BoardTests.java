@@ -158,6 +158,41 @@ public class BoardTests {
     }
 
     @Test
+    public void testGetSortedPlayerEntriesWithTie() {
+        Board board = new Board(2);
+
+        Player player1 = EasyMock.mock(Player.class);
+        Player player2 = EasyMock.mock(Player.class);
+        Player player3 = EasyMock.mock(Player.class);
+
+        EasyMock.expect(player1.calculateScore()).andReturn(25);
+        EasyMock.expect(player2.calculateScore()).andReturn(25);
+        EasyMock.expect(player3.calculateScore()).andReturn(25);
+
+        EasyMock.replay(player1, player2, player3);
+
+        board.players = Arrays.asList(player1, player2, player3);
+
+        List<PlayerScoreEntry> sortedEntries = board.getSortedPlayerEntries();
+        PlayerScoreEntry winner = sortedEntries.get(0);
+        PlayerScoreEntry second = sortedEntries.get(1);
+        PlayerScoreEntry third = sortedEntries.get(2);
+        assertEquals(25, winner.score);
+        assertEquals(player3, winner.player);
+        assertEquals(3, winner.index);
+
+        assertEquals(25, second.score);
+        assertEquals(player2, second.player);
+        assertEquals(2, second.index);
+
+        assertEquals(25, third.score);
+        assertEquals(player1, third.player);
+        assertEquals(1, third.index);
+
+        EasyMock.verify(player1, player2);
+    }
+
+    @Test
     public void testActionPhaseNoActionsAvailable() {
         Gui mockGui = EasyMock.mock(Gui.class);
         Player player1 = EasyMock.mock(Player.class);
