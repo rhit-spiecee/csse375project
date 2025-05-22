@@ -376,9 +376,13 @@ public class Board {
     }
 
     private void discardAnyCard(Player player) {
-        String cardToDiscard = gui.getCardToDiscard(player.getCardsInHandExceptOne("cellar"), players.indexOf(player));
+        String cardToDiscard = gui.getCardToDiscard(
+                player.getCardsInHandExceptOne(bundle.getString("cellar")),
+                players.indexOf(player));
         while (cardToDiscard.isEmpty()) {
-            cardToDiscard = gui.getCardToDiscard(player.getCardsInHandExceptOne("cellar"), players.indexOf(player));
+            cardToDiscard = gui.getCardToDiscard(
+                    player.getCardsInHandExceptOne(bundle.getString("cellar")),
+                    players.indexOf(player));
         }
 
         player.discardCard(cardToDiscard);

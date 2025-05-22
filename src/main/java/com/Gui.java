@@ -127,7 +127,11 @@ public class Gui {
     }
 
     public int getNumPlayers() {
-        String[] options = {"2", "3", "4"};
+        String two = MessageFormat.format("{0,number}", 2);
+        String three = MessageFormat.format("{0,number}", 3);
+        String four = MessageFormat.format("{0,number}", 4);
+
+        String[] options = {two, three, four};
         Object selectionObject = JOptionPane.showInputDialog(
                 null,
                 bundle.getString("choose.number.of.players"),
