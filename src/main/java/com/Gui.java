@@ -19,6 +19,9 @@ import javax.swing.JPanel;
 public class Gui {
     public static final int IMAGE_WIDTH = 150;
     public static final int IMAGE_HEIGHT = 240;
+    public static final String[] AVAILABLE_LANGUAGES = new String[] {"English", "Deutsch"};
+    public static final String CHOOSE_LANGUAGE_MESSAGE = "Pick a language (Wählen Sie eine Sprache aus): ";
+    
     JFrame frame;
     ResourceBundle bundle;
     
@@ -28,18 +31,34 @@ public class Gui {
     }
 
     private void setupLanguage() {
-        String[] options = Utilities.AVAILABLE_LANGUAGES;
+        String[] options = AVAILABLE_LANGUAGES;
         String selectionObject = (String) JOptionPane.showInputDialog(
                 null,
-                Utilities.CHOOSE_LANGUAGE_MESSAGE,
+                CHOOSE_LANGUAGE_MESSAGE,
                 "",
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 options,
                 options[0]);
 
-        bundle = ResourceBundle.getBundle(Utilities.getBundleName(selectionObject));
-        JOptionPane.setDefaultLocale(Utilities.getLocale(selectionObject));
+        bundle = ResourceBundle.getBundle(getBundleName(selectionObject));
+        JOptionPane.setDefaultLocale(getLocale(selectionObject));
+    }
+
+    public static String getBundleName(String languageSelection) {
+        return switch (languageSelection) {
+            case "English" -> Utilities.ENGLISH_BUNDLE;
+            case "Deutsch" -> Utilities.GERMAN_BUNDLE;
+            default -> Utilities.ENGLISH_BUNDLE;
+        };
+    }
+
+    public static Locale getLocale(String languageSelection) {
+        return switch (languageSelection) {
+            case "English" -> Utilities.ENGLISH_LOCALE;
+            case "Deutsch" -> Utilities.GERMAN_LOCALE;
+            default -> Utilities.ENGLISH_LOCALE;
+        };
     }
 
     public void updateView(BoardDto boardDto) {
