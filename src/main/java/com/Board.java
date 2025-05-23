@@ -170,8 +170,13 @@ public class Board {
 
     private void handleGameOver() {
         List<PlayerScoreEntry> scoredPlayers = getSortedPlayerEntries();
-
-        gui.displayGameOverScreen(scoredPlayers);
+        String gameOverKey;
+        if (haveThreeEmptySupplyPiles()) {
+            gameOverKey = "you.have.3.empty.supply.piles.game.over";
+        } else {
+            gameOverKey = "you.have.an.empty.province.deck.game.over";
+        }
+        gui.displayGameOverScreen(scoredPlayers, gameOverKey);
     }
 
     List<PlayerScoreEntry> getSortedPlayerEntries() {
@@ -196,7 +201,7 @@ public class Board {
         return scoreComparison;
     }
 
-    public boolean checkProvinceDeckLength() { // TODO: change to game class
+    public boolean checkProvinceDeckLength() {
         return !victoryDecks.get(bundle.getString("province")).isNotEmpty();
     }
 
