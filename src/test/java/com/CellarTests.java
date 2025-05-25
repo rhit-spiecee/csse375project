@@ -31,7 +31,7 @@ public class CellarTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
-        Board board = Board.setupBoardFromGUI(mockGui);
+        Board board = Board.setupBoardFromGui(mockGui);
         Cellar cellar = new Cellar(board, "cellar");
         Player player = new StubPlayer(cellar);
 

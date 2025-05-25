@@ -28,7 +28,7 @@ public class MineTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
-        Board board = Board.setupBoardFromGUI(mockGui);
+        Board board = Board.setupBoardFromGui(mockGui);
         Mine mine = new Mine(board, "mine");
         Player player = new StubPlayer(mine, "silver");
 
@@ -54,7 +54,7 @@ public class MineTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
-        Board board = Board.setupBoardFromGUI(mockGui);
+        Board board = Board.setupBoardFromGui(mockGui);
         Mine mine = new Mine(board, "mine");
         Player player = new StubPlayer(mine, "copper");
 
@@ -80,7 +80,7 @@ public class MineTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
-        Board board = Board.setupBoardFromGUI(mockGui);
+        Board board = Board.setupBoardFromGui(mockGui);
         Mine mine = new Mine(board, "mine");
         Player player = new StubPlayer(mine, "gold");
 
