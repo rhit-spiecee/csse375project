@@ -113,7 +113,7 @@ public class BoardTests {
         EasyMock.expect(mockGui.showBuyOption(0)).andReturn(1);
         mockGui.updateView(EasyMock.isA(BoardDto.class));
         mockGui.updateView(EasyMock.isA(BoardDto.class));
-        mockGui.displayGameOverScreen(EasyMock.anyObject(), EasyMock.isA(String.class));
+        mockGui.displayGameOverScreen(EasyMock.anyObject(), EasyMock.eq(false));
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui, player1, player2, mockDeck);
@@ -578,7 +578,7 @@ public class BoardTests {
         Gui mockGui = EasyMock.mock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
-        mockGui.displayGameOverScreen(EasyMock.anyObject(), EasyMock.isA(String.class));
+        mockGui.displayGameOverScreen(EasyMock.anyObject(), EasyMock.eq(true));
 
         EasyMock.replay(mockGui);
 

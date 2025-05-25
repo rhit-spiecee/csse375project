@@ -333,7 +333,16 @@ public class Gui {
         );
     }
 
-    public void displayGameOverScreen(List<PlayerScoreEntry> scoredPlayers, String key) {
+    public void displayGameOverScreen(
+            List<PlayerScoreEntry> scoredPlayers, 
+            boolean haveThreeEmptySupplyPiles
+    ) {
+        String key;
+        if (haveThreeEmptySupplyPiles) {
+            key = "you.have.3.empty.supply.piles.game.over";
+        } else {
+            key = "you.have.an.empty.province.deck.game.over";
+        }
         StringBuilder finalMessage = new StringBuilder(bundle.getString(key));
         PlayerScoreEntry winner = scoredPlayers.getFirst();
         finalMessage.append(
