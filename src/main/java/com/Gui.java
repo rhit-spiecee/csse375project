@@ -333,7 +333,10 @@ public class Gui {
         );
     }
 
-    public void displayGameOverScreen(List<PlayerScoreEntry> scoredPlayers, boolean haveThreeEmptySupplyPiles) {
+    public void displayGameOverScreen(
+            List<PlayerScoreEntry> scoredPlayers, 
+            boolean haveThreeEmptySupplyPiles
+    ) {
         String key;
         if (haveThreeEmptySupplyPiles) {
             key = "you.have.3.empty.supply.piles.game.over";
