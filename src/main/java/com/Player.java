@@ -73,7 +73,7 @@ public class Player {
     public int getCoins() {
         int coins = this.coins;
         for (Card card : hand) {
-            if (card.type == Card.CardType.TREASURE) {
+            if (card instanceof TreasureCard) {
                 coins += card.value;
             }
         }
@@ -83,7 +83,7 @@ public class Player {
     public int getCoinsInHand() {
         int coins = 0;
         for (Card card : hand) {
-            if (card.type == Card.CardType.TREASURE) {
+            if (card instanceof TreasureCard) {
                 coins += card.value;
             }
         }
@@ -100,7 +100,7 @@ public class Player {
 
     public boolean hasActionCardInHand() {
         for (Card card : hand) {
-            if (card.type == Card.CardType.KINGDOM) {
+            if (card instanceof KingdomCard) {
                 return true;
             }
         }
@@ -156,7 +156,7 @@ public class Player {
     public ArrayList<Card> getTreasureCardsInHand() {
         ArrayList<Card> treasureCards = new ArrayList<>();
         for (Card card : hand) {
-            if (card.type == Card.CardType.TREASURE) {
+            if (card instanceof TreasureCard) {
                 treasureCards.add(card);
             }
         }
@@ -235,7 +235,7 @@ public class Player {
         discardPile.addAll(hand);
         int score = 0;
         for (Card card : discardPile) {
-            if (card.type == Card.CardType.VICTORY) {
+            if (card instanceof VictoryCard) {
                 score += card.value;
             }
         }

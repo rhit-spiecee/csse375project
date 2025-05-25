@@ -107,21 +107,21 @@ public class Board {
         treasureDecks.put(
                 bundle.getString("copper"),
                 new BoardDeck(
-                        new TreasureCard(bundle.getString("copper"), 0, Card.CardType.TREASURE, 1),
+                        new TreasureCard(bundle.getString("copper"), 0, 1),
                         copperDeckSize
                 )
         );
         treasureDecks.put(
                 bundle.getString("silver"),
                 new BoardDeck(
-                        new TreasureCard(bundle.getString("silver"), 3, Card.CardType.TREASURE, 2),
+                        new TreasureCard(bundle.getString("silver"), 3, 2),
                         silverDeckSize
                 )
         );
         treasureDecks.put(
                 bundle.getString("gold"),
                 new BoardDeck(
-                        new TreasureCard(bundle.getString("gold"), 6, Card.CardType.TREASURE, 3),
+                        new TreasureCard(bundle.getString("gold"), 6, 3),
                         goldDeckSize
                 )
         );
@@ -132,28 +132,28 @@ public class Board {
         victoryDecks.put(
                 bundle.getString("estate"),
                 new BoardDeck(
-                        new VictoryCard(bundle.getString("estate"), 2, Card.CardType.VICTORY, 1),
+                        new VictoryCard(bundle.getString("estate"), 2, 1),
                         victoryCardDeckSize
                 )
         );
         victoryDecks.put(
                 bundle.getString("duchy"),
                 new BoardDeck(
-                        new VictoryCard(bundle.getString("duchy"), 5, Card.CardType.VICTORY, 3),
+                        new VictoryCard(bundle.getString("duchy"), 5, 3),
                         victoryCardDeckSize
                 )
         );
         victoryDecks.put(
                 bundle.getString("province"),
                 new BoardDeck(
-                        new VictoryCard(bundle.getString("province"), 8, Card.CardType.VICTORY, 6),
+                        new VictoryCard(bundle.getString("province"), 8, 6),
                         victoryCardDeckSize
                 )
         );
         victoryDecks.put(
                 bundle.getString("cursed"),
                 new BoardDeck(
-                        new VictoryCard(bundle.getString("cursed"), 0, Card.CardType.VICTORY, -1),
+                        new VictoryCard(bundle.getString("cursed"), 0, -1),
                         cursedDeckSize
                 )
         );
