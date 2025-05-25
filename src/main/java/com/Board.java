@@ -478,13 +478,13 @@ public class Board {
 
     private ArrayList<String> getAllCardsBelowCostOf(int maxCost) {
         ArrayList<String> cardNames = new ArrayList<>();
-        cardNames.addAll(getCardsBelowCostOf(maxCost, kingdomDecks));
-        cardNames.addAll(getCardsBelowCostOf(maxCost, treasureDecks));
-        cardNames.addAll(getCardsBelowCostOf(maxCost, victoryDecks));
+        cardNames.addAll(getCardsInDeckBelowCostOf(maxCost, kingdomDecks));
+        cardNames.addAll(getCardsInDeckBelowCostOf(maxCost, treasureDecks));
+        cardNames.addAll(getCardsInDeckBelowCostOf(maxCost, victoryDecks));
         return cardNames;
     }
 
-    public List<String> getCardsBelowCostOf(int maxCost, Map<String, BoardDeck> decks) {
+    public List<String> getCardsInDeckBelowCostOf(int maxCost, Map<String, BoardDeck> decks) {
         ArrayList<String> cardNames = new ArrayList<>();
 
         for (String cardName : decks.keySet()) {

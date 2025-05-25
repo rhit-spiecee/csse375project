@@ -452,7 +452,7 @@ public class BoardTests {
         }
         List<String> returnCards;
 
-        returnCards = board.getCardsBelowCostOf(2, decks);
+        returnCards = board.getCardsInDeckBelowCostOf(2, decks);
 
         assertEquals(0, returnCards.size());
     }
@@ -464,7 +464,7 @@ public class BoardTests {
         decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0), 8));
         List<String> returnCards;
 
-        returnCards = board.getCardsBelowCostOf(3, decks);
+        returnCards = board.getCardsInDeckBelowCostOf(3, decks);
 
         assertEquals(1, returnCards.size());
     }
@@ -476,7 +476,7 @@ public class BoardTests {
         decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0), 8));
         List<String> returnCards;
 
-        returnCards = board.getCardsBelowCostOf(2, decks);
+        returnCards = board.getCardsInDeckBelowCostOf(2, decks);
 
         assertEquals(1, returnCards.size());
     }
@@ -488,7 +488,7 @@ public class BoardTests {
         decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0), 8));
         List<String> returnCards;
 
-        returnCards = board.getCardsBelowCostOf(1, decks);
+        returnCards = board.getCardsInDeckBelowCostOf(1, decks);
 
         assertEquals(0, returnCards.size());
     }
