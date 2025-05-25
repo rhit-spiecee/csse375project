@@ -451,7 +451,6 @@ public class BoardTests {
             decks.get("estate").pickUpCard();
         }
         List<String> returnCards;
-
         returnCards = board.getCardsInDeckBelowCostOf(2, decks);
 
         assertEquals(0, returnCards.size());
@@ -463,7 +462,6 @@ public class BoardTests {
         Map<String, BoardDeck> decks = new HashMap<>();
         decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0), 8));
         List<String> returnCards;
-
         returnCards = board.getCardsInDeckBelowCostOf(3, decks);
 
         assertEquals(1, returnCards.size());
@@ -475,7 +473,6 @@ public class BoardTests {
         Map<String, BoardDeck> decks = new HashMap<>();
         decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0), 8));
         List<String> returnCards;
-
         returnCards = board.getCardsInDeckBelowCostOf(2, decks);
 
         assertEquals(1, returnCards.size());
@@ -487,7 +484,6 @@ public class BoardTests {
         Map<String, BoardDeck> decks = new HashMap<>();
         decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0), 8));
         List<String> returnCards;
-
         returnCards = board.getCardsInDeckBelowCostOf(1, decks);
 
         assertEquals(0, returnCards.size());
@@ -723,6 +719,8 @@ public class BoardTests {
         board.players.addFirst(mockPlayer);
         board.actionPhase();
         board.buyPhase();
+
+        assertEquals(1, board.getCurrentPlayerIndex());
 
         EasyMock.verify(mockGui, mockPlayer);
     }

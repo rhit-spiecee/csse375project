@@ -57,7 +57,6 @@ public class Board {
     }
 
     private void initializeDecks() {
-
         int kingdomDeckSize = 10;
         kingdomDecks.put(
                 bundle.getString("cellar"), 
@@ -100,7 +99,6 @@ public class Board {
                 new BoardDeck(new Woodcutter(bundle.getString("woodcutter")), kingdomDeckSize)
         );
 
-
         int copperDeckSize = 60 - (numPlayers * 7);
         int silverDeckSize = 40;
         int goldDeckSize = 30;
@@ -125,7 +123,6 @@ public class Board {
                         goldDeckSize
                 )
         );
-
 
         int cursedDeckSize = (numPlayers - 1) * 10;
         int victoryCardDeckSize = (numPlayers == 2) ? 8 : 12;

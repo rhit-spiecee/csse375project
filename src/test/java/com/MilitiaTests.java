@@ -64,8 +64,8 @@ public class MilitiaTests {
         newHand.add(new TreasureCard("copper", 0, 1));
 
         board.players.getLast().hand = newHand;
-
         militia.useActionCard(mockPlayerOne);
+
         assertEquals(4, board.players.getLast().getHand().size());
         assertEquals(newHand, board.players.getLast().getHand());
 
@@ -92,8 +92,8 @@ public class MilitiaTests {
         newHand.add(new TreasureCard("copper", 0, 1));
 
         board.players.getLast().hand = newHand;
-
         militia.useActionCard(mockPlayerOne);
+
         assertEquals(3, board.players.getLast().getHand().size());
         assertEquals(newHand, board.players.getLast().getHand());
 

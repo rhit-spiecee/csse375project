@@ -18,7 +18,6 @@ public class BoardSetupTests {
         assertEquals(4, board.numPlayers);
     }
 
-
     @Test
     public void testDeckSizeTwoPlayersOnSetup() {
         Board board = new Board(2);

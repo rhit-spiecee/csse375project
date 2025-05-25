@@ -41,7 +41,6 @@ public class BoardDeckTests {
         }
         
         assertEquals(0, deck.size());
-        
         assertThrows(RuntimeException.class, () -> {
             Card card = deck.pickUpCard();
         });
