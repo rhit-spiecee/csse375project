@@ -14,9 +14,9 @@ public class CellarTests {
             action = 1;
             buy = 1;
             hand.add(cellar);
-            hand.add(new TreasureCard("copper", 6, Card.CardType.TREASURE, 3));
-            hand.add(new TreasureCard("copper", 6, Card.CardType.TREASURE, 3));
-            hand.add(new TreasureCard("copper", 6, Card.CardType.TREASURE, 3));
+            hand.add(new TreasureCard("copper", 6, 3));
+            hand.add(new TreasureCard("copper", 6, 3));
+            hand.add(new TreasureCard("copper", 6, 3));
         }
     }
 
