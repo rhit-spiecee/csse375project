@@ -54,7 +54,7 @@ public class BoardTests {
     public void testGetAvailableDecksOneEmpty() {
         Board board = new Board(2);
         for (int i = 0; i < 10; i++) {
-            board.kingdomDecks.get("cellar").buyCard();
+            board.kingdomDecks.get("cellar").pickUpCard();
         }
         
         List<String> availableDecks = getAllAvailableDecks(board);
@@ -448,7 +448,7 @@ public class BoardTests {
         Map<String, BoardDeck> decks = new HashMap<>();
         decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0), 8));
         for (int i = 0; i < 8; i++) {
-            decks.get("estate").buyCard();
+            decks.get("estate").pickUpCard();
         }
         List<String> returnCards;
 

@@ -310,17 +310,17 @@ public class Board {
 
     void processBuyPhaseSelection(String buySelection) {
         BoardDeck deckToBuyFrom = getBoardDeckByName(buySelection);
-        Card boughtCard = deckToBuyFrom.buyCard();
+        Card cardToBeBought = deckToBuyFrom.pickUpCard();
         Player currentPlayer = getCurrentPlayer();
-        currentPlayer.addBoughtCard(boughtCard);
+        currentPlayer.addBoughtCard(cardToBeBought);
         currentPlayer.buy--;
 
         int coinsInHand = currentPlayer.getCoinsInHand();
         
-        if (coinsInHand >= boughtCard.cost) {
-            currentPlayer.removeTreasureCardsOfCost(boughtCard.cost);
+        if (coinsInHand >= cardToBeBought.cost) {
+            currentPlayer.removeTreasureCardsOfCost(cardToBeBought.cost);
         } else {
-            currentPlayer.coins -= (boughtCard.cost - coinsInHand);
+            currentPlayer.coins -= (cardToBeBought.cost - coinsInHand);
             currentPlayer.removeTreasureCardsOfCost(coinsInHand);
         }
     }
@@ -464,11 +464,11 @@ public class Board {
     void transferCardFromDeckToPlayer(String cardToGain, Player player) {
         Card card;
         if (kingdomDecks.containsKey(cardToGain)) {
-            card = kingdomDecks.get(cardToGain).buyCard();
+            card = kingdomDecks.get(cardToGain).pickUpCard();
         } else if (treasureDecks.containsKey(cardToGain)) {
-            card = treasureDecks.get(cardToGain).buyCard();
+            card = treasureDecks.get(cardToGain).pickUpCard();
         } else if (victoryDecks.containsKey(cardToGain)) {
-            card = victoryDecks.get(cardToGain).buyCard();
+            card = victoryDecks.get(cardToGain).pickUpCard();
         } else {
             throw new RuntimeException("Unknown gained card name: " + cardToGain);
         }
