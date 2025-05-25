@@ -4,7 +4,6 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +24,7 @@ public class MilitiaTests {
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getCardToDiscard(EasyMock.notNull(), EasyMock.eq(1))).andReturn("");
         EasyMock.expect(mockGui.getCardToDiscard(EasyMock.notNull(), EasyMock.eq(1))).andReturn("copper").times(2);
-        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
         
         EasyMock.replay(mockGui);
         Board board = Board.fromGui(mockGui);
@@ -51,7 +50,7 @@ public class MilitiaTests {
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getIfPlayerWantsToBlock(1)).andReturn(true);
-        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
         mockPlayerOne.discardCard(EasyMock.isA(KingdomCard.class));
 
         EasyMock.replay(mockGui, mockPlayerOne);
@@ -79,7 +78,7 @@ public class MilitiaTests {
         Player mockPlayerOne = EasyMock.mock(Player.class);
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
-        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         mockPlayerOne.discardCard(EasyMock.isA(KingdomCard.class));
 

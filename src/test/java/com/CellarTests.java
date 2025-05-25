@@ -28,7 +28,7 @@ public class CellarTests {
         EasyMock.expect(mockGui.getCardToDiscard(EasyMock.notNull(), EasyMock.anyInt())).andReturn("");
         EasyMock.expect(mockGui.getCardToDiscard(EasyMock.notNull(), EasyMock.anyInt())).andReturn("copper").times(3);
         EasyMock.expect(mockGui.getDiscardOption()).andReturn(1);
-        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE));
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
         Board board = Board.fromGui(mockGui);

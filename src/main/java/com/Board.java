@@ -32,7 +32,7 @@ public class Board {
     public Board(int numPlayers) {
         this.numPlayers = numPlayers;
         this.currentPlayerIndex = 0;
-        this.bundle = ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE);
+        this.bundle = ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE);
 
         initializeDecks();
         initializePlayers();

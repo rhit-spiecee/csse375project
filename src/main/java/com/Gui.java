@@ -20,8 +20,13 @@ public class Gui {
     public static final int IMAGE_WIDTH = 150;
     public static final int IMAGE_HEIGHT = 240;
     public static final String[] AVAILABLE_LANGUAGES = new String[] {"English", "Deutsch"};
-    public static final String CHOOSE_LANGUAGE_MESSAGE = "Pick a language (Wählen Sie eine Sprache aus): ";
-    
+    public static final String CHOOSE_LANGUAGE_MESSAGE = 
+            "Pick a language (Wählen Sie eine Sprache aus): ";
+    public static final String ENGLISH_BUNDLE = "language";
+    public static final String GERMAN_BUNDLE = "language_de";
+    public static final Locale ENGLISH_LOCALE = Locale.ENGLISH;
+    public static final Locale GERMAN_LOCALE = Locale.GERMAN;
+
     JFrame frame;
     ResourceBundle bundle;
     
@@ -47,17 +52,17 @@ public class Gui {
 
     public static String getBundleName(String languageSelection) {
         return switch (languageSelection) {
-            case "English" -> Utilities.ENGLISH_BUNDLE;
-            case "Deutsch" -> Utilities.GERMAN_BUNDLE;
-            default -> Utilities.ENGLISH_BUNDLE;
+            case "English" -> ENGLISH_BUNDLE;
+            case "Deutsch" -> GERMAN_BUNDLE;
+            default -> ENGLISH_BUNDLE;
         };
     }
 
     public static Locale getLocale(String languageSelection) {
         return switch (languageSelection) {
-            case "English" -> Utilities.ENGLISH_LOCALE;
-            case "Deutsch" -> Utilities.GERMAN_LOCALE;
-            default -> Utilities.ENGLISH_LOCALE;
+            case "English" -> ENGLISH_LOCALE;
+            case "Deutsch" -> GERMAN_LOCALE;
+            default -> ENGLISH_LOCALE;
         };
     }
 

@@ -1,7 +1,6 @@
 package com;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -30,7 +29,7 @@ public class Player {
     }
     
     public Player() {
-        this.bundle = ResourceBundle.getBundle(Utilities.ENGLISH_BUNDLE);
+        this.bundle = ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE);
         this.deck = new PlayerDeck(bundle);
     }
 
