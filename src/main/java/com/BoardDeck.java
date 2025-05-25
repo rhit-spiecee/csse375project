@@ -24,7 +24,7 @@ public class BoardDeck {
         return card;
     }
 
-    public Card buyCard() {
+    public Card pickUpCard() {
         if (deck.isEmpty()) {
             throw new RuntimeException("Deck is empty");
         }

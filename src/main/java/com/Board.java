@@ -38,7 +38,7 @@ public class Board {
         initializePlayers();
     }
 
-    public static Board fromGui(Gui gui) {
+    public static Board setupBoardFromGui(Gui gui) {
         int numPlayers = gui.getNumPlayers();
         ResourceBundle bundle = gui.getBundle();
         Board board = new Board(numPlayers, bundle);
@@ -57,7 +57,6 @@ public class Board {
     }
 
     private void initializeDecks() {
-
         int kingdomDeckSize = 10;
         kingdomDecks.put(
                 bundle.getString("cellar"), 
@@ -100,7 +99,6 @@ public class Board {
                 new BoardDeck(new Woodcutter(bundle.getString("woodcutter")), kingdomDeckSize)
         );
 
-
         int copperDeckSize = 60 - (numPlayers * 7);
         int silverDeckSize = 40;
         int goldDeckSize = 30;
@@ -125,7 +123,6 @@ public class Board {
                         goldDeckSize
                 )
         );
-
 
         int cursedDeckSize = (numPlayers - 1) * 10;
         int victoryCardDeckSize = (numPlayers == 2) ? 8 : 12;
@@ -310,17 +307,17 @@ public class Board {
 
     void processBuyPhaseSelection(String buySelection) {
         BoardDeck deckToBuyFrom = getBoardDeckByName(buySelection);
-        Card boughtCard = deckToBuyFrom.buyCard();
+        Card cardToBeBought = deckToBuyFrom.pickUpCard();
         Player currentPlayer = getCurrentPlayer();
-        currentPlayer.addBoughtCard(boughtCard);
+        currentPlayer.addBoughtCard(cardToBeBought);
         currentPlayer.buy--;
 
         int coinsInHand = currentPlayer.getCoinsInHand();
         
-        if (coinsInHand >= boughtCard.cost) {
-            currentPlayer.removeTreasureCardsOfCost(boughtCard.cost);
+        if (coinsInHand >= cardToBeBought.cost) {
+            currentPlayer.removeTreasureCardsOfCost(cardToBeBought.cost);
         } else {
-            currentPlayer.coins -= (boughtCard.cost - coinsInHand);
+            currentPlayer.coins -= (cardToBeBought.cost - coinsInHand);
             currentPlayer.removeTreasureCardsOfCost(coinsInHand);
         }
     }
@@ -464,11 +461,11 @@ public class Board {
     void transferCardFromDeckToPlayer(String cardToGain, Player player) {
         Card card;
         if (kingdomDecks.containsKey(cardToGain)) {
-            card = kingdomDecks.get(cardToGain).buyCard();
+            card = kingdomDecks.get(cardToGain).pickUpCard();
         } else if (treasureDecks.containsKey(cardToGain)) {
-            card = treasureDecks.get(cardToGain).buyCard();
+            card = treasureDecks.get(cardToGain).pickUpCard();
         } else if (victoryDecks.containsKey(cardToGain)) {
-            card = victoryDecks.get(cardToGain).buyCard();
+            card = victoryDecks.get(cardToGain).pickUpCard();
         } else {
             throw new RuntimeException("Unknown gained card name: " + cardToGain);
         }
@@ -478,13 +475,13 @@ public class Board {
 
     private ArrayList<String> getAllCardsBelowCostOf(int maxCost) {
         ArrayList<String> cardNames = new ArrayList<>();
-        cardNames.addAll(getCardsBelowCostOf(maxCost, kingdomDecks));
-        cardNames.addAll(getCardsBelowCostOf(maxCost, treasureDecks));
-        cardNames.addAll(getCardsBelowCostOf(maxCost, victoryDecks));
+        cardNames.addAll(getCardsInDeckBelowCostOf(maxCost, kingdomDecks));
+        cardNames.addAll(getCardsInDeckBelowCostOf(maxCost, treasureDecks));
+        cardNames.addAll(getCardsInDeckBelowCostOf(maxCost, victoryDecks));
         return cardNames;
     }
 
-    public List<String> getCardsBelowCostOf(int maxCost, Map<String, BoardDeck> decks) {
+    public List<String> getCardsInDeckBelowCostOf(int maxCost, Map<String, BoardDeck> decks) {
         ArrayList<String> cardNames = new ArrayList<>();
 
         for (String cardName : decks.keySet()) {

@@ -422,7 +422,7 @@ public class PlayerTests {
         hand.add(new VictoryCard("estate", 2, 1));
 
         player.hand = new ArrayList<>(hand);
-        hand.remove(0);
+        hand.removeFirst();
 
         assertEquals(hand, player.getCardsInHandExceptOne("silver"));
     }
@@ -438,7 +438,7 @@ public class PlayerTests {
         hand.add(new VictoryCard("estate", 2, 1));
 
         player.hand = new ArrayList<>(hand);
-        hand.remove(0);
+        hand.removeFirst();
 
         assertEquals(hand, player.getCardsInHandExceptOne("silver"));
     }
@@ -454,14 +454,12 @@ public class PlayerTests {
         treasureCards.add(silver);
         treasureCards.add(gold);
 
-        ArrayList<Card> hand = new ArrayList<>();
-        hand.addAll(treasureCards);
+        ArrayList<Card> hand = new ArrayList<>(treasureCards);
         hand.add(new Woodcutter("woodcutter"));
         hand.add(new Moat("moat"));
         hand.add(new VictoryCard("province", 8, 6));
 
         player.hand = hand;
-
         ArrayList<Card> treasureCardsInHand = player.getTreasureCardsInHand();
 
         assertEquals(treasureCards, treasureCardsInHand);

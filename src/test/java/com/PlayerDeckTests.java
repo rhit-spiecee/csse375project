@@ -43,9 +43,7 @@ public class PlayerDeckTests {
         PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         assertEquals(10, deck.size());
-
         emptyDeck(deck);
-
         assertThrows(NoSuchElementException.class, () -> deck.draw());
     }
 
@@ -54,15 +52,11 @@ public class PlayerDeckTests {
         PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         assertEquals(10, deck.size());
-
         emptyDeck(deck);
-
         deck.add(new TreasureCard("copper", 0, 1));
 
         assertEquals(1, deck.size());
-
         Card card = deck.draw();
-
         assertEquals(0, deck.size());
         assertEquals("copper", card.name);
 
@@ -73,24 +67,20 @@ public class PlayerDeckTests {
         PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         assertEquals(10, deck.size());
-
         emptyDeck(deck);
-
         deck.add(new TreasureCard("copper", 0, 1));
-
         assertEquals(1, deck.size());
     }
 
     @Test
     public void testAddWhenFull() {
         PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
-        
         assertEquals(10, deck.size());
         
         while (deck.size() < PlayerDeck.MAX_DECK_SIZE) {
             deck.add(new TreasureCard("copper", 0, 1));
         }
-        
+
         assertEquals(308, deck.size());
         assertThrows(IndexOutOfBoundsException.class, () -> deck.add(new TreasureCard("copper", 0, 1)));
     }

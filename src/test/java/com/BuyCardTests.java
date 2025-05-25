@@ -38,7 +38,7 @@ public class BuyCardTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui, mockPlayer);
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGui(mockGui);
         board.players.removeFirst();
         board.players.addFirst(mockPlayer);
 

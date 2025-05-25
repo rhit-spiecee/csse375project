@@ -41,9 +41,8 @@ public class BoardDeckTests {
         }
         
         assertEquals(0, deck.size());
-        
         assertThrows(RuntimeException.class, () -> {
-            Card card = deck.buyCard();
+            Card card = deck.pickUpCard();
         });
     }
     
@@ -51,7 +50,7 @@ public class BoardDeckTests {
     public void testBuyCard() {
         Card card = new Smithy("smithy");
         BoardDeck deck = new BoardDeck(card, 8);
-        Card boughtCard = deck.buyCard();
+        Card boughtCard = deck.pickUpCard();
         
         assertEquals(7, deck.size());
         assertEquals(card, boughtCard);
