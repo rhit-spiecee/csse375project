@@ -4,21 +4,13 @@ import java.util.Objects;
 
 public abstract class Card {
 
-    public enum CardType {
-        TREASURE,
-        VICTORY,
-        KINGDOM
-    }
-
     final String name;
     final int cost;
-    final CardType type;
     final int value;
 
-    public Card(String name, int cost, CardType cardType, int value) {
+    public Card(String name, int cost, int value) {
         this.name = name;
         this.cost = cost;
-        this.type = cardType;
         this.value = value;
     }
 
@@ -30,7 +22,6 @@ public abstract class Card {
         Card card = (Card) object;
         return cost == card.cost 
                 && value == card.value
-                && Objects.equals(name, card.name)
-                && type == card.type;
+                && Objects.equals(name, card.name);
     }
 }

@@ -13,10 +13,10 @@ public class PlayerDeck {
         deck = new Stack<>();
 
         for (int i = 0; i < 3; i++) {
-            deck.add(new VictoryCard(bundle.getString("estate"), 2, Card.CardType.VICTORY, 1));
+            deck.add(new VictoryCard(bundle.getString("estate"), 2, 1));
         }
         for (int i = 0; i < 7; i++) {
-            deck.add(new TreasureCard(bundle.getString("copper"), 0, Card.CardType.TREASURE, 1));
+            deck.add(new TreasureCard(bundle.getString("copper"), 0, 1));
         }
         shuffle();
     }
