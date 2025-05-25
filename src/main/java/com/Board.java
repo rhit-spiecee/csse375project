@@ -38,7 +38,7 @@ public class Board {
         initializePlayers();
     }
 
-    public static Board fromGui(Gui gui) {
+    public static Board setupBoardFromGUI(Gui gui) {
         int numPlayers = gui.getNumPlayers();
         ResourceBundle bundle = gui.getBundle();
         Board board = new Board(numPlayers, bundle);

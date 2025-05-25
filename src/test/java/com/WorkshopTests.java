@@ -26,7 +26,7 @@ public class WorkshopTests {
 
 
         EasyMock.replay(mockGui);
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         Workshop workshop = new Workshop(board, "workshop");
         Player player = new WorkshopTests.StubPlayer(workshop);
 

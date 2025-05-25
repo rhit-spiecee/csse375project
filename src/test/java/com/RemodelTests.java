@@ -36,7 +36,7 @@ public class RemodelTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         Remodel remodel = new Remodel(board, "remodel");
         Player player = new StubPlayer(remodel);
 

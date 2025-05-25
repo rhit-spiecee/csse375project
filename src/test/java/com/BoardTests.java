@@ -19,7 +19,7 @@ public class BoardTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
 
         board.processTurn();
         assertEquals(5, board.players.getFirst().getHand().size());
@@ -118,7 +118,7 @@ public class BoardTests {
 
         EasyMock.replay(mockGui, player1, player2, mockDeck);
 
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         board.players = Arrays.asList(player1, player2);
         board.victoryDecks.put("province" , mockDeck);
 
@@ -207,7 +207,7 @@ public class BoardTests {
 
         EasyMock.replay(mockGui, player1);
 
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         board.players.removeFirst();
         board.players.addFirst(player1);
 
@@ -236,7 +236,7 @@ public class BoardTests {
 
         EasyMock.replay(mockGui, player1);
 
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         board.players.removeFirst();
         board.players.addFirst(player1);
 
@@ -277,7 +277,7 @@ public class BoardTests {
 
         EasyMock.replay(mockGui);
 
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         Market market = new Market("market");
         board.getCurrentPlayer().hand.add(market);
         String[] check = new String[1];
@@ -298,7 +298,7 @@ public class BoardTests {
 
         EasyMock.replay(mockGui);
 
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         String[] check = new String[0];
 
         assertEquals(check.length, board.getAvailableActionCardsInHand().length);
@@ -325,7 +325,7 @@ public class BoardTests {
 
         EasyMock.replay(mockGui, player1);
 
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         board.players.removeFirst();
         board.players.addFirst(player1);
 
@@ -405,7 +405,7 @@ public class BoardTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         board.players.getFirst().hand.add(new Woodcutter("woodcutter"));
         board.actionPhase();
 
@@ -420,7 +420,7 @@ public class BoardTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         EasyMock.replay(mockGui);
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         board.getCurrentPlayer().buy = 2;
         board.processBuyPhaseSelection("copper");
         board.processBuyPhaseSelection("copper");
@@ -503,7 +503,7 @@ public class BoardTests {
         mockGui.showErrorPopup("You have no more cards to discard");
 
         EasyMock.replay(mockGui);
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         Player player = new Player();
         int discardedCards;
 
@@ -529,7 +529,7 @@ public class BoardTests {
         mockGui.showErrorPopup("You have no more cards to discard");
 
         EasyMock.replay(mockGui);
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         Player player = new Player();
         int discardedCards;
 
@@ -586,7 +586,7 @@ public class BoardTests {
 
         EasyMock.replay(mockGui);
 
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
 
         board.kingdomDecks.get("moat").deck.clear();
         board.treasureDecks.get("silver").deck.clear();
@@ -630,7 +630,7 @@ public class BoardTests {
 
 
         EasyMock.replay(mockGui, player1);
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         board.players.clear();
         board.players.add(player1);
 
@@ -660,7 +660,7 @@ public class BoardTests {
         mockGui.updateView(EasyMock.isA(BoardDto.class));
 
         EasyMock.replay(mockGui, mockPlayer);
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         board.players.removeFirst();
         board.players.addFirst(mockPlayer);
         board.kingdomDecks.get("moat").deck.clear();
@@ -687,7 +687,7 @@ public class BoardTests {
 
         EasyMock.replay(mockGui);
         Player player = new Player();
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         board.players.removeFirst();
         board.players.addFirst(player);
         player.hand.clear();
@@ -718,7 +718,7 @@ public class BoardTests {
         mockPlayer.drawHand();
 
         EasyMock.replay(mockGui, mockPlayer);
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         board.players.removeFirst();
         board.players.addFirst(mockPlayer);
         board.actionPhase();
@@ -743,7 +743,7 @@ public class BoardTests {
         EasyMock.expect(mockGui.getCardToDiscard(player.hand, 0)).andReturn("moat").times(2);
 
         EasyMock.replay(mockGui);
-        Board board = Board.fromGui(mockGui);
+        Board board = Board.setupBoardFromGUI(mockGui);
         board.currentPlayerIndex = 1;
         board.players.removeFirst();
         board.players.addFirst(player);
