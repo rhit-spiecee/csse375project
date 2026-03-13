@@ -23,7 +23,11 @@
 hs_err_pid*
 replay_pid*
 
-# IntelliJ specific files are gitgnored in .idea/.gitgnore
-target
-
 .idea/libraries
+
+# IntelliJ project files
+*.iml
+.idea/
+
+# Maven build output
+target/
