@@ -377,4 +377,8 @@ public class Gui {
     public ResourceBundle getBundle() {
         return bundle;
     }
+
+    public void updateScore(int newScore, int currentPlayer) {
+        System.out.println("updateScore for Player Number: " + currentPlayer + " is " + newScore);
+    }
 }

@@ -230,15 +230,20 @@ public class Player {
     }
 
     public int calculateScore() {
-        emptyRemainingDeck();
-        discardPile.addAll(hand);
+        //emptyRemainingDeck();
+        //discardPile.addAll(hand);
         int score = 0;
         for (Card card : discardPile) {
             if (card instanceof VictoryCard) {
                 score += card.value;
             }
         }
-        return score;
+        for (Card card : hand) {
+            if (card instanceof VictoryCard) {
+                score += card.value;
+            }
+        }
+        return score + deck.calculateDeckScore();
     }
 
     public ArrayList<Card> getCardsInHandExceptOne(String cardToExclude) {

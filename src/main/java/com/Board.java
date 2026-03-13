@@ -304,6 +304,9 @@ public class Board {
         Card cardToBeBought = deckToBuyFrom.pickUpCard();
         Player currentPlayer = getCurrentPlayer();
         currentPlayer.addBoughtCard(cardToBeBought);
+        if (cardToBeBought instanceof VictoryCard) {
+            gui.updateScore(currentPlayer.calculateScore(), getCurrentPlayerIndex() + 1);
+        }
         currentPlayer.buy--;
 
         int coinsInHand = currentPlayer.getCoinsInHand();
