@@ -305,7 +305,8 @@ public class Board {
         Player currentPlayer = getCurrentPlayer();
         currentPlayer.addBoughtCard(cardToBeBought);
         if (cardToBeBought instanceof VictoryCard) {
-            gui.updateScore(currentPlayer.calculateScore(), getCurrentPlayerIndex() + 1);
+            List<PlayerScoreEntry> scoredPlayers = getSortedPlayerEntries();
+            gui.updateScore(scoredPlayers);
         }
         currentPlayer.buy--;
 

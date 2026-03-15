@@ -1,20 +1,13 @@
 package com;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
+import java.awt.*;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class Gui {
     public static final int IMAGE_WIDTH = 150;
@@ -29,7 +22,8 @@ public class Gui {
 
     JFrame frame;
     ResourceBundle bundle;
-    
+    private List<PlayerScoreEntry> currentScores = new ArrayList<>();
+
     public Gui() {
         setupLanguage();
         setupFrame();
@@ -68,7 +62,7 @@ public class Gui {
 
     public void updateView(BoardDto boardDto) {
         frame.getContentPane().removeAll();
-        
+
         addBoardDecks(boardDto);
         addHandAndInfo(boardDto);
 
@@ -77,29 +71,41 @@ public class Gui {
     }
 
     private void addHandAndInfo(BoardDto boardDto) {
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new GridLayout(2, 1));
+        JPanel bottomPanel = new JPanel(new BorderLayout());
         JLabel infoLabel = new JLabel(
                 MessageFormat.format(
-                        bundle.getString("current.player.0.coins.1.actions.2.buys.3"), 
+                        bundle.getString("current.player.0.coins.1.actions.2.buys.3"),
                         boardDto.currentPlayerNumber + 1,
                         boardDto.currentPlayerCoins,
                         boardDto.currentPlayerActions,
                         boardDto.currentPlayerBuys
                 )
         );
-        bottomPanel.add(infoLabel);
+        bottomPanel.add(infoLabel, BorderLayout.NORTH);
 
-        JPanel handPanel = new JPanel();
-        handPanel.setLayout(new FlowLayout());
+        JPanel scorePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        if (!currentScores.isEmpty()) {
+            String[] columnNames = { bundle.getString("player"), bundle.getString("score") };
+            Object[][] data = new Object[currentScores.size()][2];
+            for (int i = 0; i < currentScores.size(); i++) {
+                data[i][0] = currentScores.get(i).index;
+                data[i][1] = currentScores.get(i).score;
+            }
+            JTable scoreTable = new JTable(data, columnNames);
+            scoreTable.setEnabled(false);
+            JScrollPane scrollPane = new JScrollPane(scoreTable);
+            scrollPane.setPreferredSize(new Dimension(200, scoreTable.getRowHeight() * currentScores.size() + 24));
+            scorePanel.add(scrollPane);
+        }
+        bottomPanel.add(scorePanel, BorderLayout.SOUTH);
+        frame.add(bottomPanel, BorderLayout.CENTER);
+
+        JPanel handPanel = new JPanel(new FlowLayout());
         handPanel.add(new JLabel(bundle.getString("hand")));
         for (Card card : boardDto.currentPlayerHand) {
-            ImageIcon imageIcon = getImageFromCardName(card.name);
-            JLabel cardImageLabel = new JLabel(imageIcon);
-            handPanel.add(cardImageLabel);
+            handPanel.add(new JLabel(getImageFromCardName(card.name)));
         }
-        bottomPanel.add(handPanel);
-        frame.add(bottomPanel, BorderLayout.SOUTH);
+        frame.add(handPanel, BorderLayout.SOUTH);
     }
 
     private void addBoardDecks(BoardDto boardDto) {
@@ -378,7 +384,7 @@ public class Gui {
         return bundle;
     }
 
-    public void updateScore(int newScore, int currentPlayer) {
-        System.out.println("updateScore for Player Number: " + currentPlayer + " is " + newScore);
+    public void updateScore(List<PlayerScoreEntry> scoredPlayers) {
+        this.currentScores = scoredPlayers;
     }
 }
