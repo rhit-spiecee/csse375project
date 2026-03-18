@@ -2,8 +2,8 @@ package com;
 
 public class Smithy extends KingdomCard {
 
-    public Smithy(String name) {
-        super(name, 4, 0);
+    public Smithy() {
+        super(Gui.getString("smithy"), 4, 0, Gui.getString("tip.smithy"));
     }
 
     @Override

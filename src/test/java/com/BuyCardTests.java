@@ -31,7 +31,8 @@ public class BuyCardTests {
         EasyMock.expect(mockPlayer.getActions()).andReturn(1).times(1);
         mockPlayer.removeTreasureCardsOfCost(4);
         mockPlayer.drawHand();
-        mockPlayer.addBoughtCard(new Smithy("smithy"));
+        Card smithy = new Smithy();
+        mockPlayer.addBoughtCard(smithy);
         mockPlayer.cleanup();
         mockGui.updateView(EasyMock.isA(BoardDto.class));
         mockGui.updateView(EasyMock.isA(BoardDto.class));

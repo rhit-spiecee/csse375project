@@ -3,8 +3,8 @@ package com;
 public class Woodcutter extends KingdomCard {
 
 
-    public Woodcutter(String name) {
-        super(name, 3, 0);
+    public Woodcutter() {
+        super(Gui.getString("woodcutter"), 3, 2, Gui.getString("tip.woodcutter"));
     }
 
     @Override

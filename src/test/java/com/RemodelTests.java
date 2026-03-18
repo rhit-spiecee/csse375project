@@ -37,7 +37,7 @@ public class RemodelTests {
 
         EasyMock.replay(mockGui);
         Board board = Board.setupBoardFromGui(mockGui);
-        Remodel remodel = new Remodel(board, "remodel");
+        Remodel remodel = new Remodel(board);
         Player player = new StubPlayer(remodel);
 
         remodel.useActionCard(player);

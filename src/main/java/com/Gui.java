@@ -22,6 +22,7 @@ public class Gui {
 
     JFrame frame;
     ResourceBundle bundle;
+    private static ResourceBundle staticBundle;
     private List<PlayerScoreEntry> currentScores = new ArrayList<>();
 
     public Gui() {
@@ -41,7 +42,15 @@ public class Gui {
                 options[0]);
 
         bundle = ResourceBundle.getBundle(getBundleName(selectionObject));
+        staticBundle = bundle;
         JOptionPane.setDefaultLocale(getLocale(selectionObject));
+    }
+
+    public static String getString(String key) {
+        if (staticBundle == null) {
+            staticBundle = ResourceBundle.getBundle(ENGLISH_BUNDLE);
+        }
+        return staticBundle.getString(key);
     }
 
     public static String getBundleName(String languageSelection) {

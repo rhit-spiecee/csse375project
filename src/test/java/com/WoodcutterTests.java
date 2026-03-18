@@ -17,7 +17,7 @@ public class WoodcutterTests {
 
     @Test
     public void testCardBehavior() {
-        Woodcutter woodcutter = new Woodcutter("woodcutter");
+        Woodcutter woodcutter = new Woodcutter();
         Player player = new StubPlayer(woodcutter);
 
         woodcutter.useActionCard(player);

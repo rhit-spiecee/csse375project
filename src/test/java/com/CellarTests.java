@@ -32,7 +32,7 @@ public class CellarTests {
 
         EasyMock.replay(mockGui);
         Board board = Board.setupBoardFromGui(mockGui);
-        Cellar cellar = new Cellar(board, "cellar");
+        Cellar cellar = new Cellar(board);
         Player player = new StubPlayer(cellar);
 
         cellar.useActionCard(player);

@@ -3,8 +3,8 @@ package com;
 public class Cellar extends KingdomCard {
     Board board;
 
-    public Cellar(Board board, String name) {
-        super(name, 2, 0);
+    public Cellar(Board board) {
+        super(Gui.getString("cellar"), 2, 0, Gui.getString("tip.cellar"));
         this.board = board;
     }
 

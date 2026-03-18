@@ -2,8 +2,8 @@ package com;
 
 public class Market extends KingdomCard {
 
-    public Market(String name) {
-        super(name, 5, 0);
+    public Market() {
+        super(Gui.getString("market"), 5, 0, Gui.getString("tip.market"));
     }
 
     @Override

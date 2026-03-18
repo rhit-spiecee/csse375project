@@ -16,7 +16,7 @@ public class VillageTests {
 
     @Test
     public void testCardBehavior() {
-        Village village = new Village("village");
+        Village village = new Village();
         Player player = new StubPlayer(village);
 
         village.useActionCard(player);

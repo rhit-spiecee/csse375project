@@ -1,8 +1,8 @@
 package com;
 
 public abstract class KingdomCard extends Card {
-    public KingdomCard(String name, int cost, int value) {
-        super(name, cost, value);
+    public KingdomCard(String name, int cost, int value, String gameTip) {
+        super(name, cost, value, gameTip);
     }
 
     public void useActionCard(Player currentPlayer) {

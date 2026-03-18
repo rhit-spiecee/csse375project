@@ -60,43 +60,43 @@ public class Board {
         int kingdomDeckSize = 10;
         kingdomDecks.put(
                 bundle.getString("cellar"), 
-                new BoardDeck(new Cellar(this, bundle.getString("cellar")), kingdomDeckSize)
+                new BoardDeck(new Cellar(this), kingdomDeckSize)
         );
         kingdomDecks.put(
                 bundle.getString("market"), 
-                new BoardDeck(new Market(bundle.getString("market")), kingdomDeckSize)
+                new BoardDeck(new Market(), kingdomDeckSize)
         );
         kingdomDecks.put(
                 bundle.getString("militia"), 
-                new BoardDeck(new Militia(this, bundle.getString("militia")), kingdomDeckSize)
+                new BoardDeck(new Militia(this), kingdomDeckSize)
         );
         kingdomDecks.put(
                 bundle.getString("mine"), 
-                new BoardDeck(new Mine(this, bundle.getString("mine")), kingdomDeckSize)
+                new BoardDeck(new Mine(this), kingdomDeckSize)
         );
         kingdomDecks.put(
                 bundle.getString("moat"), 
-                new BoardDeck(new Moat(bundle.getString("moat")), kingdomDeckSize)
+                new BoardDeck(new Moat(), kingdomDeckSize)
         );
         kingdomDecks.put(
                 bundle.getString("remodel"),
-                new BoardDeck(new Remodel(this, bundle.getString("remodel")), kingdomDeckSize)
+                new BoardDeck(new Remodel(this), kingdomDeckSize)
         );
         kingdomDecks.put(
                 bundle.getString("smithy"), 
-                new BoardDeck(new Smithy(bundle.getString("smithy")), kingdomDeckSize)
+                new BoardDeck(new Smithy(), kingdomDeckSize)
         );
         kingdomDecks.put(
                 bundle.getString("village"), 
-                new BoardDeck(new Village(bundle.getString("village")), kingdomDeckSize)
+                new BoardDeck(new Village(), kingdomDeckSize)
         );
         kingdomDecks.put(
                 bundle.getString("workshop"), 
-                new BoardDeck(new Workshop(this, bundle.getString("workshop")), kingdomDeckSize)
+                new BoardDeck(new Workshop(this), kingdomDeckSize)
         );
         kingdomDecks.put(
                 bundle.getString("woodcutter"), 
-                new BoardDeck(new Woodcutter(bundle.getString("woodcutter")), kingdomDeckSize)
+                new BoardDeck(new Woodcutter(), kingdomDeckSize)
         );
 
         int copperDeckSize = 60 - (numPlayers * 7);
@@ -105,21 +105,21 @@ public class Board {
         treasureDecks.put(
                 bundle.getString("copper"),
                 new BoardDeck(
-                        new TreasureCard(bundle.getString("copper"), 0, 1),
+                        new TreasureCard("copper", 0, 1),
                         copperDeckSize
                 )
         );
         treasureDecks.put(
                 bundle.getString("silver"),
                 new BoardDeck(
-                        new TreasureCard(bundle.getString("silver"), 3, 2),
+                        new TreasureCard("silver", 3, 2),
                         silverDeckSize
                 )
         );
         treasureDecks.put(
                 bundle.getString("gold"),
                 new BoardDeck(
-                        new TreasureCard(bundle.getString("gold"), 6, 3),
+                        new TreasureCard("gold", 6, 3),
                         goldDeckSize
                 )
         );
@@ -129,28 +129,28 @@ public class Board {
         victoryDecks.put(
                 bundle.getString("estate"),
                 new BoardDeck(
-                        new VictoryCard(bundle.getString("estate"), 2, 1),
+                        new VictoryCard("estate", 2, 1),
                         victoryCardDeckSize
                 )
         );
         victoryDecks.put(
                 bundle.getString("duchy"),
                 new BoardDeck(
-                        new VictoryCard(bundle.getString("duchy"), 5, 3),
+                        new VictoryCard("duchy", 5, 3),
                         victoryCardDeckSize
                 )
         );
         victoryDecks.put(
                 bundle.getString("province"),
                 new BoardDeck(
-                        new VictoryCard(bundle.getString("province"), 8, 6),
+                        new VictoryCard("province", 8, 6),
                         victoryCardDeckSize
                 )
         );
         victoryDecks.put(
                 bundle.getString("cursed"),
                 new BoardDeck(
-                        new VictoryCard(bundle.getString("cursed"), 0, -1),
+                        new VictoryCard("cursed", 0, -1),
                         cursedDeckSize
                 )
         );

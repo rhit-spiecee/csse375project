@@ -82,7 +82,7 @@ public class PlayerTests {
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
         EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, 1)).times(handSize - 1);
-        EasyMock.expect(mockDeck.draw()).andReturn(new Smithy("smithy"));
+        EasyMock.expect(mockDeck.draw()).andReturn(new Smithy());
         EasyMock.expect(mockDeck.size()).andReturn(handSize).times(handSize);
         EasyMock.replay(mockDeck);
         player.drawHand();
@@ -98,7 +98,7 @@ public class PlayerTests {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
-        EasyMock.expect(mockDeck.draw()).andReturn(new Moat("moat")).times(handSize);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Moat()).times(handSize);
         EasyMock.expect(mockDeck.size()).andReturn(handSize).times(handSize);
         EasyMock.replay(mockDeck);
         player.drawHand();
@@ -190,7 +190,7 @@ public class PlayerTests {
     public void testGetActionCards() {
         Player player = new Player();
         
-        player.hand.add(new Moat("moat"));
+        player.hand.add(new Moat());
         player.hand.add(new TreasureCard("copper", 0, 1));
         
         assertEquals(1, player.getActionCardsInHand().size());
@@ -244,13 +244,13 @@ public class PlayerTests {
         Player player = new Player();
 
         player.deck.add(new TreasureCard("gold", 6, 3));
-        player.deck.add(new Moat("moat"));
+        player.deck.add(new Moat());
 
         player.hand.add(new TreasureCard("copper", 2, 1));
         player.hand.add(new TreasureCard("silver", 4, 2));
         player.hand.add(new TreasureCard("gold", 6, 3));
         player.hand.add(new VictoryCard("estate", 2, 1));
-        player.hand.add(new Market("market"));
+        player.hand.add(new Market());
 
         assertEquals(6, player.getCoinsInHand());
 
@@ -266,11 +266,11 @@ public class PlayerTests {
     public void testHasMoatCardWithMoatCardInDeck() {
         Player player = new Player();
 
-        player.deck.add(new Moat("moat"));
+        player.deck.add(new Moat());
 
         player.hand.add(new TreasureCard("copper", 2, 1));
         player.hand.add(new VictoryCard("province", 8, 6));
-        player.hand.add(new Market("market"));
+        player.hand.add(new Market());
 
         assertFalse(player.hasMoatCard());
     }
@@ -279,7 +279,7 @@ public class PlayerTests {
     public void testHasMoatCardWithMoatCardInHand() {
         Player player = new Player();
 
-        player.hand.add(new Moat("moat"));
+        player.hand.add(new Moat());
         assertTrue(player.hasMoatCard());
     }
 
@@ -292,7 +292,7 @@ public class PlayerTests {
     @Test
     public void testDiscardCardWithCardInHand(){
         Player player = new Player();
-        player.hand.add(new Moat("moat"));
+        player.hand.add(new Moat());
         assertTrue(player.discardCard("moat"));
     }
 
@@ -305,7 +305,7 @@ public class PlayerTests {
     @Test
     public void testTrashCardWithCardInHand(){
         Player player = new Player();
-        Moat moat = new Moat("moat");
+        Moat moat = new Moat();
         player.hand.add(moat);
 
         ArrayList<Card> newHandAfterTrashing = new ArrayList<>(player.hand);
@@ -318,7 +318,7 @@ public class PlayerTests {
     @Test
     public void testTrashCardWithCardInDeck(){
         Player player = new Player();
-        Moat moat = new Moat("moat");
+        Moat moat = new Moat();
         player.deck.add(moat);
 
         ArrayList<Card> newHandAfterTrashing = new ArrayList<>(player.hand);
@@ -379,7 +379,7 @@ public class PlayerTests {
     public void testHasTreasureCardTypeWithFullHand() {
         Player player = new Player();
         for(int i = 0; i < 4; i++) {
-            player.hand.add(new Moat("moat"));
+            player.hand.add(new Moat());
         }
         player.hand.add(new TreasureCard("copper", 2, 1));
         assertEquals(4, player.hasTreasureCardType("copper"));
@@ -390,7 +390,7 @@ public class PlayerTests {
         Player player = new Player();
         player.hand.add(new TreasureCard("copper", 2, 1));
         for(int i = 0; i < 3; i++) {
-            player.hand.add(new Moat("moat"));
+            player.hand.add(new Moat());
         }
         player.hand.add(new TreasureCard("copper", 2, 1));
         assertEquals(0, player.hasTreasureCardType("copper"));
@@ -402,8 +402,8 @@ public class PlayerTests {
         ArrayList<Card> hand = new ArrayList<>();
         hand.add(new TreasureCard("copper", 2, 1));
         hand.add(new TreasureCard("copper", 2, 1));
-        hand.add(new Village("village"));
-        hand.add(new Woodcutter("woodcutter"));
+        hand.add(new Village());
+        hand.add(new Woodcutter());
         hand.add(new VictoryCard("estate", 2, 1));
 
         player.hand = new ArrayList<>(hand);
@@ -417,8 +417,8 @@ public class PlayerTests {
         ArrayList<Card> hand = new ArrayList<>();
         hand.add(new TreasureCard("silver", 4, 2));
         hand.add(new TreasureCard("copper", 2, 1));
-        hand.add(new Village("village"));
-        hand.add(new Woodcutter("woodcutter"));
+        hand.add(new Village());
+        hand.add(new Woodcutter());
         hand.add(new VictoryCard("estate", 2, 1));
 
         player.hand = new ArrayList<>(hand);
@@ -433,8 +433,8 @@ public class PlayerTests {
         ArrayList<Card> hand = new ArrayList<>();
         hand.add(new TreasureCard("silver", 4, 2));
         hand.add(new TreasureCard("silver", 4, 2));
-        hand.add(new Village("village"));
-        hand.add(new Woodcutter("woodcutter"));
+        hand.add(new Village());
+        hand.add(new Woodcutter());
         hand.add(new VictoryCard("estate", 2, 1));
 
         player.hand = new ArrayList<>(hand);
@@ -455,8 +455,8 @@ public class PlayerTests {
         treasureCards.add(gold);
 
         ArrayList<Card> hand = new ArrayList<>(treasureCards);
-        hand.add(new Woodcutter("woodcutter"));
-        hand.add(new Moat("moat"));
+        hand.add(new Woodcutter());
+        hand.add(new Moat());
         hand.add(new VictoryCard("province", 8, 6));
 
         player.hand = hand;

@@ -25,10 +25,10 @@ public class MilitiaTests {
         EasyMock.expect(mockGui.getCardToDiscard(EasyMock.notNull(), EasyMock.eq(1))).andReturn("");
         EasyMock.expect(mockGui.getCardToDiscard(EasyMock.notNull(), EasyMock.eq(1))).andReturn("copper").times(2);
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
-        
+
         EasyMock.replay(mockGui);
         Board board = Board.setupBoardFromGui(mockGui);
-        Militia militia = new Militia(board, "militia");
+        Militia militia = new Militia(board);
         Player player = new StubPlayer(militia);
 
         militia.useActionCard(player);
@@ -39,7 +39,7 @@ public class MilitiaTests {
         assertEquals(0, player.hand.size());
         assertEquals(1, player.discardPile.size());
         assertEquals(3, board.players.getLast().hand.size());
-        
+
         EasyMock.verify(mockGui);
     }
 
@@ -56,9 +56,9 @@ public class MilitiaTests {
         EasyMock.replay(mockGui, mockPlayerOne);
 
         Board board = Board.setupBoardFromGui(mockGui);
-        Militia militia = new Militia(board, "militia");
+        Militia militia = new Militia(board);
         ArrayList<Card> newHand = new ArrayList<>();
-        newHand.add(new Moat("moat"));
+        newHand.add(new Moat());
         newHand.add(new TreasureCard("copper", 0, 1));
         newHand.add(new TreasureCard("copper", 0, 1));
         newHand.add(new TreasureCard("copper", 0, 1));
@@ -85,7 +85,7 @@ public class MilitiaTests {
         EasyMock.replay(mockGui, mockPlayerOne);
 
         Board board = Board.setupBoardFromGui(mockGui);
-        Militia militia = new Militia(board, "militia");
+        Militia militia = new Militia(board);
         ArrayList<Card> newHand = new ArrayList<>();
         newHand.add(new TreasureCard("copper", 0, 1));
         newHand.add(new TreasureCard("copper", 0, 1));

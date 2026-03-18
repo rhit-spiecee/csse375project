@@ -2,8 +2,8 @@ package com;
 
 public class Moat extends KingdomCard {
 
-    public Moat(String name) {
-        super(name, 2, 0);
+    public Moat() {
+        super(Gui.getString("moat"), 2, 0, Gui.getString("tip.moat"));
     }
 
     @Override

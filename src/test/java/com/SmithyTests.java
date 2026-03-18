@@ -18,7 +18,7 @@ public class SmithyTests {
 
     @Test
     public void testCardBehavior() {
-        Smithy smithy = new Smithy("smithy");
+        Smithy smithy = new Smithy();
         Player player = new StubPlayer(smithy);
 
         smithy.useActionCard(player);
