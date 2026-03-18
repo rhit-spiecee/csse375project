@@ -24,6 +24,7 @@ public class Gui {
     ResourceBundle bundle;
     private static ResourceBundle staticBundle;
     private List<PlayerScoreEntry> currentScores = new ArrayList<>();
+    private BoardDto lastBoardDto;
 
     public Gui() {
         setupLanguage();
@@ -70,6 +71,7 @@ public class Gui {
     }
 
     public void updateView(BoardDto boardDto) {
+        this.lastBoardDto = boardDto;
         frame.getContentPane().removeAll();
 
         addBoardDecks(boardDto);
@@ -183,63 +185,72 @@ public class Gui {
     }
 
     public int getActionSelection(int playerNumber) {
-        String[] options = {bundle.getString("action"), bundle.getString("next.phase")};
-        int chooseToAction = JOptionPane.showOptionDialog(
-                null,
-                MessageFormat.format(
-                        bundle.getString("action.selection.message"), 
-                        playerNumber + 1
-                ),
-                bundle.getString("action.selection.title"),
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]
-        );
+        String[] options = {
+                bundle.getString("action"),
+                bundle.getString("next.phase"),
+                bundle.getString("help")
+        };
+        while (true) {
+            int chooseToAction = JOptionPane.showOptionDialog(
+                    null,
+                    MessageFormat.format(
+                            bundle.getString("action.selection.message"),
+                            playerNumber + 1
+                    ),
+                    bundle.getString("action.selection.title"),
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+            );
 
-        if (chooseToAction == JOptionPane.CLOSED_OPTION) {
-            System.exit(0);
+            if (chooseToAction == JOptionPane.CLOSED_OPTION) {
+                System.exit(0);
+            }
+            if (chooseToAction == 2) { // Help
+                showHelpDialog();
+                continue;
+            }
+            return chooseToAction;
         }
-        return chooseToAction;
     }
 
     public int showBuyOption(int playerNumber) {
-        String[] options = {bundle.getString("buy"), bundle.getString("end.turn")};
-        int chooseToBuy = JOptionPane.showOptionDialog(
-                null,
-                MessageFormat.format(bundle.getString("buy.selection.message"), playerNumber + 1),
-                bundle.getString("buy.selection.title"),
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]
-        );
+        String[] options = {
+                bundle.getString("buy"),
+                bundle.getString("end.turn"),
+                bundle.getString("help")
+        };
+        while (true) {
+            int chooseToBuy = JOptionPane.showOptionDialog(
+                    null,
+                    MessageFormat.format(bundle.getString("buy.selection.message"), playerNumber + 1),
+                    bundle.getString("buy.selection.title"),
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+            );
 
-        if (chooseToBuy == JOptionPane.CLOSED_OPTION) {
-            System.exit(0);
+            if (chooseToBuy == JOptionPane.CLOSED_OPTION) {
+                System.exit(0);
+            }
+            if (chooseToBuy == 2) { // Help
+                showHelpDialog();
+                continue;
+            }
+            return chooseToBuy;
         }
-        return chooseToBuy;
     }
 
     public String getBuySelection(List<String> availableCardsUnderPlayerCoins) {
-        String[] options = new String[availableCardsUnderPlayerCoins.size()];
-        availableCardsUnderPlayerCoins.toArray(options);
-        Object selectionObject = JOptionPane.showInputDialog(
-                null,
-                bundle.getString("choose.card.to.buy"),
+        return showSelectionDialogWithHelp(
                 bundle.getString("buy.phase.title"),
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                options,
-                options[0]);
-
-        if (selectionObject != null) {
-            return selectionObject.toString();
-        }
-        return "";
-
+                bundle.getString("choose.card.to.buy"),
+                availableCardsUnderPlayerCoins.toArray(new String[0])
+        );
     }
 
     public void showErrorPopup(String message) {
@@ -252,100 +263,87 @@ public class Gui {
     }
 
     public boolean getIfPlayerWantsToBlock(int currentPlayer) {
-        String[] options = {bundle.getString("yes"), bundle.getString("no")};
-        int chooseToBuy = JOptionPane.showOptionDialog(
-                null,
-                MessageFormat.format(bundle.getString("player.block.message"), currentPlayer + 1),
-                bundle.getString("player.block.title"),
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]
-        );
-        return chooseToBuy == JOptionPane.YES_OPTION;
+        String[] options = {
+                bundle.getString("yes"),
+                bundle.getString("no"),
+                bundle.getString("help")
+        };
+        while (true) {
+            int chooseToBlock = JOptionPane.showOptionDialog(
+                    null,
+                    MessageFormat.format(bundle.getString("player.block.message"), currentPlayer + 1),
+                    bundle.getString("player.block.title"),
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+            );
+            if (chooseToBlock == 2) { // Help
+                showHelpDialog();
+                continue;
+            }
+            return chooseToBlock == JOptionPane.YES_OPTION;
+        }
     }
 
     public String getCardToDiscard(ArrayList<Card> hand, int playerNumber) {
         String[] options = hand.stream().map((card) -> card.name).toArray(String[]::new);
-        Object selectionObject = JOptionPane.showInputDialog(
-                null,
-                MessageFormat.format(bundle.getString("get.discard.message"), playerNumber + 1),
+        return showSelectionDialogWithHelp(
                 bundle.getString("get.discard.title"),
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                options,
-                options[0]
+                MessageFormat.format(bundle.getString("get.discard.message"), playerNumber + 1),
+                options
         );
-
-        if (selectionObject != null) {
-            return selectionObject.toString();
-        }
-
-        return "";
     }
 
     public String getCardToTrash(ArrayList<Card> hand, int playerNumber) {
         String[] options = hand.stream().map((card) -> card.name).toArray(String[]::new);
-        Object selectionObject = JOptionPane.showInputDialog(
-                null,
-                MessageFormat.format(bundle.getString("get.trash.message"), playerNumber + 1),
+        return showSelectionDialogWithHelp(
                 bundle.getString("get.trash.title"),
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                options,
-                options[0]
+                MessageFormat.format(bundle.getString("get.trash.message"), playerNumber + 1),
+                options
         );
-
-        if (selectionObject != null) {
-            return selectionObject.toString();
-        }
-
-        return "";
     }
 
     public String getActionCardToPlay(String[] availableCardInHand) {
-        Object selectionObject = JOptionPane.showInputDialog(
-                null,
-                bundle.getString("get.action.message"),
+        return showSelectionDialogWithHelp(
                 bundle.getString("get.action.title"),
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                availableCardInHand,
-                availableCardInHand[0]);
-
-        if (selectionObject == null) {
-            return "";
-        }
-        return (String) selectionObject;
+                bundle.getString("get.action.message"),
+                availableCardInHand
+        );
     }
 
     public String getCardFromAvailableSelection(String baseMessage, ArrayList<String> cardNames) {
-        String[] options = cardNames.toArray(new String[cardNames.size()]);
-        Object selectionObject = JOptionPane.showInputDialog(
-                null,
-                baseMessage,
+        return showSelectionDialogWithHelp(
                 bundle.getString("card.selection.title"),
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                options,
-                options[0]
+                baseMessage,
+                cardNames.toArray(new String[0])
         );
-        return selectionObject.toString();
     }
 
     public int getDiscardOption() {
-        String[] options = {bundle.getString("yes"), bundle.getString("no")};
-        return JOptionPane.showOptionDialog(
-                null,
-                bundle.getString("discard.option.message"),
-                bundle.getString("buy.phase.title"),
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]
-        );
+        String[] options = {
+                bundle.getString("yes"),
+                bundle.getString("no"),
+                bundle.getString("help")
+        };
+        while (true) {
+            int result = JOptionPane.showOptionDialog(
+                    null,
+                    bundle.getString("discard.option.message"),
+                    bundle.getString("buy.phase.title"),
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+            );
+            if (result == 2) { // Help
+                showHelpDialog();
+                continue;
+            }
+            return result;
+        }
     }
 
     public void displayGameOverScreen(
@@ -395,5 +393,87 @@ public class Gui {
 
     public void updateScore(List<PlayerScoreEntry> scoredPlayers) {
         this.currentScores = scoredPlayers;
+    }
+
+    private void showHelpDialog() {
+        if (lastBoardDto == null) {
+            return;
+        }
+
+        java.util.Set<Card> allCards = new java.util.HashSet<>();
+        lastBoardDto.kingdomDecks.values().forEach(deck -> allCards.add(deck.getCard()));
+        lastBoardDto.treasureDecks.values().forEach(deck -> allCards.add(deck.getCard()));
+        lastBoardDto.victoryDecks.values().forEach(deck -> allCards.add(deck.getCard()));
+        allCards.addAll(lastBoardDto.currentPlayerHand);
+
+        String[] cardNames = allCards.stream()
+                .map(card -> card.name)
+                .distinct()
+                .sorted()
+                .toArray(String[]::new);
+
+        Object selection = JOptionPane.showInputDialog(
+                null,
+                bundle.getString("choose.card.for.tip"),
+                bundle.getString("card.tip.title"),
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                cardNames,
+                cardNames[0]);
+
+        if (selection != null) {
+            String selectedCardName = (String) selection;
+            Card selectedCard = allCards.stream()
+                    .filter(card -> card.name.equals(selectedCardName))
+                    .findFirst()
+                    .orElse(null);
+
+            if (selectedCard != null) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        selectedCard.getGameTip(),
+                        selectedCardName,
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+    private String showSelectionDialogWithHelp(String title, String message, String[] options) {
+        if (options.length == 0) {
+            return "";
+        }
+
+        String[] buttonOptions = {
+            bundle.getString("yes"), // reusing "Yes" for "OK" or just localized OK if available
+            bundle.getString("no"),  // reusing "No" for "Cancel"
+            bundle.getString("help")
+        };
+
+        while (true) {
+            JComboBox<String> comboBox = new JComboBox<>(options);
+            JPanel panel = new JPanel(new BorderLayout());
+            panel.add(new JLabel(message), BorderLayout.NORTH);
+            panel.add(comboBox, BorderLayout.CENTER);
+
+            int result = JOptionPane.showOptionDialog(
+                    null,
+                    panel,
+                    title,
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    buttonOptions,
+                    buttonOptions[0]
+            );
+
+            if (result == 2) { // Help
+                showHelpDialog();
+                continue;
+            }
+            if (result == JOptionPane.YES_OPTION) {
+                return (String) comboBox.getSelectedItem();
+            }
+            return "";
+        }
     }
 }
