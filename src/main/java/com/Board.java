@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Supplier;
 
 public class Board {
     private static final int NUM_EMPTY_PILES_FOR_GAME_OVER = 3;
@@ -396,16 +397,21 @@ public class Board {
     }
 
     private void discardAnyCard(Player player) {
-        String cardToDiscard = gui.getCardToDiscard(
+        String cardToDiscard = promptUntilNonEmpty(() ->
+                gui.getCardToDiscard(
                 player.getCardsInHandExceptOne(bundle.getString("cellar")),
-                players.indexOf(player));
-        while (cardToDiscard.isEmpty()) {
-            cardToDiscard = gui.getCardToDiscard(
-                    player.getCardsInHandExceptOne(bundle.getString("cellar")),
-                    players.indexOf(player));
-        }
-
+                players.indexOf(player)
+                )
+        );
         player.discardCard(cardToDiscard);
+    }
+
+    private String promptUntilNonEmpty(Supplier<String> promptFunction) {
+        String result = promptFunction.get();
+        while (result.isEmpty()) {
+            result = promptFunction.get();
+        }
+        return result;
     }
 
     public Card trashAnyCard(Player player) {
@@ -419,10 +425,8 @@ public class Board {
     }
 
     private Card trashCard(ArrayList<Card> cards, Player player) {
-        String cardToTrash = gui.getCardToTrash(cards, players.indexOf(player));
-        while (cardToTrash.isEmpty()) {
-            cardToTrash = gui.getCardToTrash(cards, players.indexOf(player));
-        }
+        String cardToTrash = promptUntilNonEmpty(() ->
+                gui.getCardToTrash(cards, players.indexOf(player)));
         return player.trashCard(cardToTrash);
     }
 
