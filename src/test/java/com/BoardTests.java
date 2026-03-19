@@ -33,7 +33,7 @@ public class BoardTests {
     public void testGetAvailableDecksLength() {
         Board board = new Board(2);
 
-        assertEquals(17, getAllAvailableDecks(board).size());
+        assertEquals(18, getAllAvailableDecks(board).size());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class BoardTests {
 
         List<String> expectedDecks = new ArrayList<>(Arrays.asList(
                 "cellar", "market", "militia", "mine", "moat", "remodel",
-                "smithy", "village", "workshop", "woodcutter", "copper", "silver",
+                "smithy", "village", "workshop", "woodcutter","courtyard", "copper", "silver",
                 "gold", "estate", "duchy", "province", "cursed"));
         assertEquals(expectedDecks.size(), availableDecks.size());
         assertEquals(expectedDecks, availableDecks);
@@ -61,7 +61,7 @@ public class BoardTests {
 
         List<String> expectedDecks = new ArrayList<>(Arrays.asList(
                 "market", "militia", "mine", "moat", "remodel",
-                "smithy", "village", "workshop", "woodcutter", "copper", "silver",
+                "smithy", "village", "workshop", "woodcutter","courtyard", "copper", "silver",
                 "gold", "estate", "duchy", "province", "cursed"));
         assertEquals(expectedDecks.size(), availableDecks.size());
         assertEquals(expectedDecks, availableDecks);
