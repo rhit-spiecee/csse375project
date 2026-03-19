@@ -526,9 +526,9 @@ public class Board {
     public boolean haveThreeEmptySupplyPiles() {
         int numEmptyPiles = 0;
 
-        numEmptyPiles += getNumEmptyKingdomDecks();
-        numEmptyPiles += getNumEmptyTreasureDecks();
-        numEmptyPiles += getNumEmptyVictoryDecks();
+        numEmptyPiles += getNumEmptyDecks(kingdomDecks);
+        numEmptyPiles += getNumEmptyDecks(treasureDecks);
+        numEmptyPiles += getNumEmptyDecks(victoryDecks);
 
         return numEmptyPiles >= NUM_EMPTY_PILES_FOR_GAME_OVER;
     }
@@ -537,39 +537,13 @@ public class Board {
         return haveThreeEmptySupplyPiles() || checkProvinceDeckLength();
     }
 
-    private int getNumEmptyKingdomDecks() {
+    private int getNumEmptyDecks(Map<String, BoardDeck> decks) {
         int numEmptyDecks = 0;
-
-        for (BoardDeck deck : kingdomDecks.values()) {
-            if (!deck.isNotEmpty()) {
+        for (Map.Entry<String, BoardDeck> deck : decks.entrySet()) {
+            if (!deck.getValue().isNotEmpty()) {
                 numEmptyDecks++;
             }
         }
-
-        return numEmptyDecks;
-    }
-
-    private int getNumEmptyTreasureDecks() {
-        int numEmptyDecks = 0;
-
-        for (BoardDeck deck : treasureDecks.values()) {
-            if (!deck.isNotEmpty()) {
-                numEmptyDecks++;
-            }
-        }
-
-        return numEmptyDecks;
-    }
-
-    private int getNumEmptyVictoryDecks() {
-        int numEmptyDecks = 0;
-
-        for (BoardDeck deck : victoryDecks.values()) {
-            if (!deck.isNotEmpty()) {
-                numEmptyDecks++;
-            }
-        }
-
         return numEmptyDecks;
     }
 }
