@@ -393,7 +393,7 @@ public class Board {
         if (victoryDecks.containsKey(nameOfDeck)) {
             return victoryDecks.get(nameOfDeck);
         }
-        throw new RuntimeException("Unknown kingdom deck: " + nameOfDeck);
+        throw new RuntimeException("Unknown deck: " + nameOfDeck);
     }
 
     private void discardAnyCard(Player player) {
@@ -440,15 +440,11 @@ public class Board {
 
     public ArrayList<String> gainTreasureCard(Player player, Card trashedCard) {
         ArrayList<String> cardNames = new ArrayList<>();
-        if (trashedCard.name.equalsIgnoreCase(bundle.getString("copper"))) {
-            cardNames.add(bundle.getString("copper"));
-            cardNames.add(bundle.getString("silver"));
-        } else {
-            cardNames.add(bundle.getString("copper"));
-            cardNames.add(bundle.getString("silver"));
+        cardNames.add(bundle.getString("copper"));
+        cardNames.add(bundle.getString("silver"));
+        if (!trashedCard.name.equalsIgnoreCase(bundle.getString("copper"))) {
             cardNames.add(bundle.getString("gold"));
         }
-
         String popupMessage = bundle.getString("gain.treasure.card");
         gainCard(popupMessage, cardNames, player);
         return cardNames;
@@ -461,17 +457,8 @@ public class Board {
     }
 
     void transferCardFromDeckToPlayer(String cardToGain, Player player) {
-        Card card;
-        if (kingdomDecks.containsKey(cardToGain)) {
-            card = kingdomDecks.get(cardToGain).pickUpCard();
-        } else if (treasureDecks.containsKey(cardToGain)) {
-            card = treasureDecks.get(cardToGain).pickUpCard();
-        } else if (victoryDecks.containsKey(cardToGain)) {
-            card = victoryDecks.get(cardToGain).pickUpCard();
-        } else {
-            throw new RuntimeException("Unknown gained card name: " + cardToGain);
-        }
-
+        BoardDeck deck = getBoardDeckByName(cardToGain);
+        Card card = deck.pickUpCard();
         player.hand.add(card);
     }
 
@@ -543,8 +530,8 @@ public class Board {
 
     private int getNumEmptyDecks(Map<String, BoardDeck> decks) {
         int numEmptyDecks = 0;
-        for (Map.Entry<String, BoardDeck> deck : decks.entrySet()) {
-            if (!deck.getValue().isNotEmpty()) {
+        for (BoardDeck deck : decks.values()) {
+            if (!deck.isNotEmpty()) {
                 numEmptyDecks++;
             }
         }
