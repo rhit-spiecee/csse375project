@@ -103,6 +103,10 @@ public class Board {
                 bundle.getString("courtyard"),
                 new BoardDeck(new Courtyard(), kingdomDeckSize)
         );
+        kingdomDecks.put(
+                bundle.getString("shantytown"),
+                new BoardDeck(new ShantyTown(), kingdomDeckSize)
+        );
 
         int copperDeckSize = 60 - (numPlayers * 7);
         int silverDeckSize = 40;
