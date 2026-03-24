@@ -4,7 +4,7 @@ public class Cellar extends KingdomCard {
     Board board;
 
     public Cellar(Board board) {
-        super(Gui.getString("cellar"), 2, 0, Gui.getString("tip.cellar"));
+        super(Gui.getString("cellar"), "cellar", 2, 0, Gui.getString("tip.cellar"));
         this.board = board;
     }
 

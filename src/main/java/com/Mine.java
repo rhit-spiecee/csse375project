@@ -4,7 +4,7 @@ public class Mine extends KingdomCard {
     Board board;
 
     public Mine(Board board) {
-        super(Gui.getString("mine"), 5, 0, Gui.getString("tip.mine"));
+        super(Gui.getString("mine"), "mine", 5, 0, Gui.getString("tip.mine"));
         this.board = board;
     }
 

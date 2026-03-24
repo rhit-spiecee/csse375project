@@ -3,7 +3,7 @@ package com;
 public class Village extends KingdomCard {
 
     public Village() {
-        super(Gui.getString("village"), 3, 0, Gui.getString("tip.village"));
+        super(Gui.getString("village"), "village", 3, 0, Gui.getString("tip.village"));
     }
 
     @Override

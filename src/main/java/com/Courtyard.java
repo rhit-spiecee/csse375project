@@ -2,7 +2,7 @@ package com;
 
 public class Courtyard extends KingdomCard {
     public Courtyard() {
-        super(Gui.getString("courtyard"), 2, 0, Gui.getString("tip.courtyard"));
+        super(Gui.getString("courtyard"), "courtyard", 2, 0, Gui.getString("tip.courtyard"));
     }
 
     @Override

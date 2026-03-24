@@ -114,7 +114,7 @@ public class Gui {
         JPanel handPanel = new JPanel(new FlowLayout());
         handPanel.add(new JLabel(bundle.getString("hand")));
         for (Card card : boardDto.currentPlayerHand) {
-            handPanel.add(new JLabel(getImageFromCardName(card.name)));
+            handPanel.add(new JLabel(getImageFromCard(card)));
         }
         frame.add(handPanel, BorderLayout.SOUTH);
     }
@@ -134,7 +134,7 @@ public class Gui {
             JPanel deckPanel = new JPanel();
             JLabel deckLabel = new JLabel(
                     MessageFormat.format(bundle.getString("cards.left.0"), deck.getValue().size()));
-            ImageIcon imageIcon = getImageFromCardName(deck.getKey());
+            ImageIcon imageIcon = getImageFromCard(deck.getValue().getCard());
             JLabel imageLabel = new JLabel(imageIcon);
             deckPanel.add(deckLabel);
             deckPanel.add(imageLabel);
@@ -142,9 +142,9 @@ public class Gui {
         }
     }
 
-    private ImageIcon getImageFromCardName(String cardName) {
+    private ImageIcon getImageFromCard(Card card) {
         String fileName = "src/main/resources/cards/" 
-                + cardName 
+                + card.imageId 
                 + bundle.getString("image.suffix")
                 + ".jpg";
         ImageIcon imageIcon = new ImageIcon(fileName);

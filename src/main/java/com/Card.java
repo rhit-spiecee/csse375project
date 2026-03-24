@@ -5,12 +5,14 @@ import java.util.Objects;
 public abstract class Card {
 
     final String name;
+    final String imageId;
     final int cost;
     final int value;
     final String gameTip;
 
-    public Card(String name, int cost, int value, String gameTip) {
+    public Card(String name, String imageId, int cost, int value, String gameTip) {
         this.name = name;
+        this.imageId = imageId;
         this.cost = cost;
         this.value = value;
         this.gameTip = gameTip;

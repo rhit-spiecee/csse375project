@@ -4,7 +4,7 @@ public class Woodcutter extends KingdomCard {
 
 
     public Woodcutter() {
-        super(Gui.getString("woodcutter"), 3, 2, Gui.getString("tip.woodcutter"));
+        super(Gui.getString("woodcutter"), "woodcutter", 3, 2, Gui.getString("tip.woodcutter"));
     }
 
     @Override

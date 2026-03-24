@@ -3,7 +3,7 @@ package com;
 public class Smithy extends KingdomCard {
 
     public Smithy() {
-        super(Gui.getString("smithy"), 4, 0, Gui.getString("tip.smithy"));
+        super(Gui.getString("smithy"), "smithy", 4, 0, Gui.getString("tip.smithy"));
     }
 
     @Override

@@ -4,7 +4,7 @@ public class Militia extends KingdomCard {
     private final Board board;
 
     public Militia(Board board) {
-        super(Gui.getString("militia"), 4, 2, Gui.getString("tip.militia"));
+        super(Gui.getString("militia"), "militia", 4, 2, Gui.getString("tip.militia"));
         this.board = board;
     }
 
