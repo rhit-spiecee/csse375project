@@ -8,6 +8,11 @@ import java.util.*;
 import static org.junit.Assert.*;
 
 public class BoardTests {
+
+    List<String> listOfCardName = Arrays.asList(
+            "cellar", "market", "militia", "mine", "moat", "remodel",
+            "smithy", "village", "workshop", "woodcutter", "courtyard", "shantytown", "copper", "silver",
+            "gold", "estate", "duchy", "province", "cursed");
     @Test
     public void testPlayerCleanupPhaseNoBuy() {
         Gui mockGui = EasyMock.mock(Gui.class);
@@ -42,10 +47,7 @@ public class BoardTests {
 
         List<String> availableDecks = getAllAvailableDecks(board);
 
-        List<String> expectedDecks = new ArrayList<>(Arrays.asList(
-                "cellar", "market", "militia", "mine", "moat", "remodel",
-                "smithy", "village", "workshop", "woodcutter","courtyard", "shantytown", "copper", "silver",
-                "gold", "estate", "duchy", "province", "cursed"));
+        List<String> expectedDecks = new ArrayList<>(listOfCardName);
         assertEquals(expectedDecks.size(), availableDecks.size());
         assertEquals(expectedDecks, availableDecks);
     }
@@ -59,10 +61,8 @@ public class BoardTests {
 
         List<String> availableDecks = getAllAvailableDecks(board);
 
-        List<String> expectedDecks = new ArrayList<>(Arrays.asList(
-                "market", "militia", "mine", "moat", "remodel",
-                "smithy", "village", "workshop", "woodcutter","courtyard", "shantytown", "copper", "silver",
-                "gold", "estate", "duchy", "province", "cursed"));
+        List<String> expectedDecks = new ArrayList<>(listOfCardName);
+        expectedDecks.removeFirst();
         assertEquals(expectedDecks.size(), availableDecks.size());
         assertEquals(expectedDecks, availableDecks);
     }
