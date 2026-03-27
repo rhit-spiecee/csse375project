@@ -33,7 +33,7 @@ public class RemodelTests {
                     return "province";
                 }
         );
-        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
 
         EasyMock.replay(mockGui);
         Board board = Board.setupBoardFromGui(mockGui);

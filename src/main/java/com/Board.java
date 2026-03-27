@@ -33,7 +33,7 @@ public class Board {
     public Board(int numPlayers) {
         this.numPlayers = numPlayers;
         this.currentPlayerIndex = 0;
-        this.bundle = ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE);
+        this.bundle = ResourceBundle.getBundle(Language.ENGLISH.bundleName);
 
         initializeDecks();
         initializePlayers();
@@ -144,37 +144,41 @@ public class Board {
     }
 
     void actionPhase() {
-        int actionSelection = gui.getActionSelection(currentPlayerIndex);
-        while (actionSelection == 0) {
-            if (getCurrentPlayerActions() <= 0) {
-                gui.showErrorPopup(
-                        MessageFormat.format(
-                                bundle.getString("player.0.no.actions.available"), 
-                                getCurrentPlayerNumber()
-                        )
-                );
-                break;
-            }
-            if (!getCurrentPlayer().hasActionCardInHand()) {
-                gui.showErrorPopup(
-                        MessageFormat.format(
-                                bundle.getString("player.0.no.action.cards"), 
-                                getCurrentPlayerNumber()
-                        )
-                );
-                break;
-            }
+        while (gui.getActionSelection(currentPlayerIndex) == 0) {
+            if (!canPlayActionCard()) break;
 
             String actionCardToPlay = getActionCardToPlay();
             if (!actionCardToPlay.isEmpty()) {
-                KingdomCard actionCard = getCardByName(
-                        getCurrentPlayerActionCardsInHand(),
-                        actionCardToPlay);
-                actionCard.useActionCard(getCurrentPlayer());
-                gui.updateView(getDto());
+                playActionCard(actionCardToPlay);
             }
-            actionSelection = gui.getActionSelection(currentPlayerIndex);
         }
+    }
+
+    private boolean canPlayActionCard() {
+        if (getCurrentPlayerActions() <= 0) {
+            gui.showErrorPopup(MessageFormat.format(
+                    bundle.getString("player.0.no.actions.available"),
+                    getCurrentPlayerNumber()
+            ));
+            return false;
+        }
+        if (!getCurrentPlayer().hasActionCardInHand()) {
+            gui.showErrorPopup(MessageFormat.format(
+                    bundle.getString("player.0.no.action.cards"),
+                    getCurrentPlayerNumber()
+            ));
+            return false;
+        }
+        return true;
+    }
+
+    private void playActionCard(String actionCardToPlay) {
+        KingdomCard actionCard = getCardByName(
+                getCurrentPlayerActionCardsInHand(),
+                actionCardToPlay
+        );
+        actionCard.useActionCard(getCurrentPlayer());
+        gui.updateView(getDto());
     }
 
     public BoardDto getDto() {
@@ -244,20 +248,23 @@ public class Board {
         BoardDeck deckToBuyFrom = getBoardDeckByName(buySelection);
         Card cardToBeBought = deckToBuyFrom.pickUpCard();
         Player currentPlayer = getCurrentPlayer();
-        currentPlayer.addBoughtCard(cardToBeBought);
-        if (cardToBeBought instanceof VictoryCard) {
-            List<PlayerScoreEntry> scoredPlayers = getSortedPlayerEntries();
-            gui.updateScore(scoredPlayers);
-        }
-        currentPlayer.buy--;
 
-        int coinsInHand = currentPlayer.getCoinsInHand();
-        
-        if (coinsInHand >= cardToBeBought.cost) {
-            currentPlayer.removeTreasureCardsOfCost(cardToBeBought.cost);
+        currentPlayer.addBoughtCard(cardToBeBought);
+        currentPlayer.buy--;
+        deductPayment(currentPlayer, cardToBeBought.cost);
+
+        if (cardToBeBought instanceof VictoryCard) {
+            gui.updateScore(getSortedPlayerEntries());
+        }
+    }
+
+    private void deductPayment(Player player, int cost) {
+        int coinsInHand = player.getCoinsInHand();
+        if (coinsInHand >= cost) {
+            player.removeTreasureCardsOfCost(cost);
         } else {
-            currentPlayer.coins -= (cardToBeBought.cost - coinsInHand);
-            currentPlayer.removeTreasureCardsOfCost(coinsInHand);
+            player.coins -= (cost - coinsInHand);
+            player.removeTreasureCardsOfCost(coinsInHand);
         }
     }
 
