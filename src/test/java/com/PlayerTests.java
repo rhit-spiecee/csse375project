@@ -15,7 +15,7 @@ public class PlayerTests {
 
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Language.ENGLISH.bundleName));
-        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, 1)).times(handSize);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Copper()).times(handSize);
         EasyMock.expect(mockDeck.size()).andReturn(handSize).times(handSize);
 
         EasyMock.replay(mockDeck);
@@ -31,7 +31,7 @@ public class PlayerTests {
     public void testDrawOneCardMock() {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Language.ENGLISH.bundleName));
-        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, 1));
+        EasyMock.expect(mockDeck.draw()).andReturn(new Copper());
         EasyMock.expect(mockDeck.size()).andReturn(Player.INITIAL_HAND_SIZE);
 
         EasyMock.replay(mockDeck);
@@ -152,7 +152,7 @@ public class PlayerTests {
 
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Language.ENGLISH.bundleName));
-        player.discardPile.add(new TreasureCard("copper", 0, 1));
+        player.discardPile.add(new Copper());
         EasyMock.expect(mockDeck.size()).andReturn(0);
         EasyMock.expect(mockDeck.size()).andReturn(10).times(handSize - 1);
         mockDeck.add(new Copper());
