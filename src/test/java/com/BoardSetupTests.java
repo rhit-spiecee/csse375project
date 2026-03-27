@@ -1,26 +1,38 @@
 package com;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class BoardSetupTests {
 
+    private static final List<String> FIXED_TEST_CARDS = Arrays.asList(
+            "cellar", "market", "militia", "mine", "moat",
+            "remodel", "smithy", "village", "workshop", "woodcutter");
+
+    private Board createFixedBoard(int numPlayers) {
+        return new Board(numPlayers, FIXED_TEST_CARDS, 
+                ResourceBundle.getBundle(Language.ENGLISH.bundleName));
+    }
+
     @Test
     public void testTwoPlayers() {
-        Board board = new Board(2);
+        Board board = createFixedBoard(2);
         assertEquals(2, board.numPlayers);
     }
 
     @Test
     public void testFourPlayers() {
-        Board board = new Board(4);
+        Board board = createFixedBoard(4);
         assertEquals(4, board.numPlayers);
     }
 
     @Test
     public void testDeckSizeTwoPlayersOnSetup() {
-        Board board = new Board(2);
+        Board board = createFixedBoard(2);
 
         // Kingdom card decks
         assertEquals(10, board.getBoardDeckByName("cellar").size());
@@ -48,7 +60,7 @@ public class BoardSetupTests {
 
     @Test
     public void testDeckSizeThreePlayersOnSetup() {
-        Board board = new Board(3);
+        Board board = createFixedBoard(3);
 
         // Kingdom card decks
         assertEquals(10, board.getBoardDeckByName("cellar").size());
@@ -76,7 +88,7 @@ public class BoardSetupTests {
 
     @Test
     public void testDeckSizeFourPlayersOnSetup() {
-        Board board = new Board(4);
+        Board board = createFixedBoard(4);
 
         // Kingdom card decks
         assertEquals(10, board.getBoardDeckByName("cellar").size());
@@ -104,19 +116,19 @@ public class BoardSetupTests {
 
     @Test
     public void testInitialPlayerNumber() {
-        Board board = new Board(2);
+        Board board = createFixedBoard(2);
         assertEquals(0, board.getCurrentPlayerIndex());
     }
     
     @Test
     public void testInitialPlayerList() {
-        Board board = new Board(2);
+        Board board = createFixedBoard(2);
         assertEquals(2, board.players.size());
     }
     
     @Test
     public void testPlayersHaveInitialHand() {
-        Board board = new Board(2);
+        Board board = createFixedBoard(2);
         for (int i = 0; i < 2; i++) {
             assertEquals(5, board.players.get(i).hand.size());
         }

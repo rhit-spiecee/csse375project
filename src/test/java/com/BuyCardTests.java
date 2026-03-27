@@ -9,7 +9,19 @@ import java.util.ResourceBundle;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 public class BuyCardTests {
+
+    private static final List<String> FIXED_TEST_CARDS = Arrays.asList(
+            "cellar", "market", "militia", "mine", "moat",
+            "remodel", "smithy", "village", "workshop", "woodcutter");
+
+    private Board createFixedBoard(Gui gui) {
+        Board board = new Board(gui.getNumPlayers(), FIXED_TEST_CARDS, gui.getBundle());
+        board.gui = gui;
+        return board;
+    }
 
     @Test
     public void testBuyOneCardWithEnoughCoins() {
@@ -39,7 +51,7 @@ public class BuyCardTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
 
         EasyMock.replay(mockGui, mockPlayer);
-        Board board = Board.setupBoardFromGui(mockGui);
+        Board board = createFixedBoard(mockGui);
         board.players.removeFirst();
         board.players.addFirst(mockPlayer);
 

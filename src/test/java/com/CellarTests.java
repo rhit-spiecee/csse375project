@@ -7,7 +7,21 @@ import java.util.ResourceBundle;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class CellarTests {
+
+    private static final List<String> FIXED_TEST_CARDS = Arrays.asList(
+            "cellar", "market", "militia", "mine", "moat",
+            "remodel", "smithy", "village", "workshop", "woodcutter");
+
+    private Board createFixedBoard(Gui gui) {
+        Board board = new Board(gui.getNumPlayers(), FIXED_TEST_CARDS, gui.getBundle());
+        board.gui = gui;
+        return board;
+    }
+
     static class StubPlayer extends Player {
         public StubPlayer(Cellar cellar) {
             coins = 0;
@@ -31,7 +45,7 @@ public class CellarTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
 
         EasyMock.replay(mockGui);
-        Board board = Board.setupBoardFromGui(mockGui);
+        Board board = createFixedBoard(mockGui);
         Cellar cellar = new Cellar(board);
         Player player = new StubPlayer(cellar);
 

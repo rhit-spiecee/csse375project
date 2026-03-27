@@ -7,7 +7,21 @@ import java.util.ResourceBundle;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class WorkshopTests {
+
+    private static final List<String> FIXED_TEST_CARDS = Arrays.asList(
+            "cellar", "market", "militia", "mine", "moat",
+            "remodel", "smithy", "village", "workshop", "woodcutter");
+
+    private Board createFixedBoard(Gui gui) {
+        Board board = new Board(gui.getNumPlayers(), FIXED_TEST_CARDS, gui.getBundle());
+        board.gui = gui;
+        return board;
+    }
+
     static class StubPlayer extends Player {
         public StubPlayer(Workshop workshop) {
             coins = 0;
@@ -26,7 +40,7 @@ public class WorkshopTests {
 
 
         EasyMock.replay(mockGui);
-        Board board = Board.setupBoardFromGui(mockGui);
+        Board board = createFixedBoard(mockGui);
         Workshop workshop = new Workshop(board);
         Player player = new WorkshopTests.StubPlayer(workshop);
 

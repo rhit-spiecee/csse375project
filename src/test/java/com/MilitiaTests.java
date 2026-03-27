@@ -8,7 +8,21 @@ import java.util.ResourceBundle;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MilitiaTests {
+
+    private static final List<String> FIXED_TEST_CARDS = Arrays.asList(
+            "cellar", "market", "militia", "mine", "moat",
+            "remodel", "smithy", "village", "workshop", "woodcutter");
+
+    private Board createFixedBoard(Gui gui) {
+        Board board = new Board(gui.getNumPlayers(), FIXED_TEST_CARDS, gui.getBundle());
+        board.gui = gui;
+        return board;
+    }
+
     static class StubPlayer extends Player {
         public StubPlayer(Militia militia) {
             coins = 0;
@@ -27,7 +41,7 @@ public class MilitiaTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
 
         EasyMock.replay(mockGui);
-        Board board = Board.setupBoardFromGui(mockGui);
+        Board board = createFixedBoard(mockGui);
         Militia militia = new Militia(board);
         Player player = new StubPlayer(militia);
 
@@ -55,7 +69,7 @@ public class MilitiaTests {
 
         EasyMock.replay(mockGui, mockPlayerOne);
 
-        Board board = Board.setupBoardFromGui(mockGui);
+        Board board = createFixedBoard(mockGui);
         Militia militia = new Militia(board);
         ArrayList<Card> newHand = new ArrayList<>();
         newHand.add(new Moat());
@@ -84,7 +98,7 @@ public class MilitiaTests {
 
         EasyMock.replay(mockGui, mockPlayerOne);
 
-        Board board = Board.setupBoardFromGui(mockGui);
+        Board board = createFixedBoard(mockGui);
         Militia militia = new Militia(board);
         ArrayList<Card> newHand = new ArrayList<>();
         newHand.add(new Copper());

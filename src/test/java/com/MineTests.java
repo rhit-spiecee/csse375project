@@ -7,7 +7,21 @@ import java.util.ResourceBundle;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MineTests {
+
+    private static final List<String> FIXED_TEST_CARDS = Arrays.asList(
+            "cellar", "market", "militia", "mine", "moat",
+            "remodel", "smithy", "village", "workshop", "woodcutter");
+
+    private Board createFixedBoard(Gui gui) {
+        Board board = new Board(gui.getNumPlayers(), FIXED_TEST_CARDS, gui.getBundle());
+        board.gui = gui;
+        return board;
+    }
+
     static class StubPlayer extends Player {
         public StubPlayer(Mine mine, String cardType) {
             coins = 0;
@@ -29,7 +43,7 @@ public class MineTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
 
         EasyMock.replay(mockGui);
-        Board board = Board.setupBoardFromGui(mockGui);
+        Board board = createFixedBoard(mockGui);
         Mine mine = new Mine(board);
         Player player = new StubPlayer(mine, "silver");
 
@@ -56,7 +70,7 @@ public class MineTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
 
         EasyMock.replay(mockGui);
-        Board board = Board.setupBoardFromGui(mockGui);
+        Board board = createFixedBoard(mockGui);
         Mine mine = new Mine(board);
         Player player = new StubPlayer(mine, "copper");
 
@@ -83,7 +97,7 @@ public class MineTests {
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
 
         EasyMock.replay(mockGui);
-        Board board = Board.setupBoardFromGui(mockGui);
+        Board board = createFixedBoard(mockGui);
         Mine mine = new Mine(board);
         Player player = new StubPlayer(mine, "gold");
 

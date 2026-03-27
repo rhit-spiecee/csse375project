@@ -1,17 +1,24 @@
 package com;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.Supplier;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class Board {
     private static final int NUM_EMPTY_PILES_FOR_GAME_OVER = 3;
 
+    public static final List<String> ALL_KINGDOM_CARD_IDS = Collections.unmodifiableList(Arrays.asList(
+            "cellar", "market", "militia", "mine", "moat", "remodel",
+            "smithy", "village", "workshop", "woodcutter", "courtyard", "shantytown", "duke"));
+
     List<Player> players;
+    List<String> chosenKingdomCardIds;
     Map<String, BoardDeck> kingdomDecks = new LinkedHashMap<>();
     Map<String, BoardDeck> treasureDecks = new LinkedHashMap<>();
     Map<String, BoardDeck> victoryDecks = new LinkedHashMap<>();
@@ -22,21 +29,27 @@ public class Board {
     ResourceBundle bundle;
 
     public Board(int numPlayers, ResourceBundle bundle) {
+        this(numPlayers, selectRandomKingdomCards(), bundle);
+    }
+
+    public Board(int numPlayers) {
+        this(numPlayers, selectRandomKingdomCards(), ResourceBundle.getBundle(Language.ENGLISH.bundleName));
+    }
+
+    public Board(int numPlayers, List<String> kingdomCardIds, ResourceBundle bundle) {
         this.numPlayers = numPlayers;
         this.currentPlayerIndex = 0;
         this.bundle = bundle;
+        this.chosenKingdomCardIds = kingdomCardIds;
 
         initializeDecks();
         initializePlayers();
     }
 
-    public Board(int numPlayers) {
-        this.numPlayers = numPlayers;
-        this.currentPlayerIndex = 0;
-        this.bundle = ResourceBundle.getBundle(Language.ENGLISH.bundleName);
-
-        initializeDecks();
-        initializePlayers();
+    private static List<String> selectRandomKingdomCards() {
+        ArrayList<String> allCards = new ArrayList<>(ALL_KINGDOM_CARD_IDS);
+        Collections.shuffle(allCards);
+        return allCards.subList(0, 10);
     }
 
     public static Board setupBoardFromGui(Gui gui) {
@@ -65,19 +78,42 @@ public class Board {
 
     private void initializeKingdomDecks() {
         int kingdomDeckSize = 10;
-        kingdomDecks.put(bundle.getString("cellar"), new BoardDeck(new Cellar(this), kingdomDeckSize));
-        kingdomDecks.put(bundle.getString("market"), new BoardDeck(new Market(), kingdomDeckSize));
-        kingdomDecks.put(bundle.getString("militia"), new BoardDeck(new Militia(this), kingdomDeckSize));
-        kingdomDecks.put(bundle.getString("mine"), new BoardDeck(new Mine(this), kingdomDeckSize));
-        kingdomDecks.put(bundle.getString("moat"), new BoardDeck(new Moat(), kingdomDeckSize));
-        kingdomDecks.put(bundle.getString("remodel"), new BoardDeck(new Remodel(this), kingdomDeckSize));
-        kingdomDecks.put(bundle.getString("smithy"), new BoardDeck(new Smithy(), kingdomDeckSize));
-        kingdomDecks.put(bundle.getString("village"), new BoardDeck(new Village(), kingdomDeckSize));
-        kingdomDecks.put(bundle.getString("workshop"), new BoardDeck(new Workshop(this), kingdomDeckSize));
-        kingdomDecks.put(bundle.getString("woodcutter"), new BoardDeck(new Woodcutter(), kingdomDeckSize));
-        kingdomDecks.put(bundle.getString("courtyard"), new BoardDeck(new Courtyard(), kingdomDeckSize));
-        kingdomDecks.put(bundle.getString("shantytown"), new BoardDeck(new ShantyTown(), kingdomDeckSize));
-        kingdomDecks.put(bundle.getString("duke"), new BoardDeck(new Duke(), kingdomDeckSize));
+        for (String id : chosenKingdomCardIds) {
+            kingdomDecks.put(bundle.getString(id), new BoardDeck(createKingdomCard(id), kingdomDeckSize));
+        }
+    }
+
+    private Card createKingdomCard(String id) {
+        switch (id) {
+            case "cellar":
+                return new Cellar(this);
+            case "market":
+                return new Market();
+            case "militia":
+                return new Militia(this);
+            case "mine":
+                return new Mine(this);
+            case "moat":
+                return new Moat();
+            case "remodel":
+                return new Remodel(this);
+            case "smithy":
+                return new Smithy();
+            case "village":
+                return new Village();
+            case "workshop":
+                return new Workshop(this);
+            case "woodcutter":
+                return new Woodcutter();
+            case "courtyard":
+                return new Courtyard();
+            case "shantytown":
+                return new ShantyTown();
+            case "duke":
+                return new Duke();
+            default:
+                throw new IllegalArgumentException("Unknown Kingdom card ID: " + id);
+        }
     }
 
     private void initializeTreasureDecks() {
