@@ -386,13 +386,14 @@ public class BoardTests {
         ArrayList<Card> newHand = new ArrayList<>();
         newHand.add(new Copper());
         newHand.add(new Copper());
+        newHand.add(new Copper());
 
         board.getCurrentPlayer().hand = newHand;
         board.getCurrentPlayer().coins = 0;
 
         board.processBuyPhaseSelection("moat");
 
-        assertEquals(0, board.players.getFirst().getCoins());
+        assertEquals(1, board.players.getFirst().getCoins());
         assertEquals(3, board.players.getFirst().discardPile.size());
     }
 
