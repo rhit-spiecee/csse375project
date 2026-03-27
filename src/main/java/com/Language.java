@@ -5,7 +5,7 @@ import java.util.Locale;
 
 public enum Language {
     ENGLISH("English", "language",    Locale.ENGLISH),
-    GERMAN ("Deutsch", "language_de", Locale.GERMAN);
+    DUTCH("Nederlands", "language_nl", Locale.forLanguageTag("nl"));
 
 
     public final String displayName;
