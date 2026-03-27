@@ -233,15 +233,7 @@ public class Player {
 
         int score = 0;
         for (Card card : allCards) {
-            if (card instanceof Duke) {
-                for (Card isDuchy : allCards) {
-                    if (isDuchy.name.equals(bundle.getString("duchy"))) {
-                        score += 1;
-                    }
-                }
-            } else {
-                score += card.victoryPoints;
-            }
+            score += card.getVictoryPoints(allCards);
         }
         return score;
     }

@@ -12,7 +12,7 @@ public class BoardTests {
     List<String> listOfCardName = Arrays.asList(
             "cellar", "market", "militia", "mine", "moat", "remodel",
             "smithy", "village", "workshop", "woodcutter", "courtyard", "shantytown", "copper", "silver",
-            "gold", "estate", "duchy", "province", "cursed");
+            "gold", "estate", "duchy", "duke", "province", "cursed");
 
     @Test
     public void testPlayerCleanupPhaseNoBuy() {
@@ -39,7 +39,7 @@ public class BoardTests {
     public void testGetAvailableDecksLength() {
         Board board = new Board(2);
 
-        assertEquals(19, getAllAvailableDecks(board).size());
+        assertEquals(20, getAllAvailableDecks(board).size());
     }
 
     @Test

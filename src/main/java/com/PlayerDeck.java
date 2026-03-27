@@ -47,7 +47,7 @@ public class PlayerDeck {
         int score = 0;
         for (Card card : deck) {
             if (card instanceof VictoryCard) {
-                score += card.victoryPoints;
+                score += card.getVictoryPoints(deck);
             }
         }
         return score;

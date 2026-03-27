@@ -24,6 +24,10 @@ public abstract class Card {
         return gameTip;
     }
 
+    public int getVictoryPoints(java.util.List<Card> allCards) {
+        return victoryPoints;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object == null || getClass() != object.getClass()) {

@@ -81,20 +81,21 @@ public class Board {
 
     private void initializeTreasureDecks() {
         int copperDeckSize = 60 - (numPlayers * 7);
-        treasureDecks.put(bundle.getString("copper"), new BoardDeck(new TreasureCard("copper", 0, 1), copperDeckSize));
-        treasureDecks.put(bundle.getString("silver"), new BoardDeck(new TreasureCard("silver", 3, 2), 40));
-        treasureDecks.put(bundle.getString("gold"), new BoardDeck(new TreasureCard("gold", 6, 3), 30));
+        treasureDecks.put(bundle.getString("copper"), new BoardDeck(new Copper(), copperDeckSize));
+        treasureDecks.put(bundle.getString("silver"), new BoardDeck(new Silver(), 40));
+        treasureDecks.put(bundle.getString("gold"), new BoardDeck(new Gold(), 30));
     }
 
     private void initializeVictoryDecks() {
         int victoryCardDeckSize = (numPlayers == 2) ? 8 : 12;
         int cursedDeckSize = (numPlayers - 1) * 10;
         victoryDecks.put(bundle.getString("estate"),
-                new BoardDeck(new VictoryCard("estate", 2, 1), victoryCardDeckSize));
-        victoryDecks.put(bundle.getString("duchy"), new BoardDeck(new VictoryCard("duchy", 5, 3), victoryCardDeckSize));
+                new BoardDeck(new VictoryCard("estate", 2, 0, 1), victoryCardDeckSize));
+        victoryDecks.put(bundle.getString("duchy"), new BoardDeck(new VictoryCard("duchy", 5, 0, 3), victoryCardDeckSize));
+        victoryDecks.put(bundle.getString("duke"), new BoardDeck(new Duke(), victoryCardDeckSize));
         victoryDecks.put(bundle.getString("province"),
-                new BoardDeck(new VictoryCard("province", 8, 6), victoryCardDeckSize));
-        victoryDecks.put(bundle.getString("cursed"), new BoardDeck(new VictoryCard("cursed", 0, -1), cursedDeckSize));
+                new BoardDeck(new VictoryCard("province", 8, 0, 6), victoryCardDeckSize));
+        victoryDecks.put(bundle.getString("cursed"), new BoardDeck(new VictoryCard("cursed", 0, 0, -1), cursedDeckSize));
     }
 
     public void startGame() {

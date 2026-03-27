@@ -12,9 +12,8 @@ import javax.swing.*;
 public class Gui {
     public static final int IMAGE_WIDTH = 150;
     public static final int IMAGE_HEIGHT = 240;
-    public static final String[] AVAILABLE_LANGUAGES = new String[] {"English", "Deutsch"};
-    public static final String CHOOSE_LANGUAGE_MESSAGE = 
-            "Pick a language (Wählen Sie eine Sprache aus): ";
+    public static final String[] AVAILABLE_LANGUAGES = new String[] { "English", "Deutsch" };
+    public static final String CHOOSE_LANGUAGE_MESSAGE = "Pick a language (Wählen Sie eine Sprache aus): ";
     public static final String ENGLISH_BUNDLE = "language";
     public static final String GERMAN_BUNDLE = "language_de";
     public static final Locale ENGLISH_LOCALE = Locale.ENGLISH;
@@ -89,9 +88,7 @@ public class Gui {
                         boardDto.currentPlayerNumber + 1,
                         boardDto.currentPlayerCoins,
                         boardDto.currentPlayerActions,
-                        boardDto.currentPlayerBuys
-                )
-        );
+                        boardDto.currentPlayerBuys));
         bottomPanel.add(infoLabel, BorderLayout.NORTH);
 
         JPanel scorePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -143,16 +140,15 @@ public class Gui {
     }
 
     private ImageIcon getImageFromCard(Card card) {
-        String fileName = "src/main/resources/cards/" 
-                + card.imageId 
+        String fileName = "src/main/resources/cards/"
+                + card.imageId
                 + bundle.getString("image.suffix")
                 + ".jpg";
         ImageIcon imageIcon = new ImageIcon(fileName);
         return new ImageIcon(
                 imageIcon
                         .getImage()
-                        .getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_DEFAULT)
-        );
+                        .getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_DEFAULT));
     }
 
     private void setupFrame() {
@@ -172,7 +168,7 @@ public class Gui {
         String three = MessageFormat.format("{0,number}", 3);
         String four = MessageFormat.format("{0,number}", 4);
 
-        String[] options = {two, three, four};
+        String[] options = { two, three, four };
         Object selectionObject = JOptionPane.showInputDialog(
                 null,
                 bundle.getString("choose.number.of.players"),
@@ -195,15 +191,13 @@ public class Gui {
                     null,
                     MessageFormat.format(
                             bundle.getString("action.selection.message"),
-                            playerNumber + 1
-                    ),
+                            playerNumber + 1),
                     bundle.getString("action.selection.title"),
                     JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
                     options,
-                    options[0]
-            );
+                    options[0]);
 
             if (chooseToAction == JOptionPane.CLOSED_OPTION) {
                 System.exit(0);
@@ -231,8 +225,7 @@ public class Gui {
                     JOptionPane.QUESTION_MESSAGE,
                     null,
                     options,
-                    options[0]
-            );
+                    options[0]);
 
             if (chooseToBuy == JOptionPane.CLOSED_OPTION) {
                 System.exit(0);
@@ -249,17 +242,15 @@ public class Gui {
         return showSelectionDialogWithHelp(
                 bundle.getString("buy.phase.title"),
                 bundle.getString("choose.card.to.buy"),
-                availableCardsUnderPlayerCoins.toArray(new String[0])
-        );
+                availableCardsUnderPlayerCoins.toArray(new String[0]));
     }
 
     public void showErrorPopup(String message) {
         JOptionPane.showMessageDialog(
-                null, 
-                message, 
-                bundle.getString("error"), 
-                JOptionPane.ERROR_MESSAGE
-        );
+                null,
+                message,
+                bundle.getString("error"),
+                JOptionPane.ERROR_MESSAGE);
     }
 
     public boolean getIfPlayerWantsToBlock(int currentPlayer) {
@@ -277,8 +268,7 @@ public class Gui {
                     JOptionPane.QUESTION_MESSAGE,
                     null,
                     options,
-                    options[0]
-            );
+                    options[0]);
             if (chooseToBlock == 2) { // Help
                 showHelpDialog();
                 continue;
@@ -292,8 +282,7 @@ public class Gui {
         return showSelectionDialogWithHelp(
                 bundle.getString("get.discard.title"),
                 MessageFormat.format(bundle.getString("get.discard.message"), playerNumber + 1),
-                options
-        );
+                options);
     }
 
     public String getCardToTrash(ArrayList<Card> hand, int playerNumber) {
@@ -301,24 +290,21 @@ public class Gui {
         return showSelectionDialogWithHelp(
                 bundle.getString("get.trash.title"),
                 MessageFormat.format(bundle.getString("get.trash.message"), playerNumber + 1),
-                options
-        );
+                options);
     }
 
     public String getActionCardToPlay(String[] availableCardInHand) {
         return showSelectionDialogWithHelp(
                 bundle.getString("get.action.title"),
                 bundle.getString("get.action.message"),
-                availableCardInHand
-        );
+                availableCardInHand);
     }
 
     public String getCardFromAvailableSelection(String baseMessage, ArrayList<String> cardNames) {
         return showSelectionDialogWithHelp(
                 bundle.getString("card.selection.title"),
                 baseMessage,
-                cardNames.toArray(new String[0])
-        );
+                cardNames.toArray(new String[0]));
     }
 
     public int getDiscardOption() {
@@ -336,8 +322,7 @@ public class Gui {
                     JOptionPane.QUESTION_MESSAGE,
                     null,
                     options,
-                    options[0]
-            );
+                    options[0]);
             if (result == 2) { // Help
                 showHelpDialog();
                 continue;
@@ -347,9 +332,8 @@ public class Gui {
     }
 
     public void displayGameOverScreen(
-            List<PlayerScoreEntry> scoredPlayers, 
-            boolean haveThreeEmptySupplyPiles
-    ) {
+            List<PlayerScoreEntry> scoredPlayers,
+            boolean haveThreeEmptySupplyPiles) {
         String key;
         if (haveThreeEmptySupplyPiles) {
             key = "you.have.3.empty.supply.piles.game.over";
@@ -360,31 +344,26 @@ public class Gui {
         PlayerScoreEntry winner = scoredPlayers.getFirst();
         finalMessage.append(
                 MessageFormat.format(
-                        bundle.getString("winner.player.0.with.1.points"), 
-                        winner.index, 
-                        winner.score
-                )
-        );
+                        bundle.getString("winner.player.0.with.1.points"),
+                        winner.index,
+                        winner.score));
 
         int rank = 1;
         for (PlayerScoreEntry entry : scoredPlayers) {
             finalMessage.append(
                     MessageFormat.format(
-                            bundle.getString("player.score.entry"), 
+                            bundle.getString("player.score.entry"),
                             rank,
                             entry.index,
-                            entry.score
-                    )
-            );
+                            entry.score));
             rank++;
         }
 
         JOptionPane.showMessageDialog(
-                null, 
+                null,
                 finalMessage,
-                bundle.getString("game.over.no.new.line"), 
-                JOptionPane.PLAIN_MESSAGE
-        );
+                bundle.getString("game.over.no.new.line"),
+                JOptionPane.PLAIN_MESSAGE);
     }
 
     public ResourceBundle getBundle() {
@@ -444,9 +423,9 @@ public class Gui {
         }
 
         String[] buttonOptions = {
-            bundle.getString("yes"), // reusing "Yes" for "OK" or just localized OK if available
-            bundle.getString("no"),  // reusing "No" for "Cancel"
-            bundle.getString("help")
+                bundle.getString("yes"), // reusing "Yes" for "OK" or just localized OK if available
+                bundle.getString("no"), // reusing "No" for "Cancel"
+                bundle.getString("help")
         };
 
         while (true) {
@@ -463,8 +442,7 @@ public class Gui {
                     JOptionPane.QUESTION_MESSAGE,
                     null,
                     buttonOptions,
-                    buttonOptions[0]
-            );
+                    buttonOptions[0]);
 
             if (result == 2) { // Help
                 showHelpDialog();
