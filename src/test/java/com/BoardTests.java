@@ -11,8 +11,8 @@ public class BoardTests {
 
     List<String> listOfCardName = Arrays.asList(
             "cellar", "market", "militia", "mine", "moat", "remodel",
-            "smithy", "village", "workshop", "woodcutter", "courtyard", "shantytown", "copper", "silver",
-            "gold", "estate", "duchy", "duke", "province", "cursed");
+            "smithy", "village", "workshop", "woodcutter", "courtyard", "shantytown", "duke", "copper", "silver",
+            "gold", "estate", "duchy", "province", "cursed");
 
     @Test
     public void testPlayerCleanupPhaseNoBuy() {

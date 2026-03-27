@@ -77,6 +77,7 @@ public class Board {
         kingdomDecks.put(bundle.getString("woodcutter"), new BoardDeck(new Woodcutter(), kingdomDeckSize));
         kingdomDecks.put(bundle.getString("courtyard"), new BoardDeck(new Courtyard(), kingdomDeckSize));
         kingdomDecks.put(bundle.getString("shantytown"), new BoardDeck(new ShantyTown(), kingdomDeckSize));
+        kingdomDecks.put(bundle.getString("duke"), new BoardDeck(new Duke(), kingdomDeckSize));
     }
 
     private void initializeTreasureDecks() {
@@ -93,7 +94,6 @@ public class Board {
                 new BoardDeck(new VictoryCard("estate", 2, 0, 1), victoryCardDeckSize));
         victoryDecks.put(bundle.getString("duchy"),
                 new BoardDeck(new VictoryCard("duchy", 5, 0, 3), victoryCardDeckSize));
-        victoryDecks.put(bundle.getString("duke"), new BoardDeck(new Duke(), victoryCardDeckSize));
         victoryDecks.put(bundle.getString("province"),
                 new BoardDeck(new VictoryCard("province", 8, 0, 6), victoryCardDeckSize));
         victoryDecks.put(bundle.getString("cursed"),
