@@ -7,7 +7,7 @@ import java.util.Stack;
 
 public class PlayerDeck {
     public static final int MAX_DECK_SIZE = 308;
-    private Stack<Card> deck;
+    private final Stack<Card> deck;
 
     public PlayerDeck(ResourceBundle bundle) {
         deck = new Stack<>();
