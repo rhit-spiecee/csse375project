@@ -13,10 +13,10 @@ public class PlayerDeck {
         deck = new Stack<>();
 
         for (int i = 0; i < 3; i++) {
-            deck.add(new VictoryCard("estate", 2, 1));
+            deck.add(new VictoryCard("estate", 2, 0, 1));
         }
         for (int i = 0; i < 7; i++) {
-            deck.add(new TreasureCard("copper", 0, 1));
+            deck.add(new Copper());
         }
         shuffle();
     }
@@ -43,13 +43,19 @@ public class PlayerDeck {
         Collections.shuffle(deck);
     }
 
-    public int calculateDeckScore(){
+    public int calculateDeckScore() {
         int score = 0;
         for (Card card : deck) {
             if (card instanceof VictoryCard) {
-                score += card.value;
+                score += card.victoryPoints;
             }
         }
         return score;
+    }
+
+    public Stack<Card> getCards() {
+        Stack<Card> copy = new Stack<>();
+        copy.addAll(deck);
+        return copy;
     }
 }

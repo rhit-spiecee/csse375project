@@ -7,14 +7,16 @@ public abstract class Card {
     final String name;
     final String imageId;
     final int cost;
-    final int value;
+    final int coinValue;
+    final int victoryPoints;
     final String gameTip;
 
-    public Card(String name, String imageId, int cost, int value, String gameTip) {
+    public Card(String name, String imageId, int cost, int coinValue, int victoryPoints, String gameTip) {
         this.name = name;
         this.imageId = imageId;
         this.cost = cost;
-        this.value = value;
+        this.coinValue = coinValue;
+        this.victoryPoints = victoryPoints;
         this.gameTip = gameTip;
     }
 
@@ -29,7 +31,8 @@ public abstract class Card {
         }
         Card card = (Card) object;
         return cost == card.cost 
-                && value == card.value
+                && coinValue == card.coinValue
+                && victoryPoints == card.victoryPoints
                 && Objects.equals(name, card.name)
                 && Objects.equals(gameTip, card.gameTip);
     }

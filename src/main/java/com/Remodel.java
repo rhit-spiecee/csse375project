@@ -4,7 +4,7 @@ public class Remodel extends KingdomCard {
     Board board;
 
     public Remodel(Board board) {
-        super(Gui.getString("remodel"), "remodel", 4, 0, Gui.getString("tip.remodel"));
+        super(Gui.getString("remodel"), "remodel", 4, 0, 0, Gui.getString("tip.remodel"));
         this.board = board;
     }
 

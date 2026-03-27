@@ -2,7 +2,7 @@ package com;
 
 public class ShantyTown extends KingdomCard {
     public ShantyTown() {
-        super(Gui.getString("shantytown"), "shantytown", 3, 0, Gui.getString("tip.shantytown"));
+        super(Gui.getString("shantytown"), "shanty_town", 3, 0, 0, Gui.getString("tip.shantytown"));
     }
 
     @Override

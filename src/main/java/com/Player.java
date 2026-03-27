@@ -27,7 +27,7 @@ public class Player {
         this.deck = new PlayerDeck(bundle);
         this.bundle = bundle;
     }
-    
+
     public Player() {
         this.bundle = ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE);
         this.deck = new PlayerDeck(bundle);
@@ -44,7 +44,6 @@ public class Player {
         this.buy = INITIAL_BUYS;
         this.action = INITIAL_ACTIONS;
     }
-
 
     void recycleCards() {
         for (Card card : discardPile) {
@@ -73,7 +72,7 @@ public class Player {
         int coins = this.coins;
         for (Card card : hand) {
             if (card instanceof TreasureCard) {
-                coins += card.value;
+                coins += card.coinValue;
             }
         }
         return coins;
@@ -83,7 +82,7 @@ public class Player {
         int coins = 0;
         for (Card card : hand) {
             if (card instanceof TreasureCard) {
-                coins += card.value;
+                coins += card.coinValue;
             }
         }
         return coins;
@@ -183,31 +182,25 @@ public class Player {
         int silverValue = 2;
         int copperValue = 1;
 
-        int coinsRemainingAfterGold = 
-                getCoinsAfterRemovingCard(
-                        cost, 
-                        goldValue, 
-                        bundle.getString("gold")
-                );
-        int coinsRemainingAfterSilver = 
-                getCoinsAfterRemovingCard(
-                        coinsRemainingAfterGold, 
-                        silverValue, 
-                        bundle.getString("silver")
-                );
+        int coinsRemainingAfterGold = getCoinsAfterRemovingCard(
+                cost,
+                goldValue,
+                bundle.getString("gold"));
+        int coinsRemainingAfterSilver = getCoinsAfterRemovingCard(
+                coinsRemainingAfterGold,
+                silverValue,
+                bundle.getString("silver"));
         getCoinsAfterRemovingCard(
-                coinsRemainingAfterSilver, 
-                copperValue, 
-                bundle.getString("copper")
-        );
+                coinsRemainingAfterSilver,
+                copperValue,
+                bundle.getString("copper"));
 
     }
 
     int getCoinsAfterRemovingCard(
-            int coinsRemaining, 
-            int treasuryCardValue, 
-            String treasureCardType
-    ) {
+            int coinsRemaining,
+            int treasuryCardValue,
+            String treasureCardType) {
         int index = hasTreasureCardType(treasureCardType);
         while (coinsRemaining >= treasuryCardValue && index > -1) {
             discardPile.add(hand.get(index));
@@ -230,20 +223,27 @@ public class Player {
     }
 
     public int calculateScore() {
-        //emptyRemainingDeck();
-        //discardPile.addAll(hand);
+        // emptyRemainingDeck();
+        // discardPile.addAll(hand);
+
+        ArrayList<Card> allCards = new ArrayList<>();
+        allCards.addAll(discardPile);
+        allCards.addAll(hand);
+        allCards.addAll(deck.getCards());
+
         int score = 0;
-        for (Card card : discardPile) {
-            if (card instanceof VictoryCard) {
-                score += card.value;
+        for (Card card : allCards) {
+            if (card instanceof Duke) {
+                for (Card isDuchy : allCards) {
+                    if (isDuchy.name.equals(bundle.getString("duchy"))) {
+                        score += 1;
+                    }
+                }
+            } else {
+                score += card.victoryPoints;
             }
         }
-        for (Card card : hand) {
-            if (card instanceof VictoryCard) {
-                score += card.value;
-            }
-        }
-        return score + deck.calculateDeckScore();
+        return score;
     }
 
     public ArrayList<Card> getCardsInHandExceptOne(String cardToExclude) {

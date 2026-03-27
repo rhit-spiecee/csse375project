@@ -114,21 +114,21 @@ public class Board {
         treasureDecks.put(
                 bundle.getString("copper"),
                 new BoardDeck(
-                        new TreasureCard("copper", 0, 1),
+                        new Copper(),
                         copperDeckSize
                 )
         );
         treasureDecks.put(
                 bundle.getString("silver"),
                 new BoardDeck(
-                        new TreasureCard("silver", 3, 2),
+                        new Silver(),
                         silverDeckSize
                 )
         );
         treasureDecks.put(
                 bundle.getString("gold"),
                 new BoardDeck(
-                        new TreasureCard("gold", 6, 3),
+                        new Gold(),
                         goldDeckSize
                 )
         );
@@ -138,28 +138,28 @@ public class Board {
         victoryDecks.put(
                 bundle.getString("estate"),
                 new BoardDeck(
-                        new VictoryCard("estate", 2, 1),
+                        new VictoryCard("estate", 2, 0, 1),
                         victoryCardDeckSize
                 )
         );
         victoryDecks.put(
                 bundle.getString("duchy"),
                 new BoardDeck(
-                        new VictoryCard("duchy", 5, 3),
+                        new VictoryCard("duchy", 5, 0, 3),
                         victoryCardDeckSize
                 )
         );
         victoryDecks.put(
                 bundle.getString("province"),
                 new BoardDeck(
-                        new VictoryCard("province", 8, 6),
+                        new VictoryCard("province", 8, 0, 6),
                         victoryCardDeckSize
                 )
         );
         victoryDecks.put(
                 bundle.getString("cursed"),
                 new BoardDeck(
-                        new VictoryCard("cursed", 0, -1),
+                        new VictoryCard("cursed", 0, 0, -1),
                         cursedDeckSize
                 )
         );

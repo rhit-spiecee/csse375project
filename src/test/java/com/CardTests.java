@@ -17,8 +17,8 @@ public class CardTests {
 
     @Test
     public void testGenericCardTips() {
-        Card copper = new TreasureCard("copper", 0, 1);
-        Card estate = new VictoryCard("estate", 2, 1);
+        Card copper = new Copper();
+        Card estate = new VictoryCard("estate", 2, 0, 1);
         
         assertEquals("Worth $+1.", copper.getGameTip());
         assertEquals("Worth 1 Victory Point.", estate.getGameTip());
@@ -26,9 +26,9 @@ public class CardTests {
 
     @Test
     public void testEqualsWithTips() {
-        Card card1 = new TreasureCard("copper", 0, 1);
-        Card card2 = new TreasureCard("copper", 0, 1);
-        Card card3 = new TreasureCard("silver", 3, 2);
+        Card card1 = new Copper();
+        Card card2 = new Copper();
+        Card card3 = new Silver();
         
         assertEquals(card1, card2);
         assertNotEquals(card1, card3);

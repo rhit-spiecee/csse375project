@@ -53,7 +53,7 @@ public class PlayerDeckTests {
 
         assertEquals(10, deck.size());
         emptyDeck(deck);
-        deck.add(new TreasureCard("copper", 0, 1));
+        deck.add(new Copper());
 
         assertEquals(1, deck.size());
         Card card = deck.draw();
@@ -68,7 +68,7 @@ public class PlayerDeckTests {
 
         assertEquals(10, deck.size());
         emptyDeck(deck);
-        deck.add(new TreasureCard("copper", 0, 1));
+        deck.add(new Copper());
         assertEquals(1, deck.size());
     }
 
@@ -78,11 +78,11 @@ public class PlayerDeckTests {
         assertEquals(10, deck.size());
         
         while (deck.size() < PlayerDeck.MAX_DECK_SIZE) {
-            deck.add(new TreasureCard("copper", 0, 1));
+            deck.add(new Copper());
         }
 
         assertEquals(308, deck.size());
-        assertThrows(IndexOutOfBoundsException.class, () -> deck.add(new TreasureCard("copper", 0, 1)));
+        assertThrows(IndexOutOfBoundsException.class, () -> deck.add(new Copper()));
     }
 
     private void emptyDeck(PlayerDeck deck) {

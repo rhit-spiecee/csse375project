@@ -59,9 +59,9 @@ public class MilitiaTests {
         Militia militia = new Militia(board);
         ArrayList<Card> newHand = new ArrayList<>();
         newHand.add(new Moat());
-        newHand.add(new TreasureCard("copper", 0, 1));
-        newHand.add(new TreasureCard("copper", 0, 1));
-        newHand.add(new TreasureCard("copper", 0, 1));
+        newHand.add(new Copper());
+        newHand.add(new Copper());
+        newHand.add(new Copper());
 
         board.players.getLast().hand = newHand;
         militia.useActionCard(mockPlayerOne);
@@ -87,9 +87,9 @@ public class MilitiaTests {
         Board board = Board.setupBoardFromGui(mockGui);
         Militia militia = new Militia(board);
         ArrayList<Card> newHand = new ArrayList<>();
-        newHand.add(new TreasureCard("copper", 0, 1));
-        newHand.add(new TreasureCard("copper", 0, 1));
-        newHand.add(new TreasureCard("copper", 0, 1));
+        newHand.add(new Copper());
+        newHand.add(new Copper());
+        newHand.add(new Copper());
 
         board.players.getLast().hand = newHand;
         militia.useActionCard(mockPlayerOne);

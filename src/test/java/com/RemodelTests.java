@@ -16,7 +16,7 @@ public class RemodelTests {
             action = 1;
             buy = 1;
             hand.add(remodel);
-            hand.add(new TreasureCard("gold", 6, 3));
+            hand.add(new Gold());
         }
     }
 

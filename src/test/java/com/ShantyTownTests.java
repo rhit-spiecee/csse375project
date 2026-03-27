@@ -66,8 +66,8 @@ public class ShantyTownTests {
         ShantyTown shantyTown = new ShantyTown();
         Player player = new StubPlayer();
         player.hand.add(shantyTown);
-        player.deck.add(new VictoryCard("copper", 0, 1));
-        player.deck.add(new VictoryCard("copper", 0, 1));
+        player.deck.add(new VictoryCard("copper", 0, 0, 1));
+        player.deck.add(new VictoryCard("copper", 0, 0, 1));
 
         shantyTown.useActionCard(player);
 
@@ -84,8 +84,8 @@ public class ShantyTownTests {
         Player player = new StubPlayer();
         player.hand.add(shantyTown);
 
-        player.deck.add(new VictoryCard("copper", 0, 1));
-        player.deck.add(new VictoryCard("copper", 0, 1));
+        player.deck.add(new VictoryCard("copper", 0, 0, 1));
+        player.deck.add(new VictoryCard("copper", 0, 0, 1));
 
         shantyTown.useActionCard(player);
 

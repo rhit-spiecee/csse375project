@@ -3,7 +3,7 @@ package com;
 public class Market extends KingdomCard {
 
     public Market() {
-        super(Gui.getString("market"), "market", 5, 0, Gui.getString("tip.market"));
+        super(Gui.getString("market"), "market", 5, 0, 0, Gui.getString("tip.market"));
     }
 
     @Override

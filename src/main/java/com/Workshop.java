@@ -4,7 +4,7 @@ public class Workshop extends KingdomCard {
     Board board;
 
     public Workshop(Board board) {
-        super(Gui.getString("workshop"), "workshop", 3, 0, Gui.getString("tip.workshop"));
+        super(Gui.getString("workshop"), "workshop", 3, 0, 0, Gui.getString("tip.workshop"));
         this.board = board;
     }
 

@@ -89,7 +89,7 @@ public class BoardTests {
         Player player2 = EasyMock.mock(Player.class);
         BoardDeck mockDeck = EasyMock.mock(BoardDeck.class);
 
-        EasyMock.expect(player1.calculateScore()).andReturn(18);
+        EasyMock.expect(player1.calculateScore()).andReturn(18).anyTimes();
         EasyMock.expect(player1.getHand()).andReturn(new ArrayList<>());
         EasyMock.expect(player1.getCoins()).andReturn(0);
         EasyMock.expect(player1.getActions()).andReturn(1);
@@ -97,7 +97,7 @@ public class BoardTests {
         player1.cleanup();
         player1.drawHand();
 
-        EasyMock.expect(player2.calculateScore()).andReturn(25);
+        EasyMock.expect(player2.calculateScore()).andReturn(25).anyTimes();
         EasyMock.expect(player2.getHand()).andReturn(new ArrayList<>());
         EasyMock.expect(player2.getCoins()).andReturn(0);
         EasyMock.expect(player2.getActions()).andReturn(1);
@@ -111,6 +111,8 @@ public class BoardTests {
         EasyMock.expect(mockGui.showBuyOption(0)).andReturn(1);
         mockGui.updateView(EasyMock.isA(BoardDto.class));
         mockGui.updateView(EasyMock.isA(BoardDto.class));
+        mockGui.updateScore(EasyMock.anyObject());
+        EasyMock.expectLastCall().anyTimes();
         mockGui.displayGameOverScreen(EasyMock.anyObject(), EasyMock.eq(false));
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
@@ -222,7 +224,7 @@ public class BoardTests {
         Gui mockGui = EasyMock.mock(Gui.class);
         Player player1 = EasyMock.mock(Player.class);
         ArrayList<Card> hand = new ArrayList<>();
-        hand.add(new TreasureCard("copper", 0, 1));
+        hand.add(new Copper());
         player1.hand = hand;
 
         EasyMock.expect(player1.getActions()).andReturn(1);
@@ -340,9 +342,9 @@ public class BoardTests {
         Board board = new Board(2);
 
         ArrayList<Card> newHand = new ArrayList<>();
-        newHand.add(new TreasureCard("copper", 0, 1));
-        newHand.add(new TreasureCard("copper", 0, 1));
-        newHand.add(new TreasureCard("copper", 0, 1));
+        newHand.add(new Copper());
+        newHand.add(new Copper());
+        newHand.add(new Copper());
         newHand.add(new Moat());
         newHand.add(new Moat());
 
@@ -360,11 +362,11 @@ public class BoardTests {
         Board board = new Board(2);
 
         ArrayList<Card> newHand = new ArrayList<>();
-        newHand.add(new TreasureCard("copper", 0, 1));
-        newHand.add(new TreasureCard("copper", 0, 1));
-        newHand.add(new TreasureCard("copper", 0, 1));
-        newHand.add(new TreasureCard("copper", 0, 1));
-        newHand.add(new TreasureCard("copper", 0, 1));
+        newHand.add(new Copper());
+        newHand.add(new Copper());
+        newHand.add(new Copper());
+        newHand.add(new Copper());
+        newHand.add(new Copper());
 
         board.getCurrentPlayer().hand = newHand;
         board.getCurrentPlayer().coins = 3;
@@ -380,8 +382,8 @@ public class BoardTests {
         Board board = new Board(2);
 
         ArrayList<Card> newHand = new ArrayList<>();
-        newHand.add(new TreasureCard("copper", 0, 1));
-        newHand.add(new TreasureCard("copper", 0, 1));
+        newHand.add(new Copper());
+        newHand.add(new Copper());
 
         board.getCurrentPlayer().hand = newHand;
         board.getCurrentPlayer().coins = 0;
@@ -444,7 +446,7 @@ public class BoardTests {
     public void testGetCardsBelowCostWhenDeckEmpty() {
         Board board = new Board(2);
         Map<String, BoardDeck> decks = new HashMap<>();
-        decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0), 8));
+        decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0, 0), 8));
         for (int i = 0; i < 8; i++) {
             decks.get("estate").pickUpCard();
         }
@@ -458,7 +460,7 @@ public class BoardTests {
     public void testGetCardsBelowCostWhenDeckIsBelowCost() {
         Board board = new Board(2);
         Map<String, BoardDeck> decks = new HashMap<>();
-        decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0), 8));
+        decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0, 0), 8));
         List<String> returnCards;
         returnCards = board.getCardsInDeckBelowCostOf(3, decks);
 
@@ -469,7 +471,7 @@ public class BoardTests {
     public void testGetCardsBelowCostWhenDeckIsSameCost() {
         Board board = new Board(2);
         Map<String, BoardDeck> decks = new HashMap<>();
-        decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0), 8));
+        decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0, 0), 8));
         List<String> returnCards;
         returnCards = board.getCardsInDeckBelowCostOf(2, decks);
 
@@ -480,7 +482,7 @@ public class BoardTests {
     public void testGetCardsBelowCostWhenDeckIsOverCost() {
         Board board = new Board(2);
         Map<String, BoardDeck> decks = new HashMap<>();
-        decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0), 8));
+        decks.put("estate", new BoardDeck(new TreasureCard("estate", 2, 0, 0), 8));
         List<String> returnCards;
         returnCards = board.getCardsInDeckBelowCostOf(1, decks);
 
@@ -575,6 +577,8 @@ public class BoardTests {
         Gui mockGui = EasyMock.mock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
+        mockGui.updateScore(EasyMock.anyObject());
+        EasyMock.expectLastCall().anyTimes();
         mockGui.displayGameOverScreen(EasyMock.anyObject(), EasyMock.eq(true));
 
         EasyMock.replay(mockGui);
@@ -628,7 +632,7 @@ public class BoardTests {
         board.players.clear();
         board.players.add(player1);
 
-        assertEquals(2, board.gainTreasureCard(player1, new TreasureCard("copper", 0, 1)).size());
+        assertEquals(2, board.gainTreasureCard(player1, new Copper()).size());
 
         EasyMock.verify(mockGui, player1);
     }
@@ -659,7 +663,7 @@ public class BoardTests {
         board.kingdomDecks.get("moat").deck.clear();
         board.victoryDecks.get("duchy").deck.clear();
         board.treasureDecks.get("copper").deck.clear();
-        board.treasureDecks.get("copper").deck.add(new TreasureCard("copper", 0, 1));
+        board.treasureDecks.get("copper").deck.add(new Copper());
 
         board.buyPhase();
 

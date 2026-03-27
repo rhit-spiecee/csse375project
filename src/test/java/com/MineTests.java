@@ -14,7 +14,7 @@ public class MineTests {
             action = 1;
             buy = 1;
             hand.add(mine);
-            hand.add(new TreasureCard(cardType, 3, 2));
+            hand.add(new TreasureCard(cardType, 3, 2, 0));
         }
 
     }
@@ -34,7 +34,7 @@ public class MineTests {
         Player player = new StubPlayer(mine, "silver");
 
         mine.useActionCard(player);
-        Card gold = new TreasureCard("gold", 6, 3);
+        Card gold = new Gold();
 
         assertEquals(0, player.coins);
         assertEquals(0, player.action);
@@ -61,7 +61,7 @@ public class MineTests {
         Player player = new StubPlayer(mine, "copper");
 
         mine.useActionCard(player);
-        Card silver = new TreasureCard("silver", 4, 2);
+        Card silver = new TreasureCard("silver", 4, 2, 0);
 
         assertEquals(0, player.coins);
         assertEquals(0, player.action);
@@ -88,7 +88,7 @@ public class MineTests {
         Player player = new StubPlayer(mine, "gold");
 
         mine.useActionCard(player);
-        Card silver = new TreasureCard("silver", 4, 2);
+        Card silver = new TreasureCard("silver", 4, 2, 0);
 
         assertEquals(0, player.coins);
         assertEquals(0, player.action);

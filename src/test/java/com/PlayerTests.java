@@ -15,7 +15,7 @@ public class PlayerTests {
 
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
-        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, 1)).times(handSize);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Copper()).times(handSize);
         EasyMock.expect(mockDeck.size()).andReturn(handSize).times(handSize);
 
         EasyMock.replay(mockDeck);
@@ -31,7 +31,7 @@ public class PlayerTests {
     public void testDrawOneCardMock() {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
-        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, 1));
+        EasyMock.expect(mockDeck.draw()).andReturn(new Copper());
         EasyMock.expect(mockDeck.size()).andReturn(Player.INITIAL_HAND_SIZE);
 
         EasyMock.replay(mockDeck);
@@ -49,7 +49,7 @@ public class PlayerTests {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
-        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, value)).times(handSize);
+        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, value, 0)).times(handSize);
         EasyMock.expect(mockDeck.size()).andReturn(handSize).times(handSize);
         EasyMock.replay(mockDeck);
         player.drawHand();
@@ -65,7 +65,7 @@ public class PlayerTests {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
-        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, 1)).times(handSize);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Copper()).times(handSize);
         EasyMock.expect(mockDeck.size()).andReturn(handSize).times(handSize);
         EasyMock.replay(mockDeck);
         player.drawHand();
@@ -81,7 +81,7 @@ public class PlayerTests {
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
 
-        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, 1)).times(handSize - 1);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Copper()).times(handSize - 1);
         EasyMock.expect(mockDeck.draw()).andReturn(new Smithy());
         EasyMock.expect(mockDeck.size()).andReturn(handSize).times(handSize);
         EasyMock.replay(mockDeck);
@@ -152,12 +152,12 @@ public class PlayerTests {
 
         PlayerDeck mockDeck = EasyMock.mock(PlayerDeck.class);
         Player player = new Player(mockDeck, ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
-        player.discardPile.add(new TreasureCard("copper", 0, 1));
+        player.discardPile.add(new Copper());
         EasyMock.expect(mockDeck.size()).andReturn(0);
         EasyMock.expect(mockDeck.size()).andReturn(10).times(handSize - 1);
-        mockDeck.add(new TreasureCard("copper", 0, 1));
+        mockDeck.add(new Copper());
         mockDeck.shuffle();
-        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, 1)).times(handSize);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Copper()).times(handSize);
 
 
         EasyMock.replay(mockDeck);
@@ -176,7 +176,7 @@ public class PlayerTests {
         EasyMock.expect(mockDeck.size()).andReturn(1);
         EasyMock.expect(mockDeck.size()).andReturn(0);
         EasyMock.expect(mockDeck.size()).andReturn(10).times(handSize - 2);
-        EasyMock.expect(mockDeck.draw()).andReturn(new TreasureCard("copper", 0, 1)).times(handSize);
+        EasyMock.expect(mockDeck.draw()).andReturn(new Copper()).times(handSize);
         mockDeck.shuffle();
 
         EasyMock.replay(mockDeck);
@@ -191,7 +191,7 @@ public class PlayerTests {
         Player player = new Player();
         
         player.hand.add(new Moat());
-        player.hand.add(new TreasureCard("copper", 0, 1));
+        player.hand.add(new Copper());
         
         assertEquals(1, player.getActionCardsInHand().size());
         assertEquals("moat", player.getActionCardsInHand().getFirst().name);
@@ -201,7 +201,7 @@ public class PlayerTests {
     public void testRemoveTreasureCardsOfCostOfThree() {
         Player player = new Player();
 
-        player.hand.add(new TreasureCard("gold", 6, 3));
+        player.hand.add(new Gold());
 
         assertEquals(3, player.getCoins());
         player.removeTreasureCardsOfCost(3);
@@ -213,7 +213,7 @@ public class PlayerTests {
     public void testRemoveTreasureCardsOfCostOfTwo() {
         Player player = new Player();
 
-        player.hand.add(new TreasureCard("silver", 4, 2));
+        player.hand.add(new TreasureCard("silver", 4, 2, 0));
 
         assertEquals(2, player.getCoins());
         player.removeTreasureCardsOfCost(2);
@@ -225,7 +225,7 @@ public class PlayerTests {
     public void testRemoveTreasureCardsOfCostOfOne() {
         Player player = new Player();
 
-        player.hand.add(new TreasureCard("copper", 2, 1));
+        player.hand.add(new TreasureCard("copper", 2, 1, 0));
 
         assertEquals(1, player.getCoins());
         player.removeTreasureCardsOfCost(1);
@@ -243,13 +243,13 @@ public class PlayerTests {
     public void testGetCoinsInHand() {
         Player player = new Player();
 
-        player.deck.add(new TreasureCard("gold", 6, 3));
+        player.deck.add(new Gold());
         player.deck.add(new Moat());
 
-        player.hand.add(new TreasureCard("copper", 2, 1));
-        player.hand.add(new TreasureCard("silver", 4, 2));
-        player.hand.add(new TreasureCard("gold", 6, 3));
-        player.hand.add(new VictoryCard("estate", 2, 1));
+        player.hand.add(new TreasureCard("copper", 2, 1, 0));
+        player.hand.add(new TreasureCard("silver", 4, 2, 0));
+        player.hand.add(new Gold());
+        player.hand.add(new VictoryCard("estate", 2, 0, 1));
         player.hand.add(new Market());
 
         assertEquals(6, player.getCoinsInHand());
@@ -268,8 +268,8 @@ public class PlayerTests {
 
         player.deck.add(new Moat());
 
-        player.hand.add(new TreasureCard("copper", 2, 1));
-        player.hand.add(new VictoryCard("province", 8, 6));
+        player.hand.add(new TreasureCard("copper", 2, 1, 0));
+        player.hand.add(new VictoryCard("province", 8, 0, 6));
         player.hand.add(new Market());
 
         assertFalse(player.hasMoatCard());
@@ -339,7 +339,7 @@ public class PlayerTests {
     @Test
     public void testGetCoinsAfterRemovingCardWithTreasureCards() {
         Player player = new Player();
-        player.hand.add(new TreasureCard("copper", 2, 1));
+        player.hand.add(new TreasureCard("copper", 2, 1, 0));
 
         assertEquals(0, player.getCoinsAfterRemovingCard(1, 1, "copper"));
     }
@@ -353,8 +353,8 @@ public class PlayerTests {
         assertEquals(10, player.hand.size());
         assertEquals(0, player.discardPile.size());
 
-        player.discardPile.add(new TreasureCard("gold", 6, 1));
-        player.discardPile.add(new TreasureCard("silver", 4, 2));
+        player.discardPile.add(new TreasureCard("gold", 6, 1, 0));
+        player.discardPile.add(new TreasureCard("silver", 4, 2, 0));
 
         player.recycleCards();
         assertEquals(2, player.deck.size());
@@ -371,7 +371,7 @@ public class PlayerTests {
     @Test
     public void testHasTreasureCardTypeWithTreasureCard() {
         Player player = new Player();
-        player.hand.add(new TreasureCard("copper", 2, 1));
+        player.hand.add(new TreasureCard("copper", 2, 1, 0));
         assertEquals(0, player.hasTreasureCardType("copper"));
     }
 
@@ -381,18 +381,18 @@ public class PlayerTests {
         for(int i = 0; i < 4; i++) {
             player.hand.add(new Moat());
         }
-        player.hand.add(new TreasureCard("copper", 2, 1));
+        player.hand.add(new TreasureCard("copper", 2, 1, 0));
         assertEquals(4, player.hasTreasureCardType("copper"));
     }
 
     @Test
     public void testHasTreasureCardTypeWithFullHandFirstElementIsTreasureCard() {
         Player player = new Player();
-        player.hand.add(new TreasureCard("copper", 2, 1));
+        player.hand.add(new TreasureCard("copper", 2, 1, 0));
         for(int i = 0; i < 3; i++) {
             player.hand.add(new Moat());
         }
-        player.hand.add(new TreasureCard("copper", 2, 1));
+        player.hand.add(new TreasureCard("copper", 2, 1, 0));
         assertEquals(0, player.hasTreasureCardType("copper"));
     }
 
@@ -400,11 +400,11 @@ public class PlayerTests {
     public void testGetCardsInHandExceptOneWithNoCardsToExclude() {
         Player player = new Player();
         ArrayList<Card> hand = new ArrayList<>();
-        hand.add(new TreasureCard("copper", 2, 1));
-        hand.add(new TreasureCard("copper", 2, 1));
+        hand.add(new TreasureCard("copper", 2, 1, 0));
+        hand.add(new TreasureCard("copper", 2, 1, 0));
         hand.add(new Village());
         hand.add(new Woodcutter());
-        hand.add(new VictoryCard("estate", 2, 1));
+        hand.add(new VictoryCard("estate", 2, 0, 1));
 
         player.hand = new ArrayList<>(hand);
 
@@ -415,11 +415,11 @@ public class PlayerTests {
     public void testGetCardsInHandExceptOneWithOneCardToExclude() {
         Player player = new Player();
         ArrayList<Card> hand = new ArrayList<>();
-        hand.add(new TreasureCard("silver", 4, 2));
-        hand.add(new TreasureCard("copper", 2, 1));
+        hand.add(new TreasureCard("silver", 4, 2, 0));
+        hand.add(new TreasureCard("copper", 2, 1, 0));
         hand.add(new Village());
         hand.add(new Woodcutter());
-        hand.add(new VictoryCard("estate", 2, 1));
+        hand.add(new VictoryCard("estate", 2, 0, 1));
 
         player.hand = new ArrayList<>(hand);
         hand.removeFirst();
@@ -431,11 +431,11 @@ public class PlayerTests {
     public void testGetCardsInHandExceptOneWithMultipleCardsToExclude() {
         Player player = new Player();
         ArrayList<Card> hand = new ArrayList<>();
-        hand.add(new TreasureCard("silver", 4, 2));
-        hand.add(new TreasureCard("silver", 4, 2));
+        hand.add(new TreasureCard("silver", 4, 2, 0));
+        hand.add(new TreasureCard("silver", 4, 2, 0));
         hand.add(new Village());
         hand.add(new Woodcutter());
-        hand.add(new VictoryCard("estate", 2, 1));
+        hand.add(new VictoryCard("estate", 2, 0, 1));
 
         player.hand = new ArrayList<>(hand);
         hand.removeFirst();
@@ -447,8 +447,8 @@ public class PlayerTests {
     public void testGetTreasureCardsInHand() {
         Player player = new Player();
 
-        Card silver = new TreasureCard("silver", 4, 2);
-        Card gold = new TreasureCard("gold", 6, 3);
+        Card silver = new TreasureCard("silver", 4, 2, 0);
+        Card gold = new Gold();
 
         ArrayList<Card> treasureCards = new ArrayList<>();
         treasureCards.add(silver);
@@ -457,7 +457,7 @@ public class PlayerTests {
         ArrayList<Card> hand = new ArrayList<>(treasureCards);
         hand.add(new Woodcutter());
         hand.add(new Moat());
-        hand.add(new VictoryCard("province", 8, 6));
+        hand.add(new VictoryCard("province", 8, 0, 6));
 
         player.hand = hand;
         ArrayList<Card> treasureCardsInHand = player.getTreasureCardsInHand();
