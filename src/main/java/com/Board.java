@@ -166,6 +166,8 @@ public class Board {
     }
 
     public void startGame() {
+        List<PlayerScoreEntry> scoredPlayers = getSortedPlayerEntries();
+        gui.updateScore(scoredPlayers);
         while (!isGameOver()) {
             gui.updateView(getDto());
             processTurn();
