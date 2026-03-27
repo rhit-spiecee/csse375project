@@ -58,111 +58,41 @@ public class Board {
     }
 
     private void initializeDecks() {
+        initializeKingdomDecks();
+        initializeTreasureDecks();
+        initializeVictoryDecks();
+    }
+
+    private void initializeKingdomDecks() {
         int kingdomDeckSize = 10;
-        kingdomDecks.put(
-                bundle.getString("cellar"), 
-                new BoardDeck(new Cellar(this), kingdomDeckSize)
-        );
-        kingdomDecks.put(
-                bundle.getString("market"), 
-                new BoardDeck(new Market(), kingdomDeckSize)
-        );
-        kingdomDecks.put(
-                bundle.getString("militia"), 
-                new BoardDeck(new Militia(this), kingdomDeckSize)
-        );
-        kingdomDecks.put(
-                bundle.getString("mine"), 
-                new BoardDeck(new Mine(this), kingdomDeckSize)
-        );
-        kingdomDecks.put(
-                bundle.getString("moat"), 
-                new BoardDeck(new Moat(), kingdomDeckSize)
-        );
-        kingdomDecks.put(
-                bundle.getString("remodel"),
-                new BoardDeck(new Remodel(this), kingdomDeckSize)
-        );
-        kingdomDecks.put(
-                bundle.getString("smithy"), 
-                new BoardDeck(new Smithy(), kingdomDeckSize)
-        );
-        kingdomDecks.put(
-                bundle.getString("village"), 
-                new BoardDeck(new Village(), kingdomDeckSize)
-        );
-        kingdomDecks.put(
-                bundle.getString("workshop"), 
-                new BoardDeck(new Workshop(this), kingdomDeckSize)
-        );
-        kingdomDecks.put(
-                bundle.getString("woodcutter"), 
-                new BoardDeck(new Woodcutter(), kingdomDeckSize)
-        );
-        kingdomDecks.put(
-                bundle.getString("courtyard"),
-                new BoardDeck(new Courtyard(), kingdomDeckSize)
-        );
-        kingdomDecks.put(
-                bundle.getString("shantytown"),
-                new BoardDeck(new ShantyTown(), kingdomDeckSize)
-        );
+        kingdomDecks.put(bundle.getString("cellar"), new BoardDeck(new Cellar(this), kingdomDeckSize));
+        kingdomDecks.put(bundle.getString("market"), new BoardDeck(new Market(), kingdomDeckSize));
+        kingdomDecks.put(bundle.getString("militia"), new BoardDeck(new Militia(this), kingdomDeckSize));
+        kingdomDecks.put(bundle.getString("mine"), new BoardDeck(new Mine(this), kingdomDeckSize));
+        kingdomDecks.put(bundle.getString("moat"), new BoardDeck(new Moat(), kingdomDeckSize));
+        kingdomDecks.put(bundle.getString("remodel"), new BoardDeck(new Remodel(this), kingdomDeckSize));
+        kingdomDecks.put(bundle.getString("smithy"), new BoardDeck(new Smithy(), kingdomDeckSize));
+        kingdomDecks.put(bundle.getString("village"), new BoardDeck(new Village(), kingdomDeckSize));
+        kingdomDecks.put(bundle.getString("workshop"), new BoardDeck(new Workshop(this), kingdomDeckSize));
+        kingdomDecks.put(bundle.getString("woodcutter"), new BoardDeck(new Woodcutter(), kingdomDeckSize));
+        kingdomDecks.put(bundle.getString("courtyard"), new BoardDeck(new Courtyard(), kingdomDeckSize));
+        kingdomDecks.put(bundle.getString("shantytown"), new BoardDeck(new ShantyTown(), kingdomDeckSize));
+        }
 
+    private void initializeTreasureDecks() {
         int copperDeckSize = 60 - (numPlayers * 7);
-        int silverDeckSize = 40;
-        int goldDeckSize = 30;
-        treasureDecks.put(
-                bundle.getString("copper"),
-                new BoardDeck(
-                        new TreasureCard("copper", 0, 1),
-                        copperDeckSize
-                )
-        );
-        treasureDecks.put(
-                bundle.getString("silver"),
-                new BoardDeck(
-                        new TreasureCard("silver", 3, 2),
-                        silverDeckSize
-                )
-        );
-        treasureDecks.put(
-                bundle.getString("gold"),
-                new BoardDeck(
-                        new TreasureCard("gold", 6, 3),
-                        goldDeckSize
-                )
-        );
+        treasureDecks.put(bundle.getString("copper"), new BoardDeck(new TreasureCard("copper", 0, 1), copperDeckSize));
+        treasureDecks.put(bundle.getString("silver"), new BoardDeck(new TreasureCard("silver", 3, 2), 40));
+        treasureDecks.put(bundle.getString("gold"), new BoardDeck(new TreasureCard("gold", 6, 3), 30));
+    }
 
-        int cursedDeckSize = (numPlayers - 1) * 10;
+    private void initializeVictoryDecks() {
         int victoryCardDeckSize = (numPlayers == 2) ? 8 : 12;
-        victoryDecks.put(
-                bundle.getString("estate"),
-                new BoardDeck(
-                        new VictoryCard("estate", 2, 1),
-                        victoryCardDeckSize
-                )
-        );
-        victoryDecks.put(
-                bundle.getString("duchy"),
-                new BoardDeck(
-                        new VictoryCard("duchy", 5, 3),
-                        victoryCardDeckSize
-                )
-        );
-        victoryDecks.put(
-                bundle.getString("province"),
-                new BoardDeck(
-                        new VictoryCard("province", 8, 6),
-                        victoryCardDeckSize
-                )
-        );
-        victoryDecks.put(
-                bundle.getString("cursed"),
-                new BoardDeck(
-                        new VictoryCard("cursed", 0, -1),
-                        cursedDeckSize
-                )
-        );
+        int cursedDeckSize = (numPlayers - 1) * 10;
+        victoryDecks.put(bundle.getString("estate"), new BoardDeck(new VictoryCard("estate", 2, 1), victoryCardDeckSize));
+        victoryDecks.put(bundle.getString("duchy"), new BoardDeck(new VictoryCard("duchy", 5, 3), victoryCardDeckSize));
+        victoryDecks.put(bundle.getString("province"), new BoardDeck(new VictoryCard("province", 8, 6), victoryCardDeckSize));
+        victoryDecks.put(bundle.getString("cursed"), new BoardDeck(new VictoryCard("cursed", 0, -1), cursedDeckSize));
     }
 
     public void startGame() {
