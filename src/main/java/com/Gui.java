@@ -12,13 +12,7 @@ import javax.swing.*;
 public class Gui {
     public static final int IMAGE_WIDTH = 150;
     public static final int IMAGE_HEIGHT = 240;
-    public static final String[] AVAILABLE_LANGUAGES = new String[] { "English", "Deutsch" };
     public static final String CHOOSE_LANGUAGE_MESSAGE = "Pick a language (Wählen Sie eine Sprache aus): ";
-    public static final String ENGLISH_BUNDLE = "language";
-    public static final String GERMAN_BUNDLE = "language_de";
-    public static final Locale ENGLISH_LOCALE = Locale.ENGLISH;
-    public static final Locale GERMAN_LOCALE = Locale.GERMAN;
-
     JFrame frame;
     ResourceBundle bundle;
     private static ResourceBundle staticBundle;
@@ -31,42 +25,26 @@ public class Gui {
     }
 
     private void setupLanguage() {
-        String[] options = AVAILABLE_LANGUAGES;
-        String selectionObject = (String) JOptionPane.showInputDialog(
+        String selected = (String) JOptionPane.showInputDialog(
                 null,
                 CHOOSE_LANGUAGE_MESSAGE,
                 "",
                 JOptionPane.PLAIN_MESSAGE,
                 null,
-                options,
-                options[0]);
+                Language.displayNames(),
+                Language.displayNames()[0]);
 
-        bundle = ResourceBundle.getBundle(getBundleName(selectionObject));
+        Language language = Language.fromDisplayName(selected);
+        bundle = ResourceBundle.getBundle(language.bundleName);
         staticBundle = bundle;
-        JOptionPane.setDefaultLocale(getLocale(selectionObject));
+        JOptionPane.setDefaultLocale(language.locale);
     }
 
     public static String getString(String key) {
         if (staticBundle == null) {
-            staticBundle = ResourceBundle.getBundle(ENGLISH_BUNDLE);
+            staticBundle = ResourceBundle.getBundle(Language.ENGLISH.bundleName);
         }
         return staticBundle.getString(key);
-    }
-
-    public static String getBundleName(String languageSelection) {
-        return switch (languageSelection) {
-            case "English" -> ENGLISH_BUNDLE;
-            case "Deutsch" -> GERMAN_BUNDLE;
-            default -> ENGLISH_BUNDLE;
-        };
-    }
-
-    public static Locale getLocale(String languageSelection) {
-        return switch (languageSelection) {
-            case "English" -> ENGLISH_LOCALE;
-            case "Deutsch" -> GERMAN_LOCALE;
-            default -> ENGLISH_LOCALE;
-        };
     }
 
     public void updateView(BoardDto boardDto) {

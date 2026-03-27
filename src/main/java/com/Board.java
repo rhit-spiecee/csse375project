@@ -33,7 +33,7 @@ public class Board {
     public Board(int numPlayers) {
         this.numPlayers = numPlayers;
         this.currentPlayerIndex = 0;
-        this.bundle = ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE);
+        this.bundle = ResourceBundle.getBundle(Language.ENGLISH.bundleName);
 
         initializeDecks();
         initializePlayers();
@@ -91,11 +91,13 @@ public class Board {
         int cursedDeckSize = (numPlayers - 1) * 10;
         victoryDecks.put(bundle.getString("estate"),
                 new BoardDeck(new VictoryCard("estate", 2, 0, 1), victoryCardDeckSize));
-        victoryDecks.put(bundle.getString("duchy"), new BoardDeck(new VictoryCard("duchy", 5, 0, 3), victoryCardDeckSize));
+        victoryDecks.put(bundle.getString("duchy"),
+                new BoardDeck(new VictoryCard("duchy", 5, 0, 3), victoryCardDeckSize));
         victoryDecks.put(bundle.getString("duke"), new BoardDeck(new Duke(), victoryCardDeckSize));
         victoryDecks.put(bundle.getString("province"),
                 new BoardDeck(new VictoryCard("province", 8, 0, 6), victoryCardDeckSize));
-        victoryDecks.put(bundle.getString("cursed"), new BoardDeck(new VictoryCard("cursed", 0, 0, -1), cursedDeckSize));
+        victoryDecks.put(bundle.getString("cursed"),
+                new BoardDeck(new VictoryCard("cursed", 0, 0, -1), cursedDeckSize));
     }
 
     public void startGame() {
@@ -146,33 +148,39 @@ public class Board {
     }
 
     void actionPhase() {
-        int actionSelection = gui.getActionSelection(currentPlayerIndex);
-        while (actionSelection == 0) {
-            if (getCurrentPlayerActions() <= 0) {
-                gui.showErrorPopup(
-                        MessageFormat.format(
-                                bundle.getString("player.0.no.actions.available"),
-                                getCurrentPlayerNumber()));
+        while (gui.getActionSelection(currentPlayerIndex) == 0) {
+            if (!canPlayActionCard())
                 break;
-            }
-            if (!getCurrentPlayer().hasActionCardInHand()) {
-                gui.showErrorPopup(
-                        MessageFormat.format(
-                                bundle.getString("player.0.no.action.cards"),
-                                getCurrentPlayerNumber()));
-                break;
-            }
 
             String actionCardToPlay = getActionCardToPlay();
             if (!actionCardToPlay.isEmpty()) {
-                KingdomCard actionCard = getCardByName(
-                        getCurrentPlayerActionCardsInHand(),
-                        actionCardToPlay);
-                actionCard.useActionCard(getCurrentPlayer());
-                gui.updateView(getDto());
+                playActionCard(actionCardToPlay);
             }
-            actionSelection = gui.getActionSelection(currentPlayerIndex);
         }
+    }
+
+    private boolean canPlayActionCard() {
+        if (getCurrentPlayerActions() <= 0) {
+            gui.showErrorPopup(MessageFormat.format(
+                    bundle.getString("player.0.no.actions.available"),
+                    getCurrentPlayerNumber()));
+            return false;
+        }
+        if (!getCurrentPlayer().hasActionCardInHand()) {
+            gui.showErrorPopup(MessageFormat.format(
+                    bundle.getString("player.0.no.action.cards"),
+                    getCurrentPlayerNumber()));
+            return false;
+        }
+        return true;
+    }
+
+    private void playActionCard(String actionCardToPlay) {
+        KingdomCard actionCard = getCardByName(
+                getCurrentPlayerActionCardsInHand(),
+                actionCardToPlay);
+        actionCard.useActionCard(getCurrentPlayer());
+        gui.updateView(getDto());
     }
 
     public BoardDto getDto() {
@@ -239,20 +247,23 @@ public class Board {
         BoardDeck deckToBuyFrom = getBoardDeckByName(buySelection);
         Card cardToBeBought = deckToBuyFrom.pickUpCard();
         Player currentPlayer = getCurrentPlayer();
+
         currentPlayer.addBoughtCard(cardToBeBought);
-        if (cardToBeBought instanceof VictoryCard) {
-            List<PlayerScoreEntry> scoredPlayers = getSortedPlayerEntries();
-            gui.updateScore(scoredPlayers);
-        }
         currentPlayer.buy--;
+        deductPayment(currentPlayer, cardToBeBought.cost);
 
-        int coinsInHand = currentPlayer.getCoinsInHand();
+        if (cardToBeBought instanceof VictoryCard) {
+            gui.updateScore(getSortedPlayerEntries());
+        }
+    }
 
-        if (coinsInHand >= cardToBeBought.cost) {
-            currentPlayer.removeTreasureCardsOfCost(cardToBeBought.cost);
+    private void deductPayment(Player player, int cost) {
+        int coinsInHand = player.getCoinsInHand();
+        if (coinsInHand >= cost) {
+            player.removeTreasureCardsOfCost(cost);
         } else {
-            currentPlayer.coins -= (cardToBeBought.cost - coinsInHand);
-            currentPlayer.removeTreasureCardsOfCost(coinsInHand);
+            player.coins -= (cost - coinsInHand);
+            player.removeTreasureCardsOfCost(coinsInHand);
         }
     }
 

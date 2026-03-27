@@ -29,7 +29,7 @@ public class Player {
     }
 
     public Player() {
-        this.bundle = ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE);
+        this.bundle = ResourceBundle.getBundle(Language.ENGLISH.bundleName);
         this.deck = new PlayerDeck(bundle);
     }
 

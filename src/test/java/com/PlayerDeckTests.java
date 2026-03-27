@@ -11,13 +11,13 @@ public class PlayerDeckTests {
 
     @Test
     public void testDeckSizeOnInit() {
-        PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
+        PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
         assertEquals(10, deck.size());
     }
 
     @Test
     public void testDeckContentsOnInit() {
-        PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
+        PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
 
         assertEquals(10, deck.size());
 
@@ -40,7 +40,7 @@ public class PlayerDeckTests {
 
     @Test
     public void testDrawWhenEmpty() {
-        PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
+        PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
 
         assertEquals(10, deck.size());
         emptyDeck(deck);
@@ -49,7 +49,7 @@ public class PlayerDeckTests {
 
     @Test
     public void testDrawWhenOneCardLeft() {
-        PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
+        PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
 
         assertEquals(10, deck.size());
         emptyDeck(deck);
@@ -64,7 +64,7 @@ public class PlayerDeckTests {
 
     @Test
     public void testAddWhenEmpty() {
-        PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
+        PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
 
         assertEquals(10, deck.size());
         emptyDeck(deck);
@@ -74,7 +74,7 @@ public class PlayerDeckTests {
 
     @Test
     public void testAddWhenFull() {
-        PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Gui.ENGLISH_BUNDLE));
+        PlayerDeck deck = new PlayerDeck(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
         assertEquals(10, deck.size());
         
         while (deck.size() < PlayerDeck.MAX_DECK_SIZE) {
