@@ -16,7 +16,7 @@ public class Board {
     public static final List<String> ALL_KINGDOM_CARD_IDS = Collections.unmodifiableList(Arrays.asList(
             "cellar", "market", "militia", "mine", "moat", "remodel",
             "smithy", "village", "workshop", "woodcutter", "courtyard",
-            "shantytown", "duke", "lurker"));
+            "shantytown", "duke", "lurker", "pawn"));
 
     List<Player> players;
     List<String> chosenKingdomCardIds;
@@ -115,6 +115,8 @@ public class Board {
                 return new Duke();
             case "lurker":
                 return new Lurker(this);
+            case "pawn":
+                return new Pawn(this);
             default:
                 throw new IllegalArgumentException("Unknown Kingdom card ID: " + id);
         }

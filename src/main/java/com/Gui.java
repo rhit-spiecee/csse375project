@@ -449,4 +449,45 @@ public class Gui {
                 options[0]);
         return choice;
     }
+
+    public int[] getPawnOptions() {
+        String[] options = {
+                bundle.getString("pawn.card"),
+                bundle.getString("pawn.action"),
+                bundle.getString("pawn.buy"),
+                bundle.getString("pawn.coin")
+        };
+
+        int[] selections = new int[2];
+        for (int i = 0; i < 2; i++) {
+            String message = (i == 0) ? bundle.getString("pawn.first.choice") : bundle.getString("pawn.second.choice");
+
+            String[] currentOptions;
+            if (i == 1) {
+                final int firstIdx = selections[0];
+                currentOptions = java.util.Arrays.stream(options)
+                        .filter(opt -> !opt.equals(options[firstIdx]))
+                        .toArray(String[]::new);
+            } else {
+                currentOptions = options;
+            }
+
+            String choice = (String) JOptionPane.showInputDialog(
+                    null,
+                    message,
+                    bundle.getString("pawn.title"),
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    currentOptions,
+                    currentOptions[0]);
+
+            for (int j = 0; j < options.length; j++) {
+                if (options[j].equals(choice)) {
+                    selections[i] = j;
+                    break;
+                }
+            }
+        }
+        return selections;
+    }
 }
