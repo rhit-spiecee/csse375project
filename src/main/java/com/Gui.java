@@ -432,4 +432,21 @@ public class Gui {
             return "";
         }
     }
+
+    public int getLurkerOption() {
+        String[] options = {
+                bundle.getString("lurker.trash.supply"),
+                bundle.getString("lurker.gain.trash")
+        };
+        int choice = JOptionPane.showOptionDialog(
+                null,
+                bundle.getString("lurker.choice.message"),
+                bundle.getString("lurker.title"),
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+        return choice;
+    }
 }

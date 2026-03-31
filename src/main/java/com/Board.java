@@ -15,13 +15,15 @@ public class Board {
 
     public static final List<String> ALL_KINGDOM_CARD_IDS = Collections.unmodifiableList(Arrays.asList(
             "cellar", "market", "militia", "mine", "moat", "remodel",
-            "smithy", "village", "workshop", "woodcutter", "courtyard", "shantytown", "duke"));
+            "smithy", "village", "workshop", "woodcutter", "courtyard",
+            "shantytown", "duke", "lurker"));
 
     List<Player> players;
     List<String> chosenKingdomCardIds;
     Map<String, BoardDeck> kingdomDecks = new LinkedHashMap<>();
     Map<String, BoardDeck> treasureDecks = new LinkedHashMap<>();
     Map<String, BoardDeck> victoryDecks = new LinkedHashMap<>();
+    List<Card> trashPile = new ArrayList<>();
 
     int numPlayers;
     int currentPlayerIndex;
@@ -111,6 +113,8 @@ public class Board {
                 return new ShantyTown();
             case "duke":
                 return new Duke();
+            case "lurker":
+                return new Lurker(this);
             default:
                 throw new IllegalArgumentException("Unknown Kingdom card ID: " + id);
         }
@@ -253,6 +257,44 @@ public class Board {
             }
         }
         throw new RuntimeException("Card list is empty or name of card is invalid");
+    }
+
+    public void trashKingdomCardFromSupply() {
+        List<String> availableKingdomDecks = getAvailableDecks(kingdomDecks);
+        String cardToTrash = gui.getCardFromAvailableSelection(bundle.getString("trash.supply.message"), new ArrayList<>(availableKingdomDecks));
+
+        if (!cardToTrash.isEmpty()) {
+            BoardDeck deck = kingdomDecks.get(cardToTrash);
+            trashPile.add(deck.pickUpCard());
+        }
+    }
+
+    public void gainKingdomCardFromTrash(Player player) {
+        ArrayList<String> kingdomInTrash = new ArrayList<>();
+        for (Card card : trashPile) {
+            if (card instanceof KingdomCard) {
+                kingdomInTrash.add(card.name);
+            }
+        }
+
+        if (kingdomInTrash.isEmpty()) {
+            gui.showErrorPopup(bundle.getString("error.no.kingdom.in.trash"));
+            return;
+        }
+
+        String cardToGain = gui.getCardFromAvailableSelection(bundle.getString("gain.trash.message"), kingdomInTrash);
+
+        if (!cardToGain.isEmpty()) {
+            Card foundCard = null;
+            for (Card c : trashPile) {
+                if (c.name.equals(cardToGain)) {
+                    foundCard = c;
+                    break;
+                }
+            }
+            trashPile.remove(foundCard);
+            player.addBoughtCard(foundCard);
+        }
     }
 
     void buyPhase() {
