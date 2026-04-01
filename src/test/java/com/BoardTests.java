@@ -797,4 +797,101 @@ public class BoardTests {
         EasyMock.verify(mockGui);
     }
 
+    @Test
+    public void testCreateAllKingdomCards() {
+        List<String> ids = Arrays.asList(
+                "courtyard", "shantytown", "duke", "lurker", "pawn",
+                "masquerade", "steward", "swindler", "wishingwell",
+                "baron", "bridge", "conspirator", "diplomat", "ironworks"
+        );
+        Board board = new Board(2, ids, ResourceBundle.getBundle(Language.ENGLISH.bundleName));
+
+        for (String id : ids) {
+            String localizedName = ResourceBundle.getBundle(Language.ENGLISH.bundleName).getString(id);
+            Card card = board.getBoardDeckByName(localizedName).getCard();
+            assertEquals("Mutant failed for: " + id, id, card.imageId);
+        }
+    }
+
+    @Test
+    public void testRandomBoardInitialization() {
+        Board board = new Board(2);
+        assertEquals(10, board.kingdomDecks.size());
+    }
+
+    @Test
+    public void testSetupFromGui() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
+        EasyMock.replay(mockGui);
+
+        Board board = Board.setupBoardFromGui(mockGui);
+        assertNotNull(board);
+        assertEquals(2, board.numPlayers);
+    }
+
+    @Test
+    public void testDeductPaymentExactBoundary() {
+        Board board = createFixedBoard(2);
+        Player p = board.getCurrentPlayer();
+        p.hand.clear();
+        p.hand.add(new TreasureCard("silver", 3, 2, 0));
+        p.hand.add(new TreasureCard("silver", 3, 2, 0));
+
+        board.processBuyPhaseSelection("smithy");
+        assertEquals(0, p.getCoinsInHand());
+    }
+
+    @Test
+    public void testBridgeDiscountMutation() {
+        Board board = createFixedBoard(2);
+        board.getCurrentPlayer().bridgeMod = 1;
+
+        List<String> affordable = board.getCardsInDeckBelowCostOf(3, board.kingdomDecks);
+        String smithyName = ResourceBundle.getBundle(Language.ENGLISH.bundleName).getString("smithy");
+        assertTrue("Smithy should be affordable with Bridge", affordable.contains(smithyName));
+    }
+
+    @Test
+    public void testKingdomCardSelectionIsRandom() {
+        Board board1 = new Board(2);
+        Board board2 = new Board(2);
+        assertNotEquals("Kingdom card selection should be randomized",
+                board1.kingdomDecks.keySet(), board2.kingdomDecks.keySet());
+    }
+
+    @Test
+    public void testDeductPaymentExactBoundaryStrict() {
+        Board board = createFixedBoard(2);
+        Player p = board.getCurrentPlayer();
+        p.hand.clear();
+        p.coins = 0;
+
+        p.hand.add(new Silver());
+        p.hand.add(new Silver());
+
+        board.processBuyPhaseSelection("smithy");
+        assertEquals("Should have 0 coins in hand", 0, p.getCoinsInHand());
+        assertEquals("Flat coins should remain 0", 0, p.getCoins());
+        assertEquals("Discard pile should have the 2 Silvers plus the Smithy", 3, p.discardPile.size());
+    }
+
+    @Test
+    public void testUpdateScoreOnVictoryCardPurchase() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
+
+        mockGui.updateScore(EasyMock.anyObject());
+        EasyMock.expectLastCall();
+
+        EasyMock.replay(mockGui);
+        Board board = createFixedBoard(mockGui);
+        board.getCurrentPlayer().coins = 2;
+        board.processBuyPhaseSelection("estate");
+
+        EasyMock.verify(mockGui);
+    }
+
 }
