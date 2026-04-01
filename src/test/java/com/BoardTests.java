@@ -776,4 +776,25 @@ public class BoardTests {
         availableDecks.addAll(board.getAvailableDecks(board.victoryDecks));
         return availableDecks;
     }
+
+    @Test
+    public void testMilitiaDiscardBoundary() {
+        Gui mockGui = EasyMock.mock(Gui.class);
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
+
+        EasyMock.replay(mockGui);
+
+        Board board = createFixedBoard(mockGui);
+        Player victim = board.players.get(1);
+
+        victim.hand.clear();
+        for(int i=0; i<3; i++) victim.hand.add(new Copper());
+
+        board.forceMilitiaDiscard();
+
+        assertEquals(3, victim.hand.size());
+        EasyMock.verify(mockGui);
+    }
+
 }

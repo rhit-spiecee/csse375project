@@ -23,4 +23,22 @@ public class DiplomatTests {
 
         assertEquals(2, p1.action);
     }
+
+    @Test
+    public void testDiplomatBoundaryConditions() {
+        ResourceBundle bundle = ResourceBundle.getBundle(Language.ENGLISH.bundleName);
+        Board board = new Board(2, Arrays.asList("diplomat"), bundle);
+        Player p1 = board.players.get(0);
+        Diplomat diplomat = new Diplomat(board);
+        p1.hand.clear();
+        for(int i=0; i<3; i++) p1.hand.add(new Copper());
+        p1.action = 0;
+        diplomat.useCardPowers(p1);
+        assertEquals(2, p1.action);
+        p1.hand.clear();
+        for(int i=0; i<4; i++) p1.hand.add(new Copper());
+        p1.action = 0;
+        diplomat.useCardPowers(p1);
+        assertEquals(0, p1.action);
+    }
 }
