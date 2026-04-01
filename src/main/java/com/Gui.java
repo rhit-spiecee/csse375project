@@ -522,4 +522,21 @@ public class Gui {
             return choice == JOptionPane.YES_OPTION;
         }
     }
+
+    public int getStewardOption() {
+        String[] options = {
+                bundle.getString("steward.cards"),
+                bundle.getString("steward.coins"),
+                bundle.getString("steward.trash")
+        };
+        return JOptionPane.showOptionDialog(
+                null,
+                bundle.getString("steward.choice.message"),
+                bundle.getString("steward.title"),
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+    }
 }
