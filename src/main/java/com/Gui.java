@@ -539,4 +539,29 @@ public class Gui {
                 options,
                 options[0]);
     }
+
+    public String getWishingWellGuess(List<String> allCards) {
+        return (String) JOptionPane.showInputDialog(
+                null,
+                bundle.getString("wishingwell.guess.message"),
+                bundle.getString("wishingwell.title"),
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                allCards.toArray(),
+                allCards.get(0));
+    }
+
+    public boolean getBaronChoice() {
+        String[] options = { bundle.getString("baron.discard"), bundle.getString("baron.gain") };
+        int choice = JOptionPane.showOptionDialog(
+                null,
+                bundle.getString("baron.choice.message"),
+                bundle.getString("baron.title"),
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+        return choice == 0;
+    }
 }

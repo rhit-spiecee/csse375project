@@ -8,6 +8,7 @@ public abstract class KingdomCard extends Card {
     public void useActionCard(Player currentPlayer) {
         useCardPowers(currentPlayer);
         currentPlayer.action--;
+        currentPlayer.actionsPlayedThisTurn++;
         currentPlayer.discardCard(this);
     }
 

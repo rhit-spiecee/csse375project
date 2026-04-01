@@ -16,7 +16,8 @@ public class Board {
     public static final List<String> ALL_KINGDOM_CARD_IDS = Collections.unmodifiableList(Arrays.asList(
             "cellar", "market", "militia", "mine", "moat", "remodel",
             "smithy", "village", "workshop", "woodcutter", "courtyard",
-            "shantytown", "duke", "lurker", "pawn", "masquerade", "steward"));
+            "shantytown", "duke", "lurker", "pawn", "masquerade", "steward",
+            "swindler", "wishingwell", "baron", "bridge", "conspirator", "diplomat", "ironworks"));
 
     List<Player> players;
     List<String> chosenKingdomCardIds;
@@ -121,6 +122,20 @@ public class Board {
                 return new Masquerade(this);
             case "steward":
                 return new Steward(this);
+            case "swindler":
+                return new Swindler(this);
+            case "wishingwell":
+                return new WishingWell(this);
+            case "baron":
+                return new Baron(this);
+            case "bridge":
+                return new Bridge();
+            case "conspirator":
+                return new Conspirator();
+            case "diplomat":
+                return new Diplomat(this);
+            case "ironworks":
+                return new Ironworks(this);
             default:
                 throw new IllegalArgumentException("Unknown Kingdom card ID: " + id);
         }
@@ -526,16 +541,18 @@ public class Board {
     }
 
     public List<String> getCardsInDeckBelowCostOf(int maxCost, Map<String, BoardDeck> decks) {
-        ArrayList<String> cardNames = new ArrayList<>();
+        List<String> affordableCards = new ArrayList<>();
+        int discount = players.get(currentPlayerIndex).bridgeMod;
 
-        for (String cardName : decks.keySet()) {
-            BoardDeck deck = decks.get(cardName);
-            if (deck.isNotEmpty() && deck.card.cost <= maxCost) {
-                cardNames.add(cardName);
+        for (Map.Entry<String, BoardDeck> entry : decks.entrySet()) {
+            Card card = entry.getValue().getCard();
+            int effectiveCost = Math.max(0, card.cost - discount);
+
+            if (effectiveCost <= maxCost && entry.getValue().size() > 0) {
+                affordableCards.add(entry.getKey());
             }
         }
-
-        return cardNames;
+        return affordableCards;
     }
 
     public int discardAnyNumberOfCards(Player player) {

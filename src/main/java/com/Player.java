@@ -13,6 +13,8 @@ public class Player {
     ArrayList<Card> discardPile = new ArrayList<>();
     PlayerDeck deck;
 
+    public int bridgeMod = 0;
+    int actionsPlayedThisTurn = 0;
     int coins = 0;
     int buy = INITIAL_BUYS;
     int action = INITIAL_ACTIONS;
@@ -118,8 +120,10 @@ public class Player {
         coins = 0;
         buy = INITIAL_BUYS;
         action = INITIAL_ACTIONS;
+        actionsPlayedThisTurn = 0;
         discardPile.addAll(hand);
         hand.clear();
+        bridgeMod = 0;
     }
 
     public ArrayList<Card> getHand() {

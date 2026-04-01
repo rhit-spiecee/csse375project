@@ -58,4 +58,11 @@ public class PlayerDeck {
         copy.addAll(deck);
         return copy;
     }
+
+    public void addTop(Card card) {
+        if (this.size() == MAX_DECK_SIZE) {
+            throw new IndexOutOfBoundsException();
+        }
+        this.deck.push(card);
+    }
 }
