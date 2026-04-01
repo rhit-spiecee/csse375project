@@ -16,7 +16,7 @@ public class Board {
     public static final List<String> ALL_KINGDOM_CARD_IDS = Collections.unmodifiableList(Arrays.asList(
             "cellar", "market", "militia", "mine", "moat", "remodel",
             "smithy", "village", "workshop", "woodcutter", "courtyard",
-            "shantytown", "duke", "lurker", "pawn"));
+            "shantytown", "duke", "lurker", "pawn", "masquerade"));
 
     List<Player> players;
     List<String> chosenKingdomCardIds;
@@ -117,6 +117,8 @@ public class Board {
                 return new Lurker(this);
             case "pawn":
                 return new Pawn(this);
+            case "masquerade":
+                return new Masquerade(this);
             default:
                 throw new IllegalArgumentException("Unknown Kingdom card ID: " + id);
         }
@@ -259,6 +261,35 @@ public class Board {
             }
         }
         throw new RuntimeException("Card list is empty or name of card is invalid");
+    }
+
+    public void executeMasquerade(Player currentPlayer) {
+        Card[] cardsToPass = new Card[numPlayers];
+
+        for (int i = 0; i < numPlayers; i++) {
+            Player p = players.get(i);
+            if (!p.hand.isEmpty()) {
+                String cardName = gui.getCardToPass(new ArrayList<>(p.hand), i);
+                cardsToPass[i] = p.trashCard(cardName);
+            }
+        }
+
+        for (int i = 0; i < numPlayers; i++) {
+            if (cardsToPass[i] != null) {
+                int recipientIndex = (i + 1) % numPlayers;
+                players.get(recipientIndex).hand.add(cardsToPass[i]);
+            }
+        }
+
+        if (!currentPlayer.hand.isEmpty()) {
+            boolean wantsToTrash = gui.getIfPlayerWantsToTrash(players.indexOf(currentPlayer));
+            if (wantsToTrash) {
+                String cardToTrash = gui.getCardToTrash(new ArrayList<>(currentPlayer.hand), players.indexOf(currentPlayer));
+                if (cardToTrash != null && !cardToTrash.isEmpty()) {
+                    trashPile.add(currentPlayer.trashCard(cardToTrash));
+                }
+            }
+        }
     }
 
     public void trashKingdomCardFromSupply() {

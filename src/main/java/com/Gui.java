@@ -490,4 +490,36 @@ public class Gui {
         }
         return selections;
     }
+
+    public String getCardToPass(ArrayList<Card> hand, int playerNumber) {
+        String[] options = hand.stream().map((card) -> card.name).toArray(String[]::new);
+        return showSelectionDialogWithHelp(
+                bundle.getString("masquerade.pass.title"),
+                MessageFormat.format(bundle.getString("masquerade.pass.message"), playerNumber + 1),
+                options);
+    }
+
+    public boolean getIfPlayerWantsToTrash(int playerNumber) {
+        String[] options = {
+                bundle.getString("yes"),
+                bundle.getString("no"),
+                bundle.getString("help")
+        };
+        while (true) {
+            int choice = JOptionPane.showOptionDialog(
+                    null,
+                    MessageFormat.format(bundle.getString("masquerade.trash.query"), playerNumber + 1),
+                    bundle.getString("masquerade.trash.title"),
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+            if (choice == 2) {
+                showHelpDialog();
+                continue;
+            }
+            return choice == JOptionPane.YES_OPTION;
+        }
+    }
 }
