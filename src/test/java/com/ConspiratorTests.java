@@ -20,6 +20,7 @@ public class ConspiratorTests {
 
         conspirator.useCardPowers(p1);
         assertEquals(1, p1.action);
+        assertEquals(6,p1.hand.size());
         assertEquals(2, p1.coins);
     }
 }

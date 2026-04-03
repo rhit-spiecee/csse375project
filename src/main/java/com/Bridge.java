@@ -8,6 +8,7 @@ public class Bridge extends KingdomCard {
     @Override
     public void useCardPowers(Player currentPlayer) {
         currentPlayer.buy++;
+        currentPlayer.coins++;
         currentPlayer.bridgeMod++;
     }
 }
