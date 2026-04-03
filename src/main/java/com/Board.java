@@ -17,7 +17,7 @@ public class Board {
             "cellar", "market", "militia", "mine", "moat", "remodel",
             "smithy", "village", "workshop", "woodcutter", "courtyard",
             "shantytown", "duke", "lurker", "pawn", "masquerade", "steward",
-            "swindler", "wishingwell", "baron", "bridge", "conspirator", "diplomat", "ironworks"));
+            "swindler", "wishingwell", "baron", "bridge", "conspirator", "diplomat", "ironworks", "mill"));
 
     List<Player> players;
     List<String> chosenKingdomCardIds;
@@ -136,6 +136,8 @@ public class Board {
                 return new Diplomat(this);
             case "ironworks":
                 return new Ironworks(this);
+            case "mill":
+                return new Mill(this);
             default:
                 throw new IllegalArgumentException("Unknown Kingdom card ID: " + id);
         }
