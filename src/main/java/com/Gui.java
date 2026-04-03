@@ -669,4 +669,64 @@ public class Gui {
         }
         return selectedIndices;
     }
+
+    public boolean getNoblesChoice() {
+        String[] options = { bundle.getString("nobles.cards"), bundle.getString("nobles.actions"), bundle.getString("help") };
+        while (true) {
+            int choice = JOptionPane.showOptionDialog(
+                    null,
+                    bundle.getString("tip.nobles"),
+                    bundle.getString("nobles.title"),
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+            if (choice == 2) {
+                showHelpDialog();
+                continue;
+            }
+            return choice == 0;
+        }
+    }
+
+    public boolean getMinionChoice() {
+        String[] options = { bundle.getString("minion.coin"), bundle.getString("minion.discard"), bundle.getString("help") };
+        while (true) {
+            int choice = JOptionPane.showOptionDialog(
+                    null,
+                    bundle.getString("tip.minion"),
+                    bundle.getString("minion.title"),
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+            if (choice == 2) {
+                showHelpDialog();
+                continue;
+            }
+            return choice == 0;
+        }
+    }
+
+    public boolean getTorturerChoice(int playerNumber) {
+        String[] options = { bundle.getString("torturer.discard"), bundle.getString("torturer.curse"), bundle.getString("help") };
+        while (true) {
+            int choice = JOptionPane.showOptionDialog(
+                    null,
+                    bundle.getString("tip.torturer") + " (Player " + (playerNumber + 1) + ")",
+                    bundle.getString("torturer.title"),
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+            if (choice == 2) {
+                showHelpDialog();
+                continue;
+            }
+            return choice == 0;
+        }
+    }
 }

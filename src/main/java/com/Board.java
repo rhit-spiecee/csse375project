@@ -17,7 +17,8 @@ public class Board {
             "cellar", "market", "militia", "mine", "moat", "remodel",
             "smithy", "village", "workshop", "woodcutter", "courtyard",
             "shantytown", "duke", "lurker", "pawn", "masquerade", "steward",
-            "swindler", "wishingwell", "baron", "bridge", "conspirator", "diplomat", "ironworks", "mill", "miningvillage", "secretpassage", "courtier"));
+            "swindler", "wishingwell", "baron", "bridge", "conspirator", "diplomat", "ironworks", "mill", "miningvillage", "secretpassage", "courtier", 
+            "harem", "nobles", "minion", "patrol", "replace", "torturer", "tradingpost", "upgrade"));
 
     List<Player> players;
     List<String> chosenKingdomCardIds;
@@ -144,6 +145,22 @@ public class Board {
                 return new SecretPassage(this);
             case "courtier":
                 return new Courtier(this);
+            case "harem":
+                return new Harem();
+            case "nobles":
+                return new Nobles(this);
+            case "minion":
+                return new Minion(this);
+            case "patrol":
+                return new Patrol(this);
+            case "replace":
+                return new Replace(this);
+            case "torturer":
+                return new Torturer(this);
+            case "tradingpost":
+                return new TradingPost(this);
+            case "upgrade":
+                return new Upgrade(this);
             default:
                 throw new IllegalArgumentException("Unknown Kingdom card ID: " + id);
         }
