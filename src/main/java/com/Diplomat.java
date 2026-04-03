@@ -11,4 +11,11 @@ public class Diplomat extends KingdomCard {
             currentPlayer.action += 2;
         }
     }
+
+    @Override
+    public java.util.List<String> getTypes() {
+        java.util.List<String> types = super.getTypes();
+        types.add("Reaction");
+        return types;
+    }
 }

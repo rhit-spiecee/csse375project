@@ -627,4 +627,46 @@ public class Gui {
             showErrorPopup(bundle.getString("error"));
         }
     }
+
+    public java.util.List<Integer> getCourtierOptions(int numChoices) {
+        java.util.List<Integer> selectedIndices = new java.util.ArrayList<>();
+        String[] allOptions = {
+                bundle.getString("courtier.action"),
+                bundle.getString("courtier.buy"),
+                bundle.getString("courtier.coin"),
+                bundle.getString("courtier.gold")
+        };
+
+        for (int i = 0; i < numChoices; i++) {
+            java.util.List<String> currentOptions = new java.util.ArrayList<>();
+            java.util.List<Integer> currentIndices = new java.util.ArrayList<>();
+            for (int k = 0; k < allOptions.length; k++) {
+                if (!selectedIndices.contains(k)) {
+                    currentOptions.add(allOptions[k]);
+                    currentIndices.add(k);
+                }
+            }
+
+            String choice = (String) JOptionPane.showInputDialog(
+                    null,
+                    MessageFormat.format(bundle.getString("courtier.options.message"), numChoices),
+                    bundle.getString("courtier.title"),
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    currentOptions.toArray(),
+                    currentOptions.get(0));
+
+            if (choice == null) {
+                selectedIndices.add(currentIndices.get(0));
+            } else {
+                for (int l = 0; l < currentOptions.size(); l++) {
+                    if (currentOptions.get(l).equals(choice)) {
+                        selectedIndices.add(currentIndices.get(l));
+                        break;
+                    }
+                }
+            }
+        }
+        return selectedIndices;
+    }
 }

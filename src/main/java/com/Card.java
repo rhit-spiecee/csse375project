@@ -24,6 +24,20 @@ public abstract class Card {
         return gameTip;
     }
 
+    public java.util.List<String> getTypes() {
+        java.util.List<String> types = new java.util.ArrayList<>();
+        if (this instanceof KingdomCard) {
+            types.add("Action");
+        }
+        if (this instanceof TreasureCard) {
+            types.add("Treasure");
+        }
+        if (this instanceof VictoryCard || this.victoryPoints != 0) {
+            types.add("Victory");
+        }
+        return types;
+    }
+
     public int getVictoryPoints(java.util.List<Card> allCards) {
         return victoryPoints;
     }

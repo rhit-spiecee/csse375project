@@ -11,4 +11,11 @@ public class Moat extends KingdomCard {
         currentPlayer.drawOneCard();
         currentPlayer.drawOneCard();
     }
+
+    @Override
+    public java.util.List<String> getTypes() {
+        java.util.List<String> types = super.getTypes();
+        types.add("Reaction");
+        return types;
+    }
 }
