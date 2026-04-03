@@ -564,4 +564,24 @@ public class Gui {
                 options[0]);
         return choice == 0;
     }
+
+    public boolean getMillDiscardChoice() {
+        String[] options = { bundle.getString("yes"), bundle.getString("no"), bundle.getString("help") };
+        while (true) {
+            int choice = JOptionPane.showOptionDialog(
+                    null,
+                    bundle.getString("mill.discard.query"),
+                    bundle.getString("mill.title"),
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+            if (choice == 2) { // Help
+                showHelpDialog();
+                continue;
+            }
+            return choice == JOptionPane.YES_OPTION;
+        }
+    }
 }
