@@ -131,8 +131,9 @@ public class Player {
     }
 
     public void discardCard(Card card) {
-        hand.remove(card);
-        discardPile.add(card);
+        if (hand.remove(card)) {
+            discardPile.add(card);
+        }
     }
 
     public boolean discardCard(String cardToDiscard) {

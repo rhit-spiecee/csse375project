@@ -584,4 +584,24 @@ public class Gui {
             return choice == JOptionPane.YES_OPTION;
         }
     }
+
+    public boolean getMiningVillageTrashChoice() {
+        String[] options = { bundle.getString("yes"), bundle.getString("no"), bundle.getString("help") };
+        while (true) {
+            int choice = JOptionPane.showOptionDialog(
+                    null,
+                    bundle.getString("miningvillage.trash.query"),
+                    bundle.getString("miningvillage.title"),
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+            if (choice == 2) { // Help
+                showHelpDialog();
+                continue;
+            }
+            return choice == JOptionPane.YES_OPTION;
+        }
+    }
 }
