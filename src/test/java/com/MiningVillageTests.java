@@ -3,7 +3,6 @@ package com;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

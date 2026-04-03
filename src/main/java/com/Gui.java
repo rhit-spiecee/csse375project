@@ -604,4 +604,27 @@ public class Gui {
             return choice == JOptionPane.YES_OPTION;
         }
     }
+
+    public int getSecretPassagePosition(int deckSize) {
+        while (true) {
+            String input = JOptionPane.showInputDialog(
+                    null,
+                    MessageFormat.format(bundle.getString("secretpassage.pos.query"), deckSize),
+                    bundle.getString("secretpassage.title"),
+                    JOptionPane.QUESTION_MESSAGE);
+
+            if (input == null) {
+                return 0; // Default to bottom if cancelled
+            }
+
+            try {
+                int pos = Integer.parseInt(input);
+                if (pos >= 0 && pos <= deckSize) {
+                    return pos;
+                }
+            } catch (NumberFormatException ignored) {
+            }
+            showErrorPopup(bundle.getString("error"));
+        }
+    }
 }

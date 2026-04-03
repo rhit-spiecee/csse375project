@@ -256,4 +256,10 @@ public class Player {
 
         return cards;
     }
+
+    public void putCardInDeck(Card card, int index) {
+        if (hand.remove(card)) {
+            deck.addAtIndex(index, card);
+        }
+    }
 }

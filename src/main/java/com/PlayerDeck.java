@@ -65,4 +65,14 @@ public class PlayerDeck {
         }
         this.deck.push(card);
     }
+
+    public void addAtIndex(int index, Card card) {
+        if (index < 0 || index > this.size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (this.size() == MAX_DECK_SIZE) {
+            throw new IndexOutOfBoundsException();
+        }
+        this.deck.add(index, card);
+    }
 }
