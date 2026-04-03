@@ -13,10 +13,12 @@ public class BridgeTests {
 
         int initialBuys = p1.getBuys();
         int initialBridgeMod = p1.bridgeMod;
+        int intialCoins = p1.getCoins();
 
         bridge.useCardPowers(p1);
 
         assertEquals(initialBuys + 1, p1.getBuys());
         assertEquals(initialBridgeMod + 1, p1.bridgeMod);
+        assertEquals(intialCoins + 1, p1.getCoins());
     }
 }

@@ -15,10 +15,6 @@ public class WishingWell extends KingdomCard {
 
         String guess = board.gui.getWishingWellGuess(Board.ALL_KINGDOM_CARD_IDS);
 
-        if (currentPlayer.deck.size() == 0) {
-            currentPlayer.recycleCards();
-        }
-
         if (currentPlayer.deck.size() > 0) {
             Card top = currentPlayer.deck.draw();
             if (top.name.equalsIgnoreCase(guess)) {

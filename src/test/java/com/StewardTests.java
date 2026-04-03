@@ -58,6 +58,7 @@ public class StewardTests {
         player.hand.clear();
         player.hand.add(new Copper());
         player.hand.add(new Copper());
+        player.hand.add(new Copper());
 
         mockBoard.gui = mockGui;
         mockBoard.trashPile = new ArrayList<>();
@@ -71,7 +72,7 @@ public class StewardTests {
         Steward steward = new Steward(mockBoard);
         steward.useCardPowers(player);
 
-        assertEquals(0, player.hand.size());
+        assertEquals(1, player.hand.size());
         assertEquals(2, mockBoard.trashPile.size());
         EasyMock.verify(mockBoard, mockGui);
     }
