@@ -2,11 +2,8 @@ package com;
 
 import java.awt.*;
 import java.text.MessageFormat;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
 import javax.swing.*;
 
 public class Gui {
@@ -117,16 +114,16 @@ public class Gui {
         }
     }
 
+    private final Map<String, ImageIcon> imageCache = new HashMap<>();
+
     private ImageIcon getImageFromCard(Card card) {
-        String fileName = "src/main/resources/cards/"
-                + card.imageId
-                + bundle.getString("image.suffix")
-                + ".jpg";
-        ImageIcon imageIcon = new ImageIcon(fileName);
-        return new ImageIcon(
-                imageIcon
-                        .getImage()
-                        .getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_DEFAULT));
+        String key = card.imageId + bundle.getString("image.suffix");
+        return imageCache.computeIfAbsent(key, k -> {
+            String fileName = "src/main/resources/cards/" + k + ".jpg";
+            ImageIcon raw = new ImageIcon(fileName);
+            return new ImageIcon(
+                    raw.getImage().getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_DEFAULT));
+        });
     }
 
     private void setupFrame() {
