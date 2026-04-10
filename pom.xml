@@ -14,14 +14,29 @@
                 <artifactId>pitest-maven</artifactId>
                 <version>1.19.1</version>
                 <configuration>
-                    <!-- no longer required -->
                     <targetClasses>
-                        <param>com*</param>
+                        <param>com.*</param>
                     </targetClasses>
-                    <!-- no longer required -->
                     <targetTests>
-                        <param>com*</param>
+                        <param>com.*Tests</param>
                     </targetTests>
+                    <excludedTests>
+                        <param>com.GuiTest*</param>
+                    </excludedTests>
+                    <excludedClasses>
+                        <param>com.GuiTest*</param>
+                    </excludedClasses>
+                    <jvmArgs>
+                        <arg>-Djava.awt.headless=false</arg>
+                        <arg>--add-opens</arg>
+                        <arg>java.desktop/java.awt=ALL-UNNAMED</arg>
+                        <arg>--add-opens</arg>
+                        <arg>java.desktop/java.awt.event=ALL-UNNAMED</arg>
+                        <arg>--add-opens</arg>
+                        <arg>java.desktop/javax.swing=ALL-UNNAMED</arg>
+                        <arg>--add-opens</arg>
+                        <arg>java.desktop/sun.awt=ALL-UNNAMED</arg>
+                    </jvmArgs>
                 </configuration>
             </plugin>
             <plugin>
