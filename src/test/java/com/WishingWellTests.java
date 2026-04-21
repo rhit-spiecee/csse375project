@@ -14,7 +14,10 @@ public class WishingWellTests {
         ResourceBundle bundle = ResourceBundle.getBundle(Language.ENGLISH.bundleName);
 
         Player p1 = new Player(bundle);
-        p1.deck.getCards().clear();
+        // Empty deck first
+        while (p1.deck.size() > 0) p1.deck.draw();
+        p1.discardPile.clear();
+
         p1.deck.addTop(new Village());
         p1.deck.addTop(new Smithy());
 
@@ -25,11 +28,11 @@ public class WishingWellTests {
 
         WishingWell well = new WishingWell(mockBoard);
         int initialSize = p1.hand.size();
-        int initialActions = p1.action;
         well.useCardPowers(p1);
 
+        // Smithy drawn by drawOneCard, Village drawn by guess
         assertEquals(initialSize + 2, p1.hand.size());
-        assertEquals(initialActions + 1, p1.action);
+        assertEquals(2, p1.action); // 1 initial + 1 from well
         EasyMock.verify(mockBoard, mockGui);
     }
 
@@ -39,7 +42,10 @@ public class WishingWellTests {
         Gui mockGui = EasyMock.mock(Gui.class);
         ResourceBundle bundle = ResourceBundle.getBundle(Language.ENGLISH.bundleName);
         Player p1 = new Player(bundle);
-        p1.deck.getCards().clear();
+        
+        while (p1.deck.size() > 0) p1.deck.draw();
+        p1.discardPile.clear();
+
         p1.deck.addTop(new Copper());
         p1.deck.addTop(new Smithy());
 
@@ -50,8 +56,9 @@ public class WishingWellTests {
         WishingWell well = new WishingWell(mockBoard);
         well.useCardPowers(p1);
 
+        // Smithy drawn, Copper guessed wrong (stays on top)
         assertEquals(1, p1.hand.size());
-        assertEquals(11, p1.deck.size());
+        assertEquals(1, p1.deck.size());
         EasyMock.verify(mockBoard, mockGui);
     }
 
@@ -62,9 +69,13 @@ public class WishingWellTests {
         ResourceBundle bundle = ResourceBundle.getBundle(Language.ENGLISH.bundleName);
 
         Player p1 = new Player(bundle);
-        p1.deck.getCards().clear();
+        // Empty deck and discard pile properly
+        while (p1.deck.size() > 0) p1.deck.draw();
         p1.discardPile.clear();
         p1.hand.clear();
+
+        // Add 1 card to deck so drawOneCard succeeds but deck becomes empty for the guess
+        p1.deck.addTop(new Copper());
 
         mockBoard.gui = mockGui;
         EasyMock.expect(mockGui.getWishingWellGuess(EasyMock.anyObject()))
@@ -75,8 +86,11 @@ public class WishingWellTests {
         WishingWell well = new WishingWell(mockBoard);
         well.useCardPowers(p1);
 
+        // 1 copper drawn into hand
         assertEquals(1, p1.hand.size());
-        assertEquals(9, p1.deck.size());
+        assertEquals(0, p1.deck.size());
+        assertEquals(2, p1.action); 
+
         EasyMock.verify(mockBoard, mockGui);
     }
 }

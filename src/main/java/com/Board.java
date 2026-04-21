@@ -87,7 +87,7 @@ public class Board {
         }
     }
 
-    private Card createKingdomCard(String id) {
+    public Card createKingdomCard(String id) {
         switch (id) {
             case "cellar":
                 return new Cellar(this);
@@ -412,11 +412,10 @@ public class Board {
 
     private void deductPayment(Player player, int cost) {
         int coinsInHand = player.getCoinsInHand();
-        if (coinsInHand >= cost) {
-            player.removeTreasureCardsOfCost(cost);
-        } else {
+        int treasureToRemove = Math.min(coinsInHand, cost);
+        player.removeTreasureCardsOfCost(treasureToRemove);
+        if (coinsInHand < cost) {
             player.coins -= (cost - coinsInHand);
-            player.removeTreasureCardsOfCost(coinsInHand);
         }
     }
 

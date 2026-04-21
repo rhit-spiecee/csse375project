@@ -44,4 +44,11 @@ public class Swindler extends KingdomCard {
             }
         }
     }
+
+    @Override
+    public List<String> getTypes() {
+        List<String> types = super.getTypes();
+        types.add("Attack");
+        return types;
+    }
 }

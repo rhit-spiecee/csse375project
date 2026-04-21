@@ -30,10 +30,6 @@ public class Upgrade extends KingdomCard {
                 handNames
         );
 
-        if (cardToTrashName == null || cardToTrashName.isEmpty()) {
-            return;
-        }
-
         Card trashedCard = currentPlayer.trashCard(cardToTrashName);
         if (trashedCard != null) {
             board.trashPile.add(trashedCard);
@@ -43,25 +39,18 @@ public class Upgrade extends KingdomCard {
             availableToGain.addAll(getCardsInDeckExactCost(exactCost, board.treasureDecks));
             availableToGain.addAll(getCardsInDeckExactCost(exactCost, board.victoryDecks));
             
-            if (availableToGain.isEmpty()) return;
+            if (!availableToGain.isEmpty()) {
+                String cardToGainName = board.gui.getCardFromAvailableSelection(
+                        java.text.MessageFormat.format(Gui.getString("upgrade.gain.query"), exactCost),
+                        new ArrayList<>(availableToGain)
+                );
 
-            String cardToGainName = board.gui.getCardFromAvailableSelection(
-                    java.text.MessageFormat.format(Gui.getString("upgrade.gain.query"), exactCost),
-                    new ArrayList<>(availableToGain)
-            );
-
-            if (cardToGainName != null && !cardToGainName.isEmpty()) {
-                // By default put into discard unless `transferCard` puts it into hand.
-                // Dominion rules for Upgrade say "Gain a card", meaning default placement is discard.
-                // But in this implementation, transferCardFromDeckToPlayer puts it into hand!
-                // To be consistent with "bought" cards which go to discard (or what players expect),
-                // wait, players' `addBoughtCard` adds to discard via boughtPile.
-                // Let's just use `addBoughtCard` or `transferCardFromDeckToPlayer` depending on `Gui` intent.
-                // Normally gaining goes to discard. In `transferCardFromDeckToPlayer`, it goes to hand directly.
-                // Let's follow standard dominion rules: gain goes to discard pile.
-                BoardDeck deck = board.getBoardDeckByName(cardToGainName);
-                Card gainedCard = deck.pickUpCard();
-                currentPlayer.discardPile.add(gainedCard);
+                if (cardToGainName != null && !cardToGainName.isEmpty()) {
+                    BoardDeck deck = board.getBoardDeckByName(cardToGainName);
+                    if (deck != null) {
+                        currentPlayer.discardPile.add(deck.pickUpCard());
+                    }
+                }
             }
         }
     }
@@ -71,11 +60,17 @@ public class Upgrade extends KingdomCard {
         int discount = board.players.get(board.currentPlayerIndex).bridgeMod;
 
         for (java.util.Map.Entry<String, BoardDeck> entry : decks.entrySet()) {
-            Card card = entry.getValue().getCard();
-            int effectiveCost = Math.max(0, card.cost - discount);
+            BoardDeck boardDeck = entry.getValue();
+            Card card = boardDeck.getCard();
+            
+            int baseCost = card.cost;
+            int costAfterDiscount = baseCost - discount;
+            int effectiveCost = Math.max(0, costAfterDiscount);
 
-            if (effectiveCost == exactCost && entry.getValue().size() > 0) {
-                exactCostCards.add(entry.getKey());
+            if (effectiveCost == exactCost) {
+                if (boardDeck.size() > 0) {
+                    exactCostCards.add(entry.getKey());
+                }
             }
         }
         return exactCostCards;

@@ -82,4 +82,37 @@ public class MinionTests {
 
         EasyMock.verify(mockBoard, mockGui);
     }
+
+    @Test
+    public void testMinionAttackWithMoat() {
+        Board mockBoard = EasyMock.mock(Board.class);
+        Gui mockGui = EasyMock.mock(Gui.class);
+        ResourceBundle bundle = ResourceBundle.getBundle(Language.ENGLISH.bundleName);
+
+        Player curPlayer = new Player(bundle);
+        curPlayer.action = 1;
+
+        Player victim = new Player(bundle);
+        victim.hand.add(new Moat());
+        for(int i = 0; i < 5; i++) victim.hand.add(new Copper());
+
+        mockBoard.gui = mockGui;
+        mockBoard.players = new ArrayList<>();
+        mockBoard.players.add(curPlayer);
+        mockBoard.players.add(victim);
+
+        EasyMock.expect(mockGui.getMinionChoice()).andReturn(false);
+        // Victim blocks
+        EasyMock.expect(mockGui.getIfPlayerWantsToBlock(1)).andReturn(true);
+
+        EasyMock.replay(mockBoard, mockGui);
+
+        Minion minion = new Minion(mockBoard);
+        minion.useCardPowers(curPlayer);
+
+        assertEquals(6, victim.hand.size()); // Unaffected
+        assertEquals(0, victim.discardPile.size());
+
+        EasyMock.verify(mockBoard, mockGui);
+    }
 }

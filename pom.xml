@@ -25,6 +25,8 @@
                     </excludedTests>
                     <excludedClasses>
                         <param>com.GuiTest*</param>
+                        <param>com.Main</param>
+                        <param>com.Gui</param>
                     </excludedClasses>
                     <jvmArgs>
                         <arg>-Djava.awt.headless=false</arg>

@@ -283,6 +283,15 @@ public class BoardTests {
     }
 
     @Test
+    public void testEveryKingdomCardHasCreationLogic() {
+        Board board = createFixedBoard(2);
+        for (String cardId : Board.ALL_KINGDOM_CARD_IDS) {
+            assertNotNull("Card creation should not return null for ID: " + cardId, 
+                          board.createKingdomCard(cardId));
+        }
+    }
+
+    @Test
     public void testGetActionCardToPlay() {
         Gui mockGui = EasyMock.mock(Gui.class);
 
@@ -391,6 +400,36 @@ public class BoardTests {
 
         assertEquals(3, board.players.getFirst().coins);
         assertEquals(6, board.players.getFirst().discardPile.size());
+    }
+
+    @Test
+    public void testDeductPaymentExactMatch() {
+        Board board = createFixedBoard(2);
+        Player player = board.getCurrentPlayer();
+        player.hand.clear();
+        player.hand.add(new Gold()); // coinValue 3
+        player.coins = 1; // Total balance 4
+        
+        // Purchase a card with cost 4 (e.g., Militia)
+        board.processBuyPhaseSelection("militia");
+        
+        assertEquals(0, player.getCoins());
+        assertEquals(0, player.getCoinsInHand());
+    }
+
+    @Test
+    public void testDeductPaymentCoinsEqualCost() {
+        Board board = createFixedBoard(2);
+        Player player = board.getCurrentPlayer();
+        player.hand.clear();
+        player.hand.add(new Gold()); // coinValue 3
+        player.coins = 0;
+        
+        // Purchase a card with cost 3 (Silver)
+        board.processBuyPhaseSelection("silver");
+        
+        assertEquals(0, player.getCoins());
+        assertEquals(0, player.getCoinsInHand());
     }
 
     @Test

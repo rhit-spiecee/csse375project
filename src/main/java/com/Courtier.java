@@ -41,12 +41,7 @@ public class Courtier extends KingdomCard {
 
         if (revealedCard != null) {
             List<String> types = revealedCard.getTypes();
-            int numChoices = types.size();
-
-            // At most 4 options available
-            if (numChoices > 4) {
-                numChoices = 4;
-            }
+            int numChoices = Math.min(types.size(), 4);
 
             if (numChoices > 0) {
                 List<Integer> selectedOptions = board.gui.getCourtierOptions(numChoices);

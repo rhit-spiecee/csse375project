@@ -32,7 +32,9 @@ public abstract class Card {
         if (this instanceof TreasureCard) {
             types.add("Treasure");
         }
-        if (this instanceof VictoryCard || this.victoryPoints != 0) {
+        if (this instanceof VictoryCard) {
+            types.add("Victory");
+        } else if (this.victoryPoints != 0) {
             types.add("Victory");
         }
         return types;
@@ -44,14 +46,31 @@ public abstract class Card {
 
     @Override
     public boolean equals(Object object) {
-        if (object == null || getClass() != object.getClass()) {
+        if (object == null) {
+            return false;
+        }
+        if (getClass() != object.getClass()) {
             return false;
         }
         Card card = (Card) object;
-        return cost == card.cost 
-                && coinValue == card.coinValue
-                && victoryPoints == card.victoryPoints
-                && Objects.equals(name, card.name)
-                && Objects.equals(gameTip, card.gameTip);
+        boolean sameCost = (cost == card.cost);
+        boolean sameCoin = (coinValue == card.coinValue);
+        boolean sameVictory = (victoryPoints == card.victoryPoints);
+        boolean sameName = Objects.equals(name, card.name);
+        
+        if (!sameCost) {
+            return false;
+        }
+        if (!sameCoin) {
+            return false;
+        }
+        if (!sameVictory) {
+            return false;
+        }
+        if (!sameName) {
+            return false;
+        }
+        
+        return true;
     }
 }

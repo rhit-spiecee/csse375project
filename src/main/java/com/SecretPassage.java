@@ -1,6 +1,7 @@
 package com;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class SecretPassage extends KingdomCard {
@@ -18,9 +19,10 @@ public class SecretPassage extends KingdomCard {
         currentPlayer.action += 1;
 
         if (!currentPlayer.hand.isEmpty()) {
-            ArrayList<String> handNames = currentPlayer.hand.stream()
-                    .map(c -> c.name)
-                    .collect(Collectors.toCollection(ArrayList::new));
+            ArrayList<String> handNames = new ArrayList<>();
+            for (Card c : currentPlayer.hand) {
+                handNames.add(c.name);
+            }
 
             String cardBackName = board.gui.getCardFromAvailableSelection(
                     Gui.getString("secretpassage.card.query"),
