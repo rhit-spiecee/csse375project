@@ -16,10 +16,6 @@ public class Upgrade extends KingdomCard {
         currentPlayer.drawOneCard();
         currentPlayer.action += 1;
 
-        if (currentPlayer.hand.isEmpty()) {
-            return;
-        }
-
         ArrayList<String> handNames = new ArrayList<>();
         for (Card c : currentPlayer.hand) {
             handNames.add(c.name);

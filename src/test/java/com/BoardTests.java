@@ -933,5 +933,27 @@ public class BoardTests {
 
         EasyMock.verify(mockGui);
     }
+    @Test(expected = IllegalArgumentException.class)
+    public void testUnknownKingdomCardCreator() {
+        Board board = createFixedBoard(2);
+        board.createKingdomCard("this_card_does_not_exist_at_all");
+    }
 
+    @Test
+    public void testGainKingdomCardFromTrashNotInTrash() {
+        Gui mockGui = EasyMock.niceMock(Gui.class);
+        EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
+        EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
+        EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.anyString(), EasyMock.anyObject())).andReturn("nonexistent");
+        
+        EasyMock.replay(mockGui);
+        Board board = createFixedBoard(mockGui);
+        board.trashPile.add(new Village());
+        
+        board.gainKingdomCardFromTrash(board.getCurrentPlayer());
+        
+        // Trash pile size is still 1
+        assertEquals(1, board.trashPile.size());
+        EasyMock.verify(mockGui);
+    }
 }

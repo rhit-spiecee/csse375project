@@ -142,6 +142,23 @@ public class CourtierTests {
         EasyMock.verify(mockBoard, mockGui);
     }
     @Test
+    public void testCourtierRevealNotInHand() {
+        Board mockBoard = EasyMock.mock(Board.class);
+        Gui mockGui = EasyMock.mock(Gui.class);
+        Player curPlayer = new Player();
+        curPlayer.hand.clear();
+        curPlayer.hand.add(new Copper());
+
+        mockBoard.gui = mockGui;
+        EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.anyString(), EasyMock.anyObject())).andReturn("nonexistent").once();
+
+        EasyMock.replay(mockBoard, mockGui);
+        Courtier courtier = new Courtier(mockBoard);
+        courtier.useCardPowers(curPlayer);
+        EasyMock.verify(mockBoard, mockGui);
+    }
+
+    @Test
     public void testCourtierGetTypes() {
         Board mockBoard = EasyMock.mock(Board.class);
         Courtier courtier = new Courtier(mockBoard);
