@@ -25,7 +25,7 @@ public class BuyCardTests {
 
     @Test
     public void testBuyOneCardWithEnoughCoins() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
         Player mockPlayer = EasyMock.mock(Player.class);
         Card card = new Copper();
 

@@ -34,3 +34,8 @@ target/
 
 # Agents
 .agents/
+
+# Caveman
+.clinerules
+.cursorrules
+.windsurfrules

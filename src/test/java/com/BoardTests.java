@@ -30,7 +30,7 @@ public class BoardTests {
 
     @Test
     public void testPlayerCleanupPhaseNoBuy() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(1);
@@ -99,7 +99,7 @@ public class BoardTests {
 
     @Test
     public void testStartGameAndGameOver() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
         Player player1 = EasyMock.mock(Player.class);
         Player player2 = EasyMock.mock(Player.class);
         BoardDeck mockDeck = EasyMock.mock(BoardDeck.class);
@@ -209,7 +209,7 @@ public class BoardTests {
 
     @Test
     public void testActionPhaseNoActionsAvailable() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
         Player player1 = EasyMock.mock(Player.class);
         ArrayList<Card> hand = new ArrayList<>();
         hand.add(new Moat());
@@ -237,7 +237,7 @@ public class BoardTests {
 
     @Test
     public void testActionPhaseNoActionCardsAvailable() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
         Player player1 = EasyMock.mock(Player.class);
         ArrayList<Card> hand = new ArrayList<>();
         hand.add(new Copper());
@@ -293,7 +293,7 @@ public class BoardTests {
 
     @Test
     public void testGetActionCardToPlay() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionCardToPlay(EasyMock.anyObject())).andReturn("market");
@@ -315,7 +315,7 @@ public class BoardTests {
 
     @Test
     public void testGetActionCardToPlayNoActionCards() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
@@ -334,7 +334,7 @@ public class BoardTests {
 
     @Test
     public void testBuyPhaseNoBuysAvailable() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
 
         Player player1 = EasyMock.mock(Player.class);
 
@@ -452,7 +452,7 @@ public class BoardTests {
 
     @Test
     public void testActionPhase() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getActionSelection(0)).andReturn(0);
         EasyMock.expect(mockGui.getActionCardToPlay(EasyMock.anyObject())).andReturn("woodcutter");
@@ -548,7 +548,7 @@ public class BoardTests {
 
     @Test
     public void testDiscardAnyNumbersOfCardsWhenHandSizeOne() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getDiscardOption()).andReturn(0);
@@ -574,7 +574,7 @@ public class BoardTests {
 
     @Test
     public void testDiscardAnyNumbersOfCardsWhenHandEmpty() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getDiscardOption()).andReturn(0);
@@ -631,7 +631,7 @@ public class BoardTests {
 
     @Test
     public void testStartGameWithThreePilesEmpty() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
         mockGui.updateScore(EasyMock.anyObject());
@@ -695,7 +695,7 @@ public class BoardTests {
 
     @Test
     public void testWinOffBuyPhase() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
         Player mockPlayer = EasyMock.mock(Player.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
@@ -730,7 +730,7 @@ public class BoardTests {
 
     @Test
     public void testPassEmptyStringInActionPhase() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
 
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
@@ -755,7 +755,7 @@ public class BoardTests {
 
     @Test
     public void testSkipThroughTurn() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
         Player mockPlayer = EasyMock.mock(Player.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
@@ -784,7 +784,7 @@ public class BoardTests {
 
     @Test
     public void testForceMilitiaDiscardButDecline() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
         Player player = new Player();
         player.hand = new ArrayList<>();
 
@@ -819,7 +819,7 @@ public class BoardTests {
 
     @Test
     public void testMilitiaDiscardBoundary() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
 
@@ -861,7 +861,7 @@ public class BoardTests {
 
     @Test
     public void testSetupFromGui() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
         EasyMock.replay(mockGui);
@@ -919,7 +919,7 @@ public class BoardTests {
 
     @Test
     public void testUpdateScoreOnVictoryCardPurchase() {
-        Gui mockGui = EasyMock.mock(Gui.class);
+        Gui mockGui = EasyMock.niceMock(Gui.class);
         EasyMock.expect(mockGui.getNumPlayers()).andReturn(2);
         EasyMock.expect(mockGui.getBundle()).andReturn(ResourceBundle.getBundle(Language.ENGLISH.bundleName));
 

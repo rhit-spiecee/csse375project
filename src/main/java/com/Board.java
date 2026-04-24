@@ -228,6 +228,7 @@ public class Board {
     }
 
     void processTurn() {
+        gui.log("--- Player " + (currentPlayerIndex + 1) + "'s Turn ---");
         actionPhase();
 
         buyPhase();
@@ -265,6 +266,7 @@ public class Board {
         KingdomCard actionCard = getCardByName(
                 getCurrentPlayerActionCardsInHand(),
                 actionCardToPlay);
+        gui.log("Player " + (currentPlayerIndex + 1) + " played " + actionCard.name);
         actionCard.useActionCard(getCurrentPlayer());
         gui.updateView(getDto());
     }
@@ -385,6 +387,7 @@ public class Board {
             String cardToBuy = gui.getBuySelection(
                     getAllCardsBelowCostOf(getCurrentPlayerCoins()));
             if (!cardToBuy.isEmpty()) {
+                gui.log("Player " + (currentPlayerIndex + 1) + " bought " + cardToBuy);
                 processBuyPhaseSelection(cardToBuy.toLowerCase());
             }
             gui.updateView(getDto());
@@ -393,6 +396,7 @@ public class Board {
             }
             buySelection = gui.showBuyOption(currentPlayerIndex);
         }
+        gui.log("Turn ended.");
         endTurn();
     }
 
@@ -482,14 +486,14 @@ public class Board {
     }
 
     public BoardDeck getBoardDeckByName(String nameOfDeck) {
-        if (kingdomDecks.containsKey(nameOfDeck)) {
-            return kingdomDecks.get(nameOfDeck);
+        for (java.util.Map.Entry<String, BoardDeck> entry : kingdomDecks.entrySet()) {
+            if (entry.getKey().equalsIgnoreCase(nameOfDeck)) return entry.getValue();
         }
-        if (treasureDecks.containsKey(nameOfDeck)) {
-            return treasureDecks.get(nameOfDeck);
+        for (java.util.Map.Entry<String, BoardDeck> entry : treasureDecks.entrySet()) {
+            if (entry.getKey().equalsIgnoreCase(nameOfDeck)) return entry.getValue();
         }
-        if (victoryDecks.containsKey(nameOfDeck)) {
-            return victoryDecks.get(nameOfDeck);
+        for (java.util.Map.Entry<String, BoardDeck> entry : victoryDecks.entrySet()) {
+            if (entry.getKey().equalsIgnoreCase(nameOfDeck)) return entry.getValue();
         }
         throw new RuntimeException("Unknown deck: " + nameOfDeck);
     }
