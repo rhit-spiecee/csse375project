@@ -418,9 +418,7 @@ public class Board {
         int coinsInHand = player.getCoinsInHand();
         int treasureToRemove = Math.min(coinsInHand, cost);
         player.removeTreasureCardsOfCost(treasureToRemove);
-        if (coinsInHand < cost) {
-            player.coins -= (cost - coinsInHand);
-        }
+        player.coins -= Math.max(0, cost - coinsInHand);
     }
 
     private void endTurn() {

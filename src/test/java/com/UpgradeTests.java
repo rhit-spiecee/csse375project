@@ -241,15 +241,17 @@ public class UpgradeTests {
         board.kingdomDecks.put("cellar", cellarDeck);
 
         EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.anyString(), EasyMock.anyObject())).andReturn("copper").once();
-        // exactCost = 0 + 1 = 1.
-        // The list passed to GUI should contain "cellar" because Effective 1 matches Exact 1.
-        EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.anyString(), EasyMock.anyObject())).andReturn("cellar").once();
+        
+        org.easymock.Capture<java.util.ArrayList<String>> listCapture = org.easymock.Capture.newInstance();
+        EasyMock.expect(mockGui.getCardFromAvailableSelection(EasyMock.anyString(), EasyMock.capture(listCapture))).andReturn("cellar").once();
 
         EasyMock.replay(mockGui);
         Upgrade upgrade = new Upgrade(board);
         upgrade.useCardPowers(player);
         
         assertEquals("cellar", player.discardPile.get(player.discardPile.size()-1).name);
+        assertTrue(listCapture.getValue().contains("cellar"));
+        org.junit.Assert.assertFalse(listCapture.getValue().contains("copper"));
         EasyMock.verify(mockGui);
     }
 

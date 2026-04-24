@@ -40,23 +40,23 @@ public class CardTests {
 
     @Test
     public void testEqualsDetailed() {
-        // Different name
+        // Different name, same everything else
         Card card1 = new VictoryCard("estate", 2, 0, 1);
-        Card card2 = new VictoryCard("duchy", 5, 0, 3);
+        Card card2 = new VictoryCard("duchy", 2, 0, 1);
         assertNotEquals(card1, card2);
 
         // Different cost
         Card card3 = new VictoryCard("estate", 3, 0, 1);
         assertNotEquals(card1, card3);
 
-        // Different coinValue (using TreasureCard)
-        Card card4 = new Copper(); // Cost 0, Val 1
-        Card card5 = new TreasureCard("silver", 3, 2, 0); 
+        // Different coinValue, same cost
+        Card card4 = new VictoryCard("estate", 2, 0, 1); 
+        Card card5 = new VictoryCard("estate", 2, 2, 1); 
         assertNotEquals(card4, card5);
 
-        // Different victoryPoints
+        // Different victoryPoints, same cost/coin/name
         Card card6 = new VictoryCard("estate", 2, 0, 2);
-        assertNotEquals(card1, card6);
+        assertNotEquals(card4, card6);
     }
 
     @Test

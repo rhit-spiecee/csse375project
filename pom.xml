@@ -20,14 +20,18 @@
                     <targetTests>
                         <param>com.*Tests</param>
                     </targetTests>
-                    <excludedTests>
+                    <excludedTestClasses>
                         <param>com.GuiTest*</param>
-                    </excludedTests>
+                    </excludedTestClasses>
                     <excludedClasses>
                         <param>com.GuiTest*</param>
                         <param>com.Main</param>
                         <param>com.Gui</param>
+                        <param>com.Gui$*</param>
                     </excludedClasses>
+                    <excludedMethods>
+                        <param>log</param>
+                    </excludedMethods>
                     <jvmArgs>
                         <arg>-Djava.awt.headless=false</arg>
                         <arg>--add-opens</arg>
