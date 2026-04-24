@@ -228,7 +228,6 @@ public class Board {
     }
 
     void processTurn() {
-        gui.log("--- Player " + (currentPlayerIndex + 1) + "'s Turn ---");
         actionPhase();
 
         buyPhase();
@@ -266,7 +265,6 @@ public class Board {
         KingdomCard actionCard = getCardByName(
                 getCurrentPlayerActionCardsInHand(),
                 actionCardToPlay);
-        gui.log("Player " + (currentPlayerIndex + 1) + " played " + actionCard.name);
         actionCard.useActionCard(getCurrentPlayer());
         gui.updateView(getDto());
     }
@@ -387,7 +385,6 @@ public class Board {
             String cardToBuy = gui.getBuySelection(
                     getAllCardsBelowCostOf(getCurrentPlayerCoins()));
             if (!cardToBuy.isEmpty()) {
-                gui.log("Player " + (currentPlayerIndex + 1) + " bought " + cardToBuy);
                 processBuyPhaseSelection(cardToBuy.toLowerCase());
             }
             gui.updateView(getDto());
@@ -396,7 +393,6 @@ public class Board {
             }
             buySelection = gui.showBuyOption(currentPlayerIndex);
         }
-        gui.log("Turn ended.");
         endTurn();
     }
 
