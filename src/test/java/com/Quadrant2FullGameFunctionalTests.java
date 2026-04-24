@@ -76,8 +76,6 @@ public class Quadrant2FullGameFunctionalTests {
         EasyMock.expectLastCall().anyTimes();
         mockGui.showErrorPopup(EasyMock.anyString());
         EasyMock.expectLastCall().anyTimes();
-        mockGui.log(EasyMock.anyString());
-        EasyMock.expectLastCall().anyTimes();
 
         EasyMock.replay(mockGui);
 
