@@ -119,8 +119,8 @@ public class Gui {
     private ImageIcon getImageFromCard(Card card) {
         String key = card.imageId + bundle.getString("image.suffix");
         return imageCache.computeIfAbsent(key, k -> {
-            String fileName = "src/main/resources/cards/" + k + ".jpg";
-            ImageIcon raw = new ImageIcon(fileName);
+            java.net.URL imgUrl = getClass().getResource("/cards/" + k + ".jpg");
+            ImageIcon raw = new ImageIcon(imgUrl);
             return new ImageIcon(
                     raw.getImage().getScaledInstance(IMAGE_WIDTH, IMAGE_HEIGHT, Image.SCALE_DEFAULT));
         });
